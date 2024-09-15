@@ -53,7 +53,7 @@ class StudioController extends Controller
 
         $request->toArray();
 
-        session()->put('request', $request);
+        session()->put('request', $request->toArray());
 
         return Inertia::render('Frontoffice/Studio/IndexList', compact('studios', 'services', 'comforts', 'request'));
     }
