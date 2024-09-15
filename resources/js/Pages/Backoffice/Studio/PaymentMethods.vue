@@ -1,0 +1,48 @@
+<template>
+    <BackofficeLayout @submitted="submit()" :isLoading="form.processing" :onSuccess="form.recentlySuccessful" :onFail="form.hasErrors" title="Metodi di pagamento" icon="fa-regular fa-credit-card" :backRoute="route('studio.links')">
+        <template #content>
+            <FormElement>
+                <template #description>
+                    Spunta i metodi di pagamento accettati dallo Studio.
+                </template>
+
+                <template #content>
+                    <div class="grid grid-cols-2 gap-x-4 gap-y-6 md:grid-cols-2 xl:grid-cols-3">
+                        <Checkbox v-for="payment, key in props.all_payments" v-model="form.payments" :value="parseInt(key)" :id="'edit-studio-payment-' + key">
+                            <img :src="'/img/payments/' + payment.img_name" :alt="payment.name" class="inline h-5 mr-1" :title="payment.name">
+                            {{ payment.name }}
+                        </Checkbox>
+                    </div>
+                </template>
+            </FormElement>
+        </template>
+        
+        <template #actions>
+            <SaveButton />
+        </template>
+    </BackofficeLayout>
+</template>
+
+<script setup>
+import { useForm } from '@inertiajs/vue3';
+import SaveButton from '@/Components/Form/SaveButton.vue';
+import Checkbox from '@/Components/Form/Checkbox.vue';
+import FormElement from '@/Components/Backoffice/FormElement.vue';
+import BackofficeLayout from '@/Layouts/BackofficeLayout.vue';
+
+const props = defineProps({
+    payments: Object,
+    all_payments: Object,
+})
+
+const form = useForm({
+    payments: props.payments,
+});
+
+const submit = () => {
+    form.put(route('studio.payment_methods.update'), {
+        preserveScroll: true,
+    });
+};
+
+</script>

@@ -1,0 +1,255 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: "Lemon Milk Regular";
+    font-display: swap;
+    src: url("../fonts/Lemon_Milk_Pro_Regular.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "Lemon Milk Ultra Light";
+    font-display: swap;
+    src: url("../fonts/Lemon_Milk_Pro_Ultra_Light.otf") format("opentype"),
+        url("../fonts/Lemon_Milk_Pro_Ultra_Light_Italic.otf") format("opentype");
+}
+
+@layer base {
+    h1 {
+        @apply mb-3 text-xl tracking-wide font-lemon md:text-2xl;
+    }
+
+    h2 {
+        @apply font-lemon text-[20px] md:text-xl tracking-wide mb-2;
+    }
+
+    h3 {
+        @apply font-lemon text-[16px] md:text-lg tracking-wide mb-1 md:mb-2;
+    }
+
+    h4 {
+        @apply font-lemon text-[14px] md:text-base tracking-wide mb-1;
+    }
+
+    p,
+    article,
+    li {
+        @apply font-sans text-sm font-light md:text-base;
+    }
+
+    address {
+        @apply not-italic;
+    }
+
+    strong {
+        @apply font-medium text-white;
+    }
+
+    th {
+        @apply font-medium capitalize;
+    }
+
+    hr {
+        @apply h-0 border-t border-zinc-700;
+    }
+}
+
+html,
+body {
+    --fc-border-color: #374151; /* Fullcalendar border */
+    scroll-behavior: smooth;
+}
+
+#app {
+    height: 100vh;
+    height: 100dvh;
+    @apply flex flex-col bg-[url(/public/img/banner_home.jpg)] bg-center overflow-y-auto scroll-smooth bg-no-repeat scroll-pt-14 md:scroll-pt-16 bg-cover;
+}
+
+.link {
+    @apply text-white transition-colors hover:text-orange-500;
+}
+
+ol {
+    @apply pl-3 list-decimal list-outside;
+}
+
+ul.list-musigate {
+    padding-left: 20px;
+}
+
+li.list-musigate {
+    position: relative;
+}
+
+li.list-musigate:not(:last-child) {
+    margin-bottom: 6px;
+}
+
+li.list-musigate::before {
+    content: "\f00c";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    color: #f60;
+    font-size: 14px;
+    position: absolute;
+    top: 1px;
+    left: -20px;
+}
+
+.show-all {
+    @apply flex items-center gap-2 py-1 font-sans text-sm font-semibold leading-none text-orange-500 transition-colors hover:text-orange-400;
+}
+
+
+/* Google Maps Place list */
+.pac-container {
+    @apply mt-1 bg-gray-700 border border-gray-400;
+}
+
+.pac-item {
+    border-top: 0;
+    @apply text-white transition-colors cursor-pointer hover:bg-orange-500;
+}
+
+.pac-item-selected {
+    background-color: #f60;
+}
+
+.pac-item-query {
+    @apply text-white;
+}
+
+
+fieldset{
+    min-width: 0;
+}
+
+/* stile per input in autocompletamento*/
+input:auto-fill,
+input:autofill,
+input:-webkit-autofill,
+input:-internal-autofill-selected {
+    color-scheme: dark;
+    appearance: none !important;
+    border: 1px solid rgb(156 163 175 / 0.8) !important;
+    background-color:  rgb(31 41 55 / 0.8) !important;
+    background-image: none !important;
+    color: #fff !important;
+    -webkit-text-fill-color: #fff !important;
+}
+
+
+
+/* stili comuni degli elementi form*/
+input[type]:focus,
+input[type]:focus-visible,
+button:focus,
+button:focus-visible,
+textarea:focus,
+textarea:focus-visible
+select:focus,
+select:focus-visible {
+    @apply outline-0 ring-0 ring-offset-0;
+}
+
+input[type="checkbox"]:focus,
+input[type="radio"]:focus {
+    color-scheme: dark;
+    @apply outline-0 ring-2 ring-orange-500/30 ring-offset-0;
+}
+
+select, .select {
+    background-image: url("/img/chevron-down.svg");
+    background-position: center right 12px;
+    background-repeat: no-repeat;
+    background-size: 10px;
+}
+
+
+/* RIMUOVO LE FRECCINE A DX NEI CAMPI NUMERICI */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.noscrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.noscrollbar {
+    -ms-overflow-style: none; /*IE and Edge*/
+    scrollbar-width: none; /*Firefox*/
+}
+
+/* Hide scrollbar WebKit */
+.noscrollbar::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+/* Range Slider */
+input[type="range"]:focus {
+    outline: none;
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+/***** Track Styles *****/
+/***** Chrome, Safari, Opera, and Edge Chromium *****/
+input[type="range"]::-webkit-slider-runnable-track {
+    background: #475569;
+    height: 4px;
+}
+
+/******** Firefox ********/
+input[type="range"]::-moz-range-track {
+    background: #475569;
+    height: 4px;
+}
+
+/***** Thumb Styles *****/
+/***** Chrome, Safari, Opera, and Edge Chromium *****/
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Override default look */
+    appearance: none;
+    margin-top: -6px; /* Centers thumb on the track */
+    background-color: #f60;
+    height: 1rem;
+    width: 1rem;
+    border-radius: 1rem;
+    box-shadow: 0px 0px 0px #000000;
+}
+
+/***** Firefox *****/
+input[type="range"]::-moz-range-thumb {
+    border: none; /*Removes extra border that FF applies*/
+    border-radius: 0; /*Removes default border-radius that FF applies*/
+    background-color: #f60;
+    height: 1rem;
+    width: 1rem;
+    border-radius: 1rem;
+    box-shadow: 0px 0px 0px #000000;
+}
+
+input[type="range"]::-moz-range-progress {
+    background: transparent;
+}
+

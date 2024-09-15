@@ -1,0 +1,75 @@
+<template>
+    <div ref="htmlMap" />
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import { Loader } from '@googlemaps/js-api-loader';
+
+const props = defineProps({
+    studios: Object,
+    zoom: {
+        type: Number,
+        default: 5
+    },
+});
+
+//Google Places API
+const htmlMap = ref(null);
+
+const loader = new Loader({
+    apiKey: import.meta.env.VITE_GOOGLE_MAPS_GEOCODING_API_KEY,
+    version: 'quarterly',
+    libraries: ['maps', 'marker'],
+    language: 'it',
+    region: 'IT',
+});
+
+const options = {
+    zoom: props.zoom,
+    center: {
+        lat: 42.94792427979087,
+        lng: 12.591507400963922
+    },
+    mapTypeIds: ['roadmap'],
+    mapTypeControl: false,
+    streetViewControl: false,
+    mapId: 'MUSIGATE-MAP-' + Math.ceil(Math.random()* 1000),
+};
+
+loader.load().then(async () => {
+    const { Map, InfoWindow } = await google.maps.importLibrary("maps"); // Carica la libreria "maps"
+    const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker"); // Carica la libreria "marker"
+    
+    const map = new google.maps.Map(htmlMap.value, options);
+    const infoWindow = new InfoWindow();
+    
+    props.studios.forEach(studio => {
+        const svgImg = document.createElement("img");
+        svgImg.src = '/img/geomarker/geo_default.svg';
+        const svgPinElement = new PinElement({glyph: svgImg,});
+
+        const contentString = '<div><div class="text-xs font-medium text-gray-500 uppercase">' + studio.category + 'Studio</div><div class="text-base font-bold text-gray-950">' + studio.name + '</div><a href="' + route('studio.show', studio.id) + '" class="block font-medium text-orange-500 transition-colors hover:text-orange-400">Vai allo Studio</a></div>';
+
+        const marker = new AdvancedMarkerElement({
+            map: map,
+            content: svgPinElement.element,
+            title: studio.name ?? 'Musigate',
+            gmpClickable: true,
+            position: {
+                lat: studio.location.lat,
+                lng: studio.location.lon
+            },
+        });
+
+        marker.addListener('click', () => {
+            map.setZoom(12);
+            map.setCenter(marker.position);
+            infoWindow.close();
+            infoWindow.setContent(contentString);
+            infoWindow.open(marker.map, marker);
+        });
+    });
+});
+
+</script>

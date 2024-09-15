@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <style>
+        .eyes {
+            display: inline-flex;
+            gap: 10px;
+        }
+        .eyes:before,
+        .eyes:after {
+            content: "";
+            height: 20px;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            background: radial-gradient(farthest-side,#000 95%,#0000) 35% 35%/6px 6px no-repeat #fff;
+            animation: l5 3s infinite;
+        }
+        @keyframes l5 {
+            0%,11%   {background-position:35% 35%}
+            14%,36%  {background-position:65% 35%}
+            38%,61%  {background-position:65% 65%}
+            64%,86%  {background-position:35% 65%}
+            88%,100% {background-position:35% 35%}
+        }
+    </style>
+
+    <title>Musigate - Sei offline</title>
+</head>
+<body class="flex items-center justify-center w-full font-sans antialiased font-light text-gray-100 bg-gray-950 scroll-smooth h-dvh">
+    <div class="flex flex-col items-center gap-4">
+        <img src="/img/pwa/mask-icon.svg" class="w-16 h-16" />
+        <div class="text-xl font-lemon">Sei offline</div>
+        <div class="eyes"></div>
+    </div>
+</body>
+</html>
