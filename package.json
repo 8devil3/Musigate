@@ -21,7 +21,8 @@
         "@googlemaps/js-api-loader": "^1.16.2",
         "@headlessui/tailwindcss": "^0.2.0",
         "@headlessui/vue": "^1.7.15",
-        "@vuepic/vue-datepicker": "^7.4.0",
+        "@vuepic/vue-datepicker": "^9.0.3",
+        "dayjs": "^1.11.13",
         "vue3-carousel": "^0.3.1"
     }
 }
