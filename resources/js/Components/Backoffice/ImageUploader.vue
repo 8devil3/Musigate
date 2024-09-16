@@ -1,97 +1,99 @@
 <template>
     <div class="space-y-4">
-        <form v-if="props.modelValue !== null" @submit.prevent="deleteImage()" class="flex items-center gap-4">
-            <div :for="props.id" class="relative flex items-center justify-center w-32 h-32 border-2 border-gray-500 border-dashed rounded-full shrink-0">
-                <img :src="'/storage/' + props.modelValue" alt="Img" class="object-contain w-full h-full rounded-full" />
+        <form @submit.prevent="uploadImage()" class="relative flex items-center gap-4">
+            <button type="button" v-if="vModel" @click="deleteImage()" :disabled="isLoading" title="Elimina il logo" class="absolute flex items-center justify-center w-6 h-6 text-red-600 border border-red-600 rounded-full -top-2 -left-2 bg-red-600/10">
+                <i class="text-sm fa-solid fa-xmark" />
+            </button>
 
-                <button v-if="props.modelValue" type="submit" title="Elimina" class="absolute z-10 flex items-center justify-center w-6 h-6 leading-none transition-colors border border-red-600 rounded-full -top-1 -right-4 bg-red-600/10 hover:bg-red-600/30">
-                    <i class="text-xs text-red-500 fa-solid fa-trash-can"></i>
-                </button>
-            </div>
-        </form>
-
-        <form v-else @submit.prevent="uploadImage()" class="flex items-center gap-4">
-            <label :for="props.id" title="Carica logo" class="flex flex-col items-center justify-center w-32 h-32 gap-1 text-center transition-opacity border-2 border-gray-500 border-dashed rounded-full cursor-pointer hover:opacity-80 shrink-0">
-                <template v-if="!imagePreview && !props.modelValue">
-                    <i class="text-4xl text-gray-600 fa-solid fa-upload"></i>
-                    <div class="text-xs text-gray-400">
-                        Click o tap per caricare.
-                    </div>
-                </template>
-
-                <img v-else-if="imagePreview" :src="imagePreview" alt="Img" class="object-contain w-full h-full rounded-full" />
-
-                <input type="file" :id="props.id" @change="preview($event.target.files[0])" :accept="props.accept" hidden />
-            </label>
-            
-            <div class="space-y-2">                
-                <Button v-if="formUpload.file" type="submit" text="Carica" icon="fa-solid fa-upload" color="green" :isLoading="formUpload.processing" :disabled="formUpload.processing"/>
+            <label :for="props.id" class="flex items-center justify-center w-32 h-32 text-center transition-opacity border-2 border-dashed cursor-pointer border-slate-300 hover:opacity-80 overflow-clip shrink-0" :class="[props.rounded ? 'rounded-full' : 'rounded-lg']">
+                <i v-if="!vModel" class="text-4xl text-slate-300 fa-solid fa-camera"></i>
     
-                <ProgressBar :progress="formUpload.progress" />
+                <img v-else :src="'/storage/' + vModel" alt="img" class="object-contain w-full h-full rounded-full" />
+
+                <input type="file" :id="props.id" @change="uploadImage($event.target.files[0])" :accept="props.accept" :disabled="isLoading" hidden />
+            </label>
+
+            <div class="space-y-2 text-xs">
+                <div class="leading-relaxed text-left">
+                    <div>
+                        Formati accettati: <strong>{{ props.accept.replaceAll('image/', '').toUpperCase() }}</strong>
+                    </div>
+                    <div>
+                        Max <strong>{{ props.maxSizeMB ?? 2 }} MB</strong>
+                    </div>
+                </div>
+
+                <ProgressBar :progress="progress" />
             </div>
         </form>
-                                    
-        <div v-show="formUpload.errors.file" class="text-sm text-left text-red-600">{{ formUpload.errors.file }}</div>
+                     
+        <div v-show="form.errors.file" class="text-sm text-left text-red-600">{{ form.errors.file }}</div>
     </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
-import { useForm } from '@inertiajs/vue3';
+import { router, useForm } from '@inertiajs/vue3';
 import ProgressBar from '@/Components/Form/ProgressBar.vue';
-import Button from '@/Components/Form/Button.vue';
 
 const props = defineProps({
-    modelValue: String,
     routeUpload: String,
     routeDelete: String,
-    accept: String,
+    rounded: Boolean,
     maxSizeMB: Number,
+    accept: String,
     id: String,
+    rounded: Boolean
 });
 
-const emit = defineEmits([
-    'update:model-value'
-]);
+const vModel = defineModel({default: null});
 
-const imagePreview = ref(null);
+const progress = ref(0);
+const isLoading = ref(false);
 
-const formUpload = useForm({
+const form = useForm({
     _method: 'PUT',
-    file: props.modelValue,
+    file: null,
 });
 
-const formDelete = useForm({});
+const uploadImage = (file)=>{
+    form.file = file;
 
-const uploadImage = ()=>{
-    formUpload.post(props.routeUpload, {
+    form.post(route(props.routeUpload), {
         preserveScroll: true,
-        onSuccess: ()=>{
-            formUpload.reset();
-            imagePreview.value = null;
+        onFinish: ()=>{
+            form.reset();
         }
     });
 }
 
 const deleteImage = ()=>{
-    formDelete.delete(props.routeDelete, {
+    router.delete(route(props.routeDelete), {
         preserveScroll: true,
-        onSuccess: ()=>{
-            formDelete.reset();
-            formUpload.file = null;
-            imagePreview.value = null;
+        onFinish: ()=>{
+            form.reset();
         }
     });
 }
 
+router.on('start', ()=> isLoading.value = true);
 
-const preview = (e) => {
-    formUpload.file = e
+router.on('progress', (e)=>{
+    if(e.detail.progress.percentage) progress.value = Math.round(e.detail.progress.percentage);
+});
 
-    let reader = new FileReader();
-    reader.readAsDataURL(e);
-    reader.onload = ()=>{
-        imagePreview.value = reader.result
-    }
-}
+router.on('finish', ()=> {
+    isLoading.value = false;
+    progress.value = 0;
+});
+
+// const getPreview = (e) => {
+//     form.file = e
+
+//     let reader = new FileReader();
+//     reader.readAsDataURL(e);
+//     reader.onload = function () {
+//         preview.value = reader.result
+//     }
+// }
 </script>

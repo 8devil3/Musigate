@@ -24,7 +24,7 @@ return new class extends Migration
             $table->text('desc')->nullable();
             $table->boolean('record_label')->default(false);
             $table->boolean('is_visible')->default(false);
-            
+            $table->boolean('is_open_24_7')->default(false);           
             $table->boolean('is_complete')->default(false);
 
             $table->timestamps();

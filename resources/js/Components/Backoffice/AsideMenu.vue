@@ -8,7 +8,7 @@
                 <img v-if="$page.props.auth.studio.logo" :src="'/storage/' + $page.props.auth.studio.logo" :alt="$page.props.auth.studio.name" class="object-contain w-full h-full rounded-full overflow-clip">
                 <img v-else src="/img/logo/logo_placeholder.svg" :alt="$page.props.auth.studio.name" class="object-contain w-8 aspect-square">
             </div>
-            <div class="text-lg tracking-wide text-center font-lemon">
+            <div class="space-y-1 font-sans text-lg tracking-wide text-center">
                 <div class="text-xs text-gray-400 uppercase">
                     {{ $page.props.auth.studio.category }} studio
                 </div>
@@ -59,6 +59,12 @@ const menuItemsStudio = [
                 text: 'Location',
                 href: route('studio.location.edit'),
                 active: route().current('studio.location.edit')
+            },
+            {
+                icon: 'fa-solid fa-clock',
+                text: 'Disponibilità',
+                href: route('studio.availability.edit'),
+                active: route().current('studio.availability.edit')
             },
             {
                 icon: 'fa-solid fa-image',

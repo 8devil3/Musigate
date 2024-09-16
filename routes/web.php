@@ -7,6 +7,7 @@ use App\Http\Controllers\Frontoffice\StudioController;
 use App\Http\Controllers\Backoffice\AccountController;
 use App\Http\Controllers\Backoffice\Studio\DashboardController;
 use App\Http\Controllers\Backoffice\Studio\StudioPhotoController;
+use App\Http\Controllers\Backoffice\Studio\WeeklyAvailabilityController;
 use App\Http\Controllers\Backoffice\Studio\StudioVideoController;
 use App\Http\Controllers\Backoffice\Studio\ContactController;
 use App\Http\Controllers\Backoffice\Studio\CollaborationController;
@@ -89,6 +90,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         
             Route::get('/contatti', [ContactController::class, 'edit'])->name('contacts.edit');
             Route::put('/contatti', [ContactController::class, 'update'])->name('contacts.update');
+
+            Route::get('/disponibilità', [WeeklyAvailabilityController::class, 'edit'])->name('availability.edit');
+            Route::put('/disponibilità', [WeeklyAvailabilityController::class, 'update'])->name('availability.update');
         });
         
         //gestione sale studio

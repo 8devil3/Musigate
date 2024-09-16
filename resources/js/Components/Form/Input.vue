@@ -1,13 +1,12 @@
 <template>
-    <div class="flex flex-col items-start text-left">
-        <Label v-if="props.label" :label="props.label" :id="props.id" :required="props.required" />
+    <div class="inline-flex flex-col items-start text-left">
+        <Label v-if="props.label" :label="props.label" :id="props.id ?? id" :required="props.required" />
 
         <div class="relative w-full">
             <input
-                ref="input"
                 v-model.trim="vModel"
                 :type="props.type"
-                :id="props.id"
+                :id="props.id ?? id"
                 :placeholder="props.placeholder"
                 :autocomplete="props.autocomplete"
                 :min="props.min"
@@ -20,10 +19,10 @@
                 :autofocus="props.autofocus"
                 :aria-label="props.label"
                 :aria-placeholder="props.placeholder"
-                :class="[commonClasses.input, props.unit && 'pr-10', props.error && 'border-red-600 focus:ring-red-600/50 focus:border-red-600 focus:shadow-md focus:shadow-red-600']"
+                :class="[classes, props.unit && 'pr-10', props.error && 'border-red-600 focus:ring-red-600/50 focus:border-red-600 focus:shadow-md focus:shadow-red-600']"
             >
 
-            <div class="absolute inset-y-0 flex items-center text-xs text-right text-gray-400 right-4">
+            <div class="absolute inset-y-0 flex items-center text-xs text-right text-slate-400 right-4">
                 {{ props.unit }}
             </div>
         </div>
@@ -33,9 +32,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, computed } from 'vue';
 import Label from '@/Components/Form/Label.vue';
-import commonClasses from '@/Components/Form/commonClasses.json';
 import FieldError from '@/Components/Form/FieldError.vue';
 
 const props = defineProps({
@@ -98,12 +96,21 @@ const props = defineProps({
     }
 });
 
+const classes = "text-left w-full h-8 px-4 py-0 text-sm text-white bg-slate-800/50 border border-slate-400 rounded-full placeholder:text-slate-300/80 disabled:bg-slate-800 placeholder:truncate truncate disabled:cursor-not-allowed disabled:text-slate-500 disabled:border-slate-500 font-sans placeholder:font-light font-normal focus:ring-orange-500/50 focus:border-orange-500 focus:shadow-md focus:shadow-orange-500";
+
+const emit = defineEmits(['input', 'change']);
+
+const inputValue = ref(null);
+
 const vModel = defineModel({ default: null });
 
-const input = ref(null);
-
-onMounted(() => {
-    if(props.autofocus) input.value.focus();
+const id = computed(()=>{
+    return 'input-' + Math.random() * 1000000000000;
 });
+
+const clearInput = ()=>{
+    vModel.value = null;
+    emit('input', null);
+}
 
 </script>

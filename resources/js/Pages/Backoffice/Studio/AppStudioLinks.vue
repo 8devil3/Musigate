@@ -5,11 +5,13 @@
         </template>
 
         <template #content>
-            <ul class="flex flex-col items-center justify-center gap-3 mt-6 text-center">
+            <ul class="grid grid-cols-2 gap-3 mt-4 text-center sm:grid-cols-3">
                 <li v-for="link in links">
-                    <Link :href="link.href" class="flex items-center justify-center w-64 gap-2 px-4 py-1 text-base text-white transition-colors bg-transparent border-2 border-orange-500 rounded-full cursor-pointer hover:border-orange-500 hover:text-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 whitespace-nowrap">
-                        <i :class="link.icon"></i>
-                        {{ link.name }}
+                    <Link :href="link.href" class="block h-full p-4 space-y-1 text-sm text-center text-white transition-colors bg-transparent border-2 border-orange-500 rounded-lg cursor-pointer bg-slate-900 hover:border-orange-500 hover:text-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0">
+                        <i class="text-lg" :class="link.icon" />
+                        <div>
+                            {{ link.name }}
+                        </div>
                     </Link>
                 </li>
             </ul>

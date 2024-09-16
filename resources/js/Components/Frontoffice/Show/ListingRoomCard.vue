@@ -13,10 +13,6 @@
                     <i class="mr-2 text-orange-500 fa-solid fa-users"></i>
                     <span class="text-xs whitespace-nowrap">{{ props.room.max_capacity }} max</span>
                 </div>
-                <div v-if="props.room.min_price" class="flex items-center whitespace-nowrap" :title="'Tariffa a partire da ' + props.room.min_price + ' €/h'">
-                    <i class="mr-2 text-orange-500 fa-solid fa-euro"></i>
-                    <span class="text-xs whitespace-nowrap">min. {{ props.room.min_price }} €/h</span>
-                </div>
             </div>
             <!-- / -->
             
@@ -61,11 +57,14 @@
             </div>
             <!-- / -->
 
-            <ShowAll @click="openModal = true" text="Mostra dettagli Sala" />
+            <div class="flex justify-between gap-2">
+                <ShowAll @click="openModalRoom = true" text="Dettagli Sala" />
+                <Button @click="openModalBooking = true" text="Prenota" icon="fa-solid fa-calendar-days" />
+            </div>
         </div>
     </article>
 
-    <Modal :isOpen="openModal" @close="openModal = false">
+    <Modal :isOpen="openModalRoom" @close="openModalRoom = false">
         <template #title>
             {{ props.room.name }}
         </template>
@@ -86,10 +85,6 @@
                     <div class="flex items-center whitespace-nowrap" title="Prenotazione minima">
                         <i class="mr-2 text-orange-500 fa-solid fa-hourglass"></i>
                         <span class="text-xs whitespace-nowrap">{{ props.room.min_booking === 1 ? ' min. 1 ora': 'min. ' + props.room.min_booking + ' ore' }}</span>
-                    </div>
-                    <div v-if="props.room.min_price" class="flex items-center whitespace-nowrap" :title="'Tariffa a partire da ' + props.room.min_price + ' €/h'">
-                        <i class="mr-2 text-orange-500 fa-solid fa-euro"></i>
-                        <span class="text-xs whitespace-nowrap">min. {{ props.room.min_price }} €/h</span>
                     </div>
                 </div>
                 <!-- / -->
@@ -132,6 +127,29 @@
             </div>
         </template>
     </Modal>
+
+    <Modal :isOpen="openModalBooking" @close="openModalBooking = false">
+        <template #title>
+            Prenota {{ props.room.name }}
+        </template>
+        <template #description>
+            <div class="flex gap-4 h-[311px]">
+                <VueDatePicker
+                    v-model="date"
+                    inline auto-apply
+                    :enable-time-picker="false"
+                    locale="it"
+                    dark
+                />
+
+                <div class="w-full h-full pr-4 space-y-2 overflow-y-scroll">
+                    <button type="button" v-for="slot in 8" class="block w-full p-2 text-sm transition-colors border-2 border-orange-500 rounded-full hover:bg-orange-500/20">
+                        10:00 - 11:00
+                    </button>
+                </div>
+            </div>
+        </template>
+    </Modal>
 </template>
 
 <script setup>
@@ -139,6 +157,9 @@ import { ref, computed } from 'vue';
 import Modal from '@/Components/Modal.vue';
 import ShowAll from '@/Components/ShowAll.vue';
 import Carosello from '@/Components/Frontoffice/Carosello.vue';
+import Button from '@/Components/Form/Button.vue';
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css';
 
 const props = defineProps({
     room: Object,
@@ -146,7 +167,10 @@ const props = defineProps({
     equipment_categories: Object,
 });
 
-const openModal = ref(false);
+const openModalRoom = ref(false);
+const openModalBooking = ref(false);
+
+const date = ref(null);
 
 const roomImgs = computed(()=>{
     let imgs = props.room.photos.sort(photo => photo.is_featured ? -1 : 1).map(photo => photo.path).flat();

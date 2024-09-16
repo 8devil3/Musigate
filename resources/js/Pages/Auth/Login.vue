@@ -11,9 +11,9 @@
         </template>
 
         <template #content>
-            <Input v-model="form.email" id="login-email" type="email" label="Email" placeholder="La tua email" icon="fa-solid fa-envelope" :error="form.errors.email" required autofocus />
+            <Input v-model="form.email" id="login-email" type="email" label="Email" placeholder="La tua email" icon="fa-solid fa-envelope" :error="form.errors.email" required autofocus class="w-full" />
             
-            <Input v-model="form.password" id="login-password" type="password" label="Password" placeholder="La tua password" :error="form.errors.password" required />
+            <Input v-model="form.password" id="login-password" type="password" label="Password" placeholder="La tua password" :error="form.errors.password" required class="w-full" />
 
             <div class="flex items-center justify-between px-4">
                 <Checkbox id="login-remember" v-model:checked="form.remember">

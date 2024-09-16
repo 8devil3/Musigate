@@ -2,6 +2,7 @@
 
 namespace App\Models\Studio;
 
+use App\Models\Availability;
 use App\Models\User;
 use App\Models\Room\Room;
 use Illuminate\Database\Eloquent\Model;
@@ -24,12 +25,14 @@ class Studio extends Model
         'desc',
         'record_label',
         'is_visible',
+        'is_open_24_7',
         'is_complete',
     ];
 
     protected $casts = [
         'record_label' => 'boolean',
         'is_visible' => 'boolean',
+        'is_open_24_7' => 'boolean',
         'is_complete' => 'boolean',
     ];
 
@@ -91,5 +94,10 @@ class Studio extends Model
     public function payment_methods(): BelongsToMany
     {
         return $this->belongsToMany(PaymentMethod::class);
+    }
+
+    public function availability(): HasMany
+    {
+        return $this->hasMany(Availability::class);
     }
 }

@@ -47,6 +47,8 @@ class DatabaseSeeder extends Seeder
             StudioVideoSeeder::class,
             RoomPhotoSeeder::class,
             ContactSeeder::class,
+            AvailabilitySeeder::class,
+            BookingSeeder::class,
         ]);
     }
 }

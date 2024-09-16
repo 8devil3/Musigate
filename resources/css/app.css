@@ -98,6 +98,14 @@ li.list-musigate::before {
     left: -20px;
 }
 
+.table th {
+    @apply p-2 text-sm uppercase bg-slate-800;
+}
+
+.table td {
+    @apply p-2 text-sm border-t border-slate-700;
+}
+
 .show-all {
     @apply flex items-center gap-2 py-1 font-sans text-sm font-semibold leading-none text-orange-500 transition-colors hover:text-orange-400;
 }
@@ -141,8 +149,11 @@ input:-internal-autofill-selected {
 }
 
 
-
 /* stili comuni degli elementi form*/
+input {
+    color-scheme: dark;
+}
+
 input[type]:focus,
 input[type]:focus-visible,
 button:focus,

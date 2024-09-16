@@ -6,8 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\ImageManager;
-use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\Laravel\Facades\Image;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -58,7 +57,7 @@ class GeneralController extends Controller
     public function logo_upload(Request $request): RedirectResponse
     {
         $request->validate([
-            'file' => 'nullable|image|max:1024',
+            'file' => 'required|image|max:1024',
         ]);
 
         $current_studio = auth()->user()->studio;
@@ -68,9 +67,7 @@ class GeneralController extends Controller
             $current_studio->update(['logo' => null]);
         }
 
-        $img_manager = new ImageManager(new Driver());
-
-        $scaled_image = $img_manager->read($request->file)->scale(160, 160);
+        $scaled_image = Image::read($request->file)->scale(160, 160);
 
         $img_path = 'users/user-' . auth()->id() . '/studio/logo/' . \Str::uuid()->toString() . '.png';
 

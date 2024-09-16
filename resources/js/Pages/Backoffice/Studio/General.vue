@@ -24,19 +24,18 @@
                 </template>
 
                 <template #description>
-                    Inserisci il logo dello Studio. Per un risultato ottimale è consigliabile un'immagine con proporzioni quadrate.<br><br>
-                    Formati accettati: <strong> jpg, jpeg, png, bmp</strong><br>
-                    Dimensione max: <strong>1 MB</strong><br>
+                    Inserisci il logo dello Studio. Per un risultato ottimale è consigliabile un'immagine con proporzioni quadrate.
                 </template>
 
                 <template #content>
                     <ImageUploader
                         v-model="props.studio.logo"
                         id="studio-logo-uploader"
-                        :routeUpload="route('studio.general.logo_upload')"
-                        :routeDelete="route('studio.general.logo_delete')"
+                        routeUpload="studio.general.logo_upload"
+                        routeDelete="studio.general.logo_delete"
                         :maxSizeMB="1"
                         accept="image/jpg, image/jpeg, image/png, image/bmp"
+                        rounded
                     />
                 </template>
             </FormElement>

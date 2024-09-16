@@ -25,23 +25,23 @@ class {{ class }} extends Controller
         return to_route('');
     }
 
-    public function show(int $id): Response
+    public function show({{ model }} ${{ model }}): Response
     {
-        return Inertia::render('', compact(''));
+        return Inertia::render('', compact(${{ model }}));
     }
 
-    public function edit(int $id): Response
+    public function edit({{ model }} ${{ model }}): Response
     {
-        return Inertia::render('', compact(''));
+        return Inertia::render('', compact(${{ model }}));
     }
 
-    public function update(Request $request, int $id): RedirectResponse
+    public function update(Request $request, {{ model }} ${{ model }}): RedirectResponse
     {
-        return to_route('', $id);
+        return to_route('', ${{ model }}->id);
     }
 
-    public function destroy(int $id): RedirectResponse
+    public function destroy({{ model }} ${{ model }}): RedirectResponse
     {
-        return to_route('');
+        return back();
     }
 }

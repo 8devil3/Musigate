@@ -45,7 +45,8 @@
                 </template>
 
                 <template #description>
-                    Opzionalmente puoi inserire delle indicazioni aggiuntive per agevolare l'arrivo degli artisti, max 255 caratteri, spazi esclusi.
+                    Puoi inserire delle indicazioni aggiuntive per agevolare l'arrivo degli artisti.<br>
+                    Max 255 caratteri, spazi esclusi.
                 </template>
 
                 <template #content>
@@ -99,7 +100,7 @@ const submit = () => {
 const inputGooglePlaces = ref(null);
 
 const loader = new Loader({
-    apiKey: import.meta.env.VITE_GOOGLE_MAPS_GEOCODING_API_KEY,
+    apiKey: import.meta.env.VITE_GOOGLE_API_KEY,
     version: 'quarterly',
     libraries: ['places']
 });
