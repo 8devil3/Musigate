@@ -2,6 +2,7 @@
 
 namespace App\Models\Room;
 
+use App\Models\Booking;
 use App\Models\Studio\Studio;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -38,5 +39,10 @@ class Room extends Model
     public function photos(): HasMany
     {
         return $this->hasMany(RoomPhoto::class)->orderByDesc('created_at');
+    }
+
+    public function bookings(): HasMany
+    {
+        return $this->hasMany(Booking::class);
     }
 }

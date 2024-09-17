@@ -17,8 +17,11 @@ return new class extends Migration
             $table->foreignId('role_id')->default(2)->constrained(); //1=superadmin, 2=studio, 3=chi prenota
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->rememberToken();
+            $table->text('google_id')->nullable();
+            $table->text('google_token')->nullable();
+            $table->text('google_refresh_token')->nullable();
             $table->boolean('is_banned')->default(false);
             $table->string('first_name');
             $table->string('last_name');

@@ -123,6 +123,8 @@ const hours = computed(()=>{
         }
     }
 
+    arrHours.push('24:00');
+
     return arrHours;
 });
 

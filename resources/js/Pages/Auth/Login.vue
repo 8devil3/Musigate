@@ -11,6 +11,8 @@
         </template>
 
         <template #content>
+            <GoogleLogin />
+
             <Input v-model="form.email" id="login-email" type="email" label="Email" placeholder="La tua email" icon="fa-solid fa-envelope" :error="form.errors.email" required autofocus class="w-full" />
             
             <Input v-model="form.password" id="login-password" type="password" label="Password" placeholder="La tua password" :error="form.errors.password" required class="w-full" />
@@ -36,6 +38,7 @@ import AuthLayout from '@/Layouts/AuthLayout.vue';
 import Button from '@/Components/Form/Button.vue';
 import Input from '@/Components/Form/Input.vue';
 import Checkbox from '@/Components/Form/Checkbox.vue';
+import GoogleLogin from './GoogleLogin.vue';
 
 const props = defineProps({
     canResetPassword: {

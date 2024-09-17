@@ -60,6 +60,8 @@ class StudioController extends Controller
 
     public function show(Studio $studio): Response
     {
+        if(!$studio->is_visible) abort(404);
+
         $request = session('request');
 
         $room_types = RoomType::pluck('name', 'id');

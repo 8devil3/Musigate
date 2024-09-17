@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -13,12 +14,14 @@ class SocialiteController extends Controller
 {
     public function redirect(): RedirectResponse
     {
-        return Socialite::driver('google')->redirect(); 
+        return Socialite::driver('google')
+        ->scopes(['https://www.googleapis.com/auth/calendar.readonly', 'https://www.googleapis.com/auth/calendar.events']) //leggere i calendari, creare-modificare-eliminare gli eventi
+        ->redirect(); 
     }
 
     public function callback(Request $request): RedirectResponse
     {
-        if (!$request->has('code')) return to_route('login');
+        if (!$request->has('code')) return to_route('login.create');
 
         $google_user = Socialite::driver('google')->user();
 
@@ -57,7 +60,7 @@ class SocialiteController extends Controller
         if(auth()->user()->role_id === Role::SUPERADMIN){
             return to_route('superadmin.dashboard');
         } else {
-            return to_route('studio.dashboard');
+            return to_route('dashboard');
         }
     }
 }

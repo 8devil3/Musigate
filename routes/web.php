@@ -5,6 +5,7 @@ use App\Http\Controllers\Backoffice\SuggestionController;
 use App\Http\Controllers\Frontoffice\LegalTextController;
 use App\Http\Controllers\Frontoffice\StudioController;
 use App\Http\Controllers\Backoffice\AccountController;
+use App\Http\Controllers\Backoffice\Studio\BookingController;
 use App\Http\Controllers\Backoffice\Studio\DashboardController;
 use App\Http\Controllers\Backoffice\Studio\StudioPhotoController;
 use App\Http\Controllers\Backoffice\Studio\WeeklyAvailabilityController;
@@ -33,6 +34,8 @@ Route::get('/offline', function () {
 
 Route::get('/cerca', [StudioController::class, 'index'])->name('studio.index');
 Route::get('/studio/{studio}', [StudioController::class, 'show'])->name('studio.show');
+Route::get('/prenota/{room}', [BookingController::class, 'create'])->name('booking.create');
+Route::post('/prenota/store', [BookingController::class, 'store'])->name('booking.store');
 
 //testi legali
 Route::get('/privacy', [LegalTextController::class, 'privacy'])->name('privacy');

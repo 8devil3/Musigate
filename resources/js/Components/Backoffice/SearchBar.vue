@@ -15,7 +15,7 @@
         </div>
 
         <Button icon="fa-solid fa-filter" @click="data.openModal = true" :title="lang.searchbar['More filters']" class="w-full md:w-fit"/>
-        <Button type="link" icon="fa-solid fa-arrow-rotate-left" color="gray" :href="route(props.submitRoute)" :title="lang.searchbar['Filter reset']" class="w-full md:w-fit" />
+        <Button type="router" icon="fa-solid fa-arrow-rotate-left" color="gray" :href="route(props.submitRoute)" :title="lang.searchbar['Filter reset']" class="w-full md:w-fit" />
 
         <!-- modale filtri -->
         <Modal :isOpen="data.openModal" @close="data.openModal = false">

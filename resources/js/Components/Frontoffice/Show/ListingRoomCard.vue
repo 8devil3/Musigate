@@ -59,7 +59,7 @@
 
             <div class="flex justify-between gap-2">
                 <ShowAll @click="openModalRoom = true" text="Dettagli Sala" />
-                <Button @click="openModalBooking = true" text="Prenota" icon="fa-solid fa-calendar-days" />
+                <Button type="router" :href="route('booking.create', props.room.id)" text="Prenota" icon="fa-solid fa-calendar-days" />
             </div>
         </div>
     </article>
@@ -127,29 +127,6 @@
             </div>
         </template>
     </Modal>
-
-    <Modal :isOpen="openModalBooking" @close="openModalBooking = false">
-        <template #title>
-            Prenota {{ props.room.name }}
-        </template>
-        <template #description>
-            <div class="flex gap-4 h-[311px]">
-                <VueDatePicker
-                    v-model="date"
-                    inline auto-apply
-                    :enable-time-picker="false"
-                    locale="it"
-                    dark
-                />
-
-                <div class="w-full h-full pr-4 space-y-2 overflow-y-scroll">
-                    <button type="button" v-for="slot in 8" class="block w-full p-2 text-sm transition-colors border-2 border-orange-500 rounded-full hover:bg-orange-500/20">
-                        10:00 - 11:00
-                    </button>
-                </div>
-            </div>
-        </template>
-    </Modal>
 </template>
 
 <script setup>
@@ -158,8 +135,6 @@ import Modal from '@/Components/Modal.vue';
 import ShowAll from '@/Components/ShowAll.vue';
 import Carosello from '@/Components/Frontoffice/Carosello.vue';
 import Button from '@/Components/Form/Button.vue';
-import VueDatePicker from '@vuepic/vue-datepicker';
-import '@vuepic/vue-datepicker/dist/main.css';
 
 const props = defineProps({
     room: Object,
@@ -168,9 +143,6 @@ const props = defineProps({
 });
 
 const openModalRoom = ref(false);
-const openModalBooking = ref(false);
-
-const date = ref(null);
 
 const roomImgs = computed(()=>{
     let imgs = props.room.photos.sort(photo => photo.is_featured ? -1 : 1).map(photo => photo.path).flat();
