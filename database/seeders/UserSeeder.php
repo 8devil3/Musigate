@@ -29,7 +29,7 @@ class UserSeeder extends Seeder
                 'role_id' => 2,
                 'first_name' => 'Gigi',
                 'last_name' => 'Rossi',
-                'email' => 'gigirossi@gmail.com',
+                'email' => '8dev.il3@gmail.com',
                 'email_verified_at' => now()->subDay(),
                 'password' => bcrypt('qwertyuiop'),
                 'avatar' => Storage::disk('public')->putFile('users/user-2/avatar/', FakerImage::image(null, 240, 240)),
@@ -42,9 +42,7 @@ class UserSeeder extends Seeder
             User::create($user);
         }
 
-        $users_qty = app()->environment(['staging', 'local']) ? 128 : 24;
-
-        for ($i=0; $i < $users_qty; $i++) {
+        for ($i=0; $i < 24; $i++) {
             $first_name = fake()->firstName();
             $last_name = fake()->lastName();
 

@@ -196,7 +196,7 @@
                         </div>
                     </div>
             
-                    <GoogleMaps :studios="[props.studio]" :center="{lat: props.studio.location.lat, lon: props.studio.location.lon}" :zoom="14" class="h-64 border border-gray-400 md:h-96 overflow-clip rounded-xl" />
+                    <GoogleMaps :studios="[props.studio]" :lat="props.studio.location.lat" :lon="props.studio.location.lon" :zoom="14" class="h-64 border border-gray-400 md:h-96 overflow-clip rounded-xl" />
                 </ListingSection>
             </div>
             <!-- / -->

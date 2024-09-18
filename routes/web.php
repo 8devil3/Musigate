@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backoffice\Studio\BookingSettingController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backoffice\SuggestionController;
 use App\Http\Controllers\Frontoffice\LegalTextController;
@@ -97,6 +98,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/disponibilità', [WeeklyAvailabilityController::class, 'edit'])->name('availability.edit');
             Route::put('/disponibilità', [WeeklyAvailabilityController::class, 'update'])->name('availability.update');
         });
+
+        //impostazioni prenotazioni
+        Route::get('/impostazioni-prenotazioni', [BookingSettingController::class, 'edit'])->name('bookings.settings.edit');
+        Route::put('/impostazioni-prenotazioni', [BookingSettingController::class, 'update'])->name('bookings.settings.update');
         
         //gestione sale studio
         Route::get('/sale-studio', [RoomController::class, 'index'])->name('rooms.index');

@@ -21,12 +21,11 @@ return new class extends Migration
             $table->foreignId('room_status_id')->default(5)->constrained();
 
             $table->string('name')->default('Nuova Sala');
-            $table->string('color', 7)->default(fake()->hexColor());
-            $table->tinyInteger('min_booking', false, true)->default(2);
-            $table->tinyInteger('max_capacity', false, true)->default(4);
-            $table->smallInteger('min_price', false, true)->default(0);
-            $table->smallInteger('area', false, true)->default(16);
-            $table->text('desc')->nullable();
+            $table->string('color', 7);
+            $table->unsignedTinyInteger('max_capacity')->default(4);
+            $table->unsignedSmallInteger('min_price')->default(0);
+            $table->unsignedSmallInteger('area')->default(16);
+            $table->text('description')->nullable();
 
             $table->timestamps();
         });

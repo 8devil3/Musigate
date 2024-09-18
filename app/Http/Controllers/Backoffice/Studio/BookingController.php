@@ -5,10 +5,9 @@ namespace App\Http\Controllers\Backoffice\Studio;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Room\Room;
+use App\Services\GoogleCalendarAPIService;
 use App\Services\TimeSlotService;
 use Carbon\Carbon;
-use Carbon\CarbonPeriod;
-use Google_Service_Calendar;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -24,6 +23,8 @@ class BookingController extends Controller
 
     public function create(Request $request, Room $room): Response
     {
+        $request_date = $request->date ?? now()->toDateString();
+
         $closing_weekdays = $room->studio->availability()
         ->where('is_open', false)
         ->pluck('weekday')
@@ -32,28 +33,39 @@ class BookingController extends Controller
             return $wd;
         });
 
-        $client = new \Google_Client();
-        $client->setAccessToken(auth()->user()->google_token);
+        $booking_settings = $room->studio->booking_settings;
 
-        // Crea un servizio di Google Calendar
-        $service = new Google_Service_Calendar($client);
+        $google_events = collect([]);
 
-        // Ottieni la lista dei calendari dell'utente
-        $calendar_list = $service->calendarList->listCalendarList();
+        if($booking_settings->google_calendar_id){
+            $google_events = Event::get(calendarId: $booking_settings->google_calendar_id)->map(function($event){
+                return [
+                    'start' => Carbon::parse($event->googleEvent->start->dateTime)->toDateTimeString(),
+                    'duration' => Carbon::parse($event->googleEvent->start->dateTime)->diffInHours(Carbon::parse($event->googleEvent->end->dateTime)),
+                    'end' => Carbon::parse($event->googleEvent->end->dateTime)->toDateTimeString(),
+                ];
+            })->filter(function($event) use($request_date): bool {
+                return Carbon::parse($event['start'])->timezone('Europe/Rome')->startOfDay()
+                    ->equalTo(Carbon::parse($request_date)->startOfDay());
+            });
+        }
 
-        // dd($calendar_list[2]->getId());
+        //TODO: come integro le pause tra le prenotazioni?
+        $merged_booking = $google_events->merge($room->bookings()->get(['start', 'duration', 'end']))->map(function($event) use($booking_settings){
+            if($booking_settings->has_buffer && $booking_settings->buffer > 60){
+                return [
+                    'start' => Carbon::parse($event['start'])->toDateTimeString(),
+                    'duration' => $event['duration'],
+                    'end' => Carbon::parse($event['end'])->addMinutes($booking_settings->buffer)->toDateTimeString(),
+                ];
+            } else {
+                return $event;
+            }
+        })->toArray();
 
-        $google_events = Event::get(calendarId: $calendar_list[2]->getId());
+        $slots = TimeSlotService::generate($room, $merged_booking, $request_date);
 
-        dd($google_events->toArray());
-
-        $request_date = $request->date ?? now()->toDateString();
-
-        $current_day_availability = $room->studio->availability()->where('weekday', Carbon::parse($request_date)->isoWeekday())->first();
-
-        $slots = TimeSlotService::generate($current_day_availability, $room->bookings, $request_date);
-
-        return Inertia::render('Frontoffice/Booking/Create', compact('room', 'slots', 'closing_weekdays', 'request_date'));
+        return Inertia::render('Frontoffice/Booking/Create', compact('room', 'slots', 'booking_settings', 'closing_weekdays', 'request_date'));
     }
 
     public function store(Request $request): RedirectResponse

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->rememberToken();
             $table->text('google_id')->nullable();
             $table->text('google_token')->nullable();
+            $table->unsignedInteger('google_token_expires_in')->nullable();
             $table->text('google_refresh_token')->nullable();
             $table->boolean('is_banned')->default(false);
             $table->string('first_name');

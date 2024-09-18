@@ -9,7 +9,7 @@
             {{ props.first_name.charAt(0) }}{{ props.last_name.charAt(0) }}
         </div>
 
-        <img v-else :src="'/storage/' + props.img" :alt="props.first_name + ' ' + props.last_name" class="object-cover w-full h-full"/>
+        <img v-else :src="props.img.includes('http') ? props.img : '/storage/' + props.img" alt="avatar" class="object-cover w-full h-full"/>
     </div>
 </template>
 

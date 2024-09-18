@@ -7,10 +7,6 @@
                 </template>
 
                 <template #description>
-                    Inserisci
-                    {{ category === 'Cuffie' ? 'le' : 'i' }}
-                    <span class="lowercase">{{ category }}</span>
-                    della Sala.<br>
                     Puoi inserirli singolarmente oppure copiare un elenco di testo e incollarlo nella finestra che compare cliccando su "Aggiungi in massa".
                 </template>
 

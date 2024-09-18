@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Availability;
+use App\Models\BookingSetting;
 use App\Models\Studio\Contact;
 use App\Models\Studio\Location;
 use App\Models\Studio\Rule;
@@ -71,6 +72,7 @@ class RegisteredUserController extends Controller
             ]);
         }
 
+        BookingSetting::create(['studio_id' => $studio->id]);
         Location::create(['studio_id' => $studio->id]);
         Rule::create(['studio_id' => $studio->id]);
         Social::create(['studio_id' => $studio->id]);

@@ -117,6 +117,26 @@ const menuItemsStudio = [
         ]
     },
     {
+        icon: 'fa-solid fa-calendar-days',
+        text: 'Prenotazioni',
+        href: null,
+        active: route().current('bookings.*'),
+        subItems: [
+            {
+                icon: 'fa-solid fa-calendar-days',
+                text: 'Prenotazioni',
+                href: route('bookings.settings.edit'),
+                active: route().current('bookings.settings.edit')
+            },
+            {
+                icon: 'fa-solid fa-gears',
+                text: 'Impostazioni',
+                href: route('bookings.settings.edit'),
+                active: route().current('bookings.settings.edit')
+            },
+        ]
+    },
+    {
         icon: 'fa-solid fa-microphone-lines',
         text: 'Sale Studio',
         href: route('rooms.index'),

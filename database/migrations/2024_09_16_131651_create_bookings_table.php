@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('room_id')->constrained();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('room_id')->nullable()->constrained()->nullOnDeleteOnDelete();
+            $table->foreignId('user_id')->nullable()->constrained()->nullOnDeleteOnDelete();
             $table->dateTime('start');
             $table->unsignedTinyInteger('duration');
             $table->dateTime('end');

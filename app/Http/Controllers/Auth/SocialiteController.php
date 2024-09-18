@@ -21,39 +21,35 @@ class SocialiteController extends Controller
 
     public function callback(Request $request): RedirectResponse
     {
-        if (!$request->has('code')) return to_route('login.create');
+        if(!$request->has('code')) return to_route('login');
 
         $google_user = Socialite::driver('google')->user();
 
         //TODO: come gestire lo scollegamento dell'utente registrato con social login?
 
+        if(\Str::contains($google_user->getName(), ' ')){
+            $first_name = \Str::before($google_user->getName(), ' ');
+            $last_name = \Str::after($google_user->getName(), ' ');
+        } else {
+            $first_name = $google_user->getName();
+            $last_name = '';
+        }
+
         $user = User::updateOrCreate([
-            'email' => $google_user->email,
+            'email' => $google_user->getEmail(),
         ], [
-            'google_id' => $google_user->id,
+            'first_name' => $first_name,
+            'last_name' => $last_name,
+            'google_id' => $google_user->getId(),
             'google_token' => $google_user->token,
             'google_refresh_token' => $google_user->refreshToken,
+            'google_token_expires_in' => $google_user->expiresIn,
+            'avatar' => $google_user->getAvatar(),
             'role_id' => Role::STUDIO,
             'email_verified_at' => now()->toDateTimeString(),
             'tos' => true,
             'privacy' => true,
         ]);
-
-        // if(!$user->candidate){
-        //     if(\Str::contains($google_user->name, ' ')){
-        //         $first_name = \Str::before($google_user->name, ' ');
-        //         $last_name = \Str::after($google_user->name, ' ');
-        //     } else {
-        //         $first_name = $google_user->name;
-        //         $last_name = '';
-        //     }
-
-        //     Candidate::create([
-        //         'user_id' => $user->id,
-        //         'first_name' => $first_name,
-        //         'last_name' => $last_name,
-        //     ]);
-        // }
 
         Auth::login($user);
 

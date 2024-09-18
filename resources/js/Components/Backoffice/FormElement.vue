@@ -1,9 +1,9 @@
 <template>
-    <div class="grid grid-cols-1 pb-8 border-b border-slate-600 lg:border-slate-800 last-of-type:pb-0 lg:gap-8 lg:grid-cols-12 last-of-type:border-b-0">
+    <div class="grid grid-cols-1 pb-8 border-b border-slate-600 lg:border-slate-800 last-of-type:pb-0 lg:gap-12 lg:grid-cols-12 last-of-type:border-b-0">
         <div class="lg:col-span-5">
-            <h3 v-if="$slots.title" class="mb-1 text-base">
+            <h3 v-if="$slots.title" class="mb-1 text-sm">
                 <slot name="title" />
-                <span v-show="props.required" class="text-sm text-red-500">*</span>
+                <span v-show="props.optional">(opzionale)</span>
             </h3>
             <p v-if="$slots.description" class="text-sm text-slate-300/80">
                 <slot name="description" />
@@ -20,7 +20,7 @@
 
 <script setup>
 const props = defineProps({
-    required: {
+    optional: {
         type: Boolean,
         default: false
     }

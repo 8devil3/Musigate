@@ -16,8 +16,8 @@
             <!-- desktop -->
             <nav class="hidden md:gap-6 md:items-center md:justify-between md:flex">
                 <template v-if="!$page.props.auth.user">
-                    <Link :href="route('register.create')" class="uppercase link">Registra il tuo Studio</Link>
-                    <Link :href="route('login.create')" title="Accesso">
+                    <Link :href="route('register')" class="uppercase link">Registra il tuo Studio</Link>
+                    <Link :href="route('login')" title="Accesso">
                         <Avatar />
                     </Link>
                 </template>
@@ -28,7 +28,7 @@
 
             <!-- mobile -->
             <nav class="flex items-center gap-4 md:hidden">
-                <Link v-if="!$page.props.auth.user" :href="route('login.create')">
+                <Link v-if="!$page.props.auth.user" :href="route('login')">
                     <Avatar />
                 </Link>
                 

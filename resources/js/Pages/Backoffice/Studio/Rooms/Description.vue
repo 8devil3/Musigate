@@ -18,7 +18,7 @@
             <!-- / -->
 
             <!-- nome -->
-            <FormElement required>
+            <FormElement>
                 <template #title>
                     Nome
                 </template>
@@ -53,7 +53,7 @@
             <!-- / -->
 
             <!-- tipo -->
-            <FormElement required>
+            <FormElement>
                 <template #title>
                     Tipo
                 </template>
@@ -69,7 +69,7 @@
             <!-- / -->
 
             <!-- area -->
-            <FormElement required>
+            <FormElement>
                 <template #title>
                     Area
                 </template>
@@ -80,7 +80,7 @@
 
                 <template #content>
                     <div class="flex items-center gap-2">
-                        <NumberSpinner v-model.number="form.area" id="room-area" :min="1" :max="999" required />
+                        <NumberInput v-model.number="form.area" id="room-area" :min="1" :max="999" required />
                         mq
                     </div>
                 </template>
@@ -88,7 +88,7 @@
             <!-- / -->
 
             <!-- capienza -->
-            <FormElement required>
+            <FormElement>
                 <template #title>
                     Capienza massima
                 </template>
@@ -99,34 +99,15 @@
 
                 <template #content>
                     <div class="flex items-center gap-2">
-                        <NumberSpinner v-model.number="form.max_capacity" id="room-max-capacity" :min="1" :max="99" required />
+                        <NumberInput v-model.number="form.max_capacity" id="room-max-capacity" :min="1" :max="99" required />
                         persone
                     </div>
                 </template>
             </FormElement>
             <!-- / -->
 
-            <!-- prenotazione minima -->
-            <FormElement required>
-                <template #title>
-                    Prenotazione minima
-                </template>
-
-                <template #description>
-                    Inserisci la quantità di tempo minima prenotabile in ore.
-                </template>
-
-                <template #content>
-                    <div class="flex items-center gap-2">
-                        <NumberSpinner v-model.number="form.min_booking" id="room-min-booking" :min="1" :max="99" required />
-                        ore
-                    </div>
-                </template>
-            </FormElement>
-            <!-- / -->
-
             <!-- tariffa minima -->
-            <FormElement required>
+            <FormElement>
                 <template #title>
                     Tariffa minima
                 </template>
@@ -139,7 +120,7 @@
 
                 <template #content>
                     <div class="flex items-center gap-2">
-                        <NumberSpinner v-model.number="form.min_price" id="room-min-price" :min="0" :max="999" required />
+                        <NumberInput v-model.number="form.min_price" id="room-min-price" :min="0" :max="999" required />
                         €/h
                     </div>
                 </template>
@@ -147,7 +128,7 @@
             <!-- / -->
 
             <!-- presentazione -->
-            <FormElement required>
+            <FormElement>
                 <template #title>
                     Presentazione
                 </template>
@@ -157,7 +138,7 @@
                 </template>
 
                 <template #content>
-                    <Textarea v-model="form.desc" title="Presentazione" placeholder="Presentazione della Sala" :minlength="100" :error="form.errors.desc" class="w-full max-w-md"/>
+                    <Textarea v-model="form.description" title="Presentazione" placeholder="Presentazione della Sala" :minlength="100" :error="form.errors.desc" class="w-full max-w-md"/>
                 </template>
             </FormElement>
             <!-- / -->
@@ -179,7 +160,7 @@ import Select from '@/Components/Form/Select.vue';
 import Textarea from '@/Components/Form/Textarea.vue';
 import RoomStatus from '@/Components/Backoffice/RoomStatus.vue';
 import FormElement from '@/Components/Backoffice/FormElement.vue';
-import NumberSpinner from '@/Components/Form/NumberSpinner.vue';
+import NumberInput from '@/Components/Form/NumberInput.vue';
 
 const props = defineProps({
     room: Object,
@@ -191,9 +172,8 @@ const form = useForm({
     name: props.room.name,
     room_type_id: props.room.room_type_id,
     // color: props.room.color,
-    min_booking: props.room.min_booking,
     min_price: props.room.min_price,
-    desc: props.room.desc,
+    description: props.room.desc,
     area: props.room.area,
     max_capacity: props.room.max_capacity,
 });

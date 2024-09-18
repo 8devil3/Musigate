@@ -8,6 +8,14 @@ import { Loader } from '@googlemaps/js-api-loader';
 
 const props = defineProps({
     studios: Object,
+    lat: {
+        type: Number,
+        default: 42.94792427979087
+    },
+    lon: {
+        type: Number,
+        default: 12.591507400963922
+    },
     zoom: {
         type: Number,
         default: 5
@@ -18,7 +26,7 @@ const props = defineProps({
 const htmlMap = ref(null);
 
 const loader = new Loader({
-    apiKey: import.meta.env.VITE_GOOGLE_MAPS_GEOCODING_API_KEY,
+    apiKey: import.meta.env.VITE_GOOGLE_API_KEY,
     version: 'quarterly',
     libraries: ['maps', 'marker'],
     language: 'it',
@@ -28,8 +36,8 @@ const loader = new Loader({
 const options = {
     zoom: props.zoom,
     center: {
-        lat: 42.94792427979087,
-        lng: 12.591507400963922
+        lat: props.lat,
+        lng: props.lon
     },
     mapTypeIds: ['roadmap'],
     mapTypeControl: false,

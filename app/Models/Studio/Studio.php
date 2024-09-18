@@ -3,6 +3,7 @@
 namespace App\Models\Studio;
 
 use App\Models\Availability;
+use App\Models\BookingSetting;
 use App\Models\User;
 use App\Models\Room\Room;
 use Illuminate\Database\Eloquent\Model;
@@ -99,5 +100,10 @@ class Studio extends Model
     public function availability(): HasMany
     {
         return $this->hasMany(Availability::class);
+    }
+
+    public function booking_settings(): HasOne
+    {
+        return $this->hasOne(BookingSetting::class);
     }
 }

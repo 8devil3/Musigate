@@ -19,10 +19,9 @@ class Room extends Model
         'room_status_id',
         'name',
         'color', 7,
-        'min_booking',
         'min_price',
         'area',
-        'desc',
+        'description',
         'max_capacity',
     ];
 

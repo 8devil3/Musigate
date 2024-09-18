@@ -17,7 +17,7 @@ class RoomController extends Controller
     {
         $room_types = RoomType::pluck('name', 'id');
         $room_statuses = RoomStatus::pluck('name', 'id');
-        $rooms = auth()->user()->studio->rooms()->get()->toArray();
+        $rooms = auth()->user()->studio->rooms()->get();
 
         return Inertia::render('Backoffice/Studio/Rooms/Index', compact('rooms', 'room_types', 'room_statuses'));
     }

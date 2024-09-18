@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('availabilities', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('studio_id')->constrained();
+            $table->foreignId('studio_id')->constrained()->cascadeOnDelete();
             $table->unsignedTinyInteger('weekday'); // 1 = lunedì
             $table->time('start')->nullable();
             $table->time('end')->nullable();

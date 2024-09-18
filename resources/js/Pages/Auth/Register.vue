@@ -4,7 +4,7 @@
             <h1 class="text-lg uppercase md:text-xl font-lemon">Registra il tuo Studio</h1>
             <h2 class="m-0 text-sm md:text-base font-lemon">
                 Già registrato?
-                <Link :href="route('login.create')" class="text-orange-500 hover:text-orange-400">
+                <Link :href="route('login')" class="text-orange-500 hover:text-orange-400">
                     Accedi
                 </Link>
             </h2>
@@ -102,7 +102,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post(route('register.store'), {
+    form.post(route('register'), {
         onFinish: () => form.reset('password', 'password_confirmation'),
     });
 };

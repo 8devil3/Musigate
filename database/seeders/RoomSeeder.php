@@ -26,10 +26,9 @@ class RoomSeeder extends Seeder
                     'room_status_id' => 4,
                     'name' => 'Sala ' . fake()->word(),
                     'color' => fake()->hexColor(),
-                    'min_booking' => rand(2, 8),
                     'min_price' => rand(0,80),
                     'area' => rand(10, 50),
-                    'desc' => fake()->paragraphs(2, true),
+                    'description' => fake()->paragraphs(2, true),
                     'max_capacity' => rand(2, 6),
                 ]);
             }

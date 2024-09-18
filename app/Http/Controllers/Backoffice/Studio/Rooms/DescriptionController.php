@@ -27,11 +27,10 @@ class DescriptionController extends Controller
             'name' => 'required|string|max:255',
             'room_type_id' => 'required|exists:room_types,id',
             // 'color' => 'required|string|starts_with:#|size:7',
-            'min_booking' => 'required|int|min:1|max:99',
             'min_price' => 'required|int|min:0|max:999',
             'area' => 'required|int|min:1|max:999',
             'max_capacity' => 'required|min:1|max:99',
-            'desc' => 'required|string|min:100',
+            'description' => 'required|string|min:100',
         ]);
 
         $room->update($request->toArray() + ['room_status_id' => 2]);
