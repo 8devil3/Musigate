@@ -42,7 +42,7 @@
                 <template #content>
                     <div class="flex items-center gap-3">
                         <NumberInput v-model.number="form.booking_advance" :error="form.errors.booking_advance" :min="0" :max="form.max_booking_horizon -1" required class="w-32" />
-                        {{ form.booking_advance === 1 ? 'ora' : 'ore' }}
+                        {{ form.booking_advance === 1 ? 'giorno' : 'giorni' }}
                     </div>
                 </template>
             </FormElement>
