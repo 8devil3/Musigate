@@ -129,13 +129,13 @@ const hours = computed(()=>{
 });
 
 const weekdays = {
-    1: 'Lunedì',
-    2: 'Martedì',
-    3: 'Mercoledì',
-    4: 'Giovedì',
-    5: 'Venerdì',
-    6: 'Sabato',
-    7: 'Domenica',
+    0: 'Lunedì',
+    1: 'Martedì',
+    2: 'Mercoledì',
+    3: 'Giovedì',
+    4: 'Venerdì',
+    5: 'Sabato',
+    6: 'Domenica',
 };
 
 </script>

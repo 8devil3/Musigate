@@ -18,6 +18,11 @@
         "vue": "^3.4.0"
     },
     "dependencies": {
+        "@fullcalendar/core": "^6.1.15",
+        "@fullcalendar/daygrid": "^6.1.15",
+        "@fullcalendar/interaction": "^6.1.15",
+        "@fullcalendar/timegrid": "^6.1.15",
+        "@fullcalendar/vue3": "^6.1.15",
         "@googlemaps/js-api-loader": "^1.16.2",
         "@headlessui/tailwindcss": "^0.2.0",
         "@headlessui/vue": "^1.7.15",

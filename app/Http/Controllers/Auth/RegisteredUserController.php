@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\Availability;
+use App\Models\Studio\Availability;
 use App\Models\BookingSetting;
 use App\Models\Studio\Contact;
 use App\Models\Studio\Location;

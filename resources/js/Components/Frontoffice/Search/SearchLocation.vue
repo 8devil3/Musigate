@@ -1,42 +1,54 @@
 <template>
-    <Combobox as="div" v-model="vModel" class="relative font-sans">
-        <ComboboxInput type="search" placeholder="Digita una località" 
-        :displayValue="(location) => location.comune" @input="query = $event.target.value" :class="[commonClasses.input, 'pl-8']" required autocomplete="off" />
-
-        <div class="absolute inset-y-0 flex items-center left-4">
-            <i class="mr-1 text-[12px] fa-solid fa-location-dot"></i>
-        </div>
-        
-        <transition
-            enter-active-class="transition duration-100 ease-out"
-            enter-from-class="transform scale-95 opacity-0"
-            enter-to-class="transform scale-100 opacity-100"
-            leave-active-class="transition duration-75 ease-in"
-            leave-from-class="transform scale-100 opacity-100"
-            leave-to-class="transform scale-95 opacity-0"
-        >
-            <ComboboxOptions as="div" v-if="filterLocations && filterLocations.length" class="absolute inset-x-0 z-40 h-64 mt-2 overflow-hidden text-sm origin-top-right bg-gray-800 border border-gray-600 rounded-lg shadow-lg ring-1 ring-orange-500 ring-opacity-5 focus:outline-none">
-                <ul class="h-full overflow-y-auto">
-                    <ComboboxOption as="li" v-for="location, id in filterLimited" :key="id" :value="location" class="flex items-center w-full gap-2 px-4 py-2 text-gray-300 truncate transition-colors cursor-pointer hover:bg-orange-500 hover:text-white ui-active:bg-orange-500 ui-active:text-white">
-                        <i class="text-xs fa-solid fa-location-dot"></i>
-                        {{ location.comune }}
-                        ({{ location.sigla_prov }})
-                    </ComboboxOption>
-                    
-                    <button type="button" v-if="arrayLimit < filterLocations.length" @click="loadMore()" class="flex items-center w-full gap-2 px-4 py-2 italic text-orange-500 truncate transition-colors hover:bg-orange-500 hover:text-white">
-                        ...carica altre località
-                    </button>
-                </ul>
-            </ComboboxOptions>
-        </transition>
-    </Combobox>
+    <div>
+        <Label for="search-location" :label="props.label" />
+        <Combobox as="div" id="search-location" v-model="vModel" class="relative font-sans">
+            <ComboboxInput type="search" placeholder="Digita una località" 
+            :displayValue="(location) => location.comune" @input="query = $event.target.value" :class="[commonClasses.input, 'pl-8']" autocomplete="off" :required="props.required" />
+    
+            <div class="absolute inset-y-0 flex items-center left-4">
+                <i class="mr-1 text-[12px] fa-solid fa-location-dot"></i>
+            </div>
+            
+            <transition
+                enter-active-class="transition duration-100 ease-out"
+                enter-from-class="transform scale-95 opacity-0"
+                enter-to-class="transform scale-100 opacity-100"
+                leave-active-class="transition duration-75 ease-in"
+                leave-from-class="transform scale-100 opacity-100"
+                leave-to-class="transform scale-95 opacity-0"
+            >
+                <ComboboxOptions as="div" v-if="filterLocations && filterLocations.length" class="absolute inset-x-0 z-40 h-64 mt-2 overflow-hidden text-sm origin-top-right border rounded-lg shadow-lg bg-slate-800 border-slate-600 ring-1 ring-orange-500 ring-opacity-5 focus:outline-none">
+                    <ul class="h-full overflow-y-auto">
+                        <ComboboxOption as="li" v-for="location, id in filterLimited" :key="id" :value="location" class="flex items-center w-full gap-2 px-4 py-2 truncate transition-colors cursor-pointer text-slate-300 hover:bg-orange-500 hover:text-white ui-active:bg-orange-500 ui-active:text-white">
+                            <i class="text-xs fa-solid fa-location-dot"></i>
+                            {{ location.comune }}
+                            ({{ location.sigla_prov }})
+                        </ComboboxOption>
+                        
+                        <button type="button" v-if="arrayLimit < filterLocations.length" @click="loadMore()" class="flex items-center w-full gap-2 px-4 py-2 italic text-orange-500 truncate transition-colors hover:bg-orange-500 hover:text-white">
+                            ...carica altre località
+                        </button>
+                    </ul>
+                </ComboboxOptions>
+            </transition>
+        </Combobox>
+    </div>
 </template>
 
 <script setup>
 import { ref, computed } from "vue";
 import locations from './locations.json';
 import commonClasses from '@/Components/Form/commonClasses.json';
+import Label from "@/Components/Form/Label.vue";
 import { Combobox, ComboboxInput, ComboboxOptions, ComboboxOption } from '@headlessui/vue';
+
+const props = defineProps({
+    label: String,
+    required: {
+        type: Boolean,
+        default: true
+    }
+});
 
 const query = ref('');
 const vModel = defineModel();

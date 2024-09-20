@@ -2,7 +2,7 @@
 
 namespace App\Models\Studio;
 
-use App\Models\Availability;
+use App\Models\Studio\Availability;
 use App\Models\BookingSetting;
 use App\Models\User;
 use App\Models\Room\Room;

@@ -57,15 +57,15 @@
 
 html,
 body {
-    --fc-border-color: #374151; /* Fullcalendar border */
+    --fc-border-color: #1e293b; /* Fullcalendar border */
     scroll-behavior: smooth;
 }
 
-#app {
+/* #app {
     height: 100vh;
     height: 100dvh;
     @apply flex flex-col bg-[url(/public/img/banner_home.jpg)] bg-center overflow-y-auto scroll-smooth bg-no-repeat scroll-pt-14 md:scroll-pt-16 bg-cover;
-}
+} */
 
 .link {
     @apply text-white transition-colors hover:text-orange-500;

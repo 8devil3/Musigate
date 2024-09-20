@@ -1,6 +1,6 @@
 <template>
-  <footer class="p-4 font-sans text-sm leading-none md:p-6">
-        <div class="border-t md:border-0 mx-auto gap-8 border-gray-600 flex flex-col max-w-[1536px] md:flex-row items-center justify-between pt-4">
+  <footer class="p-4 font-sans text-sm leading-none">
+        <div class="border-t md:border-0 mx-auto gap-8 border-gray-600 flex flex-col max-w-[1536px] md:flex-row items-center justify-between">
             <!-- copyright -->
             <div class="flex flex-col items-center text-center gap-x-2 gap-y-3 md:flex-row md:text-left">
                 <span>

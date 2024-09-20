@@ -51,7 +51,7 @@
             <!-- periodo max prenotazione -->
             <FormElement>
                 <template #title>
-                    Orizzonte temporale
+                    Finestra temporale
                 </template>
 
                 <template #description>

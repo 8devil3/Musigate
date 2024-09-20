@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('studio_id')->constrained()->cascadeOnDelete();
+            $table->boolean('is_confirmation_required')->default(false);
             $table->unsignedTinyInteger('min_booking')->default(2); // prenotazione minima, espressa in ore
             $table->unsignedTinyInteger('booking_advance')->default(1); // preavviso, espresso in giorni
             $table->unsignedSmallInteger('max_booking_horizon')->default(60); // periodo massimo in cui un utente può prenotare nel futuro, espresso in giorni

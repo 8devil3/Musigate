@@ -59,7 +59,7 @@
 
             <div class="flex justify-between gap-2">
                 <ShowAll @click="openModalRoom = true" text="Dettagli Sala" />
-                <Button type="router" :href="route('booking.create', props.room.id)" text="Prenota" icon="fa-solid fa-calendar-days" />
+                <Button type="submit" @click="emit('selectRoom', props.room.id)" text="Prenota" icon="fa-solid fa-calendar-days" />
             </div>
         </div>
     </article>
@@ -143,6 +143,8 @@ const props = defineProps({
 });
 
 const openModalRoom = ref(false);
+
+const emit = defineEmits(['selectRoom'])
 
 const roomImgs = computed(()=>{
     let imgs = props.room.photos.sort(photo => photo.is_featured ? -1 : 1).map(photo => photo.path).flat();

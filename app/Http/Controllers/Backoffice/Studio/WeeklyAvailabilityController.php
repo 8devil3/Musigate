@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Backoffice\Studio;
 
 use App\Http\Controllers\Controller;
-use App\Models\Availability;
+use App\Models\Studio\Availability;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;

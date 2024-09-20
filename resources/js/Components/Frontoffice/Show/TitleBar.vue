@@ -46,16 +46,7 @@
             <div class="flex items-start gap-2">
                 <i class="w-4 text-base text-orange-500 fa-solid fa-location-dot"></i>
                 <address class="text-sm capitalize md:text-base">
-                    <div>
-                        {{ props.studio.location.address }}
-                        {{ props.studio.location.number ? ', ' + props.studio.location.number : '' }}
-                    </div>
-                    <div>
-                        {{ props.studio.location.cap }} {{ props.studio.location.city }}
-                    </div>
-                    <div>
-                        {{ props.studio.location.province }}
-                    </div>
+                    {{ props.studio.location.city }}
                 </address>
             </div>
             <!-- indirizzo -->

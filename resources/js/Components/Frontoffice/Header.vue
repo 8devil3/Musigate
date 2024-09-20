@@ -1,9 +1,9 @@
 <template>
-    <header class="p-4 md:p-6">
-        <div class="flex items-center justify-between w-full mx-auto text-sm tracking-wide font-lemon max-w-[1536px]">
+    <header class="px-4 py-3 lg:px-6" :class="{'bg-slate-950/80 border-b border-slate-700': !route().current('home')}">
+        <div class="flex items-center justify-between w-full mx-auto text-sm tracking-wide font-lemon">
             <!-- logo -->
             <Link :href="route('home')" class="shrink-0">
-                <img src="/img/logo/logo_horizontal.svg" alt="Musigate logo" class="hidden md:block md:h-7">
+                <img src="/img/logo/logo_horizontal.svg" alt="Musigate logo" class="hidden md:block md:h-5">
                 <img src="/img/logo/logo_mobile.svg" alt="Musigate logo" class="h-6 md:hidden">
             </Link>
             <!-- / -->

@@ -23,17 +23,24 @@ class BookingController extends Controller
 
     public function create(Request $request, Room $room): Response
     {
-        $request_date = $request->date ?? now()->toDateString();
-
         $closing_weekdays = $room->studio->availability()
         ->where('is_open', false)
         ->pluck('weekday')
         ->map(function($wd){
-            if($wd === 7) return 0;
-            return $wd;
+            $wd++;
+            if($wd === 7) return $wd = 0;
         });
 
+        if(!empty($request->toArray())){
+            session()->put('request', $request->toArray());
+            $request = session('request');
+        }
+
+        $availability = $room->studio->availability()->get(['weekday', 'start', 'end', 'is_open'])->toArray();
+
         $booking_settings = $room->studio->booking_settings;
+
+        $bookings = $room->bookings()->get(['start', 'end']);
 
         $google_events = collect([]);
 
@@ -41,36 +48,25 @@ class BookingController extends Controller
             $google_events = Event::get(calendarId: $booking_settings->google_calendar_id)->map(function($event){
                 return [
                     'start' => Carbon::parse($event->googleEvent->start->dateTime)->toDateTimeString(),
-                    'duration' => Carbon::parse($event->googleEvent->start->dateTime)->diffInHours(Carbon::parse($event->googleEvent->end->dateTime)),
                     'end' => Carbon::parse($event->googleEvent->end->dateTime)->toDateTimeString(),
                 ];
-            })->filter(function($event) use($request_date): bool {
-                return Carbon::parse($event['start'])->timezone('Europe/Rome')->startOfDay()
-                    ->equalTo(Carbon::parse($request_date)->startOfDay());
             });
         }
 
-        //TODO: come integro le pause tra le prenotazioni?
-        $merged_booking = $google_events->merge($room->bookings()->get(['start', 'duration', 'end']))->map(function($event) use($booking_settings){
-            if($booking_settings->has_buffer && $booking_settings->buffer > 60){
-                return [
-                    'start' => Carbon::parse($event['start'])->toDateTimeString(),
-                    'duration' => $event['duration'],
-                    'end' => Carbon::parse($event['end'])->addMinutes($booking_settings->buffer)->toDateTimeString(),
-                ];
-            } else {
-                return $event;
-            }
-        })->toArray();
+        $events = $google_events->merge($bookings)->map(function($event){
+            return [
+                'title' => 'Occupato',
+                'start' => $event->start,
+                'end' => $event->end,
+            ];
+        });
 
-        $slots = TimeSlotService::generate($room, $merged_booking, $request_date);
-
-        return Inertia::render('Frontoffice/Booking/Create', compact('room', 'slots', 'booking_settings', 'closing_weekdays', 'request_date'));
+        return Inertia::render('Frontoffice/Booking/Create', compact('events', 'room', 'availability', 'booking_settings', 'closing_weekdays', 'request'));
     }
 
     public function store(Request $request): RedirectResponse
     {
-        dd(Carbon::parse($request->date)->toDateTimeString());       
+        dd(Carbon::parse($request->start)->toDateTimeString(), Carbon::parse($request->end)->toDateTimeString(), $request->duration);
 
         return to_route('');
     }

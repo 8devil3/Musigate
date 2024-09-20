@@ -1,10 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Studio;
 
-use Carbon\Carbon;
 use App\Models\Studio\Studio;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
