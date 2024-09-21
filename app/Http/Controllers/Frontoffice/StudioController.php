@@ -34,10 +34,6 @@ class StudioController extends Controller
             ->when(request('name', null), function ($query){
                 $query->whereLike('name', '%' . request('name', null) . '%');
             })
-            // ->whereHas('rooms.bookings', function($query){
-            //     $query->whereNotBetween('start', [Carbon::parse(request('date') . 'T' . request('time'))->toDateTimeString(), Carbon::parse(request('date') . 'T' . request('time'))->addHours(intval(request('duration')))->toDateTimeString()])
-            //     ->whereNotBetween('end', [Carbon::parse(request('date') . 'T' . request('time'))->toDateTimeString(), Carbon::parse(request('date') . 'T' . request('time'))->addHours(intval(request('duration')))->toDateTimeString()]);
-            // })
             // ->when(request('services', []), function ($query){
             //     $query->whereHas('services', function($query){
             //         $query->whereIn('services.id', request('services', []));

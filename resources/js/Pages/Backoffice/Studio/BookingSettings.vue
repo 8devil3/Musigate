@@ -16,7 +16,7 @@
                 </template>
 
                 <template #description>
-                    Inserisci il tempo minimo di prenotazione, espresso in ore.
+                    Inserisci la durata minima di prenotazione, espressa in ore.
                 </template>
 
                 <template #content>
@@ -31,12 +31,12 @@
             <!-- Anticipo -->
             <FormElement>
                 <template #title>
-                    Anticipo
+                    Preavviso
                 </template>
 
                 <template #description>
-                    Inserisci il periodo minimo di anticipo per prenotare, espresso in giorni.<br>
-                    Esempio: 1 giorno indica che un artista deve prenotare minimo il giorno prima della sessione.
+                    Inserisci il periodo minimo di preavviso per prenotare, espresso in giorni.<br>
+                    Esempio: 1 giorno indica che un artista deve prenotare minimo un giorno prima della sessione.
                 </template>
 
                 <template #content>
@@ -55,7 +55,7 @@
                 </template>
 
                 <template #description>
-                    Inserisci il periodo massimo futuro di prenotazione, espresso in giorni. Rappresenta la finestra temporale nel futuro in cui un artista può prenotare.<br>
+                    Inserisci il periodo massimo futuro di prenotazione, espresso in giorni. Rappresenta la finestra temporale in cui un artista può prenotare.<br>
                     Esempio: 60 giorni indica che un artista può prenotare fino al sessantesimo giorno a partire da oggi.
                 </template>
 
@@ -75,16 +75,28 @@
                 </template>
 
                 <template #description>
-                    Abilita/disablita le pause tra le sessioni. Il valore della pausa è espresso in minuti.
+                    Abilita/disabilita le pause di 30 minuti tra le sessioni.<br>
+                    Se abilitata, verrà attivata automaticamente anche l'impostazione <strong>Durate frazionate</strong>
                 </template>
 
                 <template #content>
-                    <Toggle v-model="form.has_buffer" :label="form.has_buffer ? 'Pause abilitate' : 'Pause disabilitate'" />
+                    <Toggle v-model="form.has_buffer" @click="forceAllowFractionlDurations()" :label="form.has_buffer ? 'Pause abilitate' : 'Pause disabilitate'" />
+                </template>
+            </FormElement>
+            <!-- / -->
 
-                    <div v-if="form.has_buffer" class="flex items-center gap-3 mt-4">
-                        <NumberInput v-model.number="form.buffer" :error="form.errors.buffer" :min="5" :max="60" required class="w-32" />
-                        minuti
-                    </div>
+            <!-- durate frazionate -->
+            <FormElement>
+                <template #title>
+                    Durate frazionate
+                </template>
+
+                <template #description>
+                    Abilita/disabilita la possibilità di prenotare durate frazionate di 30 minuti, per esempio 2,5 ore dalle 14:00 alle 16:30.
+                </template>
+
+                <template #content>
+                    <Toggle v-model="form.allow_fractional_durations" :label="form.allow_fractional_durations ? 'Durate frazionate abilitate' : 'Durate frazionate disabilitate'" :disabled="form.has_buffer" />
                 </template>
             </FormElement>
             <!-- / -->
@@ -99,7 +111,7 @@
                     Abilita/disablita la sincronizzazione con un calendario Google. Abilitandola potrai scegliere tra due modalità: <strong>unidirezionale</strong> o <strong>bidirezionale</strong>.<br><br>
                     Se <strong>unidirezionale</strong> Musigate scaricherà semplicamente gli eventi dal calendario prescelto.<br><br>
                     Se <strong>bidirezionale</strong> Musigate, oltra a scaricare gli event, potrà anche crearli nel calendario prescelto.<br><br>
-                    Per abilitare la sincronizzazione devi affettuare l'accesso con un account Google.
+                    Per abilitare la sincronizzazione devi affettuare l'accesso con Google.
                 </template>
 
                 <template #content>
@@ -108,7 +120,7 @@
                             <Toggle v-model="form.has_sync" :disabled="!props.google_token" :label="form.has_sync ? 'Sincronizzazione abilitata' : 'Sincronizzazione disabilitata'" />
 
                             <div v-if="!props.google_token" class="text-sm text-red-500">
-                                Devi accedere con un account Google per abilitare la sincronizzazione.<br>
+                                Devi accedere con Google per abilitare la sincronizzazione.<br>
                                 Effettua il log out e accedi con Google.
                             </div>
                         </div>
@@ -149,14 +161,22 @@ const form = useForm({
     booking_advance: props.booking_settings.booking_advance,
     max_booking_horizon: props.booking_settings.max_booking_horizon,
     has_buffer: props.booking_settings.has_buffer,
-    buffer: props.booking_settings.buffer ?? 30,
+    buffer: props.booking_settings.buffer,
+    allow_fractional_durations: props.booking_settings.allow_fractional_durations,
     has_sync: props.booking_settings.has_sync,
     sync_mode: props.booking_settings.sync_mode ?? '',
     google_calendar_id: props.booking_settings.google_calendar_id ?? '',
 });
 
+const forceAllowFractionlDurations = ()=>{
+    if(form.has_buffer) form.allow_fractional_durations = true;
+};
+
 const submit = () => {
     if(form.processing) return;
+
+    if(form.has_buffer) form.allow_fractional_durations = true;
+
     form.put(route('bookings.settings.update'));
 };
 

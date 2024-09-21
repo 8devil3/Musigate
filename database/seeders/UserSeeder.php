@@ -27,9 +27,20 @@ class UserSeeder extends Seeder
             ],
             [
                 'role_id' => 2,
+                'first_name' => '8',
+                'last_name' => 'Devil',
+                'email' => '8dev.il3@gmail.com',
+                'email_verified_at' => now()->subDay(),
+                'password' => bcrypt('qwertyuiop'),
+                'avatar' => Storage::disk('public')->putFile('users/user-2/avatar/', FakerImage::image(null, 240, 240)),
+                'tos' => true,
+                'privacy' => true
+            ],
+            [
+                'role_id' => 2,
                 'first_name' => 'Gigi',
                 'last_name' => 'Rossi',
-                'email' => '8dev.il3@gmail.com',
+                'email' => 'gigirossi@gmail.com',
                 'email_verified_at' => now()->subDay(),
                 'password' => bcrypt('qwertyuiop'),
                 'avatar' => Storage::disk('public')->putFile('users/user-2/avatar/', FakerImage::image(null, 240, 240)),
