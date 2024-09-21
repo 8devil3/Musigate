@@ -56,8 +56,8 @@ class BookingController extends Controller
             $google_events = Event::get(calendarId: $booking_settings->google_calendar_id)->map(function($event){
                 return [
                     'title' => 'Occupato',
-                    'start' => Carbon::parse($event->googleEvent->start->dateTime)->toDateTimeString(),
-                    'end' => Carbon::parse($event->googleEvent->end->dateTime)->toDateTimeString(),
+                    'start' => Carbon::parse($event->googleEvent->start->dateTime)->setTimezone('Europe/Rome')->toDateTimeString(),
+                    'end' => Carbon::parse($event->googleEvent->end->dateTime)->setTimezone('Europe/Rome')->toDateTimeString(),
                     'borderColor' => '#b91c1c',
                     'backgroundColor' => '#450a0a',
                 ];

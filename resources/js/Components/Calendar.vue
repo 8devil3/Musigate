@@ -55,6 +55,7 @@ const calendarOptions = {
     firstDay: 1, // primo giorno della settimana: lunedì
     events: props.events,
     displayEventTime: true,
+    // timeZone: 'Europe/Rome',
     height: 600,
     eventDisplay: 'block',
     allDaySlot: false,

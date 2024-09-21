@@ -8,7 +8,7 @@
                 Annulla e torna allo Studio
             </Link>
 
-            <div class="flex w-full gap-12">
+            <div class="flex flex-wrap w-full gap-12">
                 <Calendar
                     :events="props.events"
                     :availability="props.availability"
@@ -32,10 +32,10 @@
                     <div v-if="form.start && form.end">
                         Data {{ dayjs(form.start).format('DD MMMM YYYY') }}<br>
                         Dalle ore {{ dayjs(form.start).format('HH:mm') }} alle ore {{ dayjs(form.end).format('HH:mm') }}<br>
-                        Durata {{ dayjs.duration(dayjs(form.end).diff(form.start)).asHours() === 1 ? dayjs.duration(dayjs(form.end).diff(form.start)).asHours() + ' ora' : dayjs.duration(dayjs(form.end).diff(form.start)).asHours().toString().replace('.', ',') + ' ore' }}
+                        Durata {{ bookingDuration === 1 ? bookingDuration + ' ora' : bookingDuration.toString().replace('.', ',') + ' ore' }}
                     </div>
 
-                    <Button type="submit" v-if="form.start && form.end && form.duration >= props.booking_settings.min_booking" text="Procedi al pagamento" icon="fa-solid fa-credit-card" />
+                    <Button type="submit" v-if="form.start && form.end && bookingDuration >= props.booking_settings.min_booking" text="Procedi al pagamento" icon="fa-solid fa-credit-card" />
                 </form>
             </div>
         </div>
@@ -48,6 +48,7 @@ import Button from '@/Components/Form/Button.vue';
 import Calendar from '@/Components/Calendar.vue';
 import dayjs from "dayjs";
 import duration from 'dayjs/plugin/duration';
+import { computed } from 'vue';
 
 dayjs.extend(duration);
 
@@ -62,19 +63,21 @@ const props = defineProps({
 const form = useForm({
     start: null,
     end: null,
-    duration: null,
+});
+
+const bookingDuration = computed(()=>{
+    if(form.start && form.end) return dayjs.duration(dayjs(form.end).diff(form.start)).asHours();
 });
 
 const selectedDateTime = (e)=>{
     if(e.start && e.end){
         form.start = e.start;
         form.end = e.end;
-        form.duration = dayjs(form.end).diff(form.start, 'hours');
     }
 };
 
 const submit = ()=>{
-    if(form.processing || !form.start || !form.start) return;
+    if(form.processing || !form.start || !form.end) return;
     form.post(route('booking.store'));
 };
 
