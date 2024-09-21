@@ -12,6 +12,10 @@
                 <Calendar
                     :events="props.events"
                     :availability="props.availability"
+                    :has_buffer="props.booking_settings.has_buffer"
+                    :allow_fractional_durations="props.booking_settings.allow_fractional_durations"
+                    :min_booking="props.booking_settings.min_booking"
+                    :maxBookingHorizon="props.booking_settings.maxBookingHorizon"
                     @selected="selectedDateTime"
                     @unselected="form.reset()"
                     class="grow"
@@ -21,10 +25,14 @@
                     <h1>{{ props.room.studio.name }}</h1>
                     <h2>{{ props.room.name }}</h2>
 
+                    <div>
+                        Prenotazione minima {{ props.booking_settings.min_booking === 1 ? props.booking_settings.min_booking + ' ora' : props.booking_settings.min_booking + ' ore' }}
+                    </div>
+
                     <div v-if="form.start && form.end">
                         Data {{ dayjs(form.start).format('DD MMMM YYYY') }}<br>
                         Dalle ore {{ dayjs(form.start).format('HH:mm') }} alle ore {{ dayjs(form.end).format('HH:mm') }}<br>
-                        Durata {{ dayjs(form.end).diff(form.start, 'hours') === 1 ? dayjs(form.end).diff(form.start, 'hours') + ' ora' : dayjs(form.end).diff(form.start, 'hours') + ' ore' }}
+                        Durata {{ dayjs.duration(dayjs(form.end).diff(form.start)).asHours() === 1 ? dayjs.duration(dayjs(form.end).diff(form.start)).asHours() + ' ora' : dayjs.duration(dayjs(form.end).diff(form.start)).asHours().toString().replace('.', ',') + ' ore' }}
                     </div>
 
                     <Button type="submit" v-if="form.start && form.end && form.duration >= props.booking_settings.min_booking" text="Procedi al pagamento" icon="fa-solid fa-credit-card" />
@@ -39,6 +47,9 @@ import { Link, useForm, Head } from '@inertiajs/vue3';
 import Button from '@/Components/Form/Button.vue';
 import Calendar from '@/Components/Calendar.vue';
 import dayjs from "dayjs";
+import duration from 'dayjs/plugin/duration';
+
+dayjs.extend(duration);
 
 const props = defineProps({
     events: Object,

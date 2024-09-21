@@ -40,26 +40,44 @@ class BookingController extends Controller
 
         $booking_settings = $room->studio->booking_settings;
 
-        $bookings = $room->bookings()->get(['start', 'end']);
+        $booking_events = $room->bookings()->get(['start', 'end'])->map(function($event){
+            return [
+                'title' => 'Occupato',
+                'start' => $event->start,
+                'end' => $event->end,
+                'borderColor' => '#b91c1c',
+                'backgroundColor' => '#450a0a',
+            ];
+        });
 
         $google_events = collect([]);
 
         if($booking_settings->google_calendar_id){
             $google_events = Event::get(calendarId: $booking_settings->google_calendar_id)->map(function($event){
                 return [
+                    'title' => 'Occupato',
                     'start' => Carbon::parse($event->googleEvent->start->dateTime)->toDateTimeString(),
                     'end' => Carbon::parse($event->googleEvent->end->dateTime)->toDateTimeString(),
+                    'borderColor' => '#b91c1c',
+                    'backgroundColor' => '#450a0a',
                 ];
             });
         }
 
-        $events = $google_events->merge($bookings)->map(function($event){
-            return [
-                'title' => 'Occupato',
-                'start' => $event->start,
-                'end' => $event->end,
-            ];
-        });
+        $buffer_events = collect([]);
+        if($booking_settings->has_buffer){
+            $buffer_events = $booking_events->merge($google_events)->map(function($event){
+                return [
+                    'title' => 'Pausa',
+                    'start' => $event['end'],
+                    'end' => Carbon::parse($event['end'])->addMinutes(30)->toDateTimeString(),
+                    'borderColor' => '#0891b2',
+                    'backgroundColor' => '#082f49',
+                ];
+            });
+        }
+
+        $events = $buffer_events->merge($google_events)->merge($booking_events);
 
         return Inertia::render('Frontoffice/Booking/Create', compact('events', 'room', 'availability', 'booking_settings', 'closing_weekdays', 'request'));
     }

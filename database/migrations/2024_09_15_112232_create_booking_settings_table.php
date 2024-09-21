@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedTinyInteger('min_booking')->default(2); // prenotazione minima, espressa in ore
             $table->unsignedTinyInteger('booking_advance')->default(1); // preavviso, espresso in giorni
             $table->unsignedSmallInteger('max_booking_horizon')->default(60); // periodo massimo in cui un utente può prenotare nel futuro, espresso in giorni
+            $table->boolean('allow_fractional_durations')->default(false); // indica se accettare durate di prenotazione frazionate, esempio: prenotazione di 2,5 ore
             $table->boolean('has_buffer')->default(false);
             $table->unsignedTinyInteger('buffer')->nullable(); // pausa tra una prenotazione e l'altra, espressa in minuti
             $table->boolean('has_sync')->default(false); // sincronizzazione calendari attiva/disattiva

@@ -59,7 +59,7 @@
 
             <div class="flex justify-between gap-2">
                 <ShowAll @click="openModalRoom = true" text="Dettagli Sala" />
-                <Button type="submit" @click="emit('selectRoom', props.room.id)" text="Prenota" icon="fa-solid fa-calendar-days" />
+                <Button type="router" :href="route('booking.create', props.room.id)" text="Prenota" icon="fa-solid fa-calendar-days" />
             </div>
         </div>
     </article>

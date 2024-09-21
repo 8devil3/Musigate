@@ -9,7 +9,7 @@
         <!-- / -->
 
         <!-- contenuto -->
-        <form @submit.prevent="submit()" class="w-full gap-16 px-4 mx-auto max-w-7xl md:flex md:items-start">
+        <div class="w-full max-w-6xl gap-16 px-4 mx-auto md:flex md:items-start">
             <!-- sezioni -->
             <div class="py-8 space-y-20 lg:py-12 md:grow">
                 <TitleBar :studio="props.studio" :user="props.user" :request="props.request" />
@@ -240,14 +240,14 @@
             </div> -->
             <!-- / -->
 
-            <div class="sticky flex-col hidden w-48 gap-4 p-4 text-center border-b border-slate-700 border-x rounded-b-3xl lg:flex top-12 shrink-0">
+            <!-- <div class="sticky flex-col hidden w-48 gap-4 p-4 text-center border-b border-slate-700 border-x rounded-b-3xl lg:flex top-12 shrink-0">
                 <h4 class="p-0 m-0">Prenotazione</h4>
                 <hr class="h-0 border-t border-orange-500">
                 <Input type="date" v-model="form.date" label="Data" required />
                 <Input type="time" v-model="form.time" label="Ora" :step="3600" required />
                 <NumberInput v-model="form.duration" label="Durata (ore)" :min="props.booking_settings.min_booking" :max="8" required />
-            </div>
-        </form>
+            </div> -->
+        </div>
         <!-- / -->
     </FrontofficeLayout>
 
@@ -337,18 +337,6 @@ const openRulesModal = ref(false);
 const openServicesModal = ref(false);
 const openComfortsModal = ref(false);
 const openContactsModal = ref(false);
-
-const form = useForm({
-    date: props.request.date ?? dayjs().format('YYYY-MM-DD'),
-    time: props.request.time ?? dayjs().minute(0).format('HH:mm'),
-    duration: props.request.duration ?? props.booking_settings.min_booking,
-    location: props.request.location,
-});
-
-const submit = ()=>{
-    if(!roomId.value || form.processing) return;
-    form.get(route('booking.create', roomId.value));
-};
 
 //pulsante torna su
 const scrollToTop = ()=>{

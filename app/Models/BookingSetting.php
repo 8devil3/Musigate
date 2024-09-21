@@ -13,6 +13,7 @@ class BookingSetting extends Model
         'min_booking',
         'booking_advance',
         'max_booking_horizon',
+        'allow_fractional_durations',
         'has_buffer',
         'buffer',
         'has_sync',
@@ -23,6 +24,7 @@ class BookingSetting extends Model
     protected $casts = [
         'has_buffer' => 'boolean',
         'has_sync' => 'boolean',
+        'allow_fractional_durations' => 'boolean'
     ];
 
     public function studio(): BelongsTo
