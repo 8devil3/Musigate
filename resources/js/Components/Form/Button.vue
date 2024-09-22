@@ -114,6 +114,10 @@ const colorClasses = computed(() => {
         case 'sky':
             classes = [props.outline ? 'bg-sky-500/20' : 'bg-sky-600', 'border-sky-600 hover:bg-sky-500 active:bg-sky-500 focus:ring-sky-500/50 transition-colors shadow-sky-500/30'];
         break;
+
+        case 'green':
+            classes = [props.outline ? 'bg-green-500/20' : 'bg-green-600', 'border-green-600 hover:bg-green-500 active:bg-green-500 focus:ring-green-500/50 transition-colors shadow-green-500/30'];
+        break;
     }
 
     return classes

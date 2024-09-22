@@ -8,6 +8,7 @@ use App\Models\Room\Room;
 use App\Services\GoogleCalendarAPIService;
 use App\Services\TimeSlotService;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -31,12 +32,14 @@ class BookingController extends Controller
             if($wd === 7) return $wd = 0;
         });
 
-        if(!empty($request->toArray())){
-            session()->put('request', $request->toArray());
-            $request = session('request');
-        }
+        // if(!empty($request->toArray())){
+        //     session()->put('request', $request->toArray());
+        //     $request = session('request');
+        // }
 
-        $availability = $room->studio->availability()->get(['weekday', 'start', 'end', 'is_open'])->toArray();
+        $room->load('photos');
+
+        $week_availability = $room->studio->availability()->get(['weekday', 'start', 'end', 'is_open']);
 
         $booking_settings = $room->studio->booking_settings;
 
@@ -79,7 +82,49 @@ class BookingController extends Controller
 
         $events = $buffer_events->merge($google_events)->merge($booking_events);
 
-        return Inertia::render('Frontoffice/Booking/Create', compact('events', 'room', 'availability', 'booking_settings', 'closing_weekdays', 'request'));
+        $slots = [];
+
+        if($request->startDate && Carbon::parse($request->startDate)->isAfter(now())){
+            $request_weekday = Carbon::parse($request->startDate)->dayOfWeekIso;
+            $availability = $room->studio->availability()->where('is_open', true)->where('weekday', $request_weekday);
+
+            if($availability->exists()){
+                $request_weekday_availability_start = $availability->first()->start;
+                $request_weekday_availability_end = $availability->first()->end;
+
+                $period_start = Carbon::parse($request->startDate . ' ' . $request_weekday_availability_start);
+                $period_end = Carbon::parse($request->startDate . ' ' . $request_weekday_availability_end)->subHours(intval($request->duration));
+    
+                $booking_events = $room->bookings()->whereDate('start', $request->startDate)->get(['start', 'end']);
+    
+                $periods = CarbonPeriod::create($period_start, '1 hour', $period_end)
+                    ->filter(function(Carbon $period) use($booking_events, $request): bool {
+                        $is_available = true;
+    
+                        $period_start = $period->toImmutable();
+                        $period_plus_duration = $period_start->addHours(intval($request->duration));
+    
+                        $request_period = CarbonPeriod::create($period_start, $period_plus_duration);
+    
+                        foreach ($booking_events as $event) {
+                            $event_period = CarbonPeriod::create($event->start, $event->end);
+    
+                            if($request_period->overlaps($event_period)){
+                                $is_available = false;
+                                break;
+                            }
+                        }
+    
+                        return $is_available;
+                    });
+    
+                foreach ($periods as $period) {
+                    $slots[] = $period->toDateTimeString();
+                }
+            }
+        }
+
+        return Inertia::render('Frontoffice/Booking/Create', compact('events', 'slots', 'room', 'week_availability', 'booking_settings', 'closing_weekdays', 'request'));
     }
 
     public function store(Request $request): RedirectResponse

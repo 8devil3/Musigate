@@ -1,5 +1,5 @@
 <template>
-    <div class="inline-flex flex-col items-start text-left">
+    <div class="p-0 m-0 text-left">
         <Label v-if="props.label" :label="props.label" :id="props.id ?? id" :required="props.required" />
 
         <div class="relative w-full">
@@ -21,10 +21,10 @@
                 :autofocus="props.autofocus"
                 :aria-label="props.label"
                 :aria-placeholder="props.placeholder"
-                :class="[classes, props.unit && 'pr-10', props.error && 'border-red-600 focus:ring-red-600/50 focus:border-red-600 focus:shadow-md focus:shadow-red-600']"
+                :class="[classes, props.unit && 'pr-10', props.error && 'border-red-600 bg-red-600/10 focus:ring-red-600/50 focus:border-red-600 focus:shadow-md focus:shadow-red-600']"
             >
 
-            <div class="absolute inset-y-0 flex items-center text-xs text-right text-slate-400 right-4">
+            <div v-if="props.unit" class="absolute inset-y-0 flex items-center text-xs text-right text-slate-400 right-4">
                 {{ props.unit }}
             </div>
         </div>

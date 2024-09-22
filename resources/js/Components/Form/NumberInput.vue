@@ -1,26 +1,29 @@
 <template>
-    <div class="inline-flex flex-col">
+    <div class="p-0 m-0 text-left">
         <Label v-if="props.label" :label="props.label" :for="props.id ?? id" />
 
-        <div class="flex items-center gap-1 bg-slate-800/50 border border-slate-400 rounded-full has-[:disabled]:cursor-not-allowed has-[:disabled]:border-slate-600 transition-colors has-[:disabled]:bg-slate-950 focus-within:ring-orange-500/50 focus-within:border-orange-500 focus-within:shadow-md focus-within:shadow-orange-500" :class="{'text-red-500 bg-red-600/10 border-red-600' : props.error}">
-            <button type="button" @click="down()" class="flex items-center justify-center w-8 h-8 text-orange-500 shrink-0 focus:ring-0">
+        <div class="flex items-center bg-slate-800/50 border border-slate-400 rounded-full has-[input:disabled]:cursor-not-allowed has-[input:disabled]:border-slate-700 transition-colorsfocus-within:ring-orange-500/50 focus-within:border-orange-500 focus-within:shadow-md focus-within:shadow-orange-500" :class="{'text-red-500 bg-red-600/10 border-red-600' : props.error}">
+            <button ref="downButton" type="button" @click="down()" :disabled="props.disabled || props.min >= vModel" class="flex items-center justify-center w-8 h-8 text-orange-500 shrink-0 focus:ring-0 disabled:opacity-50 disabled:cursor-not-allowed">
                 <i class="text-sm fa-solid fa-minus" />
             </button>
 
             <input
                 type="number"
-                :id="props.id ?? id"
+                @change="emit('change')"
+                @input="emit('input')"
                 v-model="vModel"
+                :id="props.id ?? id"
                 :min="props.min"
                 :max="props.max"
                 :step="props.step"
                 :unit="props.unit"
                 :required="props.required"
                 :error="props.error"
-                class="w-full h-8 p-0 m-0 text-sm text-center text-white bg-transparent border-0 focus:outline-none focus:ring-0"
+                :disabled="props.disabled"
+                class="w-full h-8 p-0 m-0 text-sm text-center text-white bg-transparent border-0 focus:outline-none focus:ring-0 disabled:cursor-not-allowed disabled:opacity-50"
             />
     
-            <button type="button" @click="up()" class="flex items-center justify-center w-8 h-8 text-orange-500 shrink-0 focus:ring-0">
+            <button ref="upButton" type="button" @click="up()" :disabled="props.disabled || props.max <= vModel" class="flex items-center justify-center w-8 h-8 text-orange-500 shrink-0 focus:ring-0 disabled:opacity-50 disabled:cursor-not-allowed">
                 <i class="text-sm fa-solid fa-plus" />
             </button>
         </div>
@@ -30,8 +33,8 @@
 </template>
 
 <script setup>
+import { computed, ref } from 'vue';
 import Label from '@/Components/Form/Label.vue';
-import { computed } from 'vue';
 
 const props = defineProps({
     label: String,
@@ -47,12 +50,18 @@ const props = defineProps({
         type: Number,
         default: 1
     },
+    disabled: Boolean,
     unit: String,
     required: Boolean,
     error: String,
 });
 
+const emit = defineEmits(['change', 'input']);
+
 const vModel = defineModel({default: 0});
+
+const upButton = ref(null);
+const downButton = ref(null);
 
 const up = ()=>{
     if(props.max <= vModel.value) return
@@ -62,6 +71,8 @@ const up = ()=>{
     number += props.step;
 
     vModel.value = number;
+
+    emit('change');
 }
 
 const down = ()=>{
@@ -72,10 +83,12 @@ const down = ()=>{
     number -= props.step;
 
     vModel.value = number;
+
+    emit('change');
 }
 
 const id = computed(()=>{
-    return 'numeric-input-' + Math.random() * 1000000000000;
+    return 'number-input-' + Math.random() * 1000000000000;
 });
 
 </script>

@@ -16,13 +16,13 @@ class AvailabilitySeeder extends Seeder
         $studios = Studio::get();
 
         foreach ($studios as $studio) {
-            for ($i = 0; $i <= 6; $i++){
+            for ($i = 1; $i <= 7; $i++){
                 Availability::create([
                     'studio_id' => $studio->id,
                     'weekday' => $i,
-                    'start' => $i === 0 ? null : '10:00',
-                    'end' => $i === 0 ? null : '23:00',
-                    'is_open' => $i === 0 ? false : true,
+                    'start' => $i === 7 ? null : '10:00',
+                    'end' => $i === 7 ? null : '23:00',
+                    'is_open' => $i === 7 ? false : true,
                 ]);
             }
         }
