@@ -1,11 +1,11 @@
 <template>
-    <FullCalendar ref="fullCalendarRef" :options="calendarOptions" />
+    <FullCalendar ref="fullCalendarRef" :options="calendarOptions" class="text-sm leading-tight" />
 </template>
 
 <script setup>
 import { ref, computed } from 'vue';
 import FullCalendar from '@fullcalendar/vue3';
-// import dayGridPlugin from '@fullcalendar/daygrid';
+import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import dayjs from 'dayjs';
@@ -22,7 +22,7 @@ const props = defineProps({
     maxBookingHorizon: Number,
 });
 
-const emits = defineEmits(['selected', 'unselected']);
+const emits = defineEmits(['eventClick', 'selected', 'unselected']);
 const fullCalendarRef = ref(null);
 
 const businessHours = computed(()=>{
@@ -44,8 +44,8 @@ const minMaxSlotTime = computed(()=>{
 });
 
 const calendarOptions = {
-    plugins: [ timeGridPlugin, interactionPlugin ],
-    initialView: 'timeGridWeek',
+    plugins: [ dayGridPlugin, timeGridPlugin, interactionPlugin ],
+    initialView: 'dayGridMonth',
     slotDuration: props.has_buffer || props.allow_fractional_durations ? '00:30:00' : '01:00:00',
     slotMinTime: minMaxSlotTime.value.min,
     slotMaxTime: minMaxSlotTime.value.max,
@@ -56,29 +56,57 @@ const calendarOptions = {
     events: props.events,
     displayEventTime: true,
     // timeZone: 'Europe/Rome',
-    height: 600,
+    height: 640,
     eventDisplay: 'block',
     allDaySlot: false,
     selectOverlap: false,
     selectMirror: true,
-    displayEventTime: false,
-    hiddenDays: props.availability.filter(item => !item.is_open).map(item => item.weekday),
-    businessHours: businessHours.value,
+    expandRows: true,
+    // hiddenDays: props.availability.filter(item => !item.is_open).map(item => item.weekday),
+    // businessHours: businessHours.value,
     selectConstraint: businessHours.value,
+    eventTimeFormat: {
+        hour: 'numeric',
+        minute: '2-digit',
+        omitZeroMinute: false,
+        meridiem: false,
+    },
     slotLabelFormat: {
         hour: 'numeric',
         minute: '2-digit',
         omitZeroMinute: false,
+        meridiem: false,
     },
-    // headerToolbar: {
-        // right: 'today prev,next',
-        // center: 'title',
-        // left: 'dayGridMonth,timeGridWeek', // buttons for switching between views
+    views: {
+        dayGrid: {
+            // options apply to dayGridMonth, dayGridWeek, and dayGridDay views
+            dayHeaderFormat: {
+                weekday: 'short',
+                omitCommas: true,
+            },
+        },
+        timeGrid: {
+            // options apply to timeGridWeek and timeGridDay views
+            dayHeaderFormat: {
+                weekday: 'short',
+                day: 'numeric',
+                omitCommas: true,
+            },
+        },
+    },
+    titleFormat: {
+        year: 'numeric',
+        month: 'long'
+    },
+    headerToolbar: {
+        right: 'today prev,next',
+        center: 'title',
+        left: 'dayGridMonth,timeGridWeek',
+    },
+    // validRange: {
+    //     start: dayjs().startOf('week').format('YYYY-MM-DD'),
+    //     end: dayjs().add(props.maxBookingHorizon, 'days').format('YYYY-MM-DD'),
     // },
-    validRange: {
-        start: dayjs().startOf('week').format('YYYY-MM-DD'),
-        end: dayjs().add(props.maxBookingHorizon, 'days').format('YYYY-MM-DD'),
-    },
     buttonText: {
         today: 'Oggi',
         month: 'Mese',
@@ -88,14 +116,15 @@ const calendarOptions = {
     dateClick: ()=>{
         fullCalendarRef.value.getApi().unselect(); // Annulla la selezione
     },
-    eventClick: ()=>{
-        fullCalendarRef.value.getApi().unselect(); // Annulla la selezione
+    eventClick: (eventClickInfo )=>{
+        emits('eventClick', eventClickInfo);
+        // fullCalendarRef.value.getApi().unselect(); // Annulla la selezione
     },
-    eventContent: (arg)=>{
-        if(arg.event.title === 'Pausa') return arg.event.title + ' 30 min';
-        else return dayjs(arg.event.start).format('HH:mm') + ' - ' + dayjs(arg.event.end).format('HH:mm');
-    },
-    selectable: true,
+    // eventContent: (arg)=>{
+    //     if(arg.event.title === 'Pausa') return arg.event.title + ' 30 min';
+    //     else return dayjs(arg.event.start).format('HH:mm') + ' - ' + dayjs(arg.event.end).format('HH:mm');
+    // },
+    selectable: false,
     selectConstraint: businessHours.value,
     selectMinDistance: 5,
     select: (info) =>{
@@ -124,18 +153,41 @@ const calendarOptions = {
 </script>
 
 <style>
+.fc-button {
+    @apply !rounded-full !px-3 !border-2;
+}
+
+.fc-toolbar-title {
+    @apply capitalize;
+}
+
+.fc-button-group {
+    @apply gap-2;
+}
+
 .fc-timegrid-slot {
-    padding: 8px 0 !important;
-    height: auto;
+    @apply !py-2 !px-0 h-auto;
+}
+
+.fc-event {
+    @apply cursor-pointer;
+}
+
+.fc-daygrid-event {
+    @apply !shadow-none rounded-full py-0.5 px-1.5;
 }
 
 .fc-timegrid-event {
-    box-shadow: none !important;
+    @apply !shadow-none rounded-lg p-1.5;
+
 }
 
-.fc-timegrid-event {
-    padding: 3px 6px;
-    border-radius: 12px;
+.fc-event-time {
+    @apply !font-medium;
+}
+
+.fc-col-header-cell {
+    @apply bg-slate-800
 }
 
 </style>

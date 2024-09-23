@@ -58,6 +58,15 @@
 html,
 body {
     --fc-border-color: #1e293b; /* Fullcalendar border */
+    --fc-today-bg-color: #ff7d2812;
+    --fc-button-text-color: #fff;
+    --fc-button-bg-color: #ff660000;
+    --fc-button-border-color: #f60;
+    --fc-button-hover-bg-color: #ea580c;
+    --fc-button-hover-border-color: #ea580c;
+    --fc-button-active-bg-color: #f60;
+    --fc-button-active-border-color: #f60;
+
     scroll-behavior: smooth;
 }
 

@@ -125,8 +125,8 @@ const menuItemsStudio = [
             {
                 icon: 'fa-solid fa-calendar-days',
                 text: 'Prenotazioni',
-                href: route('bookings.settings.edit'),
-                active: route().current('bookings.settings.edit')
+                href: route('bookings.index'),
+                active: route().current('bookings.index')
             },
             {
                 icon: 'fa-solid fa-gears',

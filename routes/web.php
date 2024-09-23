@@ -103,6 +103,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         //impostazioni prenotazioni
         Route::get('/impostazioni-prenotazioni', [BookingSettingController::class, 'edit'])->name('bookings.settings.edit');
         Route::put('/impostazioni-prenotazioni', [BookingSettingController::class, 'update'])->name('bookings.settings.update');
+
+        //prenotazioni
+        Route::get('/prenotazioni', [BookingController::class, 'index'])->name('bookings.index');
         
         //gestione sale studio
         Route::get('/sale-studio', [RoomController::class, 'index'])->name('rooms.index');

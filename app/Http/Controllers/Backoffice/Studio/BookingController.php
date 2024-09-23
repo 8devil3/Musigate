@@ -17,9 +17,58 @@ use Spatie\GoogleCalendar\Event;
 
 class BookingController extends Controller
 {
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        return Inertia::render('', compact(''));
+        $booking_settings = auth()->user()->studio->booking_settings;
+        $availability = auth()->user()->studio->availability;
+
+        $current_room_id = request('room_id', 1000);
+        $rooms = auth()->user()->studio->rooms()->pluck('name', 'id')->toArray();
+
+        $bookings = Booking::with(['room:id,name,color', 'user:id,first_name,last_name'])
+            ->when($current_room_id !== 1000, function($query) use($current_room_id){
+                $query->where('room_id', $current_room_id);
+            })
+            ->when($current_room_id === 1000, function($query) use($rooms){
+                $query->whereIn('room_id', array_keys($rooms));
+            })
+            ->where('is_temp', false)
+            ->get()
+            ->map(function($event){
+                return [
+                    'user' => $event->user,
+                    'title' => $event->room->name,
+                    'start' => $event->start,
+                    'end' => $event->end,
+                    'dur' => $event->duration,
+                    'guests' => $event->guests,
+                    'borderColor' => $event->room->color,
+                    'backgroundColor' => $event->room->color . '30',
+                    'is_google' => false,
+                ];
+            });
+        
+        //recupero gli eventi da Google Calendar
+        $google_events = collect([]);
+        if($booking_settings->google_calendar_id){
+            $google_events = Event::get(calendarId: $booking_settings->google_calendar_id)->map(function($event){
+                return [
+                    'start' => Carbon::parse($event->googleEvent->start->dateTime)->setTimezone('Europe/Rome')->toDateTimeString(),
+                    'end' => Carbon::parse($event->googleEvent->end->dateTime)->setTimezone('Europe/Rome')->toDateTimeString(),
+                    'title' => $event->summary,
+                    'borderColor' => '#4f46e5',
+                    'backgroundColor' => '#1e1b4b',
+                    'is_google' => true,
+                ];
+            });
+        }
+
+        $events = $bookings->merge($google_events);
+        
+        $rooms[1000] = 'Tutte';
+        $request->toArray();
+
+        return Inertia::render('Backoffice/Studio/Bookings/Index', compact('events', 'booking_settings', 'availability', 'rooms', 'request'));
     }
 
     public function show(Booking $booking): Response

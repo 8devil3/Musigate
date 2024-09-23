@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontoffice;
 
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 use App\Models\Room\EquipmentCategory;
 use App\Models\Studio\Studio;
 use App\Models\Studio\Comfort;
@@ -28,7 +29,12 @@ class StudioController extends Controller
 
         $point = "POINT($lon $lat)";
 
+        $user = auth()->user();
+
         $studios = Studio::with(['location', 'photos', 'services', 'comforts', 'videos'])
+            ->when($user && $user->role_id === Role::STUDIO , function($query) use($user){
+                $query->whereNot('id', $user->studio->id);
+            })
             ->withMin('rooms as min_price', 'min_price')
             ->whereIn('category', request('category', ['Professional', 'Home']))
             ->when(request('name', null), function ($query){
