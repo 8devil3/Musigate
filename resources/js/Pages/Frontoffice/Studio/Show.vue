@@ -119,7 +119,7 @@
 
                 <ListingSection v-if="props.studio.rooms.length" title="Sale Studio" id="sale-studio">
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                        <ListingRoomCard v-for="room in props.studio.rooms" @selectRoom="(e)=> roomId = e" :room="room" :roomTypes="props.room_types" :equipment_categories="props.equipment_categories" />
+                        <ListingRoomCard v-for="room in props.studio.rooms" :room="room" :roomTypes="props.room_types" :equipment_categories="props.equipment_categories" />
                     </div>
                 </ListingSection>
             

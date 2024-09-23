@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backoffice\Studio\BookingSettingController;
+use App\Http\Controllers\Frontoffice\ReservationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backoffice\SuggestionController;
 use App\Http\Controllers\Frontoffice\LegalTextController;
@@ -35,8 +36,8 @@ Route::get('/offline', function () {
 
 Route::get('/cerca', [StudioController::class, 'index'])->name('studio.index');
 Route::get('/studio/{studio}', [StudioController::class, 'show'])->name('studio.show');
-Route::get('/prenota/{room}', [BookingController::class, 'create'])->name('booking.create');
-Route::post('/prenota/store', [BookingController::class, 'store'])->name('booking.store');
+Route::get('/prenota/{room}', [ReservationController::class, 'create'])->name('reservation.create');
+Route::post('/prenota/store/{room}', [ReservationController::class, 'store'])->name('reservation.store');
 
 //testi legali
 Route::get('/privacy', [LegalTextController::class, 'privacy'])->name('privacy');

@@ -19,7 +19,9 @@ return new class extends Migration
             $table->dateTime('start');
             $table->unsignedTinyInteger('duration');
             $table->dateTime('end');
+            $table->unsignedTinyInteger('guests');
             $table->uuid('qr_code')->unique();
+            $table->boolean('is_temp')->default(false);
 
             $table->timestamps();
         });

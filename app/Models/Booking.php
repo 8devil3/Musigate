@@ -14,7 +14,13 @@ class Booking extends Model
         'start',
         'duration',
         'end',
-        'qr_code'
+        'guests',
+        'qr_code',
+        'is_temp'
+    ];
+
+    protected $casts = [
+        'is_temp' => 'boolean',
     ];
 
     public function room(): BelongsTo

@@ -10,7 +10,7 @@
         </template>
     </Carousel>
 
-    <div v-else class="flex items-center justify-center w-full bg-gray-900 h-80">
+    <div v-else class="flex items-center justify-center w-full bg-slate-900 h-80">
         <img src="/img/logo/logo_placeholder.svg" class="object-contain h-1/2 aspect-square">
     </div>
 </template>
@@ -34,7 +34,7 @@ const props = defineProps({
 
 <style>
 .carousel button {
-    @apply rounded-full bg-gray-950/50 w-8 h-8 shrink-0;
+    @apply rounded-full bg-slate-950/50 w-8 h-8 shrink-0;
 }
 
 .carousel__icon {

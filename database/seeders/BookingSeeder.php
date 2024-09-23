@@ -20,7 +20,7 @@ class BookingSeeder extends Seeder
 
         foreach ($rooms as $room) {
             foreach ($studio_users as $user) {
-                $start = Carbon::parse(fake()->dateTimeBetween('-3 months', '3 months'))->hour(rand(10, 19))->minute(0)->second(0)->toDateTimeString();
+                $start = Carbon::parse(fake()->dateTimeBetween('-1 week', '3 weeks'))->hour(rand(10, 19))->minute(0)->second(0)->toDateTimeString();
                 $duration = rand(2,4);
                 $end = Carbon::parse($start)->addHours($duration);
 
@@ -30,7 +30,9 @@ class BookingSeeder extends Seeder
                     'start' => $start,
                     'duration' => $duration,
                     'end' => $end,
+                    'guests' => rand(1, $room->max_capacity),
                     'qr_code' => fake()->uuid(),
+                    'is_temp' => false
                 ]);
             }
         }
