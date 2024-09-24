@@ -36,7 +36,7 @@ class ReservationController extends Controller
                 $booking_events = $room->bookings()
                     ->whereDate('start', $request_start_date->toDateString())
                     ->get(['start', 'end'])
-                    ->map(function($event){
+                    ->map(function($event): array{
                         return [
                             'title' => 'Occupato',
                             'start' => $event->start,
@@ -65,7 +65,7 @@ class ReservationController extends Controller
                 $buffer_events = collect([]);
                 if($booking_settings->has_buffer){
                     $buffer_events = $booking_events->merge($google_events)
-                        ->map(function($event) use($time_fraction){
+                        ->map(function($event) use($time_fraction): array{
                             return [
                                 'start' => $event['end'],
                                 'end' => Carbon::parse($event['end'])->add($time_fraction)->toDateTimeString(),
@@ -136,7 +136,7 @@ class ReservationController extends Controller
             'is_temp' => true, //prenotazione temporanea da completare. In attesa che l'utente completi il pagamento, blocco il calendario in modo da garantire lo slot di prenotazione per quell'utente. Quando l'utente completa il pagamento e ricevo il webhook da Stripe, allora la prenotazione diventa definitiva.
         ]);
 
-        //elaborazione pagamento Stripe
+        //TODO: elaborazione pagamento Stripe
         // if($is_temp_booking_created){
             // Stripe::setApiKey(config('cashier.secret'));
 
@@ -164,6 +164,8 @@ class ReservationController extends Controller
             //         'room_name' => $room->name,
             //     ],
             // ]);
+
+            //TODO: generazione immagine QR Code
 
             // return Inertia::location($checkout_session->url);
         // }

@@ -38,6 +38,7 @@ class BookingSettingController extends Controller
             'has_sync' => 'required|boolean',
             'sync_mode' => 'nullable|required_if_accepted:has_sync|string|in:unidirezionale,bidirezionale',
             'google_calendar_id' => 'nullable|required_if_accepted:has_sync|string|max:255',
+            'default_calendar_view' => 'required|string|in:dayGridMonth,timeGridWeek'
         ]);
 
         auth()->user()->studio->booking_settings->update([
@@ -49,6 +50,7 @@ class BookingSettingController extends Controller
             'has_sync' => $request->has_sync,
             'sync_mode' => $request->has_sync ? $request->sync_mode : null,
             'google_calendar_id' => $request->has_sync ? $request->google_calendar_id : null,
+            'default_calendar_view' => $request->default_calendar_view
         ]);
 
         return back();

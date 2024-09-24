@@ -19,6 +19,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'check_role' => \App\Http\Middleware\CheckRole::class,
             'check_studio_info' => \App\Http\Middleware\CheckStudioInfo::class,
             'check_room_user_id' => \App\Http\Middleware\CheckRoomUserId::class,
+            'google_refresh_token' => \App\Http\Middleware\GoogleRefreshToken::class,
         ]);
 
         //

@@ -13,6 +13,7 @@
             :allow_fractional_durations="props.booking_settings.allow_fractional_durations"
             :min_booking="props.booking_settings.min_booking"
             :maxBookingHorizon="props.booking_settings.maxBookingHorizon"
+            :initialView="props.booking_settings.default_calendar_view"
             @eventClick="openModalEvent"
         />
     </template>
@@ -32,7 +33,7 @@
 
     <template #description>
         <div v-if="currentEvent" class="space-y-4">
-            <p v-if="!currentEvent.event.extendedProps.is_google">
+            <p v-if="!currentEvent.event.extendedProps.is_imported">
                 <i class="inline-flex justify-center w-5 mr-3 fa-solid fa-user" />
                 {{ currentEvent.event.extendedProps.user.first_name }} {{ currentEvent.event.extendedProps.user.last_name }}
             </p>
@@ -49,7 +50,7 @@
                 {{ dayjs(currentEvent.event.end).format('HH:mm') }}
             </p>
 
-            <template v-if="!currentEvent.event.extendedProps.is_google">
+            <template v-if="!currentEvent.event.extendedProps.is_imported">
                 <p>
                     <i class="inline-flex justify-center w-5 mr-3 fa-solid fa-hourglass-half" />
                     {{ currentEvent.event.extendedProps.dur === 1 ? currentEvent.event.extendedProps.dur + ' ora' : currentEvent.event.extendedProps.dur + ' ore' }}
@@ -63,7 +64,7 @@
             <template v-else>
                 <p>
                     <i class="inline-flex justify-center w-5 mr-3 fa-brands fa-google" />
-                    Questo evento proviene da Google Calendar
+                    Questo evento è importato da Google Calendar
                 </p>
             </template>
         </div>
@@ -89,7 +90,7 @@ const props = defineProps({
 });
 
 const isOpenModalEvent = ref(false);
-const currentRoomId = ref(props.request?.room_id ?? '');
+const currentRoomId = ref(props.request?.room_id ?? 1000);
 const currentEvent = ref(null);
 
 const refresh = ()=>{

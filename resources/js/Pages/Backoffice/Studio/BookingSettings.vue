@@ -12,6 +12,24 @@
             <!-- prenotazione minima -->
             <FormElement>
                 <template #title>
+                    Vista calendario predefinita
+                </template>
+
+                <template #description>
+                    Seleziona la vista predefinita del calendario delle prenotazioni.
+                </template>
+
+                <template #content>
+                    <div class="flex items-center gap-3">
+                        <Select v-model.number="form.default_calendar_view" :options="calendarViews" default="Seleziona vista" :error="form.errors.default_calendar_view" required class="w-full max-w-xs" />
+                    </div>
+                </template>
+            </FormElement>
+            <!-- / -->
+
+            <!-- prenotazione minima -->
+            <FormElement>
+                <template #title>
                     Prenotazione minima
                 </template>
 
@@ -28,7 +46,7 @@
             </FormElement>
             <!-- / -->
 
-            <!-- Anticipo -->
+            <!-- anticipo -->
             <FormElement>
                 <template #title>
                     Preavviso
@@ -166,6 +184,7 @@ const form = useForm({
     has_sync: props.booking_settings.has_sync,
     sync_mode: props.booking_settings.sync_mode ?? '',
     google_calendar_id: props.booking_settings.google_calendar_id ?? '',
+    default_calendar_view: props.booking_settings.default_calendar_view ?? 'dayGridMonth'
 });
 
 const forceAllowFractionlDurations = ()=>{
@@ -178,6 +197,11 @@ const submit = () => {
     if(form.has_buffer) form.allow_fractional_durations = true;
 
     form.put(route('bookings.settings.update'));
+};
+
+const calendarViews = {
+    dayGridMonth: 'Mensile',
+    timeGridWeek: 'Settimanale',
 };
 
 </script>

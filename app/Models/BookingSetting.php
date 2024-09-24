@@ -19,6 +19,7 @@ class BookingSetting extends Model
         'has_sync',
         'sync_mode',
         'google_calendar_id',
+        'default_calendar_view'
     ];
 
     protected $casts = [

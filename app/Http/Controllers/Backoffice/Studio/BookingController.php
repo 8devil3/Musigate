@@ -21,6 +21,7 @@ class BookingController extends Controller
     {
         $booking_settings = auth()->user()->studio->booking_settings;
         $availability = auth()->user()->studio->availability;
+        $time_fraction = $booking_settings->allow_fractional_durations || $booking_settings->has_buffer ? '30 minutes' : '1 hour';
 
         $current_room_id = request('room_id', 1000);
         $rooms = auth()->user()->studio->rooms()->pluck('name', 'id')->toArray();
@@ -34,18 +35,32 @@ class BookingController extends Controller
             })
             ->where('is_temp', false)
             ->get()
-            ->map(function($event){
-                return [
-                    'user' => $event->user,
-                    'title' => $event->room->name,
-                    'start' => $event->start,
-                    'end' => $event->end,
-                    'dur' => $event->duration,
-                    'guests' => $event->guests,
-                    'borderColor' => $event->room->color,
-                    'backgroundColor' => $event->room->color . '30',
-                    'is_google' => false,
-                ];
+            ->map(function($event) use($time_fraction, $booking_settings, $availability){
+                $weekday_end_availability = $availability->where('is_open', true)->where('weekday', Carbon::parse($event->start)->dayOfWeekIso)->first();
+
+                if($weekday_end_availability){
+                    $end = $event->end;
+
+                    //buffer
+                    if($booking_settings->has_buffer && Carbon::parse($event->end)->diffInMinutes(Carbon::parse($event->end)->setTimeFromTimeString($weekday_end_availability->end)) >= 30){
+                       $end = Carbon::parse($event->end)->add($time_fraction)->toDateTimeString();
+                    }
+    
+                    return [
+                        'user' => $event->user,
+                        'title' => $event->room->name,
+                        'start' => $event->start,
+                        'end' => $end,
+                        'dur' => $event->duration,
+                        'guests' => $event->guests,
+                        'borderColor' => $event->room->color,
+                        'backgroundColor' => $event->room->color . '60',
+                        'has_buffer' => $booking_settings->has_buffer,
+                        'is_imported' => false,
+                    ];
+                } else {
+                    return [];
+                }
             });
         
         //recupero gli eventi da Google Calendar
@@ -56,15 +71,15 @@ class BookingController extends Controller
                     'start' => Carbon::parse($event->googleEvent->start->dateTime)->setTimezone('Europe/Rome')->toDateTimeString(),
                     'end' => Carbon::parse($event->googleEvent->end->dateTime)->setTimezone('Europe/Rome')->toDateTimeString(),
                     'title' => $event->summary,
-                    'borderColor' => '#4f46e5',
-                    'backgroundColor' => '#1e1b4b',
-                    'is_google' => true,
+                    'borderColor' => '#475569',
+                    'backgroundColor' => '#47556930',
+                    'is_imported' => true,
                 ];
             });
         }
 
-        $events = $bookings->merge($google_events);
-        
+        $events = $bookings->merge($google_events); //->merge($buffer_events);
+
         $rooms[1000] = 'Tutte';
         $request->toArray();
 

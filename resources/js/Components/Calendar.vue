@@ -1,5 +1,38 @@
 <template>
-    <FullCalendar ref="fullCalendarRef" :options="calendarOptions" class="text-sm leading-tight" />
+<FullCalendar ref="fullCalendarRef" :options="calendarOptions" class="h-full text-sm leading-tight">
+    <template #eventContent='arg'>
+        <div v-if="arg.view.type === 'timeGridWeek'" :title="eventHoverTitle(arg)" class="p-1.5 w-full">
+            <template v-if="arg.event.extendedProps.has_buffer">
+                <div>
+                    {{  dayjs(arg.event.start).format('HH:mm') }}
+                    -
+                    {{  dayjs(arg.event.end).format('HH:mm') }}
+                </div>
+                <strong>{{ arg.event.title }}</strong>
+                <div class="absolute bottom-0 left-0 w-full italic truncate px-1.5 py-2" :style="'background-color:' + arg.event.backgroundColor.slice(0, 7) + 'A0'">
+                    Pausa 30 min
+                </div>
+            </template>
+            <template v-else>
+                <div>
+                    {{  dayjs(arg.event.start).format('HH:mm') }}
+                    -
+                    {{  dayjs(arg.event.end).format('HH:mm') }}
+                </div>
+                <div class="w-full font-semibold truncate">{{ arg.event.title }}</div>
+            </template>
+        </div>
+        <template v-else-if="arg.view.type === 'dayGridMonth'">
+            <div class="flex items-center w-full gap-1" :title="eventHoverTitle(arg)">
+                <span class="inline-block w-2 h-2 rounded-full shrink-0" :style="'background-color:' + arg.event.backgroundColor.slice(0, 7)" />
+                <span class="shrink-0">
+                    {{  dayjs(arg.event.start).format('HH:mm') }}
+                </span>
+                <div class="w-full font-semibold truncate">{{ arg.event.title }}</div>
+            </div>
+        </template>
+    </template>
+</FullCalendar>
 </template>
 
 <script setup>
@@ -20,10 +53,15 @@ const props = defineProps({
     has_buffer: Boolean,
     allow_fractional_durations: Boolean,
     maxBookingHorizon: Number,
+    initialView: String,
 });
 
 const emits = defineEmits(['eventClick', 'selected', 'unselected']);
 const fullCalendarRef = ref(null);
+
+const eventHoverTitle = (arg)=>{
+    return dayjs(arg.event.start).format('HH:mm') + ' - ' + dayjs(arg.event.end).format('HH:mm') + ' | ' + arg.event.title
+};
 
 const businessHours = computed(()=>{
     return props.availability.map(item => {
@@ -45,26 +83,19 @@ const minMaxSlotTime = computed(()=>{
 
 const calendarOptions = {
     plugins: [ dayGridPlugin, timeGridPlugin, interactionPlugin ],
-    initialView: 'dayGridMonth',
+    initialView: props.initialView,
     slotDuration: props.has_buffer || props.allow_fractional_durations ? '00:30:00' : '01:00:00',
     slotMinTime: minMaxSlotTime.value.min,
     slotMaxTime: minMaxSlotTime.value.max,
     eventBackgroundColor: '#431407',
     eventBorderColor: '#ff6600',
     locale: 'it-IT',
-    firstDay: 1, // primo giorno della settimana: lunedì
+    firstDay: 1, // primo giorno della settimana: 1 -> lunedì
     events: props.events,
     displayEventTime: true,
-    // timeZone: 'Europe/Rome',
-    height: 640,
-    eventDisplay: 'block',
+    eventDisplay: 'auto',
     allDaySlot: false,
-    selectOverlap: false,
-    selectMirror: true,
     expandRows: true,
-    // hiddenDays: props.availability.filter(item => !item.is_open).map(item => item.weekday),
-    // businessHours: businessHours.value,
-    selectConstraint: businessHours.value,
     eventTimeFormat: {
         hour: 'numeric',
         minute: '2-digit',
@@ -113,41 +144,10 @@ const calendarOptions = {
         week: 'Settimana',
         day: 'Giorno',
     },
-    dateClick: ()=>{
-        fullCalendarRef.value.getApi().unselect(); // Annulla la selezione
-    },
     eventClick: (eventClickInfo )=>{
         emits('eventClick', eventClickInfo);
-        // fullCalendarRef.value.getApi().unselect(); // Annulla la selezione
     },
-    // eventContent: (arg)=>{
-    //     if(arg.event.title === 'Pausa') return arg.event.title + ' 30 min';
-    //     else return dayjs(arg.event.start).format('HH:mm') + ' - ' + dayjs(arg.event.end).format('HH:mm');
-    // },
     selectable: false,
-    selectConstraint: businessHours.value,
-    selectMinDistance: 5,
-    select: (info) =>{
-        let minDuration = props.min_booking * 60; // Durata minima in minuti
-        let duration = (info.end - info.start) / (1000 * 60); // Calcola la durata della selezione in minuti
-
-        if (dayjs(info.start).isBefore(dayjs())) {
-            alert('Non puoi prenotare nel passato!');
-            fullCalendarRef.value.getApi().unselect(); // Annulla la selezione
-        } else if (duration < minDuration){
-            alert('Seleziona almeno ' + minDuration / 60 + ' ore.');
-            fullCalendarRef.value.getApi().unselect(); // Annulla la selezione
-        } else if (!props.allow_fractional_durations && duration % 60 !== 0){
-            alert('Seleziona ore intere.');
-            fullCalendarRef.value.getApi().unselect(); // Annulla la selezione
-        } else {
-            emits('selected', info);
-        }
-    },
-    unselectAuto: false,
-    unselect: ()=>{
-        emits('unselected');
-    }
 };
 
 </script>
@@ -178,7 +178,7 @@ const calendarOptions = {
 }
 
 .fc-timegrid-event {
-    @apply !shadow-none rounded-lg p-1.5;
+    @apply !shadow-none rounded-lg p-0;
 
 }
 

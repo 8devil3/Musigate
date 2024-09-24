@@ -18,7 +18,7 @@
             </option>
 
             <option v-if="props.isArray" v-for="option in props.options" :value="option">{{ option }}</option>
-            <option v-else v-for="option, key in props.options" :value="parseInt(key)">{{ option }}</option>
+            <option v-else v-for="option, key in props.options" :value="key">{{ option }}</option>
         </select>
 
         <FieldError :error="props.error"/>

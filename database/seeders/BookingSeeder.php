@@ -20,9 +20,14 @@ class BookingSeeder extends Seeder
 
         foreach ($rooms as $room) {
             foreach ($studio_users as $user) {
+                $booking_settings = $room->studio->booking_settings;
                 $start = Carbon::parse(fake()->dateTimeBetween('-1 week', '3 weeks'))->hour(rand(10, 19))->minute(0)->second(0)->toDateTimeString();
                 $duration = rand(2,4);
+
                 $end = Carbon::parse($start)->addHours($duration);
+                if($booking_settings->has_buffer){
+                    $end->addMinutes(30);
+                }
 
                 Booking::create([
                     'room_id' => $room->id,
