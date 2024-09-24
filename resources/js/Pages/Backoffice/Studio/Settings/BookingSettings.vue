@@ -7,9 +7,10 @@
         :isLoading="form.processing"
         :onSuccess="form.recentlySuccessful"
         :onFail="form.hasErrors"
+        :tabLinks="tabLinks"
     >
         <template #content>
-            <!-- prenotazione minima -->
+            <!-- vista calendario -->
             <FormElement>
                 <template #title>
                     Vista calendario predefinita
@@ -203,5 +204,18 @@ const calendarViews = {
     dayGridMonth: 'Mensile',
     timeGridWeek: 'Settimanale',
 };
+
+const tabLinks = [
+    {
+        name: 'Prenotazioni',
+        href: route('bookings.settings.edit'),
+        active: route().current('bookings.settings.edit')
+    },
+    {
+        name: 'Annullamenti',
+        href: route('cancelling.settings.edit'),
+        active: route().current('cancelling.settings.edit')
+    },
+];
 
 </script>

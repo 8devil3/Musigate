@@ -24,7 +24,7 @@ class BookingSettingController extends Controller
             $google_calendar_ids[] = $calendar->getId();
         }
 
-        return Inertia::render('Backoffice/Studio/BookingSettings', compact('booking_settings', 'google_calendar_ids', 'google_token'));
+        return Inertia::render('Backoffice/Studio/Settings/BookingSettings', compact('booking_settings', 'google_calendar_ids', 'google_token'));
     }
 
     public function update(Request $request): RedirectResponse

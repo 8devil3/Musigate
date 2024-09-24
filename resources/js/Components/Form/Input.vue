@@ -34,7 +34,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { computed } from 'vue';
 import Label from '@/Components/Form/Label.vue';
 import FieldError from '@/Components/Form/FieldError.vue';
 

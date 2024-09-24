@@ -49,6 +49,7 @@ class DatabaseSeeder extends Seeder
             ContactSeeder::class,
             AvailabilitySeeder::class,
             BookingSettingSeeder::class,
+            CancelPolicySettingSeeder::class,
             BookingSeeder::class,
         ]);
     }

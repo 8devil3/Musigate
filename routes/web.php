@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backoffice\Studio\BookingSettingController;
+use App\Http\Controllers\Backoffice\Studio\CancelPolicySettingController;
 use App\Http\Controllers\Frontoffice\ReservationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backoffice\SuggestionController;
@@ -103,6 +104,10 @@ Route::middleware(['auth', 'verified', 'google_refresh_token'])->group(function 
         //impostazioni prenotazioni
         Route::get('/impostazioni-prenotazioni', [BookingSettingController::class, 'edit'])->name('bookings.settings.edit');
         Route::put('/impostazioni-prenotazioni', [BookingSettingController::class, 'update'])->name('bookings.settings.update');
+
+        //impostazioni annullamenti
+        Route::get('/impostazioni-annullamenti', [CancelPolicySettingController::class, 'edit'])->name('cancelling.settings.edit');
+        Route::put('/impostazioni-annullamenti', [CancelPolicySettingController::class, 'update'])->name('cancelling.settings.update');
 
         //prenotazioni
         Route::get('/prenotazioni', [BookingController::class, 'index'])->name('bookings.index');

@@ -1,16 +1,27 @@
 <template>
-   <div>
+   <div class="has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-70 flex flex-col gap-3">
+        <Label v-if="props.label" :label="props.label" :id="props.id ?? id" :required="props.required" class="px-0" />
+
         <input type="range"
+            @change="emit('change')"
             v-model="vModel"
+            :id="props.id ?? id"
             :min="props.min"
             :max="props.max"
             :step="props.step"
-            class="w-full h-1.5 bg-gray-600 rounded-full appearance-none cursor-pointer"
+            :disabled="props.disabled"
+            class="block w-full h-1.5 bg-slate-600 rounded-full appearance-none cursor-pointer disabled:cursor-not-allowed disabled:opacity-70"
         >
+
+        <FieldError :error="props.error"/>
     </div>
 </template>
 
 <script setup>
+import { computed } from 'vue';
+import Label from '@/Components/Form/Label.vue';
+import FieldError from '@/Components/Form/FieldError.vue';
+
 const props = defineProps({
     min: {
         type: Number,
@@ -27,9 +38,27 @@ const props = defineProps({
     symbol: {
         type: String,
         default: ''
-    }
+    },
+    error: {
+        type: String,
+        default: null
+    },
+    label: {
+        type: String,
+        default: null
+    },
+    disabled: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 const vModel = defineModel({ default: 0 });
+
+const emit = defineEmits(['change']);
+
+const id = computed(()=>{
+    return 'range-slider-' + Math.random() * 1000000000000;
+});
 
 </script>

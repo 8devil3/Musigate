@@ -2,10 +2,11 @@
 
 namespace App\Models\Studio;
 
-use App\Models\Studio\Availability;
-use App\Models\BookingSetting;
 use App\Models\User;
+use App\Models\BookingSetting;
 use App\Models\Room\Room;
+use App\Models\Studio\Availability;
+use App\Models\Studio\CancelPolicySetting;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -105,5 +106,10 @@ class Studio extends Model
     public function booking_settings(): HasOne
     {
         return $this->hasOne(BookingSetting::class);
+    }
+
+    public function cancel_settings(): HasOne
+    {
+        return $this->hasOne(CancelPolicySetting::class);
     }
 }
