@@ -89,12 +89,11 @@ const props = defineProps({
 });
 
 const isOpenModalEvent = ref(false);
-const currentRoomId = ref(props.request?.room_id ?? 1000);
+const currentRoomId = ref(props.request?.room_id ?? 'all');
 const currentEvent = ref(null);
 
 const refresh = ()=>{
-    if(currentRoomId.value === 1000) router.get(route('bookings.index'));
-    else router.get(route('bookings.index'), {room_id: currentRoomId.value});
+    router.get(route('bookings.index'), {room_id: currentRoomId.value});
 };
 
 const openModalEvent = (e)=>{
