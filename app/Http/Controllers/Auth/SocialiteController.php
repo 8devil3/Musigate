@@ -44,7 +44,7 @@ class SocialiteController extends Controller
             'google_id' => $google_user->getId(),
             'google_token' => $google_user->token,
             'google_refresh_token' => $google_user->refreshToken,
-            'google_token_expires_in' => $google_user->expiresIn,
+            'google_token_expires_at' => now()->addSeconds(intval($google_user->expiresIn))->toDateTimeString(),
             'avatar' => $google_user->getAvatar(),
             'role_id' => Role::STUDIO,
             'email_verified_at' => now()->toDateTimeString(),

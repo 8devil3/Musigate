@@ -47,7 +47,7 @@ Route::get('/cookie', [LegalTextController::class, 'cookie'])->name('cookie');
 
 
 //utenti registrati
-Route::middleware(['auth', 'verified', 'google_refresh_token'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
 
     //backoffice studio
     Route::group(['middleware' => 'check_role:studio', 'prefix' => 'gestione-studio'], function () {
@@ -102,7 +102,7 @@ Route::middleware(['auth', 'verified', 'google_refresh_token'])->group(function 
         });
 
         //impostazioni prenotazioni
-        Route::get('/impostazioni-prenotazioni', [BookingSettingController::class, 'edit'])->name('bookings.settings.edit');
+        Route::get('/impostazioni-prenotazioni', [BookingSettingController::class, 'edit'])->name('bookings.settings.edit')->middleware('google_refresh_token');
         Route::put('/impostazioni-prenotazioni', [BookingSettingController::class, 'update'])->name('bookings.settings.update');
 
         //impostazioni annullamenti

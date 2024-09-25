@@ -4,27 +4,29 @@ namespace App\Http\Controllers\Backoffice\Studio;
 
 use App\Http\Controllers\Controller;
 use App\Services\GoogleCalendarAPIService;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+use Laravel\Socialite\Facades\Socialite;
 
 class BookingSettingController extends Controller
 {
     public function edit(): Response
     {
-        $google_token = auth()->user()->google_token;
+        $user = auth()->user();
+        $booking_settings = $user->studio->booking_settings;
 
-        $booking_settings = auth()->user()->studio->booking_settings;
-        $google_calendars = GoogleCalendarAPIService::get_calendars($google_token);
-
+        $google_token = $user->google_token;
+        $google_calendars = GoogleCalendarAPIService::get_calendars($user->google_token);
         $google_calendar_ids = [];
 
         foreach ($google_calendars as $calendar) {
             $google_calendar_ids[] = $calendar->getId();
         }
 
-        return Inertia::render('Backoffice/Studio/Settings/BookingSettings', compact('booking_settings', 'google_calendar_ids', 'google_token'));
+        return Inertia::render('Backoffice/Studio/Bookings/BookingSettings', compact('booking_settings', 'google_calendar_ids', 'google_token'));
     }
 
     public function update(Request $request): RedirectResponse

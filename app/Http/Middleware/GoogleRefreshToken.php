@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use Carbon\Carbon;
 use Closure;
 use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
@@ -17,13 +18,16 @@ class GoogleRefreshToken
     public function handle(Request $request, Closure $next): Response
     {
         $user = auth()->user();
-        if($user && $user->google_id && $user->google_refresh_token && now()->addSeconds($user->google_token_expires_in)->lessThan(now())){
-            $google_client = Socialite::driver('google')->getAccessTokenResponse($user->google_refresh_token);
 
-            // Aggiorna il token di accesso e la data di scadenza nel database
-            $user->google_token = $google_client['access_token'];
-            $user->google_token_expires_in = $google_client['expires_in'];
-            $user->save();
+        // Aggiorna il token di accesso e la data di scadenza nel database
+        if($user && $user->google_id && $user->google_refresh_token && Carbon::parse($user->google_token_expires_at)->lessThan(now())){
+            $refreshed_google_tokens = Socialite::driver('google')->refreshToken($user->google_refresh_token);
+
+            $user->update([
+                'google_token' => $refreshed_google_tokens->token,
+                'google_refresh_token' => $refreshed_google_tokens->refreshToken,
+                'google_token_expires_at' => now()->addSeconds(intval($refreshed_google_tokens->expiresIn)),
+            ]);
         }
 
         return $next($request);
