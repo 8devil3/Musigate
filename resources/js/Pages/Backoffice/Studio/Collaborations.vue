@@ -22,7 +22,7 @@
                             <div class="flex items-start justify-between gap-4 mb-4">
                                 <h3 class="text-gray-200">{{ collab.title }}</h3>
                                 <div class="flex gap-2">
-                                    <ActionButton @click="openModalEdit(collab.id, idx)" icon="fa-regular fa-pen-to-square" title="Modifica collaborazione" />
+                                    <ActionButton @click="openModalCollab(collab.id, idx)" icon="fa-regular fa-pen-to-square" title="Modifica collaborazione" />
                                     
                                     <ActionButton @click="openModalDelete(collab.id)" icon="fa-regular fa-trash-can" color="red" title="Elimina collaborazione" />
                                 </div>
@@ -51,7 +51,7 @@
         </template>
     </ContentLayout>
 
-    <Modal :isOpen="openModal" @close="openModal = false; collabId = null">
+    <Modal :isOpen="openModal" @close="closeModalCollab()">
         <template #title>
             <template v-if="collabId">Modifica collaborazione</template>
             <template v-else>Nuova collaborazione</template>
@@ -135,13 +135,18 @@ const submitStore = ()=>{
 }
 
 
-const openModalEdit = (collab_id, idx)=>{
+const openModalCollab = (collab_id, idx)=>{
     form.title = props.collaborations[idx].title;
     form.desc = props.collaborations[idx].desc;
-    
-    openModal.value = true;
     collabId.value = collab_id;
+    openModal.value = true;
 }
+
+const closeModalCollab = ()=>{
+    openModal.value = false;
+    collabId.value = null;
+    form.reset();
+};
 
 const submitEdit = ()=>{
     form.put(route('studio.collaborations.update', collabId.value), {

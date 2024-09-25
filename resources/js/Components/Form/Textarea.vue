@@ -13,7 +13,7 @@
             :maxlength="props.maxlength"
             :aria-label="props.label"
             :aria-placeholder="props.placeholder"
-            :class="[commonClasses.textarea, props.error && 'border-red-600 focus:ring-red-600/50 focus:border-red-600 focus:shadow-md focus:shadow-red-600']"
+            :class="[classes, props.error && 'border-red-600 focus:ring-red-600/50 focus:border-red-600 focus:shadow-md focus:shadow-red-600']"
         >
             {{ vModel }}
         </textarea>
@@ -33,7 +33,6 @@
 <script setup>
 import Label from '@/Components/Form/Label.vue';
 import FieldError from '@/Components/Form/FieldError.vue';
-import commonClasses from '@/Components/Form/commonClasses.json';
 
 const props = defineProps({
     label: {
@@ -73,6 +72,8 @@ const props = defineProps({
         default: null
     },
 });
+
+const classes = "text-left form-textarea w-full px-4 py-3 text-sm font-light leading-normal text-white bg-slate-800/50 rounded-xl border border-slate-400 placeholder:text-slate-300/80 disabled:bg-slate-800 disabled:cursor-not-allowed placeholder:truncate disabled:text-slate-500 disabled:border-slate-500 font-sans focus:ring-orange-500/50 focus:border-orange-500 focus:shadow-md focus:shadow-orange-500";
 
 const vModel = defineModel({ default: null });
 

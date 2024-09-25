@@ -85,7 +85,7 @@ class BookingController extends Controller
         //merging degli events
         $events = $events->merge($google_events);
 
-        $rooms['all'] = 'Tutte';
+        $rooms['all'] = 'Tutte le Sale';
         $request->toArray();
 
         return Inertia::render('Backoffice/Studio/Bookings/Index', compact('events', 'booking_settings', 'availability', 'rooms', 'request'));

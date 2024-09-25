@@ -62,13 +62,11 @@
 
                 <template #content>
                     <div class="flex items-center gap-2">
-                        <Toggle v-model="form.is_visible" :disabled="!props.studio.is_complete" />
-                        <div v-if="form.is_visible" class="text-green-500">
-                            Lo Studio è visibile e ricercabile.
-                        </div>
-                        <div v-else class="text-red-500">
-                            Lo Studio non è visibile nè ricercabile.
-                        </div>
+                        <Toggle
+                            v-model="form.is_visible"
+                            :label="form.is_visible ? 'Lo Studio è visibile e ricercabile' : 'Lo Studio non è visibile nè ricercabile'"
+                            :disabled="!props.studio.is_complete"
+                        />
                     </div>
                     <p v-if="!props.studio.is_complete" class="mt-4 text-gray-300">
                         Non sarà possibile modificare questa impostazione fino a quando non saranno salvate le seguenti informazioni:

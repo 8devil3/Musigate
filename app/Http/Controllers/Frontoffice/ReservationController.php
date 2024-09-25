@@ -24,7 +24,7 @@ class ReservationController extends Controller
         $request_duration = intval($request->duration);
         $room->load('photos');
         $slots = [];
-        $events = [];
+        $events = collect([]);
 
         if($request->startDate){
             $request_start_date = Carbon::parse($request->startDate);
@@ -33,7 +33,7 @@ class ReservationController extends Controller
 
             if($availability->exists()){
                 //recupero gli eventi (prenotazioni) di Musigate
-                $booking_events = $room->bookings()
+                $events = $room->bookings()
                     ->whereDate('start', $request_start_date->toDateString())
                     ->get(['start', 'end'])
                     ->map(function($event): array{
@@ -44,7 +44,7 @@ class ReservationController extends Controller
                             'borderColor' => '#b91c1c',
                             'backgroundColor' => '#450a0a',
                         ];
-                    });
+                    })->toBase();
 
                 //recupero gli eventi da Google Calendar
                 $google_events = collect([]);
@@ -64,7 +64,7 @@ class ReservationController extends Controller
                 //genero gli eventi di buffer
                 $buffer_events = collect([]);
                 if($booking_settings->has_buffer){
-                    $buffer_events = $booking_events->merge($google_events)
+                    $buffer_events = $events->merge($google_events)
                         ->map(function($event) use($time_fraction): array{
                             return [
                                 'start' => $event['end'],
@@ -74,7 +74,7 @@ class ReservationController extends Controller
                 }
 
                 //riunisco gli eventi in un unica collection
-                $events = $buffer_events->merge($google_events)->merge($booking_events);
+                $events->merge($buffer_events)->merge($google_events);
 
                 //genero gli slot per la selezione dell'orario iniziale
                 $period_start = $request_start_date->setTimeFromTimeString($availability->first()->start)->toImmutable();
