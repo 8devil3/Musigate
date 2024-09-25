@@ -10,7 +10,7 @@ use Intervention\Image\Laravel\Facades\Image;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class GeneralController extends Controller
+class DescriptionController extends Controller
 {
     public function edit(): Response
     {
@@ -21,7 +21,7 @@ class GeneralController extends Controller
             'contacts:id,studio_id'
         ]);
 
-        return Inertia::render('Backoffice/Studio/General', compact('studio'));
+        return Inertia::render('Backoffice/Studio/Description', compact('studio'));
     }
 
     public function update(Request $request): RedirectResponse

@@ -88,9 +88,9 @@ const menu = computed(()=>{
                 children: [
                     {
                         icon: 'fa-solid fa-file-lines',
-                        label: 'Generale',
-                        route: 'studio.general.edit',
-                        active: 'studio.general.edit'
+                        label: 'Descrizione',
+                        route: 'studio.description.edit',
+                        active: 'studio.description.edit'
                     },
                     {
                         icon: 'fa-solid fa-location-dot',

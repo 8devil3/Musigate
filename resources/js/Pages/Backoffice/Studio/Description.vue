@@ -4,7 +4,7 @@
         :isLoading="form.processing"
         :onSuccess="form.recentlySuccessful"
         :onFail="form.hasErrors"
-        title="Generale"
+        title="Descrizione"
         icon="fa-solid fa-file-lines"
         :backRoute="route('studio.links')"
     >
@@ -232,7 +232,7 @@ import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
 
 export default {
     layout: (h, page) => h(BackofficeLayout, {
-        title: 'Generale',
+        title: 'Descrizione',
     }, {default: () => page}),
 };
 </script>

@@ -1,17 +1,24 @@
 <template>
 <FullCalendar ref="fullCalendarRef" :options="calendarOptions" class="h-full text-sm leading-tight">
     <template #eventContent='arg'>
-        <div v-if="arg.view.type === 'timeGridWeek'" :title="eventHoverTitle(arg)" class="p-1.5 space-y-1 w-full">
+        <div v-if="arg.view.type === 'timeGridWeek'" :title="eventHoverTitle(arg)" class="p-1.5 space-y-2 w-full">
             <div>
                 {{  dayjs(arg.event.start).format('HH:mm') }}
                 -
                 {{  dayjs(arg.event.end).format('HH:mm') }}
             </div>
+
             <div class="w-full font-semibold truncate">{{ arg.event.title }}</div>
-            <div>
-                <i class="mr-1 fa-solid fa-user" />
+
+            <div v-if="!arg.event.extendedProps.is_imported" class="flex w-full gap-1 truncate">
+                <i class="fa-solid fa-user" />
                 {{ arg.event.extendedProps.user.first_name }}
                 {{ arg.event.extendedProps.user.last_name }}
+            </div>
+
+            <div v-else class="w-full truncate">
+                <i class="mr-1 fa-brands fa-google" />
+                Evento importato
             </div>
 
             <template v-if="arg.event.extendedProps.has_buffer">
@@ -20,6 +27,7 @@
                 </div>
             </template>
         </div>
+
         <template v-else-if="arg.view.type === 'dayGridMonth'">
             <div class="flex items-center w-full gap-1" :title="eventHoverTitle(arg)">
                 <span class="inline-block w-2 h-2 rounded-full shrink-0" :style="'background-color:' + arg.event.backgroundColor.slice(0, 7)" />

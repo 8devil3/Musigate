@@ -49,7 +49,7 @@
                 </template>
 
                 <template #description>
-                    Seleziona il colore della Sala: è il colore di riferimento della Sala nei calendari Musigate.
+                    Seleziona un colore di riferimento della Sala visualizzato nel calendario delle prenotazioni.
                 </template>
 
                 <template #content>

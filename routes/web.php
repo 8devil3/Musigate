@@ -17,14 +17,14 @@ use App\Http\Controllers\Backoffice\Studio\ContactController;
 use App\Http\Controllers\Backoffice\Studio\CollaborationController;
 use App\Http\Controllers\Backoffice\Studio\ServiceComfortController;
 use App\Http\Controllers\Backoffice\Studio\PaymentMethodController;
-use App\Http\Controllers\Backoffice\Studio\GeneralController;
+use App\Http\Controllers\Backoffice\Studio\DescriptionController;
 use App\Http\Controllers\Backoffice\Studio\LocationController;
 use App\Http\Controllers\Backoffice\Studio\RuleController;
 use App\Http\Controllers\Backoffice\Studio\SocialController;
 use App\Http\Controllers\Backoffice\Studio\Rooms\RoomController;
 use App\Http\Controllers\Backoffice\Studio\Rooms\EquipmentController;
 use App\Http\Controllers\Backoffice\Studio\Rooms\RoomPhotoController;
-use App\Http\Controllers\Backoffice\Studio\Rooms\DescriptionController;
+use App\Http\Controllers\Backoffice\Studio\Rooms\DescriptionController as RoomDescriptionController;
 use Inertia\Inertia;
 
 Route::get('/', function () {
@@ -61,10 +61,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 return Inertia::render('Backoffice/Studio/AppStudioLinks');
             })->name('links');
 
-            Route::get('/generale', [GeneralController::class, 'edit'])->name('general.edit');
-            Route::put('/generale', [GeneralController::class, 'update'])->name('general.update');
-            Route::put('/generale/logo-carica', [GeneralController::class, 'logo_upload'])->name('general.logo_upload');
-            Route::delete('/generale/logo-elimina', [GeneralController::class, 'logo_delete'])->name('general.logo_delete');
+            Route::get('/descrizione', [DescriptionController::class, 'edit'])->name('description.edit');
+            Route::put('/descrizione', [DescriptionController::class, 'update'])->name('description.update');
+            Route::put('/descrizione/logo-carica', [DescriptionController::class, 'logo_upload'])->name('description.logo_upload');
+            Route::delete('/descrizione/logo-elimina', [DescriptionController::class, 'logo_delete'])->name('description.logo_delete');
             
             Route::get('/location', [LocationController::class, 'edit'])->name('location.edit');
             Route::put('/location', [LocationController::class, 'update'])->name('location.update');
@@ -119,8 +119,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::group(['middleware' => 'check_room_user_id'], function(){
             Route::delete('/sale-studio/elimina/{room}', [RoomController::class, 'delete'])->name('rooms.delete');
 
-            Route::get('/sale-studio/descrizione/{room}', [DescriptionController::class, 'edit'])->name('rooms.description.edit');
-            Route::put('/sale-studio/descrizione/{room}', [DescriptionController::class, 'update'])->name('rooms.description.update');
+            Route::get('/sale-studio/descrizione/{room}', [RoomDescriptionController::class, 'edit'])->name('rooms.description.edit');
+            Route::put('/sale-studio/descrizione/{room}', [RoomDescriptionController::class, 'update'])->name('rooms.description.update');
     
             Route::get('/sale-studio/equipaggiamento/{room}', [EquipmentController::class, 'edit'])->name('rooms.equipment.edit');
             Route::put('/sale-studio/equipaggiamento/{room}', [EquipmentController::class, 'update'])->name('rooms.equipment.update');
