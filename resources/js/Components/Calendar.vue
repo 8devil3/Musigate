@@ -1,25 +1,23 @@
 <template>
 <FullCalendar ref="fullCalendarRef" :options="calendarOptions" class="h-full text-sm leading-tight">
     <template #eventContent='arg'>
-        <div v-if="arg.view.type === 'timeGridWeek'" :title="eventHoverTitle(arg)" class="p-1.5 w-full">
+        <div v-if="arg.view.type === 'timeGridWeek'" :title="eventHoverTitle(arg)" class="p-1.5 space-y-1 w-full">
+            <div>
+                {{  dayjs(arg.event.start).format('HH:mm') }}
+                -
+                {{  dayjs(arg.event.end).format('HH:mm') }}
+            </div>
+            <div class="w-full font-semibold truncate">{{ arg.event.title }}</div>
+            <div>
+                <i class="mr-1 fa-solid fa-user" />
+                {{ arg.event.extendedProps.user.first_name }}
+                {{ arg.event.extendedProps.user.last_name }}
+            </div>
+
             <template v-if="arg.event.extendedProps.has_buffer">
-                <div>
-                    {{  dayjs(arg.event.start).format('HH:mm') }}
-                    -
-                    {{  dayjs(arg.event.end).format('HH:mm') }}
-                </div>
-                <strong>{{ arg.event.title }}</strong>
                 <div class="absolute bottom-0 left-0 w-full italic truncate px-1.5 py-2" :style="'background-color:' + arg.event.backgroundColor.slice(0, 7) + 'A0'">
                     Pausa 30 min
                 </div>
-            </template>
-            <template v-else>
-                <div>
-                    {{  dayjs(arg.event.start).format('HH:mm') }}
-                    -
-                    {{  dayjs(arg.event.end).format('HH:mm') }}
-                </div>
-                <div class="w-full font-semibold truncate">{{ arg.event.title }}</div>
             </template>
         </div>
         <template v-else-if="arg.view.type === 'dayGridMonth'">
