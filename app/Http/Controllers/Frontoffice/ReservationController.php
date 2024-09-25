@@ -170,6 +170,8 @@ class ReservationController extends Controller
             // return Inertia::location($checkout_session->url);
         // }
 
+        //TODO: inserire l'evento nel calendario collegato, se collegato e se sincronizzazione type = bidirezionale
+
         // return back()->withErrors('error', 'Si è verificato un problema con il pagamento.');
 
     }
