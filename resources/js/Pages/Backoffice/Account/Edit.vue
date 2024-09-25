@@ -1,5 +1,12 @@
 <template>
-    <BackofficeLayout as="div" :isLoading="formEmail.processing || formName.processing || formPassword.processing || formDeleteUser.processing" :onSuccess="formEmail.recentlySuccessful || formName.recentlySuccessful || formPassword.recentlySuccessful" :onFail="formEmail.hasErrors || formName.hasErrors || formPassword.hasErrors" title="Account" icon="fa-solid fa-user-gear">
+    <ContentLayout
+        as="div"
+        title="Account"
+        icon="fa-solid fa-user-gear"
+        :isLoading="formEmail.processing || formName.processing || formPassword.processing || formDeleteUser.processing"
+        :onSuccess="formEmail.recentlySuccessful || formName.recentlySuccessful || formPassword.recentlySuccessful"
+        :onFail="formEmail.hasErrors || formName.hasErrors || formPassword.hasErrors"
+    >
         <template #title>
             Account
         </template>
@@ -131,7 +138,7 @@
             </FormElement>
             <!-- / -->
         </template>
-    </BackofficeLayout>
+    </ContentLayout>
 
     <ModalDanger :isOpen="openModalDeleteUser" @close="closeModalDeleteUser()">
         <template #title>
@@ -162,7 +169,7 @@ import SaveButton from '@/Components/Form/SaveButton.vue';
 import FormElement from '@/Components/Backoffice/FormElement.vue';
 import ImageUploader from '@/Components/Backoffice/ImageUploader.vue';
 import ModalDanger from '@/Components/ModalDanger.vue';
-import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
+import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
 
 const props = defineProps({
     email: String,
@@ -247,4 +254,14 @@ const deleteUser = () => {
     });
 };
 
+</script>
+
+<script>
+import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
+
+export default {
+    layout: (h, page) => h(BackofficeLayout, {
+        title: 'Account',
+    }, {default: () => page}),
+};
 </script>

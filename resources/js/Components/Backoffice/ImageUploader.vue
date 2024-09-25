@@ -5,10 +5,10 @@
                 <i class="text-sm fa-solid fa-xmark" />
             </button>
 
-            <label :for="props.id" class="flex items-center justify-center w-32 h-32 text-center transition-opacity border-2 border-dashed cursor-pointer border-slate-300 hover:opacity-80 overflow-clip shrink-0" :class="[props.rounded ? 'rounded-full' : 'rounded-lg']">
-                <i v-if="!vModel" class="text-4xl text-slate-300 fa-solid fa-camera"></i>
+            <label :for="props.id" class="flex items-center justify-center w-32 h-32 text-center transition-opacity border-2 border-dashed rounded-full cursor-pointer border-slate-300 hover:opacity-80 overflow-clip shrink-0">
+                <i v-if="!vModel" class="text-4xl text-slate-300 fa-solid fa-camera" />
     
-                <img v-else :src="'/storage/' + vModel" alt="img" class="object-contain w-full h-full rounded-full" />
+                <img v-else :src="vModel.includes('http') ? vModel : '/storage/' + vModel" alt="img" class="object-contain w-full h-full rounded-full" />
 
                 <input type="file" :id="props.id" @change="uploadImage($event.target.files[0])" :accept="props.accept" :disabled="isLoading" hidden />
             </label>
