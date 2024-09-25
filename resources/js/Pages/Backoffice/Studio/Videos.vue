@@ -1,5 +1,13 @@
 <template>
-    <BackofficeLayout @submitted="submit()" :isLoading="form.processing" :onSuccess="form.recentlySuccessful" :onFail="form.hasErrors" title="Video" icon="fa-brands fa-youtube" :backRoute="route('studio.links')">
+    <ContentLayout
+        @submitted="submit()"
+        :isLoading="form.processing"
+        :onSuccess="form.recentlySuccessful"
+        :onFail="form.hasErrors"
+        title="Video"
+        icon="fa-brands fa-youtube"
+        :backRoute="route('studio.links')"
+    >
         <template #content>
             <FormElement>
                 <template #description>
@@ -38,7 +46,7 @@
         <template #actions>
             <SaveButton />
         </template>
-    </BackofficeLayout>
+    </ContentLayout>
 </template>
 
 <script setup>
@@ -49,7 +57,7 @@ import Button from '@/Components/Form/Button.vue';
 import SaveButton from '@/Components/Form/SaveButton.vue';
 import ActionButton from '@/Components/Form/ActionButton.vue';
 import FormElement from '@/Components/Backoffice/FormElement.vue';
-import BackofficeLayout from '@/Layouts/BackofficeLayout.vue';
+import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
 
 const props = defineProps({
     videos: Array,
@@ -89,4 +97,14 @@ const checkYTVideoLink = (ytLink)=>{
     }
 }
 
+</script>
+
+<script>
+import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
+
+export default {
+    layout: (h, page) => h(BackofficeLayout, {
+        title: 'Video',
+    }, {default: () => page}),
+};
 </script>

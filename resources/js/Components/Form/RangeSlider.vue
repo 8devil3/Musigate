@@ -1,6 +1,8 @@
 <template>
-   <div class="has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-70 flex flex-col gap-3">
-        <Label v-if="props.label" :label="props.label" :id="props.id ?? id" :required="props.required" class="px-0" />
+   <div class="has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-70 flex flex-col gap-3 text-left">
+        <label v-if="props.label" :for="props.id" class="w-full mb-1 text-xs font-medium leading-none text-left text-white truncate disable:text-gray-400">
+            {{ props.label }}
+        </label>
 
         <input type="range"
             @change="emit('change')"

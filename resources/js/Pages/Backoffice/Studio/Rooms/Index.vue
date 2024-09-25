@@ -97,7 +97,7 @@
 <script setup>
 import { ref } from 'vue';
 import { router, useForm } from '@inertiajs/vue3';
-import BackofficeLayout from '@/Layouts/BackofficeLayout.vue';
+import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
 import RoomStatus from '@/Components/Backoffice/RoomStatus.vue';
 import ActionButton from '@/Components/Form/ActionButton.vue';
 import Button from '@/Components/Form/Button.vue';

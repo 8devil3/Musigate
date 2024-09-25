@@ -1,10 +1,18 @@
 <template>
-    <BackofficeLayout as="div" title="Dashboard" icon="fa-solid fa-home">
+    <!-- <BackofficeLayout as="div" title="Dashboard" icon="fa-solid fa-home">
+        <template #content>
+        </template>
+    </BackofficeLayout> -->
+    <ContentLayout
+        title="Dashboard"
+        icon="fa-solid fa-home"
+        as="div"
+    >
         <template #content>
             <div class="flex flex-col gap-6 p-4 md:gap-8 md:p-6 md:rounded-t-md">
                 <h1 class="py-4 m-0 text-4xl font-bold text-center">
                     Ciao
-                    {{ $page.props.auth.user.first_name }}
+                    {{ usePage().props.auth.user.first_name }}
                 </h1>
     
                 <!-- count box -->
@@ -18,7 +26,7 @@
                         <div class="text-4xl font-medium">{{ props.studio.rooms?.filter(room => room.room_status_id === 4).length ?? 0 }}</div>
                         <Link :href="route('rooms.index')" class="font-medium text-orange-500 transition-colors hover:text-orange-400">Vai alle Sale Studio <i class="ml-1 fa-solid fa-arrow-right"></i></Link>
                     </div>
-
+    
                     <div class="p-4 space-y-4 bg-gray-900 border-2 border-orange-600 rounded-xl">
                         <h3 class="flex items-start gap-2 text-lg">
                             <i class="mt-1.5 fa-regular fa-circle-pause"></i>
@@ -28,7 +36,7 @@
                         <div class="text-4xl font-medium">{{ props.studio.rooms?.filter(room => room.room_status_id === 2).length ?? 0 }}</div>
                         <Link :href="route('rooms.index')" class="font-medium text-orange-500 transition-colors hover:text-orange-400">Vai alle Sale Studio <i class="ml-1 fa-solid fa-arrow-right"></i></Link>
                     </div>
-
+    
                     <div class="p-4 space-y-4 bg-gray-900 border-2 border-orange-600 rounded-xl">
                         <h3 class="flex items-start gap-2 text-lg">
                             <i class="mt-1.5 fa-regular" :class="props.studio.is_complete ? ' fa-circle-check text-green-500' : 'fa-circle-xmark text-red-500'"></i>
@@ -78,21 +86,30 @@
                             </li>
                         </ul>
                     </div>
-
+    
                 </div>
                 <!-- / -->    
             </div>
         </template>
-    </BackofficeLayout>
+    </ContentLayout>
 </template>
 
 <script setup>
-import { Link } from '@inertiajs/vue3';
-import Button from '@/Components/Form/Button.vue';
-import BackofficeLayout from '@/Layouts/BackofficeLayout.vue';
+import { Link, usePage } from '@inertiajs/vue3';
+import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
 
 const props = defineProps({
     studio: Object
 });
 
+</script>
+
+<script>
+import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
+
+export default {
+    layout: (h, page) => h(BackofficeLayout, {
+        title: 'Dashboard',
+    }, {default: () => page}),
+};
 </script>

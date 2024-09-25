@@ -71,7 +71,7 @@ import SaveButton from '@/Components/Form/SaveButton.vue';
 import Toggle from '@/Components/Form/Toggle.vue';
 import Select from '@/Components/Form/Select.vue';
 import FormElement from '@/Components/Backoffice/FormElement.vue';
-import BackofficeLayout from '@/Layouts/BackofficeLayout.vue';
+import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
 
 const props = defineProps({
     availability: Object,

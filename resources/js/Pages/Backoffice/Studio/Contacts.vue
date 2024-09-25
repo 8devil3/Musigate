@@ -1,5 +1,13 @@
 <template>
-    <BackofficeLayout @submitted="submit()" :isLoading="form.processing" :onSuccess="form.recentlySuccessful" :onFail="form.hasErrors" title="Contatti" icon="fa-solid fa-envelope" :backRoute="route('studio.links')">
+    <ContentLayout
+        @submitted="submit()"
+        :isLoading="form.processing"
+        :onSuccess="form.recentlySuccessful"
+        :onFail="form.hasErrors"
+        title="Contatti"
+        icon="fa-solid fa-envelope"
+        :backRoute="route('studio.links')"
+    >
         <template #content>
             <FormElement>
                 <template #description>
@@ -40,7 +48,7 @@
         <template #actions>
             <SaveButton />
         </template>
-    </BackofficeLayout>
+    </ContentLayout>
 </template>
 
 <script setup>
@@ -48,7 +56,7 @@ import { useForm } from '@inertiajs/vue3';
 import Input from '@/Components/Form/Input.vue';
 import SaveButton from '@/Components/Form/SaveButton.vue';
 import FormElement from '@/Components/Backoffice/FormElement.vue';
-import BackofficeLayout from '@/Layouts/BackofficeLayout.vue';
+import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
 
 const props = defineProps({
     contacts: Object,
@@ -68,4 +76,14 @@ const submit = () => {
     });
 };
 
+</script>
+
+<script>
+import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
+
+export default {
+    layout: (h, page) => h(BackofficeLayout, {
+        title: 'Contatti',
+    }, {default: () => page}),
+};
 </script>

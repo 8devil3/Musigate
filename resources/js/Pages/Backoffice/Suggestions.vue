@@ -37,7 +37,7 @@ import Input from '@/Components/Form/Input.vue';
 import Button from '@/Components/Form/Button.vue';
 import Textarea from '@/Components/Form/Textarea.vue';
 import FormElement from '@/Components/Backoffice/FormElement.vue';
-import BackofficeLayout from '@/Layouts/BackofficeLayout.vue';
+import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
 
 const form = useForm({
     message: null,

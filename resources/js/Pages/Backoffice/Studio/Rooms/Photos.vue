@@ -90,7 +90,7 @@ import Empty from '@/Components/Backoffice/Empty.vue';
 import Button from '@/Components/Form/Button.vue';
 import ModalDanger from '@/Components/ModalDanger.vue';
 import FormElement from '@/Components/Backoffice/FormElement.vue';
-import BackofficeLayout from '@/Layouts/BackofficeLayout.vue';
+import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
 
 const props = defineProps({
     room: Object,

@@ -1,5 +1,13 @@
 <template>
-    <BackofficeLayout @submitted="submit()" :isLoading="form.processing" :onSuccess="form.recentlySuccessful" :onFail="form.hasErrors" title="Servizi e comforts" icon="fa-solid fa-hand-holding-heart" :backRoute="route('studio.links')">
+    <ContentLayout
+        @submitted="submit()"
+        :isLoading="form.processing"
+        :onSuccess="form.recentlySuccessful"
+        :onFail="form.hasErrors"
+        title="Servizi e comforts"
+        icon="fa-solid fa-hand-holding-heart"
+        :backRoute="route('studio.links')"
+    >
         <template #content>
             <!-- servizi -->
             <FormElement>
@@ -45,7 +53,7 @@
         <template #actions>
             <SaveButton />
         </template>
-    </BackofficeLayout>
+    </ContentLayout>
 </template>
 
 <script setup>
@@ -53,7 +61,7 @@ import { useForm } from '@inertiajs/vue3';
 import Checkbox from '@/Components/Form/Checkbox.vue';
 import SaveButton from '@/Components/Form/SaveButton.vue';
 import FormElement from '@/Components/Backoffice/FormElement.vue';
-import BackofficeLayout from '@/Layouts/BackofficeLayout.vue';
+import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
 
 const props = defineProps({
     all_services: Object,
@@ -73,4 +81,14 @@ const submit = () => {
     });
 };
 
+</script>
+
+<script>
+import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
+
+export default {
+    layout: (h, page) => h(BackofficeLayout, {
+        title: 'Servizi e comfort',
+    }, {default: () => page}),
+};
 </script>

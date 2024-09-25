@@ -1,5 +1,13 @@
 <template>
-    <BackofficeLayout @submitted="submit()" :isLoading="form.processing" :onSuccess="form.recentlySuccessful" :onFail="form.hasErrors" title="Regolamento" icon="fa-solid fa-scroll" :backRoute="route('studio.links')">
+    <ContentLayout
+        @submitted="submit()"
+        :isLoading="form.processing"
+        :onSuccess="form.recentlySuccessful"
+        :onFail="form.hasErrors"
+        title="Regolamento"
+        icon="fa-solid fa-scroll"
+        :backRoute="route('studio.links')"
+    >
         <template #description>
             Inserisci il regolamento dello Studio valido prima, durante e dopo le sessioni.<br>
             Può includere indicazioni sul codice di comportamento e/o condotta nelle tre fasi della sessione in Studio.
@@ -52,7 +60,7 @@
         <template #actions>
             <SaveButton />
         </template>
-    </BackofficeLayout>
+    </ContentLayout>
 </template>
 
 <script setup>
@@ -60,7 +68,7 @@ import { useForm } from '@inertiajs/vue3';
 import SaveButton from '@/Components/Form/SaveButton.vue';
 import Textarea from '@/Components/Form/Textarea.vue';
 import FormElement from '@/Components/Backoffice/FormElement.vue';
-import BackofficeLayout from '@/Layouts/BackofficeLayout.vue';
+import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
 
 const props = defineProps({
     rules: Object,
@@ -78,4 +86,14 @@ const submit = () => {
     });
 };
 
+</script>
+
+<script>
+import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
+
+export default {
+    layout: (h, page) => h(BackofficeLayout, {
+        title: 'Regolamento',
+    }, {default: () => page}),
+};
 </script>

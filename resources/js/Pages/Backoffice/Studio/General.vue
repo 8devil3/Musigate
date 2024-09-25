@@ -1,5 +1,13 @@
 <template>
-    <BackofficeLayout @submitted="submit()" :isLoading="form.processing" :onSuccess="form.recentlySuccessful" :onFail="form.hasErrors" title="Generale" icon="fa-solid fa-file-lines" :backRoute="route('studio.links')">
+    <ContentLayout
+        @submitted="submit()"
+        :isLoading="form.processing"
+        :onSuccess="form.recentlySuccessful"
+        :onFail="form.hasErrors"
+        title="Generale"
+        icon="fa-solid fa-file-lines"
+        :backRoute="route('studio.links')"
+    >
         <template #content>
             <!-- nome studio -->
             <FormElement required>
@@ -183,7 +191,7 @@
         <template #actions>
             <SaveButton />
         </template>
-    </BackofficeLayout>
+    </ContentLayout>
 </template>
 
 <script setup>
@@ -196,7 +204,7 @@ import SaveButton from '@/Components/Form/SaveButton.vue';
 import Textarea from '@/Components/Form/Textarea.vue';
 import ImageUploader from '@/Components/Backoffice/ImageUploader.vue';
 import FormElement from '@/Components/Backoffice/FormElement.vue';
-import BackofficeLayout from '@/Layouts/BackofficeLayout.vue';
+import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
 
 const props = defineProps({
     studio: Object,
@@ -217,4 +225,14 @@ const submit = () => {
     });
 };
 
+</script>
+
+<script>
+import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
+
+export default {
+    layout: (h, page) => h(BackofficeLayout, {
+        title: 'Generale',
+    }, {default: () => page}),
+};
 </script>

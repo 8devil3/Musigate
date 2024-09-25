@@ -1,5 +1,13 @@
 <template>
-    <BackofficeLayout as="div" :isLoading="form.processing || formFeature.processing" :onSuccess="form.recentlySuccessful" :onFail="form.hasErrors" title="Foto" icon="fa-solid fa-image" :backRoute="route('studio.links')">
+    <ContentLayout
+        as="div"
+        :isLoading="form.processing || formFeature.processing"
+        :onSuccess="form.recentlySuccessful"
+        :onFail="form.hasErrors"
+        title="Foto"
+        icon="fa-solid fa-image"
+        :backRoute="route('studio.links')"
+    >
         <template #content>
             <FormElement>
                 <template #description>
@@ -65,7 +73,7 @@
                 <Button v-if="!form.checkedPhotos.length" @click="inputFile.click()" :isLoading="form.processing" text="Carica foto" icon="fa-solid fa-upload" color="green" />
             </div>
         </template>
-    </BackofficeLayout>
+    </ContentLayout>
     
     <ModalDanger :isOpen="openModalDanger" @close="openModalDanger = false; currentPhotoId = null">
         <template #title>
@@ -85,12 +93,11 @@
 <script setup>
 import { ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
-import Input from '@/Components/Form/Input.vue';
 import Empty from '@/Components/Backoffice/Empty.vue';
 import Button from '@/Components/Form/Button.vue';
 import ModalDanger from '@/Components/ModalDanger.vue';
 import FormElement from '@/Components/Backoffice/FormElement.vue';
-import BackofficeLayout from '@/Layouts/BackofficeLayout.vue';
+import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
 
 const props = defineProps({
     photos: Array,
@@ -142,4 +149,14 @@ const featurePhoto = (photoId)=>{
     });
 }
 
+</script>
+
+<script>
+import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
+
+export default {
+    layout: (h, page) => h(BackofficeLayout, {
+        title: 'Foto',
+    }, {default: () => page}),
+};
 </script>

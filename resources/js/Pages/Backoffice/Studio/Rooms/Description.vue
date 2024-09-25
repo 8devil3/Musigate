@@ -152,7 +152,7 @@
 
 <script setup>
 import { useForm } from '@inertiajs/vue3';
-import BackofficeLayout from '@/Layouts/BackofficeLayout.vue';
+import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
 import SaveButton from '@/Components/Form/SaveButton.vue';
 import Input from '@/Components/Form/Input.vue'
 import Select from '@/Components/Form/Select.vue';

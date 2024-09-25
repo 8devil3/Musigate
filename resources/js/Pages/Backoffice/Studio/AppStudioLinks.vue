@@ -21,7 +21,7 @@
 
 <script setup>
 import { Link } from '@inertiajs/vue3';
-import BackofficeLayout from '@/Layouts/BackofficeLayout.vue';
+import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
 
 const links = [
     {

@@ -1,5 +1,13 @@
 <template>
-    <BackofficeLayout as="div" :isLoading="form.processing || formDelete.processing" :onSuccess="form.recentlySuccessful || formDelete.recentlySuccessful" :onFail="form.hasErrors || formDelete.hasErrors" title="Collaborazioni" icon="fa-solid fa-handshake" :backRoute="route('studio.links')">
+    <ContentLayout
+        as="div"
+        :isLoading="form.processing || formDelete.processing"
+        :onSuccess="form.recentlySuccessful || formDelete.recentlySuccessful"
+        :onFail="form.hasErrors || formDelete.hasErrors"
+        title="Collaborazioni"
+        icon="fa-solid fa-handshake"
+        :backRoute="route('studio.links')"
+    >
         <template #content>
             <FormElement>
                 <template #description>
@@ -41,7 +49,7 @@
         <template v-if="props.collaborations.length" #actions>
             <Button @click="openModal = true" text="Aggiungi" icon="fa-solid fa-plus" title="Aggiungi collaborazione" />
         </template>
-    </BackofficeLayout>
+    </ContentLayout>
 
     <Modal :isOpen="openModal" @close="openModal = false; collabId = null">
         <template #title>
@@ -97,7 +105,7 @@ import Textarea from '@/Components/Form/Textarea.vue';
 import SaveButton from '@/Components/Form/SaveButton.vue';
 import FormElement from '@/Components/Backoffice/FormElement.vue';
 import ActionButton from '@/Components/Form/ActionButton.vue';
-import BackofficeLayout from '@/Layouts/BackofficeLayout.vue';
+import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
 import ModalDanger from '@/Components/ModalDanger.vue';
 import Modal from '@/Components/Modal.vue';
 
@@ -163,4 +171,14 @@ const submitDelete = ()=>{
     });
 }
 
+</script>
+
+<script>
+import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
+
+export default {
+    layout: (h, page) => h(BackofficeLayout, {
+        title: 'Collaborazioni',
+    }, {default: () => page}),
+};
 </script>

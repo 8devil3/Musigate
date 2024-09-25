@@ -1,5 +1,13 @@
 <template>
-    <BackofficeLayout @submitted="submit()" :isLoading="form.processing" :onSuccess="form.recentlySuccessful" :onFail="form.hasErrors" title="Metodi di pagamento" icon="fa-regular fa-credit-card" :backRoute="route('studio.links')">
+    <ContentLayout
+        @submitted="submit()"
+        :isLoading="form.processing"
+        :onSuccess="form.recentlySuccessful"
+        :onFail="form.hasErrors"
+        title="Metodi di pagamento"
+        icon="fa-regular fa-credit-card"
+        :backRoute="route('studio.links')"
+    >
         <template #content>
             <FormElement>
                 <template #description>
@@ -20,7 +28,7 @@
         <template #actions>
             <SaveButton />
         </template>
-    </BackofficeLayout>
+    </ContentLayout>
 </template>
 
 <script setup>
@@ -28,7 +36,7 @@ import { useForm } from '@inertiajs/vue3';
 import SaveButton from '@/Components/Form/SaveButton.vue';
 import Checkbox from '@/Components/Form/Checkbox.vue';
 import FormElement from '@/Components/Backoffice/FormElement.vue';
-import BackofficeLayout from '@/Layouts/BackofficeLayout.vue';
+import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
 
 const props = defineProps({
     payments: Object,
@@ -45,4 +53,14 @@ const submit = () => {
     });
 };
 
+</script>
+
+<script>
+import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
+
+export default {
+    layout: (h, page) => h(BackofficeLayout, {
+        title: 'Metodi di pagamento',
+    }, {default: () => page}),
+};
 </script>

@@ -162,7 +162,7 @@ import SaveButton from '@/Components/Form/SaveButton.vue';
 import FormElement from '@/Components/Backoffice/FormElement.vue';
 import ImageUploader from '@/Components/Backoffice/ImageUploader.vue';
 import ModalDanger from '@/Components/ModalDanger.vue';
-import BackofficeLayout from '@/Layouts/BackofficeLayout.vue';
+import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
 
 const props = defineProps({
     email: String,

@@ -76,7 +76,7 @@
 <script setup>
 import { ref } from 'vue';
 import { router } from '@inertiajs/vue3';
-import BackofficeLayout from '@/Layouts/BackofficeLayout.vue';
+import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
 import Calendar from '@/Components/Calendar.vue';
 import Select from '@/Components/Form/Select.vue';
 import Modal from '@/Components/Modal.vue';

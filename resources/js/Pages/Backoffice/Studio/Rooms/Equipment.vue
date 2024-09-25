@@ -65,7 +65,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
-import BackofficeLayout from '@/Layouts/BackofficeLayout.vue';
+import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
 import Input from '@/Components/Form/Input.vue'
 import Modal from '@/Components/Modal.vue';
 import Button from '@/Components/Form/Button.vue';

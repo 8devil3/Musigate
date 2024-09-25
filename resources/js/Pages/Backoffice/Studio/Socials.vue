@@ -1,12 +1,20 @@
 <template>
-    <BackofficeLayout @submitted="submit()" :isLoading="form.processing" :onSuccess="form.recentlySuccessful" :onFail="form.hasErrors" title="Social" icon="fa-solid fa-share-nodes" :backRoute="route('studio.links')">
+    <ContentLayout
+        title="Social"
+        icon="fa-solid fa-share-nodes"
+        @submitted="submit()"
+        :isLoading="form.processing"
+        :onSuccess="form.recentlySuccessful"
+        :onFail="form.hasErrors"
+        :backRoute="route('studio.links')"
+    >
         <template #content>
             <FormElement>
                 <template #description>
                     Inserisci i link dei social a cui è iscritto il tuo Studio e il sito web.<br>
                     Tutti i link devono iniziare con <strong class="font-semibold">https://...</strong>
                 </template>
-
+        
                 <template #content>
                     <div class="space-y-4 md:space-y-6">
                         <div v-for="social, key in socials" :title="social.name" class="flex items-center gap-4">
@@ -21,15 +29,15 @@
         <template #actions>
             <SaveButton />
         </template>
-    </BackofficeLayout>
+    </ContentLayout>
 </template>
 
 <script setup>
 import { useForm } from '@inertiajs/vue3';
+import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
 import Input from '@/Components/Form/Input.vue';
 import SaveButton from '@/Components/Form/SaveButton.vue';
 import FormElement from '@/Components/Backoffice/FormElement.vue';
-import BackofficeLayout from '@/Layouts/BackofficeLayout.vue';
 
 const props = defineProps({
     socials: Object,
@@ -103,4 +111,14 @@ const socials = {
     }
 }
 
+</script>
+
+<script>
+import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
+
+export default {
+    layout: (h, page) => h(BackofficeLayout, {
+        title: 'Social',
+    }, {default: () => page}),
+};
 </script>
