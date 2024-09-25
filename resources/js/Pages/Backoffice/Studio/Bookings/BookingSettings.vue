@@ -7,7 +7,6 @@
         :isLoading="form.processing"
         :onSuccess="form.recentlySuccessful"
         :onFail="form.hasErrors"
-        :tabLinks="tabLinks"
     >
         <template #content>
             <!-- vista calendario -->
@@ -164,7 +163,7 @@
 import { useForm } from '@inertiajs/vue3';
 import SaveButton from '@/Components/Form/SaveButton.vue';
 import FormElement from '@/Components/Backoffice/FormElement.vue';
-import BackofficeLayout from '@/Layouts/BackofficeLayout.vue';
+import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
 import NumberInput from '@/Components/Form/NumberInput.vue';
 import Toggle from '@/Components/Form/Toggle.vue';
 import Select from '@/Components/Form/Select.vue';
@@ -204,18 +203,5 @@ const calendarViews = {
     dayGridMonth: 'Mensile',
     timeGridWeek: 'Settimanale',
 };
-
-const tabLinks = [
-    {
-        name: 'Prenotazioni',
-        href: route('bookings.settings.edit'),
-        active: route().current('bookings.settings.edit')
-    },
-    {
-        name: 'Annullamenti',
-        href: route('cancelling.settings.edit'),
-        active: route().current('cancelling.settings.edit')
-    },
-];
 
 </script>

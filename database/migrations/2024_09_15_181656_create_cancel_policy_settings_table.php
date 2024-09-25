@@ -16,10 +16,9 @@ return new class extends Migration
 
             $table->foreignId('studio_id')->constrained()->cascadeOnDelete();
             $table->boolean('has_cancel_policy')->default(false);
-            $table->unsignedTinyInteger('full_refund_hours')->nullable();
-            $table->unsignedTinyInteger('partial_refund_hours')->nullable();
-            $table->unsignedTinyInteger('partial_refund_percentage')->nullable();
-            $table->unsignedTinyInteger('no_refund_hours')->nullable();
+            $table->unsignedTinyInteger('no_refund_hours')->default(24);
+            $table->unsignedTinyInteger('partial_refund_hours')->default(48);
+            $table->unsignedTinyInteger('partial_refund_percentage')->default(50);
 
             $table->timestamps();
         });

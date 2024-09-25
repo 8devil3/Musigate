@@ -1,19 +1,32 @@
 <template>
     <BackofficeLayout
         @submitted="submit()"
-        title="Impostazioni prenotazioni"
-        icon="fa-solid fa-gears"
+        title="Policy annullamenti"
+        icon="fa-solid fa-calendar-xmark"
         :backRoute="route('studio.links')"
         :isLoading="form.processing"
         :onSuccess="form.recentlySuccessful"
         :onFail="form.hasErrors"
-        :tabLinks="tabLinks"
     >
+        <template #description>
+            <template v-if="!form.has_cancel_policy">
+                Policy di annullamento disattivata.
+            </template>
+            <template v-else>
+                Se l'utente annulla la prenotazione:
+                <ul class="list-disc list-inside">
+                    <li class="text-sm">fino a <span class="font-semibold text-orange-500">{{ form.no_refund_hours }} ore</span> prima della data di prenotazione non riceverà alcun rimborso.</li>
+                    <li class="text-sm">da <span class="font-semibold text-orange-500">{{ form.no_refund_hours }} ore</span> a <span class="font-semibold text-orange-500">{{ form.partial_refund_hours }} ore</span> prima della data di prenotazione riceverà un rimborso del <span class="font-semibold text-orange-500">{{ form.partial_refund_percentage }}%</span>.</li>
+                    <li class="text-sm">oltre <span class="font-semibold text-orange-500">{{ form.partial_refund_hours }} ore</span> prima della data di prenotazione riceverà il rimborso totale</li>
+                </ul>
+            </template>
+        </template>
+
         <template #content>
             <!-- buffer -->
             <FormElement>
                 <template #title>
-                    Policy annullamenti
+                    Abilita/disabilita policy
                 </template>
 
                 <template #description>
@@ -43,6 +56,7 @@
                         <RangeSlider
                             v-model.number="form.no_refund_hours"
                             label="Ore precedenti la prenotazione"
+                            @change="setPartialRefund()"
                             :disabled="!form.has_cancel_policy"
                             :step="4"
                             :min="4"
@@ -99,34 +113,6 @@
                 </template>
             </FormElement>
             <!-- / -->
-
-            <!-- rimborso totale -->
-            <FormElement>
-                <template #title>
-                    Rimborso totale
-                </template>
-
-                <template #description>
-                    Seleziona la quantità di ore, precedenti alla sessione, che determinano il rimborso totale.
-                </template>
-
-                <template #content>
-                    <div class="space-y-4">
-                        <RangeSlider
-                            v-model.number="form.full_refund_hours"
-                            label="Ore precedenti la prenotazione"
-                            :disabled="!form.has_cancel_policy"
-                            :step="4"
-                            :min="parseInt(form.partial_refund_hours) + 8"
-                            :max="240"
-                        />
-                        <div class="font-semibold">
-                            {{ form.full_refund_hours }} ore
-                        </div>
-                    </div>
-                </template>
-            </FormElement>
-            <!-- / -->
         </template>
 
         <template #actions>
@@ -139,7 +125,7 @@
 import { useForm } from '@inertiajs/vue3';
 import SaveButton from '@/Components/Form/SaveButton.vue';
 import FormElement from '@/Components/Backoffice/FormElement.vue';
-import BackofficeLayout from '@/Layouts/BackofficeLayout.vue';
+import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
 import Toggle from '@/Components/Form/Toggle.vue';
 import RangeSlider from '@/Components/Form/RangeSlider.vue';
 
@@ -149,28 +135,20 @@ const props = defineProps({
 
 const form = useForm({
     has_cancel_policy: props.cancel_settings?.has_cancel_policy,
-    full_refund_hours: props.cancel_settings?.full_refund_hours ?? 72,
+    no_refund_hours: props.cancel_settings?.no_refund_hours ?? 24,
     partial_refund_hours: props.cancel_settings?.partial_refund_hours ?? 48,
     partial_refund_percentage: props.cancel_settings?.partial_refund_percentage ?? 50,
-    no_refund_hours: props.cancel_settings?.no_refund_hours ?? 24,
 });
+
+const setPartialRefund = ()=>{
+    if(form.partial_refund_hours <= form.no_refund_hours){
+        form.partial_refund_hours = form.no_refund_hours +8;
+    }
+}
 
 const submit = () => {
     if(form.processing) return;
     form.put(route('cancelling.settings.update'));
 };
-
-const tabLinks = [
-    {
-        name: 'Prenotazioni',
-        href: route('bookings.settings.edit'),
-        active: route().current('bookings.settings.edit')
-    },
-    {
-        name: 'Annullamenti',
-        href: route('cancelling.settings.edit'),
-        active: route().current('cancelling.settings.edit')
-    },
-];
 
 </script>
