@@ -26,9 +26,7 @@
                     <slot name="description"/>
                 </p>
 
-                <div>
-                    <slot name="content"/>
-                </div>
+                <slot name="content"/>
             </div>
         </fieldset>
     </component>

@@ -43,7 +43,7 @@
                         
                         <ul class="mt-1 ml-6 space-y-1 list-none border-l list-image-none border-slate-600">
                             <li v-for="child in item.children">
-                                <Link :href="route(child.route)" class="flex items-center gap-2 px-3 py-1.5 text-xs transition-colors border-transparent text-slate-300 border-x-4 hover:border-l-orange-500 hover:bg-slate-700/50" :class="[{'border-l-orange-500 hover:bg-transparent text-slate-100 bg-slate-700/80' : route().current(child.active)}]">
+                                <Link :href="route(child.route)" class="flex items-center gap-2 px-3 py-1.5 text-xs transition-colors border-transparent text-slate-300 border-x-4 hover:border-l-orange-500 hover:bg-slate-700/50" :class="[{'border-l-orange-500 text-slate-100 bg-slate-700/80' : route().current(child.active)}]">
                                     <i class="w-5 text-center" :class="child.icon" />
                                     {{ child.label }}
                                 </Link>

@@ -1,5 +1,14 @@
 <template>
-    <BackofficeLayout as="div" :isLoading="form.processing || formFeature.processing" :onSuccess="form.recentlySuccessful" :onFail="form.hasErrors" title="Foto" icon="fa-solid fa-image" :backRoute="route('studio.links')" :tabLinks="tabLinks">
+    <ContentLayout
+        as="div"
+        title="Foto"
+        icon="fa-solid fa-image"
+        :isLoading="form.processing || formFeature.processing"
+        :onSuccess="form.recentlySuccessful"
+        :onFail="form.hasErrors"
+        :backRoute="route('studio.links')"
+        :tabLinks="tabLinks"
+    >
         <template #content>
             <FormElement>
                 <template #description>
@@ -65,7 +74,7 @@
                 <Button v-if="!form.checkedPhotos.length" @click="inputFile.click()" :isLoading="form.processing" text="Carica foto" icon="fa-solid fa-upload" color="green" />
             </div>
         </template>
-    </BackofficeLayout>
+    </ContentLayout>
     
     <ModalDanger :isOpen="openModalDanger" @close="openModalDanger = false; currentPhotoId = null">
         <template #title>
@@ -90,7 +99,7 @@ import Empty from '@/Components/Backoffice/Empty.vue';
 import Button from '@/Components/Form/Button.vue';
 import ModalDanger from '@/Components/ModalDanger.vue';
 import FormElement from '@/Components/Backoffice/FormElement.vue';
-import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
+import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
 
 const props = defineProps({
     room: Object,
@@ -161,4 +170,14 @@ const tabLinks = [
     },
 ];
 
+</script>
+
+<script>
+import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
+
+export default {
+    layout: (h, page) => h(BackofficeLayout, {
+        title: 'Foto',
+    }, {default: () => page}),
+};
 </script>

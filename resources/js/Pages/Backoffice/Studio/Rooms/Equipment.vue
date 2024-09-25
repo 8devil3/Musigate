@@ -1,5 +1,14 @@
 <template>
-    <BackofficeLayout @submitted="submit()" :isLoading="form.processing" :onSuccess="form.recentlySuccessful" :title="props.room.name" :onFail="form.hasErrors" icon="fa-solid fa-microphone-lines" :tabLinks="tabLinks" :backRoute="route('rooms.index')">
+    <ContentLayout
+        @submitted="submit()"
+        :isLoading="form.processing"
+        :onSuccess="form.recentlySuccessful"
+        :title="props.room.name"
+        :onFail="form.hasErrors"
+        icon="fa-solid fa-microphone-lines"
+        :tabLinks="tabLinks"
+        :backRoute="route('rooms.index')"
+    >
         <template #content>
             <FormElement v-for="category, key in props.equipment_categories">
                 <template #title>
@@ -46,7 +55,7 @@
         <template #actions>
             <SaveButton />
         </template>
-    </BackofficeLayout>
+    </ContentLayout>
 
     <Modal :isOpen="openModal" @close="closeModalBulk()">
         <template #title>{{ currentCategory.name }} - Aggiungi in massa</template>
@@ -65,7 +74,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
-import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
+import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
 import Input from '@/Components/Form/Input.vue'
 import Modal from '@/Components/Modal.vue';
 import Button from '@/Components/Form/Button.vue';
@@ -171,4 +180,14 @@ const tabLinks = [
     },
 ];
 
+</script>
+
+<script>
+import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
+
+export default {
+    layout: (h, page) => h(BackofficeLayout, {
+        title: 'Equipaggiamento',
+    }, {default: () => page}),
+};
 </script>

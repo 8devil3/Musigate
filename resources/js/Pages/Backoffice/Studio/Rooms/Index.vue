@@ -1,5 +1,11 @@
 <template>
-    <BackofficeLayout as="div" title="Sale Studio" :isLoading="formUpdateStatus.processing || formDelete.processing" :onFail="formUpdateStatus.hasErrors || formDelete.hasErrors" icon="fa-solid fa-microphone-lines">
+    <ContentLayout
+        as="div"
+        title="Sale Studio"
+        :isLoading="formUpdateStatus.processing || formDelete.processing"
+        :onFail="formUpdateStatus.hasErrors || formDelete.hasErrors"
+        icon="fa-solid fa-microphone-lines"
+    >
         <template #description>
             Gestisci le Sale del tuo Studio.<br>
             Per modificare o eliminare una Sala dovrai prima sospenderla.
@@ -74,7 +80,7 @@
         <template #actions>
             <Button v-if="props.rooms.length" @click="createNewRoom()" text="Aggiungi" icon="fa-solid fa-plus" title="Aggiungi Sala"/>
         </template>
-    </BackofficeLayout>
+    </ContentLayout>
 
     <ModalDanger :isOpen="openModalDanger" @close="currentRoomId = null; openModalDanger = false">
         <template #title>
@@ -97,7 +103,7 @@
 <script setup>
 import { ref } from 'vue';
 import { router, useForm } from '@inertiajs/vue3';
-import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
+import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
 import RoomStatus from '@/Components/Backoffice/RoomStatus.vue';
 import ActionButton from '@/Components/Form/ActionButton.vue';
 import Button from '@/Components/Form/Button.vue';
@@ -144,4 +150,14 @@ const createNewRoom = ()=>{
     formNewRoom.post(route('rooms.store'))
 }
 
+</script>
+
+<script>
+import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
+
+export default {
+    layout: (h, page) => h(BackofficeLayout, {
+        title: 'Sale Studio',
+    }, {default: () => page}),
+};
 </script>

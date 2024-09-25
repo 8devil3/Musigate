@@ -1,5 +1,5 @@
 <template>
-    <BackofficeLayout
+    <ContentLayout
         @submitted="submit()"
         title="Impostazioni prenotazioni"
         icon="fa-solid fa-gears"
@@ -156,14 +156,14 @@
         <template #actions>
             <SaveButton />
         </template>
-    </BackofficeLayout>
+    </ContentLayout>
 </template>
 
 <script setup>
 import { useForm } from '@inertiajs/vue3';
 import SaveButton from '@/Components/Form/SaveButton.vue';
 import FormElement from '@/Components/Backoffice/FormElement.vue';
-import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
+import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
 import NumberInput from '@/Components/Form/NumberInput.vue';
 import Toggle from '@/Components/Form/Toggle.vue';
 import Select from '@/Components/Form/Select.vue';
@@ -204,4 +204,14 @@ const calendarViews = {
     timeGridWeek: 'Settimanale',
 };
 
+</script>
+
+<script>
+import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
+
+export default {
+    layout: (h, page) => h(BackofficeLayout, {
+        title: 'Impostazioni prenotazioni',
+    }, {default: () => page}),
+};
 </script>

@@ -1,5 +1,14 @@
 <template>
-    <BackofficeLayout @submitted="submit()" :isLoading="form.processing" :onSuccess="form.recentlySuccessful" :title="props.room.name" :onFail="form.hasErrors" icon="fa-solid fa-microphone-lines" :tabLinks="tabLinks" :backRoute="route('rooms.index')">
+    <ContentLayout
+        @submitted="submit()"
+        :isLoading="form.processing"
+        :onSuccess="form.recentlySuccessful"
+        :title="props.room.name"
+        :onFail="form.hasErrors"
+        icon="fa-solid fa-microphone-lines"
+        :tabLinks="tabLinks"
+        :backRoute="route('rooms.index')"
+    >
         <template #content>
             <!-- status -->
             <FormElement>
@@ -34,7 +43,7 @@
             <!-- / -->
 
             <!-- colore -->
-            <!-- <FormElement>
+            <FormElement>
                 <template #title>
                     Colore
                 </template>
@@ -49,7 +58,7 @@
                         {{ form.color }}
                     </div>
                 </template>
-            </FormElement> -->
+            </FormElement>
             <!-- / -->
 
             <!-- tipo -->
@@ -147,16 +156,16 @@
         <template #actions>
             <SaveButton />
         </template>
-    </BackofficeLayout>
+    </ContentLayout>
 </template>
 
 <script setup>
 import { useForm } from '@inertiajs/vue3';
-import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
+import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
 import SaveButton from '@/Components/Form/SaveButton.vue';
 import Input from '@/Components/Form/Input.vue'
 import Select from '@/Components/Form/Select.vue';
-// import ColorPicker from '@/Components/Form/ColorPicker.vue';
+import ColorPicker from '@/Components/Form/ColorPicker.vue';
 import Textarea from '@/Components/Form/Textarea.vue';
 import RoomStatus from '@/Components/Backoffice/RoomStatus.vue';
 import FormElement from '@/Components/Backoffice/FormElement.vue';
@@ -171,7 +180,7 @@ const props = defineProps({
 const form = useForm({
     name: props.room.name,
     room_type_id: props.room.room_type_id,
-    // color: props.room.color,
+    color: props.room.color,
     min_price: props.room.min_price,
     description: props.room.desc,
     area: props.room.area,
@@ -201,4 +210,14 @@ const tabLinks = [
         active: route().current('rooms.photos.edit', props.room.id)
     },
 ];
+</script>
+
+<script>
+import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
+
+export default {
+    layout: (h, page) => h(BackofficeLayout, {
+        title: 'Descrizione',
+    }, {default: () => page}),
+};
 </script>

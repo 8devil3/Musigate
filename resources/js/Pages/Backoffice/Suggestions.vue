@@ -1,5 +1,11 @@
 <template>
-    <BackofficeLayout @submitted="submit()" :isLoading="form.processing" title="Segnalazioni" icon="fa-solid fa-flag" :backRoute="route('studio.links')">
+    <ContentLayout
+    @submitted="submit()"
+    :isLoading="form.processing"
+    title="Segnalazioni"
+    icon="fa-solid fa-flag"
+    :backRoute="route('studio.links')"
+    >
         <template #content>
             <FormElement>
                 <template #title>
@@ -28,7 +34,7 @@
                 </template>
             </FormElement>
         </template>
-    </BackofficeLayout>
+    </ContentLayout>
 </template>
 
 <script setup>
@@ -37,7 +43,7 @@ import Input from '@/Components/Form/Input.vue';
 import Button from '@/Components/Form/Button.vue';
 import Textarea from '@/Components/Form/Textarea.vue';
 import FormElement from '@/Components/Backoffice/FormElement.vue';
-import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
+import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
 
 const form = useForm({
     message: null,
@@ -53,4 +59,14 @@ const submit = () => {
     });
 };
 
+</script>
+
+<script>
+import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
+
+export default {
+    layout: (h, page) => h(BackofficeLayout, {
+        title: 'Segnalazioni',
+    }, {default: () => page}),
+};
 </script>

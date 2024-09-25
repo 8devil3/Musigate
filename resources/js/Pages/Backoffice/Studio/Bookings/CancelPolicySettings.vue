@@ -1,5 +1,5 @@
 <template>
-    <BackofficeLayout
+    <ContentLayout
         @submitted="submit()"
         title="Policy annullamenti"
         icon="fa-solid fa-calendar-xmark"
@@ -118,14 +118,14 @@
         <template #actions>
             <SaveButton />
         </template>
-    </BackofficeLayout>
+    </ContentLayout>
 </template>
 
 <script setup>
 import { useForm } from '@inertiajs/vue3';
 import SaveButton from '@/Components/Form/SaveButton.vue';
 import FormElement from '@/Components/Backoffice/FormElement.vue';
-import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
+import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
 import Toggle from '@/Components/Form/Toggle.vue';
 import RangeSlider from '@/Components/Form/RangeSlider.vue';
 
@@ -151,4 +151,14 @@ const submit = () => {
     form.put(route('cancelling.settings.update'));
 };
 
+</script>
+
+<script>
+import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
+
+export default {
+    layout: (h, page) => h(BackofficeLayout, {
+        title: 'Policy annullamenti',
+    }, {default: () => page}),
+};
 </script>

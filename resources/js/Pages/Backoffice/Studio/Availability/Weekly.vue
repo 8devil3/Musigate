@@ -1,5 +1,5 @@
 <template>
-    <BackofficeLayout
+    <ContentLayout
         @submitted="submit()"
         :isLoading="form.processing"
         :onSuccess="form.recentlySuccessful"
@@ -61,7 +61,7 @@
         <template #actions>
             <SaveButton />
         </template>
-    </BackofficeLayout>
+    </ContentLayout>
 </template>
 
 <script setup>
@@ -71,7 +71,7 @@ import SaveButton from '@/Components/Form/SaveButton.vue';
 import Toggle from '@/Components/Form/Toggle.vue';
 import Select from '@/Components/Form/Select.vue';
 import FormElement from '@/Components/Backoffice/FormElement.vue';
-import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
+import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
 
 const props = defineProps({
     availability: Object,
@@ -138,4 +138,14 @@ const weekdays = {
     7: 'Domenica',
 };
 
+</script>
+
+<script>
+import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
+
+export default {
+    layout: (h, page) => h(BackofficeLayout, {
+        title: 'Disponibilità',
+    }, {default: () => page}),
+};
 </script>
