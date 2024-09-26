@@ -70,15 +70,24 @@ class BookingController extends Controller
         //recupero gli eventi da Google Calendar
         $google_events = collect([]);
         if($booking_settings->google_calendar_id){
-            $google_events = Event::get(calendarId: $booking_settings->google_calendar_id)->map(function($event){
-                return [
-                    'start' => Carbon::parse($event->googleEvent->start->dateTime)->setTimezone('Europe/Rome')->toDateTimeString(),
-                    'end' => Carbon::parse($event->googleEvent->end->dateTime)->setTimezone('Europe/Rome')->toDateTimeString(),
-                    'title' => $event->summary,
-                    'borderColor' => '#475569',
-                    'backgroundColor' => '#47556930',
-                    'is_imported' => true,
-                ];
+            $google_events = Event::get(
+                now()->subMonths(6),
+                now()->addYear(),
+                [],
+                $booking_settings->google_calendar_id
+            )->map(function($event): array{
+                if(!\Str::startsWith($event->id, 'musigate')){
+                    return [
+                        'start' => Carbon::parse($event->googleEvent->start->dateTime)->setTimezone('Europe/Rome')->toDateTimeString(),
+                        'end' => Carbon::parse($event->googleEvent->end->dateTime)->setTimezone('Europe/Rome')->toDateTimeString(),
+                        'title' => $event->summary,
+                        'borderColor' => '#475569',
+                        'backgroundColor' => '#47556930',
+                        'is_imported' => true,
+                    ];
+                } else {
+                    return [];
+                }
             });
         }
 

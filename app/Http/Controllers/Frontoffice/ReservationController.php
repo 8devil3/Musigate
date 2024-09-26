@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Frontoffice;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Room\Room;
+use App\Models\User;
+use App\Services\GoogleCalendarAPIService;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\RedirectResponse;
@@ -19,6 +21,8 @@ class ReservationController extends Controller
 {
     public function create(Request $request, Room $room): Response
     {
+        if($room->room_status_id !== 4) abort(404, 'Sala non trovata');
+
         $booking_settings = $room->studio->booking_settings;
         $time_fraction = $booking_settings->allow_fractional_durations || $booking_settings->has_buffer ? '30 minutes' : '1 hour';
         $request_duration = intval($request->duration);
@@ -29,52 +33,48 @@ class ReservationController extends Controller
         if($request->startDate){
             $request_start_date = Carbon::parse($request->startDate);
             $request_weekday = $request_start_date->dayOfWeekIso;
-            $availability = $room->studio->availability()->where('is_open', true)->where('weekday', $request_weekday);
+            $availability = $room->studio->availability()->where('is_open', true)->where('weekday', $request_weekday)->first();
 
-            if($availability->exists()){
+            if($availability){
                 //recupero gli eventi (prenotazioni) di Musigate
                 $events = $room->bookings()
-                    ->whereDate('start', $request_start_date->toDateString())
-                    ->get(['start', 'end'])
-                    ->map(function($event): array{
-                        return [
-                            'title' => 'Occupato',
-                            'start' => $event->start,
-                            'end' => $event->end,
-                            'borderColor' => '#b91c1c',
-                            'backgroundColor' => '#450a0a',
-                        ];
-                    })->toBase();
+                ->whereDate('start', $request_start_date->toDateString())
+                ->get(['start', 'end'])
+                ->map(function($event) use($booking_settings, $availability, $time_fraction){    
+                    $end = $event->end;
+
+                    //buffer
+                    if($booking_settings->has_buffer && Carbon::parse($event->end)->diffInMinutes(Carbon::parse($event->end)->setTimeFromTimeString($availability->end)) >= 30){
+                        $end = Carbon::parse($event->end)->add($time_fraction)->toDateTimeString();
+                    }
+
+                    return [
+                        'title' => 'Occupato',
+                        'start' => $event->start,
+                        'end' => $end,
+                        'borderColor' => '#b91c1c',
+                        'backgroundColor' => '#450a0a',
+                    ];
+                })->toBase();
 
                 //recupero gli eventi da Google Calendar
                 $google_events = collect([]);
                 if($booking_settings->google_calendar_id){
-                    $google_events = Event::get(calendarId: $booking_settings->google_calendar_id)
-                        ->filter(function($event) use($request_start_date): bool{
-                            return Carbon::parse($event->googleEvent->start->dateTime)->setTimezone('Europe/Rome')->toDateString() === $request_start_date->toDateString();
-                        })
-                        ->map(function($event){
-                            return [
-                                'start' => Carbon::parse($event->googleEvent->start->dateTime)->setTimezone('Europe/Rome')->toDateTimeString(),
-                                'end' => Carbon::parse($event->googleEvent->end->dateTime)->setTimezone('Europe/Rome')->toDateTimeString(),
-                            ];
-                        });
-                }
-
-                //genero gli eventi di buffer
-                $buffer_events = collect([]);
-                if($booking_settings->has_buffer){
-                    $buffer_events = $events->merge($google_events)
-                        ->map(function($event) use($time_fraction): array{
-                            return [
-                                'start' => $event['end'],
-                                'end' => Carbon::parse($event['end'])->add($time_fraction)->toDateTimeString(),
-                            ];
-                        });
+                    $google_events = Event::get(
+                        Carbon::parse($request->startDate)->startOfDay(),
+                        Carbon::parse($request->startDate)->endOfDay(),
+                        [],
+                        $booking_settings->google_calendar_id
+                    )->map(function($event){
+                        return [
+                            'start' => Carbon::parse($event->googleEvent->start->dateTime)->setTimezone('Europe/Rome')->toDateTimeString(),
+                            'end' => Carbon::parse($event->googleEvent->end->dateTime)->setTimezone('Europe/Rome')->toDateTimeString(),
+                        ];
+                    });
                 }
 
                 //riunisco gli eventi in un unica collection
-                $events->merge($buffer_events)->merge($google_events);
+                $events = $events->merge($google_events);
 
                 //genero gli slot per la selezione dell'orario iniziale
                 $period_start = $request_start_date->setTimeFromTimeString($availability->first()->start)->toImmutable();
@@ -121,19 +121,19 @@ class ReservationController extends Controller
         ]);
 
         $request_duration = intval($request->duration);
-        $current_user = auth()->user();
-        $start = Carbon::parse($request->start)->toDateTimeString();
-        $end = Carbon::parse($request->start)->addHours($request_duration)->toDateTimeString();
+        $current_user = User::find(26);//auth()->user();
+        $start = Carbon::parse($request->start);
+        $end = Carbon::parse($request->start)->addHours($request_duration);
 
-        $is_temp_booking_created = Booking::create([
+        Booking::create([
             'room_id' => $room->id,
             'user_id' => $current_user->id,
-            'start' => $start,
-            'end' => $end,
+            'start' => $start->toDateTimeString(),
+            'end' => $end->toDateTimeString(),
             'guests' => $request->guests,
             'duration' => $request_duration,
             'qr_code' => \Str::uuid()->toString(),
-            'is_temp' => true, //prenotazione temporanea da completare. In attesa che l'utente completi il pagamento, blocco il calendario in modo da garantire lo slot di prenotazione per quell'utente. Quando l'utente completa il pagamento e ricevo il webhook da Stripe, allora la prenotazione diventa definitiva.
+            // 'is_temp' => true, //prenotazione temporanea da completare. In attesa che l'utente completi il pagamento, blocco il calendario in modo da garantire lo slot di prenotazione per quell'utente. Quando l'utente completa il pagamento e ricevo il webhook da Stripe, allora la prenotazione diventa definitiva.
         ]);
 
         //TODO: elaborazione pagamento Stripe
@@ -170,9 +170,40 @@ class ReservationController extends Controller
             // return Inertia::location($checkout_session->url);
         // }
 
-        //TODO: inserire l'evento nel calendario collegato, se collegato e se sincronizzazione type = bidirezionale
+        //TODO: inserimento nel calndario google collegato. Cosa fare se l'utente non ha concesso i permessi in scrittura (quelli da impostare direttamente nel calendario in "Impostazioni e condivisione")?
+
+        if($booking_settings->has_sync && $booking_settings->google_calendar_id && $booking_settings->sync_mode === 'bidirezionale'){
+            $google_event_id = str_replace('-', '', 'musigate' . \Str::uuid());
+
+            $new_google_event = Event::create([
+                'id' => $google_event_id,
+                'name' => 'Musigate - Prenotazione ' . $room->name,
+                'startDateTime' => $start,
+                'endDateTime' => $end,
+                'location' => $room->studio->location->complete_address,
+                'attendees' => [
+                    [
+                        'email' => $current_user->email,
+                        'displayName' => $current_user->first_name,
+                        'responseStatus' => 'accepted',
+                    ],
+                ],
+                'source' => [
+                    'title' => 'Musigate',
+                    'url' => 'https://www.musigate.it'
+                ],
+                'description' => 'Prenotazione effettuata da ' . $current_user->first_name . ' ' . $current_user->last_name . ' su Musigate.'
+            ], $booking_settings->google_calendar_id);
+
+            $new_google_event->addAttendee([
+                'email' => $current_user->email,
+                'name' => $current_user->first_name,
+                'responseStatus' => 'accepted',
+            ]);
+        }
 
         // return back()->withErrors('error', 'Si è verificato un problema con il pagamento.');
-
+        
+        return back()->with('success', 'Sala prenotata con successo');
     }
 }
