@@ -22,7 +22,7 @@
             </div>
 
             <template v-if="arg.event.extendedProps.has_buffer">
-                <div class="absolute bottom-0 left-0 w-full italic truncate px-1.5 py-2" :style="'background-color:' + arg.event.backgroundColor.slice(0, 7) + 'A0'">
+                <div class="absolute bottom-0 left-0 w-full italic truncate px-1.5 py-2">
                     Pausa 30 min
                 </div>
             </template>
@@ -30,9 +30,9 @@
 
         <template v-else-if="arg.view.type === 'dayGridMonth'">
             <div class="flex items-center w-full gap-1" :title="eventHoverTitle(arg)">
-                <span class="inline-block w-2 h-2 rounded-full shrink-0" :style="'background-color:' + arg.event.backgroundColor.slice(0, 7)" />
+                <span class="inline-block w-2 h-2 rounded-full shrink-0" :style="'background-color:' + arg.event.borderColor" />
                 <span class="shrink-0">
-                    {{  dayjs(arg.event.start).format('HH:mm') }}
+                    {{ dayjs(arg.event.start).format('HH:mm') }}
                 </span>
                 <div class="w-full font-semibold truncate">{{ arg.event.title }}</div>
             </div>
@@ -66,7 +66,7 @@ const emits = defineEmits(['eventClick', 'selected', 'unselected']);
 const fullCalendarRef = ref(null);
 
 const eventHoverTitle = (arg)=>{
-    return dayjs(arg.event.start).format('HH:mm') + ' - ' + dayjs(arg.event.end).format('HH:mm') + ' | ' + arg.event.title
+    return dayjs(arg.event.start).format('HH:mm') + ' - ' + dayjs(arg.event.end).format('HH:mm') + ' | ' + arg.event.title;
 };
 
 const businessHours = computed(()=>{

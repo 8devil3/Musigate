@@ -9,19 +9,6 @@
             </Link>
 
             <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-0">
-                <!-- <div class="hidden lg:block grow">
-                    <Calendar
-                        :events="props.events"
-                        :availability="props.availability"
-                        :has_buffer="props.booking_settings.has_buffer"
-                        :allow_fractional_durations="props.booking_settings.allow_fractional_durations"
-                        :min_booking="props.booking_settings.min_booking"
-                        :maxBookingHorizon="props.booking_settings.maxBookingHorizon"
-                        @selected="selectedDateTime"
-                        @unselected="form.reset()"
-                    />
-                </div> -->
-
                 <fieldset :disabled="form.processing" class="mr-12 space-y-8 disabled:cursor-not-allowed">
                     <form @submit.prevent="updateSlot()" class="flex flex-wrap items-end gap-2">
                         <Input type="date" v-model="form.startDate" @change="updateSlotSubmitBtn.click()" label="Data" required />
@@ -73,34 +60,43 @@
                     </div>
 
                     <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+                        <!-- condizioni prenotazione -->
                         <div>
                             <h4 class="pb-1 mb-4 border-b border-orange-500">Condizioni di prenotazione</h4>
-                            <p>
-                                Prenotazione minima <span class="font-semibold text-orange-500">{{ props.booking_settings.min_booking === 1 ? props.booking_settings.min_booking + ' ora' : props.booking_settings.min_booking + ' ore' }}</span>
-                                <InfoIcon msg="Prenotazione minima" />
-                            </p>
-                            <p>
-                                Preavviso <span class="font-semibold text-orange-500">{{ props.booking_settings.booking_advance === 1 ? props.booking_settings.booking_advance + ' giorno' : props.booking_settings.booking_advance + ' giorni' }}</span>
-                            </p>
+                            <ul class="space-y-2 list-musigate">
+                                <li class="text-sm list-musigate">
+                                    Prenotazione minima <span class="font-semibold text-orange-500">{{ props.booking_settings.min_booking === 1 ? props.booking_settings.min_booking + ' ora' : props.booking_settings.min_booking + ' ore' }}</span>
+                                    <!-- <InfoIcon msg="Prenotazione minima" /> -->
+                                </li>
+                                <li class="text-sm list-musigate">
+                                    Preavviso <span class="font-semibold text-orange-500">{{ props.booking_settings.booking_advance === 1 ? props.booking_settings.booking_advance + ' giorno' : props.booking_settings.booking_advance + ' giorni' }}</span>
+                                </li>
+                                <li class="text-sm list-musigate" v-if="props.booking_settings.has_buffer">
+                                    Sono previste pause di 30 min tra le sessioni
+                                </li>
+                            </ul>
                         </div>
+                        <!-- / -->
     
+                        <!-- dati prenotazione -->
                         <div v-if="form.start && form.end">
                             <h4 class="pb-1 mb-4 border-b border-orange-500">Dati di prenotazione</h4>
-                            <div class="space-y-2">
-                                <p>
-                                    <i class="inline-flex justify-center w-5 mr-3 fa-solid fa-calendar-days" />{{ dayjs(form.start).format('DD MMMM YYYY') }}
-                                </p>
-                                <p>
-                                    <i class="inline-flex justify-center w-5 mr-3 fa-solid fa-clock" />{{ dayjs(form.start).format('HH:mm') }} - {{ dayjs(form.end).format('HH:mm') }}
-                                </p>
-                                <p>
-                                    <i class="inline-flex justify-center w-5 mr-3 fa-solid fa-hourglass-half" />{{ bookingDuration === 1 ? bookingDuration + ' ora' : bookingDuration.toString().replace('.', ',') + ' ore' }}
-                                </p>
-                                <p>
-                                    <i class="inline-flex justify-center w-5 mr-3 fa-solid fa-users" />{{ form.guests == 1 ? form.guests + ' artista' : form.guests + ' artisti' }}
-                                </p>
-                            </div>
+                            <ul class="space-y-2">
+                                <li class="text-sm">
+                                    <i class="inline-flex justify-center w-5 mr-2 fa-solid fa-calendar-days" />{{ dayjs(form.start).format('DD MMMM YYYY') }}
+                                </li>
+                                <li class="text-sm">
+                                    <i class="inline-flex justify-center w-5 mr-2 fa-solid fa-clock" />{{ dayjs(form.start).format('HH:mm') }} - {{ dayjs(form.end).format('HH:mm') }}
+                                </li>
+                                <li class="text-sm">
+                                    <i class="inline-flex justify-center w-5 mr-2 fa-solid fa-hourglass-half" />{{ bookingDuration === 1 ? bookingDuration + ' ora' : bookingDuration.toString().replace('.', ',') + ' ore' }}
+                                </li>
+                                <li class="text-sm">
+                                    <i class="inline-flex justify-center w-5 mr-2 fa-solid fa-users" />{{ form.guests == 1 ? form.guests + ' artista' : form.guests + ' artisti' }}
+                                </li>
+                            </ul>
                         </div>
+                        <!-- / -->
                     </div>
 
                     <Button
