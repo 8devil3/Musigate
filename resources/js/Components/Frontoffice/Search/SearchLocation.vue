@@ -3,7 +3,7 @@
         <Label for="search-location" :label="props.label" />
         <Combobox as="div" id="search-location" v-model="vModel" class="relative font-sans">
             <ComboboxInput type="search" placeholder="Digita una località" 
-            :displayValue="(location) => location.comune" @input="query = $event.target.value" :class="[commonClasses.input, 'pl-8']" autocomplete="off" :required="props.required" />
+            :displayValue="(location) => location.comune" @input="query = $event.target.value" :class="[classes, 'pl-8']" autocomplete="off" :required="props.required" />
     
             <div class="absolute inset-y-0 flex items-center left-4">
                 <i class="mr-1 text-[12px] fa-solid fa-location-dot"></i>
@@ -38,7 +38,6 @@
 <script setup>
 import { ref, computed } from "vue";
 import locations from './locations.json';
-import commonClasses from '@/Components/Form/commonClasses.json';
 import Label from "@/Components/Form/Label.vue";
 import { Combobox, ComboboxInput, ComboboxOptions, ComboboxOption } from '@headlessui/vue';
 
@@ -49,6 +48,8 @@ const props = defineProps({
         default: true
     }
 });
+
+const classes = "text-left w-full h-8 px-4 py-0 text-sm text-white bg-slate-800/50 border border-slate-400 rounded-full placeholder:text-slate-300/80 disabled:bg-slate-800 placeholder:truncate truncate disabled:cursor-not-allowed disabled:text-slate-500 disabled:border-slate-500 font-sans placeholder:font-light font-light focus:ring-orange-500/50 focus:border-orange-500 focus:shadow-md focus:shadow-orange-500";
 
 const query = ref('');
 const vModel = defineModel();
