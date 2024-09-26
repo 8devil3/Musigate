@@ -15,7 +15,7 @@ class SocialiteController extends Controller
     public function redirect(): RedirectResponse
     {
         return Socialite::driver('google')
-        ->scopes(['https://www.googleapis.com/auth/calendar.events']) //leggere i calendari, creare-modificare-eliminare gli eventi
+        ->scopes(['https://www.googleapis.com/auth/calendar']) //leggere i calendari, creare-modificare-eliminare gli eventi
         ->with(['access_type' => 'offline'])
         ->redirect(); 
     }

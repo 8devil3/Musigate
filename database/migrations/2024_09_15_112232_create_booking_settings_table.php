@@ -26,6 +26,7 @@ return new class extends Migration
             $table->enum('sync_mode', ['unidirezionale', 'bidirezionale'])->nullable(); // modalità di sincronizzazione calendari
             $table->string('google_calendar_id')->nullable();
             $table->string('default_calendar_view')->default('dayGridMonth');
+            $table->boolean('buffer_on_imported_event')->default(false);
 
             $table->timestamps();
         });

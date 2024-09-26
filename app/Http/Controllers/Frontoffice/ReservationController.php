@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Room\Room;
 use App\Models\User;
+use App\Services\BufferService;
 use App\Services\GoogleCalendarAPIService;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
@@ -37,21 +38,17 @@ class ReservationController extends Controller
 
             if($availability){
                 //recupero gli eventi (prenotazioni) di Musigate
-                $events = $room->bookings()
+                $bookings = $room->bookings()
                 ->whereDate('start', $request_start_date->toDateString())
                 ->get(['start', 'end'])
-                ->map(function($event) use($booking_settings, $availability, $time_fraction){    
-                    $end = $event->end;
-
+                ->map(function($event) use($booking_settings, $availability){
                     //buffer
-                    if($booking_settings->has_buffer && Carbon::parse($event->end)->diffInMinutes(Carbon::parse($event->end)->setTimeFromTimeString($availability->end)) >= 30){
-                        $end = Carbon::parse($event->end)->add($time_fraction)->toDateTimeString();
-                    }
+                    $end = BufferService::add_buffer($booking_settings->has_buffer, $event->end, $availability->end);
 
                     return [
                         'title' => 'Occupato',
                         'start' => $event->start,
-                        'end' => $end,
+                        'end' => $end->toDateTimeString(),
                         'borderColor' => '#b91c1c',
                         'backgroundColor' => '#450a0a',
                     ];
@@ -60,46 +57,55 @@ class ReservationController extends Controller
                 //recupero gli eventi da Google Calendar
                 $google_events = collect([]);
                 if($booking_settings->google_calendar_id){
+                    $request_start = Carbon::parse($request->startDate);
+
                     $google_events = Event::get(
-                        Carbon::parse($request->startDate)->startOfDay(),
-                        Carbon::parse($request->startDate)->endOfDay(),
+                        $request_start->startOfDay(),
+                        $request_start->clone()->endOfDay(),
                         [],
                         $booking_settings->google_calendar_id
-                    )->map(function($event){
+                    )->map(function($event) use($booking_settings, $availability): array{
+                        $end = BufferService::add_buffer($booking_settings->has_buffer, $event->googleEvent->end->dateTime, $availability->end);
+
                         return [
-                            'start' => Carbon::parse($event->googleEvent->start->dateTime)->setTimezone('Europe/Rome')->toDateTimeString(),
-                            'end' => Carbon::parse($event->googleEvent->end->dateTime)->setTimezone('Europe/Rome')->toDateTimeString(),
+                            'start' => Carbon::parse($event->googleEvent->start->dateTime)->toDateTimeString(),
+                            'end' => $end->toDateTimeString(),
                         ];
                     });
                 }
 
                 //riunisco gli eventi in un unica collection
-                $events = $events->merge($google_events);
+                $events = $bookings->merge($google_events);
 
                 //genero gli slot per la selezione dell'orario iniziale
                 $period_start = $request_start_date->setTimeFromTimeString($availability->first()->start)->toImmutable();
                 $period_end = $request_start_date->setTimeFromTimeString($availability->first()->end)->subHours($request_duration);
 
                 $periods = CarbonPeriod::create($period_start, $time_fraction, $period_end)
-                    ->filter(function(Carbon $period) use($events, $request_duration): bool {
-                        $is_available = true;
+                ->filter(function(Carbon $period) use($events, $request_duration, $booking_settings): bool {
+                    $is_available = true;
 
-                        $period_start = $period->toImmutable();
+                    $period_start = $period->toImmutable();
+
+                    if($booking_settings->has_buffer){
+                        $period_plus_duration = $period_start->addHours($request_duration)->addMinutes(30);
+                    } else {
                         $period_plus_duration = $period_start->addHours($request_duration);
+                    }
 
-                        $request_period = CarbonPeriod::create($period_start, $period_plus_duration);
+                    $request_period = CarbonPeriod::create($period_start, $period_plus_duration);
 
-                        foreach ($events as $event) {
-                            $event_period = CarbonPeriod::create($event['start'], $event['end']);
+                    foreach ($events as $event) {
+                        $event_period = CarbonPeriod::create($event['start'], $event['end']);
 
-                            if($request_period->overlaps($event_period)){
-                                $is_available = false;
-                                break;
-                            }
+                        if($request_period->overlaps($event_period)){
+                            $is_available = false;
+                            break;
                         }
+                    }
 
-                        return $is_available;
-                    });
+                    return $is_available;
+                });
 
                 foreach ($periods as $period) {
                     $slots[] = $period->toDateTimeString();

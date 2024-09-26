@@ -16,8 +16,8 @@
                 {{ arg.event.extendedProps.user.last_name }}
             </div>
 
-            <div v-else class="w-full truncate">
-                <i class="mr-1 fa-brands fa-google" />
+            <div v-else class="flex items-start w-full gap-1.5">
+                <i class="fa-brands fa-google" />
                 Evento importato
             </div>
 
@@ -180,11 +180,11 @@ const calendarOptions = {
 }
 
 .fc-daygrid-event {
-    @apply !shadow-none rounded-full py-0.5 px-1.5;
+    @apply rounded-full py-0.5 px-1.5;
 }
 
 .fc-timegrid-event {
-    @apply !shadow-none rounded-lg p-0;
+    @apply !shadow rounded-lg p-0;
 
 }
 

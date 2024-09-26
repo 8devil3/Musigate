@@ -4,12 +4,10 @@ namespace App\Http\Controllers\Backoffice\Studio;
 
 use App\Http\Controllers\Controller;
 use App\Services\GoogleCalendarAPIService;
-use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
-use Laravel\Socialite\Facades\Socialite;
 
 class BookingSettingController extends Controller
 {
@@ -36,11 +34,12 @@ class BookingSettingController extends Controller
             'booking_advance' => 'required|integer|min:0|max:96',
             'max_booking_horizon' => 'required|integer|min:7|max:365',
             'has_buffer' => 'required|boolean',
-            'allow_fractional_durations' => 'required|boolean',
+            'allow_fractional_durations' => 'accepted_if:has_buffer,true|boolean',
             'has_sync' => 'required|boolean',
             'sync_mode' => 'nullable|required_if_accepted:has_sync|string|in:unidirezionale,bidirezionale',
             'google_calendar_id' => 'nullable|required_if_accepted:has_sync|string|max:255',
-            'default_calendar_view' => 'required|string|in:dayGridMonth,timeGridWeek'
+            'default_calendar_view' => 'required|string|in:dayGridMonth,timeGridWeek',
+            'buffer_on_imported_event' => 'required|boolean',
         ]);
 
         auth()->user()->studio->booking_settings->update([
@@ -52,7 +51,8 @@ class BookingSettingController extends Controller
             'has_sync' => $request->has_sync,
             'sync_mode' => $request->has_sync ? $request->sync_mode : null,
             'google_calendar_id' => $request->has_sync ? $request->google_calendar_id : null,
-            'default_calendar_view' => $request->default_calendar_view
+            'default_calendar_view' => $request->default_calendar_view,
+            'buffer_on_imported_event' => !$request->has_buffer ? false : $request->buffer_on_imported_event,
         ]);
 
         return back();

@@ -66,6 +66,7 @@ body {
     --fc-button-hover-border-color: #ea580c;
     --fc-button-active-bg-color: #f60;
     --fc-button-active-border-color: #f60;
+    --fc-page-bg-color: #0f172a;
 
     scroll-behavior: smooth;
 }

@@ -19,13 +19,15 @@ class BookingSetting extends Model
         'has_sync',
         'sync_mode',
         'google_calendar_id',
-        'default_calendar_view'
+        'default_calendar_view',
+        'buffer_on_imported_event',
     ];
 
     protected $casts = [
         'has_buffer' => 'boolean',
         'has_sync' => 'boolean',
-        'allow_fractional_durations' => 'boolean'
+        'allow_fractional_durations' => 'boolean',
+        'buffer_on_imported_event' => 'boolean',
     ];
 
     public function studio(): BelongsTo

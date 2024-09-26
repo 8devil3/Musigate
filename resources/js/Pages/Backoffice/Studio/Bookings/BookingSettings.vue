@@ -86,39 +86,6 @@
             </FormElement>
             <!-- / -->
 
-            <!-- buffer -->
-            <FormElement>
-                <template #title>
-                    Pause
-                </template>
-
-                <template #description>
-                    Abilita/disabilita le pause di 30 minuti tra le sessioni.<br>
-                    Se abilitata, verrà attivata automaticamente anche l'impostazione <strong>Durate frazionate</strong>
-                </template>
-
-                <template #content>
-                    <Toggle v-model="form.has_buffer" @click="forceAllowFractionlDurations()" :label="form.has_buffer ? 'Pause abilitate' : 'Pause disabilitate'" />
-                </template>
-            </FormElement>
-            <!-- / -->
-
-            <!-- durate frazionate -->
-            <FormElement>
-                <template #title>
-                    Durate frazionate
-                </template>
-
-                <template #description>
-                    Abilita/disabilita la possibilità di prenotare durate frazionate di 30 minuti, per esempio 2,5 ore dalle 14:00 alle 16:30.
-                </template>
-
-                <template #content>
-                    <Toggle v-model="form.allow_fractional_durations" :label="form.allow_fractional_durations ? 'Durate frazionate abilitate' : 'Durate frazionate disabilitate'" :disabled="form.has_buffer" />
-                </template>
-            </FormElement>
-            <!-- / -->
-
             <!-- Sincronizzazione calendario Google -->
             <FormElement>
                 <template #title>
@@ -148,6 +115,45 @@
                             <Select v-model="form.google_calendar_id" isArray :options="props.google_calendar_ids" default="Seleziona un calendario" class="w-full max-w-xs" />
                         </template>
                     </div>
+                </template>
+            </FormElement>
+            <!-- / -->
+
+            <!-- buffer -->
+            <FormElement>
+                <template #title>
+                    Pause
+                </template>
+
+                <template #description>
+                    Abilita/disabilita le pause di 30 minuti tra le sessioni.<br>
+                    Puoi scegliere di applicare le pause anche agli eventi importati
+                    Se abilitata, verrà attivata automaticamente anche l'impostazione <strong>Durate frazionate</strong>
+                </template>
+
+                <template #content>
+                    <Toggle v-model="form.has_buffer" @click="forceAllowFractionlDurations()" :label="form.has_buffer ? 'Pause abilitate' : 'Pause disabilitate'" />
+                    <div v-if="form.has_sync && form.has_buffer" class="mt-4">
+                        <Toggle v-model="form.buffer_on_imported_event" :label="form.buffer_on_imported_event ? 'Pause eventi importati abilitate' : 'Pause eventi importati disabilitate'" />
+
+                        <p class="mt-2 text-xs text-slate-400">Puoi decidere di calcolare 30 minuti di pausa anche agli eventi importati. Per esempio se un evento importato dura 2 ore, abilitando l'impostazione verrà calcolato come 2,5 ore.</p>
+                    </div>
+                </template>
+            </FormElement>
+            <!-- / -->
+
+            <!-- durate frazionate -->
+            <FormElement>
+                <template #title>
+                    Durate frazionate
+                </template>
+
+                <template #description>
+                    Abilita/disabilita la possibilità di prenotare durate frazionate di 30 minuti, per esempio 2,5 ore dalle 14:00 alle 16:30.
+                </template>
+
+                <template #content>
+                    <Toggle v-model="form.allow_fractional_durations" :label="form.allow_fractional_durations ? 'Durate frazionate abilitate' : 'Durate frazionate disabilitate'" :disabled="form.has_buffer" />
                 </template>
             </FormElement>
             <!-- / -->
@@ -184,7 +190,8 @@ const form = useForm({
     has_sync: props.booking_settings.has_sync,
     sync_mode: props.booking_settings.sync_mode ?? '',
     google_calendar_id: props.booking_settings.google_calendar_id ?? '',
-    default_calendar_view: props.booking_settings.default_calendar_view ?? 'dayGridMonth'
+    default_calendar_view: props.booking_settings.default_calendar_view ?? 'dayGridMonth',
+    buffer_on_imported_event: props.booking_settings.buffer_on_imported_event,
 });
 
 const forceAllowFractionlDurations = ()=>{
