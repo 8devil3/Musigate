@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Backoffice\Studio\Rooms;
 
 use App\Http\Controllers\Controller;
 use App\Models\Room\Room;
-use App\Models\Room\RoomType;
-use App\Models\Status\RoomStatus;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -15,11 +13,10 @@ class RoomController extends Controller
 {
     public function index(): Response
     {
-        $room_types = RoomType::pluck('name', 'id');
-        $room_statuses = RoomStatus::pluck('name', 'id');
-        $rooms = auth()->user()->studio->rooms()->get();
+        $statuses = Room::STATUSES;
+        $rooms = auth()->user()->studio->rooms()->with('photos:id,room_id,path')->get();
 
-        return Inertia::render('Backoffice/Studio/Rooms/Index', compact('rooms', 'room_types', 'room_statuses'));
+        return Inertia::render('Backoffice/Studio/Rooms/Index', compact('rooms', 'statuses'));
     }
 
     public function store(): RedirectResponse

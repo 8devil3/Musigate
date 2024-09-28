@@ -4,31 +4,11 @@
         :isLoading="form.processing"
         :onSuccess="form.recentlySuccessful"
         :onFail="form.hasErrors"
-        title="Servizi e comforts"
+        title="Comfort"
         icon="fa-solid fa-hand-holding-heart"
         :backRoute="route('studio.links')"
     >
         <template #content>
-            <!-- servizi -->
-            <FormElement>
-                <template #title>
-                    Servizi
-                </template>
-
-                <template #description>
-                    Spunta i servizi offerti dal tuo Studio.
-                </template>
-
-                <template #content>
-                    <div class="grid grid-cols-2 gap-4 md:grid-cols-2 xl:grid-cols-3">
-                        <Checkbox v-for="service, key in props.all_services" v-model="form.services" :value="parseInt(key)" :id="'edit-studio-service-' + key">
-                            {{ service }}
-                        </Checkbox>
-                    </div>
-                </template>
-            </FormElement>
-            <!-- / -->
-
             <!-- comforts -->
             <FormElement>
                 <template #title>
@@ -64,19 +44,16 @@ import FormElement from '@/Components/Backoffice/FormElement.vue';
 import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
 
 const props = defineProps({
-    all_services: Object,
-    services: Object,
     all_comforts: Object,
     comforts: Object,
 })
 
 const form = useForm({
-    services: props.services,
-    comforts: props.comforts,
+    comforts: props.comforts ?? [],
 });
 
 const submit = () => {
-    form.put(route('studio.servicescomforts.update'), {
+    form.put(route('studio.comforts.update'), {
         preserveScroll: true,
     });
 };
@@ -88,7 +65,7 @@ import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
 
 export default {
     layout: (h, page) => h(BackofficeLayout, {
-        title: 'Servizi e comfort',
+        title: 'Comfort',
     }, {default: () => page}),
 };
 </script>

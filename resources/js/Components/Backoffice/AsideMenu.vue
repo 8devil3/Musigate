@@ -24,7 +24,7 @@
         <ul class="space-y-2 list-none list-image-none">
             <template v-for="item, index in menu" :key="index">
                 <li v-if="item.route && !item.children.length">
-                    <Link :href="route(item.route)" class="flex items-center gap-2 px-3 py-2 text-sm transition-colors border-transparent text-slate-300 border-x-4 hover:border-l-orange-500 hover:bg-slate-700/50" :class="[{'border-l-orange-500 hover:bg-transparent text-slate-100 bg-slate-700/80' : route().current(item.active)}]">
+                    <Link :href="route(item.route)" class="flex items-center gap-2 px-3 py-2 text-sm transition-colors border-transparent text-slate-300 border-x-4 hover:border-l-orange-500 hover:bg-slate-700/50" :class="[{'border-l-orange-500 text-slate-100 bg-slate-700/80' : route().current(item.active)}]">
                         <i class="w-5 text-center" :class="item.icon" />
                         {{ item.label }}
                     </Link>
@@ -32,7 +32,7 @@
 
                 <li v-else>
                     <details open @toggle="toggleDetailState(index)">
-                        <summary class="flex items-center justify-between px-3 py-2 text-sm transition-colors border-transparent cursor-pointer text-slate-300 border-x-4 hover:bg-slate-700/50" :class="[{'hover:bg-transparent text-slate-100 bg-slate-700/80' : route().current(item.active)}]">
+                        <summary class="flex items-center justify-between px-3 py-2 text-sm transition-colors border-transparent cursor-pointer text-slate-300 border-x-4 hover:bg-slate-700/50" :class="[{'text-slate-100 bg-slate-700/80' : route().current(item.active)}]">
                             <div class="flex items-center gap-2">
                                 <i class="w-5 text-center" :class="item.icon" />
                                 {{ item.label }}
@@ -136,9 +136,9 @@ const menu = computed(()=>{
                     },
                     {
                         icon: 'fa solid fa-hand-holding-heart',
-                        label: 'Servizi e Comforts',
-                        route: 'studio.servicescomforts.edit',
-                        active: 'studio.servicescomforts.edit'
+                        label: 'Comforts',
+                        route: 'studio.comforts.edit',
+                        active: 'studio.comforts.edit'
                     },
                     {
                         icon: 'fa-solid fa-share-nodes',
@@ -181,10 +181,17 @@ const menu = computed(()=>{
                 ]
             },
             {
-                icon: 'fa-solid fa-microphone-lines',
-                label: 'Sale Studio',
+                icon: 'fa-solid fa-music',
+                label: 'Sale prova',
                 route: 'rooms.index',
                 active: 'rooms.*',
+                children: []
+            },
+            {
+                icon: 'fa-solid fa-microphone-lines',
+                label: 'Servizi',
+                route: 'servizi.index',
+                active: 'servizi.*',
                 children: []
             },
             {

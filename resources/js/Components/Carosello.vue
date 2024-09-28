@@ -1,8 +1,8 @@
 <template>
-    <Carousel v-if="props.imgs.length" :items-to-show="1" class="w-full">
+    <Carousel v-if="props.imgs" :items-to-show="1" class="w-full">
         <slide v-for="img, id in props.imgs" :key="id" class="w-full h-full">
             <div class="w-full h-full">
-                <img :src="'/storage/' + img" :alt="'Foto-' + id" class="w-full h-full" :class="objectImg">
+                <img :src="'/storage/' + img.path" :alt="'Foto-' + id" class="w-full h-full" :class="objectImg">
             </div>
         </slide>
         <template #addons>
@@ -10,7 +10,7 @@
         </template>
     </Carousel>
 
-    <div v-else class="flex items-center justify-center w-full bg-slate-900 h-80">
+    <div v-else class="flex items-center justify-center w-full h-80">
         <img src="/img/logo/logo_placeholder.svg" class="object-contain h-1/2 aspect-square">
     </div>
 </template>
@@ -21,8 +21,8 @@ import 'vue3-carousel/dist/carousel.css';
 
 const props = defineProps({
     imgs: {
-        type: Array,
-        default: []
+        type: Object,
+        default: null
     },
     objectImg: {
         type: String,

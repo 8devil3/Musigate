@@ -3,7 +3,7 @@
 
     <Header />
     
-    <div class="flex h-[calc(100dvh-64px)] overflow-hidden bg-slate-800 lg:bg-slate-950 w-full grow">        
+    <div class="flex h-[calc(100dvh-64px)] overflow-hidden lg:bg-slate-950 w-full grow">        
         <AsideMenu />
         
         <main class="w-full max-w-6xl mx-auto overflow-hidden grow lg:p-8">

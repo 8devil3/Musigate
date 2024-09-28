@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -15,7 +16,7 @@ class CheckStudioInfo
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(auth()->check()){
+        if(auth()->check() && auth()->user()->role_id === Role::STUDIO){
             $studio = auth()->user()->studio;
 
             if(
@@ -24,7 +25,7 @@ class CheckStudioInfo
                 $studio->location->complete_address &&
                 count($studio->payment_methods) > 0 &&
                 count($studio->photos) > 0 &&
-                strlen($studio->desc) > 100 &&
+                strlen($studio->description) > 100 &&
                 ($studio->category === 'Professional' ? $studio->vat : true) &&
                 ($studio->contacts->email || $studio->contacts->phone || $studio->contacts->telegram || $studio->contacts->messenger || $studio->contacts->whatsapp)
             ){
@@ -33,7 +34,6 @@ class CheckStudioInfo
                 ]);
             } else {
                 $studio->update([
-                    'hide' => true,
                     'is_complete' => false,
                 ]);
             }

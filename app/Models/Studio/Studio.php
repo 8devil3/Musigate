@@ -8,7 +8,6 @@ use App\Models\Room\Room;
 use App\Models\Studio\Availability;
 use App\Models\Studio\CancelPolicySetting;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -16,15 +15,13 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Studio extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
         'user_id',
         'name',
         'vat',
         'logo',
         'category',
-        'desc',
+        'description',
         'record_label',
         'is_visible',
         'is_open_24_7',
@@ -68,9 +65,9 @@ class Studio extends Model
         return $this->hasOne(Social::class);
     }
 
-    public function services(): BelongsToMany
+    public function services(): HasMany
     {
-        return $this->belongsToMany(Service::class);
+        return $this->hasMany(Service::class);
     }
 
     public function comforts(): BelongsToMany

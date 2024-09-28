@@ -18,7 +18,7 @@ class DescriptionController extends Controller
             'location:id,studio_id,complete_address',
             'payment_methods',
             'photos:id,studio_id',
-            'contacts:id,studio_id'
+            'contacts'
         ]);
 
         return Inertia::render('Backoffice/Studio/Description', compact('studio'));
@@ -32,18 +32,12 @@ class DescriptionController extends Controller
             'vat' => 'exclude_unless:category,Professional|required|string|size:11',
             'record_label' => 'nullable|boolean',
             'is_visible' => 'nullable|boolean',
-            'desc' => 'required|string|min:100'
+            'description' => 'required|string|min:100'
         ]);
 
         $studio = auth()->user()->studio;
 
-        $studio->update([
-            'name' => $request->name,
-            'category' => $request->category,
-            'record_label' => $request->record_label,
-            'is_visible' => $request->is_visible,
-            'desc' => $request->desc,
-        ]);
+        $studio->update($request->toArray());
 
         if($request->category === 'Professional' && $request->vat){
             $studio->update(['vat' => $request->vat]);

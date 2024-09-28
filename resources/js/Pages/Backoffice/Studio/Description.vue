@@ -87,7 +87,7 @@
                                 la partita iva
                             </li>
                             <li class="flex items-start gap-2">
-                                <i v-if="props.studio.desc?.length > 100" class="w-4 mt-1 text-green-500 shrink-0 fa-solid fa-check"></i>
+                                <i v-if="props.studio.description?.length > 100" class="w-4 mt-1 text-green-500 shrink-0 fa-solid fa-check"></i>
                                 <i v-else class="w-4 mt-1 text-red-500 shrink-0 fa-solid fa-xmark"></i>
                                 la presentazione di almeno 100 caratteri, spazi esclusi
                             </li>
@@ -180,7 +180,7 @@
                 </template>
 
                 <template #content>
-                    <Textarea v-model="form.desc" placeholder="Presentazione dello Studio" :minlength="100" :error="form.errors.desc" required />
+                    <Textarea v-model="form.description" placeholder="Presentazione dello Studio" :minlength="100" :error="form.errors.description" required />
                 </template>
             </FormElement>
             <!-- / -->
@@ -209,16 +209,16 @@ const props = defineProps({
 });
 
 const form = useForm({
-    name: props.studio.name,
-    vat: props.studio.vat,
-    category: props.studio.category,
+    name: props.studio.name ?? null,
+    vat: props.studio.vat ?? null,
+    category: props.studio.category ?? '',
     record_label: props.studio.record_label,
-    desc: props.studio.desc,
+    description: props.studio.description ?? null,
     is_visible: props.studio.is_visible
 });
 
 const submit = () => {
-    form.put(route('studio.general.update'), {
+    form.put(route('studio.description.update'), {
         preserveScroll: true,
     });
 };

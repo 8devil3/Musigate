@@ -2,24 +2,23 @@
 
 namespace App\Models\Studio;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Service extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
-        'service'
-    ];
-    
-    protected $hidden = [
-        'pivot'
+        'studio_id',
+        'name',
+        'description',
+        'price',
+        'discounted_price',
+        'thumbnail_filename',
+        'thumbnail_path',
     ];
 
-    public function studios(): BelongsToMany
+    public function studios(): BelongsTo
     {
-        return $this->belongsToMany(Studio::class);
+        return $this->belongsTo(Studio::class);
     }
 }

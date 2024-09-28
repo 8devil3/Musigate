@@ -1,83 +1,68 @@
 <template>
     <ContentLayout
         as="div"
-        title="Sale prova"
+        title="Servizi"
         :isLoading="formUpdateStatus.processing || formDelete.processing"
         :onFail="formUpdateStatus.hasErrors || formDelete.hasErrors"
-        icon="fa-solid fa-music"
+        icon="fa-solid fa-microphones-lines"
     >
         <template #description>
-            Gestisci le Sale del tuo Studio.<br>
-            Per modificare o eliminare una Sala dovrai prima sospenderla.
+            Gestisci i servizi del tuo Studio.<br>
+            Per modificare o eliminare un servizio dovrai prima sospenderlo.
         </template>
 
         <template #content>
-            <div v-if="props.rooms.length" class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 lg:gap-6">
-                <Link v-for="room in props.rooms" :href="route('rooms.description.edit', room.id)" class="block p-4 space-y-4 transition-colors border hover:shadow-xl border-slate-700 hover:border-orange-500 hover:bg-slate-800/50 rounded-xl overflow-clip min-h-80">
+            <div v-if="props.services.length" class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 lg:gap-6">
+                <Link v-for="service in props.services" :href="route('servizi.edit', service.id)" class="block p-4 space-y-4 transition-colors border hover:shadow-xl border-slate-700 hover:border-orange-500 rounded-xl overflow-clip min-h-80">
                     <h2 class="flex items-center gap-2">
-                        <span class="inline-block w-5 h-5 rounded-full shadow-inner" :style="'background-color: ' + room.color" />
-                        {{ room.name }}
+                        {{ service.name }}
                     </h2>
 
-                    <img v-if="room.photos[0]" :src="'/storage/' + room.photos[0].path" class="object-cover w-full aspect-video" />
+                    <img v-if="service.thuimbnail_path" :src="'/storage/' + service.thuimbnail_path.path" class="object-cover w-full aspect-video" />
                     <img v-else src="/img/logo/logo_placeholder.svg" class="object-contain h-1/2 aspect-square">
 
-                    <div class="flex gap-6 text-xs">
+                    <div class="space-y-2 text-sm">
                         <div class="flex items-center gap-2">
-                            <i class="text-orange-500 fa-solid fa-ruler-combined" />
-                            {{ room.area }} mq
-                        </div>
-
-                        <div class="flex items-center gap-2">
-                            <i class="text-orange-500 fa-solid fa-euro" />
-                            <span :class="{'line-through text-slate-400' : room.discounted_price}">{{ room.price }} €/h</span>
-                            <span v-if="room.discounted_price">{{ room.discounted_price }} €/h</span>
-                        </div>
-                        
-                        <div class="flex items-center gap-2">
-                            <i class="text-orange-500 fa-solid fa-users" />
-                            max {{ room.max_capacity }}
+                            <i class="text-orange-500 fa-solid fa-hourglass-half" />
+                            <span :class="{'line-through text-slate-400' : service.discounted_price}">{{ service.price }} €/h</span>
+                            <span v-if="service.discounted_price">{{ service.discounted_price }} €/h</span>
                         </div>
                     </div>
-
-                    <p class="text-sm line-clamp-3">
-                        {{ room.description }}
-                    </p>
                 </Link>
             </div>
 
             <Empty v-else icon="fa-solid fa-microphone-lines">
                 <template #title>
-                    Non sono presenti Sale Studio.
+                    Non sono presenti servizi.
                 </template>
 
                 <template #description>
-                    Clicca sul pulsante "Aggiungi" per crearne una.
+                    Clicca sul pulsante "Aggiungi" per crearne uno.
                 </template>
 
                 <template #actions>
-                    <Button @click="createNewRoom()" text="Aggiungi" icon="fa-solid fa-plus" title="Aggiungi Sala"/>
+                    <Button @click="addService()" text="Aggiungi" icon="fa-solid fa-plus" title="Aggiungi Sala"/>
                 </template>
             </Empty>
         </template>
 
         <template #actions>
-            <Button v-if="props.rooms.length" @click="createNewRoom()" text="Aggiungi" icon="fa-solid fa-plus" title="Aggiungi Sala"/>
+            <Button v-if="props.services.length" @click="addService()" text="Aggiungi" icon="fa-solid fa-plus" title="Aggiungi Sala"/>
         </template>
     </ContentLayout>
 
     <ModalDanger :isOpen="openModalDanger" @close="currentRoomId = null; openModalDanger = false">
         <template #title>
-            Eliminazione Sala
+            Eliminazione servizio
         </template>
 
         <template #description>
-            Confermi l'eliminazione della Sala?
+            Confermi l'eliminazione del servizio?
         </template>
 
         <template #actions>
             <form @submit.prevent="formDelete()" class="space-x-2">
-                <Button @click="deleteRoom()" text="Sì, elimina" color="red"/>
+                <Button @click="deleteService()" text="Sì, elimina" color="red"/>
                 <Button text="No, annulla" color="slate" @click="openModalDanger = false"/>
             </form>
         </template>
@@ -96,7 +81,7 @@ import Carosello from '@/Components/Carosello.vue';
 import ModalDanger from '@/Components/ModalDanger.vue';
 
 const props = defineProps({
-    rooms: Object,
+    services: Object,
     statuses: Object,
 });
 
@@ -111,13 +96,13 @@ const formUpdateStatus = useForm({
 const formDelete = useForm({});
 
 const updateStatus = (room_id)=>{
-    formUpdateStatus.put(route('rooms.update_status', room_id));
+    formUpdateStatus.put(route('servizi.update_status', room_id));
 }
 
 
 //elimina sala
-const deleteRoom = ()=>{
-    formDelete.delete(route('rooms.delete', currentRoomId.value), {
+const deleteService = ()=>{
+    formDelete.delete(route('servizi.delete', currentRoomId.value), {
         onFinish: () => {
             openModalDanger.value = false;
             currentRoomId.value = null;
@@ -129,8 +114,8 @@ const deleteRoom = ()=>{
 //crea sala
 const formNewRoom = useForm({});
 
-const createNewRoom = ()=>{
-    formNewRoom.post(route('rooms.store'))
+const addService = ()=>{
+    formNewRoom.post(route('servizi.store'))
 }
 
 </script>
@@ -140,7 +125,7 @@ import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
 
 export default {
     layout: (h, page) => h(BackofficeLayout, {
-        title: 'Sale Studio',
+        title: 'Servizi',
     }, {default: () => page}),
 };
 </script>

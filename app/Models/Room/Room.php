@@ -4,22 +4,28 @@ namespace App\Models\Room;
 
 use App\Models\Booking;
 use App\Models\Studio\Studio;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Room extends Model
 {
-    use HasFactory;
+    const STATUSES = [
+        'Bozza',
+        'In approvazione',
+        'Pubblicata',
+    ];
    
     protected $fillable = [
         'studio_id',
-        'room_type_id',
-        'room_status_id',
+        'type',
+        'status',
         'name',
         'color', 7,
-        'min_price',
+        'price',
+        'discounted_price',
+        'discount_start',
+        'discount_end',
         'area',
         'description',
         'max_capacity',
@@ -37,7 +43,7 @@ class Room extends Model
 
     public function photos(): HasMany
     {
-        return $this->hasMany(RoomPhoto::class)->orderByDesc('created_at');
+        return $this->hasMany(RoomPhoto::class);
     }
 
     public function bookings(): HasMany

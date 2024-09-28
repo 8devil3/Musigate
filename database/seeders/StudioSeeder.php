@@ -31,7 +31,7 @@ class StudioSeeder extends Seeder
                 'logo' => null,
                 'category' => $category,
                 'record_label' => fake()->boolean(),
-                'desc' => fake()->text(rand(800, 1600)),
+                'description' => fake()->text(rand(800, 1600)),
                 'is_visible' => fake()->boolean(),
                 'is_complete' => true,
             ]);

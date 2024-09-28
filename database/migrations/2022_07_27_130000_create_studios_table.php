@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('vat', 13)->nullable();
             $table->string('logo')->nullable();
             $table->enum('category', ['Home', 'Professional'])->default('Professional');
-            $table->text('desc')->nullable();
+            $table->text('description')->nullable();
             $table->boolean('record_label')->default(false);
             $table->boolean('is_visible')->default(false);
             $table->boolean('is_open_24_7')->default(false);           

@@ -11,7 +11,7 @@ class DashboardController extends Controller
     public function index(): Response
     {
         $studio = auth()->user()->studio->load([
-            'rooms:id,studio_id,room_status_id',
+            'rooms:id,studio_id',
             'location:id,studio_id,complete_address',
             'payment_methods',
             'photos:id,studio_id',

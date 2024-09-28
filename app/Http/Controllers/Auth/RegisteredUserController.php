@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\CancelPolicySetting;
+use App\Models\Studio\CancelPolicySetting;
 use App\Models\Studio\Availability;
 use App\Models\BookingSetting;
 use App\Models\Studio\Contact;
@@ -12,7 +12,6 @@ use App\Models\Studio\Rule;
 use App\Models\Studio\Social;
 use App\Models\Studio\Studio;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;

@@ -16,9 +16,9 @@
                 {{ arg.event.extendedProps.user.last_name }}
             </div>
 
-            <div v-else class="flex items-start w-full gap-1.5">
-                <i class="fa-brands fa-google" />
-                Evento importato
+            <div v-else class="w-full truncate">
+                <i class="mr-0.5 fa-brands fa-google" />
+                Importato
             </div>
 
             <template v-if="arg.event.extendedProps.has_buffer">

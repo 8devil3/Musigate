@@ -1,13 +1,14 @@
 <?php
 
-use App\Http\Controllers\Backoffice\Studio\BookingSettingController;
-use App\Http\Controllers\Backoffice\Studio\CancelPolicySettingController;
-use App\Http\Controllers\Frontoffice\ReservationController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Frontoffice\ReservationController;
 use App\Http\Controllers\Backoffice\SuggestionController;
 use App\Http\Controllers\Frontoffice\LegalTextController;
 use App\Http\Controllers\Frontoffice\StudioController;
 use App\Http\Controllers\Backoffice\AccountController;
+use App\Http\Controllers\Backoffice\Studio\BookingSettingController;
+use App\Http\Controllers\Backoffice\Studio\CancelPolicySettingController;
+use App\Http\Controllers\Backoffice\Studio\ServiceController;
 use App\Http\Controllers\Backoffice\Studio\BookingController;
 use App\Http\Controllers\Backoffice\Studio\DashboardController;
 use App\Http\Controllers\Backoffice\Studio\StudioPhotoController;
@@ -15,7 +16,7 @@ use App\Http\Controllers\Backoffice\Studio\WeeklyAvailabilityController;
 use App\Http\Controllers\Backoffice\Studio\StudioVideoController;
 use App\Http\Controllers\Backoffice\Studio\ContactController;
 use App\Http\Controllers\Backoffice\Studio\CollaborationController;
-use App\Http\Controllers\Backoffice\Studio\ServiceComfortController;
+use App\Http\Controllers\Backoffice\Studio\ComfortController;
 use App\Http\Controllers\Backoffice\Studio\PaymentMethodController;
 use App\Http\Controllers\Backoffice\Studio\DescriptionController;
 use App\Http\Controllers\Backoffice\Studio\LocationController;
@@ -85,8 +86,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::put('/collaborazioni/{collaboration_id}', [CollaborationController::class, 'update'])->name('collaborations.update');
             Route::delete('/collaborazioni/{collaboration_id}', [CollaborationController::class, 'delete'])->name('collaborations.delete');
     
-            Route::get('/servizi-comfort', [ServiceComfortController::class, 'edit'])->name('servicescomforts.edit');
-            Route::put('/servizi-comfort', [ServiceComfortController::class, 'update'])->name('servicescomforts.update');
+            Route::get('/comfort', [ComfortController::class, 'edit'])->name('comforts.edit');
+            Route::put('/comfort', [ComfortController::class, 'update'])->name('comforts.update');
         
             Route::get('/socials', [SocialController::class, 'edit'])->name('socials.edit');
             Route::put('/socials', [SocialController::class, 'update'])->name('socials.update');
@@ -113,8 +114,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/prenotazioni', [BookingController::class, 'index'])->name('bookings.index');
         
         //gestione sale studio
-        Route::get('/sale-studio', [RoomController::class, 'index'])->name('rooms.index');
-        Route::post('/sale-studio/nuova', [RoomController::class, 'store'])->name('rooms.store');
+        Route::get('/sale-prova', [RoomController::class, 'index'])->name('rooms.index');
+        Route::get('/sale-prova/modifica/{room}', [RoomController::class, 'edit'])->name('rooms.edit');
+        Route::post('/sale-prova/nuova', [RoomController::class, 'store'])->name('rooms.store');
         
         Route::group(['middleware' => 'check_room_user_id'], function(){
             Route::delete('/sale-studio/elimina/{room}', [RoomController::class, 'delete'])->name('rooms.delete');
@@ -132,6 +134,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     
             Route::put('/sale-studio/status/{room}', [RoomController::class, 'update_status'])->name('rooms.update_status');
         });
+
+        //gestione servizi
+        Route::resource('/servizi', ServiceController::class)->parameter('servizi', 'service');
 
         //suggerimenti
         Route::get('/suggerimenti-segnalazioni', [SuggestionController::class, 'create'])->name('suggestions.create');
