@@ -50,7 +50,7 @@ class Room extends Model
 
     public function photos(): HasMany
     {
-        return $this->hasMany(RoomPhoto::class);
+        return $this->hasMany(RoomPhoto::class)->orderBy('sort_index');
     }
 
     public function bookings(): HasMany

@@ -126,7 +126,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::get('/sale/foto/{room}', [RoomPhotoController::class, 'edit'])->name('rooms.photos.edit');
         Route::post('/sale/foto/{room}', [RoomPhotoController::class, 'update'])->name('rooms.photos.update');
-        // Route::put('/sale/foto/in-evidenza/{room}/{photo}', [RoomPhotoController::class, 'featured'])->name('rooms.photos.featured');
         Route::delete('/sale/foto/{photo_id}/{room}', [RoomPhotoController::class, 'delete'])->name('rooms.photos.delete');
 
         //gestione servizi

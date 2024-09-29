@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Room\Room;
 use App\Models\Room\RoomPhoto;
-use App\Http\Requests\PhotoRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -24,15 +23,16 @@ class RoomPhotoController extends Controller
 
     public function update(Request $request, Room $room): RedirectResponse
     {
-        // $request->validated();
-
-        // dd($request);
+        $request->validate([
+            'photos' => 'array|max:6',
+            'photos.*.file' => 'image|max:2048|dimensions:min_width=1920,min_height=1080',
+        ]);
 
         $user_id = auth()->id();
 
         if(!empty($request->photos)){
             foreach($request->photos as $key => $photo){
-                if($photo['id'] && !isset($photo['file'])){
+                if(!isset($photo['file'])){
                     $room->photos()->findOrFail($photo['id'])->update([
                         'sort_index' => $key +1,
                     ]);
