@@ -18,17 +18,24 @@ class Room extends Model
    
     protected $fillable = [
         'studio_id',
-        'type',
-        'status',
         'name',
-        'color', 7,
+        'color',
+        'is_bookable',
+        'is_visible',
         'price',
+        'has_discounted_price',
         'discounted_price',
         'discount_start',
         'discount_end',
         'area',
         'description',
         'max_capacity',
+    ];
+
+    protected $casts = [
+        'is_bookable' => 'boolean',
+        'is_visible' => 'boolean',
+        'has_discounted_price' => 'boolean',
     ];
 
     public function studio(): BelongsTo

@@ -13,7 +13,7 @@ use App\Http\Controllers\Backoffice\Studio\BookingController;
 use App\Http\Controllers\Backoffice\Studio\DashboardController;
 use App\Http\Controllers\Backoffice\Studio\StudioPhotoController;
 use App\Http\Controllers\Backoffice\Studio\WeeklyAvailabilityController;
-use App\Http\Controllers\Backoffice\Studio\StudioVideoController;
+use App\Http\Controllers\Backoffice\Studio\VideoController;
 use App\Http\Controllers\Backoffice\Studio\ContactController;
 use App\Http\Controllers\Backoffice\Studio\CollaborationController;
 use App\Http\Controllers\Backoffice\Studio\ComfortController;
@@ -75,8 +75,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::put('/foto/in-evidenza/{photo}', [StudioPhotoController::class, 'featured'])->name('photos.featured');
             Route::delete('/foto', [StudioPhotoController::class, 'delete'])->name('photos.delete');
             
-            Route::get('/video', [StudioVideoController::class, 'edit'])->name('videos.edit');
-            Route::put('/video', [StudioVideoController::class, 'update'])->name('videos.update');
+            Route::get('/video', [VideoController::class, 'edit'])->name('videos.edit');
+            Route::put('/video', [VideoController::class, 'update'])->name('videos.update');
             
             Route::get('/metodi-pagamento', [PaymentMethodController::class, 'edit'])->name('payment_methods.edit');
             Route::put('/metodi-pagamento', [PaymentMethodController::class, 'update'])->name('payment_methods.update');
@@ -114,26 +114,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/prenotazioni', [BookingController::class, 'index'])->name('bookings.index');
         
         //gestione sale studio
-        Route::get('/sale-prova', [RoomController::class, 'index'])->name('rooms.index');
-        Route::get('/sale-prova/modifica/{room}', [RoomController::class, 'edit'])->name('rooms.edit');
-        Route::post('/sale-prova/nuova', [RoomController::class, 'store'])->name('rooms.store');
-        
-        Route::group(['middleware' => 'check_room_user_id'], function(){
-            Route::delete('/sale-studio/elimina/{room}', [RoomController::class, 'delete'])->name('rooms.delete');
+        Route::get('/sale', [RoomController::class, 'index'])->name('rooms.index');
+        Route::get('/sale/crea', [RoomController::class, 'create'])->name('rooms.create');
+        Route::post('/sale/salva', [RoomController::class, 'store'])->name('rooms.store');
+        Route::get('/sale/modifica/{room_id}', [RoomController::class, 'edit'])->name('rooms.edit');
+        Route::put('/sale/salva/{room_id}', [RoomController::class, 'update'])->name('rooms.update');
+        Route::delete('/sale/elimina/{room_id}', [RoomController::class, 'delete'])->name('rooms.delete');
 
-            Route::get('/sale-studio/descrizione/{room}', [RoomDescriptionController::class, 'edit'])->name('rooms.description.edit');
-            Route::put('/sale-studio/descrizione/{room}', [RoomDescriptionController::class, 'update'])->name('rooms.description.update');
-    
-            Route::get('/sale-studio/equipaggiamento/{room}', [EquipmentController::class, 'edit'])->name('rooms.equipment.edit');
-            Route::put('/sale-studio/equipaggiamento/{room}', [EquipmentController::class, 'update'])->name('rooms.equipment.update');
-    
-            Route::get('/sale-studio/foto/{room}', [RoomPhotoController::class, 'edit'])->name('rooms.photos.edit');
-            Route::put('/sale-studio/foto/{room}', [RoomPhotoController::class, 'update'])->name('rooms.photos.update');
-            Route::put('/sale-studio/foto/in-evidenza/{room}/{photo}', [RoomPhotoController::class, 'featured'])->name('rooms.photos.featured');
-            Route::delete('/sale-studio/foto/{room}', [RoomPhotoController::class, 'delete'])->name('rooms.photos.delete');
-    
-            Route::put('/sale-studio/status/{room}', [RoomController::class, 'update_status'])->name('rooms.update_status');
-        });
+        Route::get('/sale/equipaggiamento/{room}', [EquipmentController::class, 'edit'])->name('rooms.equipment.edit');
+        Route::put('/sale/equipaggiamento/{room}', [EquipmentController::class, 'update'])->name('rooms.equipment.update');
+
+        Route::get('/sale/foto/{room}', [RoomPhotoController::class, 'edit'])->name('rooms.photos.edit');
+        Route::post('/sale/foto/{room}', [RoomPhotoController::class, 'update'])->name('rooms.photos.update');
+        // Route::put('/sale/foto/in-evidenza/{room}/{photo}', [RoomPhotoController::class, 'featured'])->name('rooms.photos.featured');
+        Route::delete('/sale/foto/{photo_id}/{room}', [RoomPhotoController::class, 'delete'])->name('rooms.photos.delete');
 
         //gestione servizi
         Route::resource('/servizi', ServiceController::class)->parameter('servizi', 'service');

@@ -14,26 +14,6 @@
     <!-- app bar -->
     <!-- <AppBar /> -->
     <!-- / -->
-
-    <!-- messaggi flash e spinner -->
-    <!-- <div class="fixed -translate-x-1/2 top-9 lg:top-4 left-1/2 z-[2000]">
-        <transition leave-active-class="transition duration-1000 ease-in" leave-from-class="opacity-100" leave-to-class="opacity-0">
-            <div v-show="props.onSuccess" class="flex items-center gap-2 px-4 py-3 text-sm font-semibold leading-none text-white rounded-lg shadow-lg bg-emerald-500">
-                <i class="fa-solid fa-check"></i>
-                {{ props.flashMessage }}
-            </div>
-        </transition>
-
-        <div v-show="props.onFail" class="flex items-center gap-2 px-4 py-3 text-sm font-semibold leading-none text-white bg-red-600 rounded-lg shadow-lg">
-            <i class="fa-solid fa-xmark"></i>
-            Non riuscito!
-        </div>
-    </div>
-
-    <div v-if="props.isLoading" class="fixed inset-0 z-[1000] flex items-center justify-center bg-black/30">
-        <Spinner class="w-16 h-16 orange"/>
-    </div> -->
-    <!-- / -->
 </template>
 
 <script setup>

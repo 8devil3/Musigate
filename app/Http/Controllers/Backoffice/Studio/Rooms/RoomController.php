@@ -11,15 +11,28 @@ use Inertia\Response;
 
 class RoomController extends Controller
 {
-    public function index(): Response
-    {
-        $statuses = Room::STATUSES;
-        $rooms = auth()->user()->studio->rooms()->with('photos:id,room_id,path')->get();
+    private $rooms;
 
-        return Inertia::render('Backoffice/Studio/Rooms/Index', compact('rooms', 'statuses'));
+    public function __construct()
+    {
+        $this->rooms = Room::where('studio_id', auth()->user()->studio->id);
     }
 
-    public function store(): RedirectResponse
+    public function index(): Response
+    {
+        $rooms = $this->rooms->with('photos:id,room_id,path')->get();
+
+        return Inertia::render('Backoffice/Studio/Rooms/Index', compact('rooms'));
+    }
+
+    public function create(): Response
+    {
+        $room = [];
+
+        return Inertia::render('Backoffice/Studio/Rooms/CreateEdit', compact('room'));
+    }
+
+    public function store(Request $request): RedirectResponse
     {
         // $rooms_count = auth()->user()->studio->rooms()->count();
 
@@ -27,31 +40,44 @@ class RoomController extends Controller
         //     return abort(403);
         // }
 
-        $room = auth()->user()->studio->rooms()->create();
+        $room = Room::create([
+            'studio_id' => auth()->user()->studio->id,
+        ] + $request->toArray());
 
         return to_route('rooms.description.edit', $room->id);
     }
 
-    public function delete(Room $room): RedirectResponse
+    public function edit(int $room_id): Response
     {
-        $room->delete();
+        $room = $this->rooms->findOrFail($room_id);
 
-        return redirect()->back();
+        return Inertia::render('Backoffice/Studio/Rooms/CreateEdit', compact('room'));
     }
 
-    // Aggiorna lo status della Sala
-    public function update_status(Request $request, Room $room): RedirectResponse
+    public function update(Request $request, int $room_id): RedirectResponse
     {
-        if ($room->room_status_id === 3) {
-            abort(403);
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'color' => 'required|string|starts_with:#|size:7',
+            'is_bookable' => 'boolean',
+            'is_visible' => 'boolean',
+            'price' => 'nullable|required_if:is_bookable,true|int|min:2|max:999',
+            'has_discounted_price' => 'boolean',
+            'discounted_price' => 'nullable|int|lt:price|min:1',
+            'area' => 'required|int|min:1|max:999',
+            'max_capacity' => 'required|min:1|max:99',
+            'description' => 'required|string|min:100',
+        ]);
 
-            //Notification:: invio email di notifica al superadmin per sollecitarlo della moderazione della Sala
-        }
+        $this->rooms->findOrFail($room_id)->update($request->toArray());
 
-        $room->update($request->toArray());
+        return back()->with('success', 'Sala aggiornata');
+    }
 
-        //la pubblicazione è delegata al superadmin, previa moderazione della Sala
-        
-        return redirect()->back();
+    public function delete(int $room_id): RedirectResponse
+    {
+        $this->rooms->findOrFail($room_id)->delete();
+
+        return back()->with('success', 'Sala eliminata');
     }
 }

@@ -17,51 +17,50 @@ class RoomPhotoController extends Controller
 {
     public function edit(Room $room): Response
     {
-        $photos = $room->photos->toArray();
+        $photos = $room->photos;
 
         return Inertia::render('Backoffice/Studio/Rooms/Photos', compact('photos', 'room'));
     }
 
-    public function update(PhotoRequest $request, Room $room): RedirectResponse
+    public function update(Request $request, Room $room): RedirectResponse
     {
-        $request->validated();
+        // $request->validated();
 
-        foreach($request->photos as $photo){
-            $path = Storage::disk('public')->putFile('users/user-' . auth()->id() . '/studio/rooms/' . $room->id, $photo);
+        // dd($request);
 
-            RoomPhoto::create([
-                'room_id' => $room->id,
-                'path' => $path
-            ]);
+        $user_id = auth()->id();
+
+        if(!empty($request->photos)){
+            foreach($request->photos as $key => $photo){
+                if($photo['id'] && !isset($photo['file'])){
+                    $room->photos()->findOrFail($photo['id'])->update([
+                        'sort_index' => $key +1,
+                    ]);
+                } else {
+                    $path = 'users/user-' . $user_id . '/studio/rooms/' . $room->id;
+                    $file_path = Storage::disk('public')->putFile($path, $photo['file']);
+
+                    RoomPhoto::create([
+                        'room_id' => $room->id,
+                        'path' => $file_path,
+                        'filename' => basename($file_path),
+                        'sort_index' => $key +1,
+                    ]);
+                }
+            }
         }
 
-        $room->update(['room_status_id' => 2]);
-
-        return redirect()->back();
+        return back()->with('success', 'Foto salvate');
     }
 
-    public function featured(Room $room, RoomPhoto $photo): RedirectResponse
+    public function delete(int $photo_id, Room $room): RedirectResponse
     {
-        RoomPhoto::where('is_featured', true)->update(['is_featured' => false]);
-
-        $photo->update(['is_featured' => true]);
-
-        $room->update(['room_status_id' => 2]);
-
-        return redirect()->back();
-    }
-
-    public function delete(Request $request, Room $room): RedirectResponse
-    {
-        if(!empty($request->checkedPhotos)){
-            $photos = $room->photos()->whereIn('id', $request->checkedPhotos);
+        $photo = $room->photos()->findOrFail($photo_id);
     
-            $photo_paths = $photos->pluck('path')->toArray();
-    
-            Storage::disk('public')->delete($photo_paths);
-    
-            $photos->delete();
-        }
-        return redirect()->back();
+        Storage::disk('public')->delete($photo->path);
+
+        $photo->delete();
+
+        return back()->with('success', 'Foto eliminata');
     }
 }

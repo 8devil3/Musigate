@@ -7,7 +7,6 @@ use App\Models\Booking;
 use App\Models\Room\Room;
 use App\Models\User;
 use App\Services\BufferService;
-use App\Services\GoogleCalendarAPIService;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\RedirectResponse;
@@ -22,7 +21,8 @@ class ReservationController extends Controller
 {
     public function create(Request $request, Room $room): Response
     {
-        if($room->room_status_id !== 4) abort(404, 'Sala non trovata');
+        if(!$room->is_visible) abort(404, 'Sala non trovata');
+        if(!$room->is_bookable) abort(403, 'Sala non prenotabile');
 
         $booking_settings = $room->studio->booking_settings;
         $time_fraction = $booking_settings->allow_fractional_durations || $booking_settings->has_buffer ? '30 minutes' : '1 hour';
@@ -118,6 +118,9 @@ class ReservationController extends Controller
 
     public function store(Room $room, Request $request): \Symfony\Component\HttpFoundation\Response|RedirectResponse
     {
+        if(!$room->is_visible) abort(404, 'Sala non trovata');
+        if(!$room->is_bookable) abort(403, 'Sala non prenotabile');
+
         $booking_settings = $room->studio->booking_settings;
 
         $request->validate([

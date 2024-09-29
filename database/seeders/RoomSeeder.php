@@ -22,9 +22,10 @@ class RoomSeeder extends Seeder
             for ($i=0; $i < 4; $i++) { 
                 Room::create([
                     'studio_id' => $studio->id,
-                    'status' => 'pubblicata',
                     'name' => 'Sala ' . fake()->word(),
                     'color' => fake()->hexColor(),
+                    'is_bookable' => true,
+                    'is_visible' => true,
                     'price' => rand(0,80),
                     'area' => rand(10, 50),
                     'description' => fake()->paragraphs(2, true),

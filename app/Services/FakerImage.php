@@ -7,7 +7,7 @@ use Faker\Provider\Base;
 
 class FakerImage extends Base
 {
-    public static function image(string $dir = null, int $width = 1920, int $height = 1080, string $imageExtension = 'jpg')
+    public static function image(string $dir = null, int $width = 1920, int $height = 1080, string $imageExtension = 'jpg'): string
     {    
         list($r, $g, $b) = self::getBackgroundColor();
         $image = imagecreate($width, $height);

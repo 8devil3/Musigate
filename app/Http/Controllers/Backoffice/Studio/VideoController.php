@@ -3,17 +3,17 @@
 namespace App\Http\Controllers\Backoffice\Studio;
 
 use App\Http\Controllers\Controller;
-use App\Models\Studio\StudioVideo;
+use App\Models\Studio\Video;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class StudioVideoController extends Controller
+class VideoController extends Controller
 {
     public function edit(): Response
     {
-        $videos = StudioVideo::where('studio_id', auth()->user()->studio->id)->pluck('url')->toArray();
+        $videos = Video::where('studio_id', auth()->user()->studio->id)->pluck('url')->toArray();
 
         return Inertia::render('Backoffice/Studio/Videos', compact('videos'));
     }
@@ -29,13 +29,13 @@ class StudioVideoController extends Controller
 
         $current_studio_id = auth()->user()->studio->id;
 
-        StudioVideo::where('studio_id', $current_studio_id)->delete();
+        Video::where('studio_id', $current_studio_id)->delete();
 
         foreach ($request->videos as $video) {
             preg_match($yt_id_regex, $video, $matches);
 
             if(!empty($matches[1])){
-                StudioVideo::create([
+                Video::create([
                     'studio_id' => $current_studio_id,
                     'url' => $video,
                     'yt_id' => $matches[1]

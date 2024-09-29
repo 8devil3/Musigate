@@ -18,10 +18,14 @@ class RoomPhotoSeeder extends Seeder
         $rooms = Room::all();
 
         foreach ($rooms as $room) {
-            for ($rf=0; $rf < rand(2, 6); $rf++) { 
+            for ($i=0; $i < rand(2, 6); $i++) {
+                $path = Storage::disk('public')->putFile('users/user-' . $room->studio->user_id . '/studio/rooms/' . $room->id, FakerImage::image());
+
                 RoomPhoto::create([
                     'room_id' => $room->id,
-                    'path' => Storage::disk('public')->putFile('users/user-' . $room->studio->user_id . '/studio/rooms/' . $room->id, FakerImage::image())
+                    'path' => $path,
+                    'filename' => basename($path),
+                    'sort_index' => $i +1,
                 ],);
             }
         }

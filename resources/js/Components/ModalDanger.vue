@@ -10,7 +10,7 @@
                 leave-from="opacity-100"
                 leave-to="opacity-0"
             >
-                <div class="fixed inset-0 bg-black bg-opacity-80" />
+                <div class="fixed inset-0 bg-black/60 backdrop-blur-sm" />
             </TransitionChild>
 
             <div class="fixed inset-0 flex items-center justify-center min-h-full p-4 overflow-y-auto text-center">
@@ -23,7 +23,7 @@
                     leave-from="opacity-100 scale-100"
                     leave-to="opacity-0 scale-95"
                 >
-                    <DialogPanel as="div" class="w-full max-w-lg p-6 space-y-6 overflow-hidden text-left align-middle transition-all transform bg-gray-900 border border-red-600 rounded-lg shadow-xl">
+                    <DialogPanel as="form" @submit.prevent="emit('submitted')" class="w-full max-w-lg p-6 space-y-6 overflow-hidden text-left align-middle border border-red-600 shadow-xl bg-slate-900 md:rounded-2xl">
                         <DialogTitle as="h3" class="flex items-start justify-between pb-4 text-lg text-red-500 border-b border-red-500">
                             <div>
                                 <i class="fa-solid fa-circle-exclamation"></i>
@@ -35,11 +35,11 @@
                             </button>
                         </DialogTitle>
 
-                        <DialogDescription v-if="$slots.description" as="p" class="text-sm">
+                        <DialogDescription v-if="$slots.description" as="div" class="text-sm font-extralight">
                             <slot name="description"/>
                         </DialogDescription>
 
-                        <div v-if="$slots.actions" class="flex items-center gap-4">
+                        <div v-if="$slots.actions">
                             <slot name="actions"/>
                         </div>
                     </DialogPanel>
@@ -56,6 +56,6 @@ const props = defineProps({
     isOpen: Boolean,
 });
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close', 'submitted']);
 
 </script>

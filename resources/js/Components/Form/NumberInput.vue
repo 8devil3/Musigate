@@ -1,5 +1,5 @@
 <template>
-    <div class="p-0 m-0 text-left">
+    <div class="p-0 m-0 text-left max-w-40">
         <Label v-if="props.label" :label="props.label" :for="props.id ?? id" />
 
         <div class="flex items-center bg-slate-800/50 border border-slate-400 rounded-full has-[input:disabled]:cursor-not-allowed has-[input:disabled]:border-slate-700 transition-colorsfocus-within:ring-orange-500/50 focus-within:border-orange-500 focus-within:shadow-md focus-within:shadow-orange-500" :class="{'text-red-500 bg-red-600/10 border-red-600' : props.error}">
@@ -20,8 +20,12 @@
                 :required="props.required"
                 :error="props.error"
                 :disabled="props.disabled"
-                class="w-full h-8 p-0 m-0 text-sm text-center text-white bg-transparent border-0 focus:outline-none focus:ring-0 disabled:cursor-not-allowed disabled:opacity-50"
+                class="h-8 p-0 m-0 text-sm text-center text-white bg-transparent border-0 grow min-w-12 focus:outline-none focus:ring-0 disabled:cursor-not-allowed disabled:opacity-50"
             />
+
+            <div v-if="props.unit" class="text-xs text-slate-400">
+                {{ props.unit }}
+            </div>
     
             <button ref="upButton" type="button" @click="up()" :disabled="props.disabled || props.max <= vModel" class="flex items-center justify-center w-8 h-8 text-orange-500 shrink-0 focus:ring-0 disabled:opacity-50 disabled:cursor-not-allowed">
                 <i class="text-sm fa-solid fa-plus" />

@@ -8,7 +8,7 @@
         :onSuccess="form.recentlySuccessful"
         :onFail="form.hasErrors"
     >
-        <template #description>
+        <!-- <template #description>
             <template v-if="!form.has_cancel_policy">
                 Policy di annullamento disattivata.
             </template>
@@ -20,7 +20,7 @@
                     <li class="text-sm">oltre <span class="font-semibold text-orange-500">{{ form.partial_refund_hours }} ore</span> prima della data di prenotazione riceverà il rimborso totale</li>
                 </ul>
             </template>
-        </template>
+        </template> -->
 
         <template #content>
             <!-- buffer -->
@@ -42,7 +42,7 @@
             <!-- / -->
 
             <!-- nessun rimborso -->
-            <FormElement>
+            <FormElement v-if="form.has_cancel_policy">
                 <template #title>
                     Nessun rimborso
                 </template>
@@ -55,15 +55,15 @@
                     <div class="space-y-4">
                         <RangeSlider
                             v-model.number="form.no_refund_hours"
-                            label="Ore precedenti la prenotazione"
+                            :label="form.no_refund_hours + ' ore'"
                             @change="setPartialRefund()"
                             :disabled="!form.has_cancel_policy"
                             :step="4"
                             :min="4"
                             :max="48"
                         />
-                        <div class="font-semibold">
-                            {{ form.no_refund_hours }} ore
+                        <div>
+                            Nessun rimborso fino a <span class="font-semibold text-orange-500">{{ form.no_refund_hours }}ore </span> prima della data di prenotazione.
                         </div>
                     </div>
                 </template>
@@ -71,7 +71,7 @@
             <!-- / -->
 
             <!-- rimborso parziale -->
-            <FormElement>
+            <FormElement v-if="form.has_cancel_policy">
                 <template #title>
                     Rimborso parziale
                 </template>
@@ -82,32 +82,27 @@
 
                 <template #content>
                     <div class="space-y-8">
-                        <div class="space-y-4">
-                            <RangeSlider
-                                v-model.number="form.partial_refund_hours"
-                                label="Ore precedenti la prenotazione"
-                                :disabled="!form.has_cancel_policy"
-                                :step="4"
-                                :min="parseInt(form.no_refund_hours) + 8"
-                                :max="96"
-                            />
-                            <div class="font-semibold">
-                                {{ form.partial_refund_hours }} ore
-                            </div>
-                        </div>
+                        <RangeSlider
+                            v-model.number="form.partial_refund_hours"
+                            :label="form.partial_refund_hours + ' ore'"
+                            :disabled="!form.has_cancel_policy"
+                            :step="4"
+                            :min="parseInt(form.no_refund_hours) + 8"
+                            :max="96"
+                        />
 
-                        <div class="space-y-4">
-                            <RangeSlider
-                                v-model.number="form.partial_refund_percentage"
-                                label="Percentuale di rimborso"
-                                :disabled="!form.has_cancel_policy"
-                                :step="5"
-                                :min="10"
-                                :max="90"
-                            />
-                            <div class="font-semibold">
-                                {{ form.partial_refund_percentage }}%
-                            </div>
+                        <RangeSlider
+                            v-model.number="form.partial_refund_percentage"
+                            :label="form.partial_refund_percentage + '%'"
+                            :disabled="!form.has_cancel_policy"
+                            :step="5"
+                            :min="10"
+                            :max="90"
+                        />
+
+                        <div>
+                            Da <span class="font-semibold text-orange-500">{{ form.no_refund_hours }} ore</span> e fino a <span class="font-semibold text-orange-500">{{ form.partial_refund_hours }} ore</span> prima della data di prenotazione, l'artista riceverà un rimborso del <span class="font-semibold text-orange-500">{{ form.partial_refund_percentage }}%</span>.<br>
+                            Oltre <span class="font-semibold text-orange-500">{{ form.partial_refund_hours }} ore</span> riceverà il rimborso totale (100%).
                         </div>
                     </div>
                 </template>

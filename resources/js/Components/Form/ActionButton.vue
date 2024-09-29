@@ -1,6 +1,6 @@
 <template>
     <Link
-        v-if="props.type === 'link'"
+        v-if="props.type === 'router'"
         :href="props.href"
         :class="[commonClasses, buttonColor]"
     >
@@ -9,7 +9,7 @@
     </Link>
 
     <a
-        v-else-if="props.type === 'external-link'"
+        v-else-if="props.type === 'link'"
         :href="props.href"
         :class="[commonClasses, buttonColor]"
     >

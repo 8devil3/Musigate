@@ -10,7 +10,7 @@
                 leave-from="opacity-100"
                 leave-to="opacity-0"
             >
-                <div class="fixed inset-0 bg-black/60 backdrop-blur" />
+                <div class="fixed inset-0 bg-black/60 backdrop-blur-sm" />
             </TransitionChild>
 
             <div class="fixed inset-0 text-left md:p-4">
@@ -24,7 +24,7 @@
                         leave-from="opacity-100 scale-100"
                         leave-to="opacity-0 scale-95"
                     >
-                        <DialogPanel as="div" class="flex flex-col w-full h-full p-6 space-y-6 overflow-hidden bg-gray-900 md:h-auto md:border md:border-gray-600 md:rounded-2xl md:max-h-full" :class="[props.maxWidth, props.maxHeight]">
+                        <DialogPanel :as="props.as" class="flex flex-col w-full h-full p-6 space-y-6 overflow-hidden bg-slate-900 md:h-auto md:border md:border-slate-600 md:rounded-2xl md:max-h-full" :class="[props.maxWidth, props.maxHeight]">
                             <DialogTitle as="h3" class="flex items-start justify-between gap-4 pb-2 m-0 text-xl border-b border-orange-500">
                                 <slot name="title" />
 
@@ -37,7 +37,7 @@
                                 <slot name="description"/>
                             </DialogDescription>
 
-                            <div v-if="$slots.actions" class="flex items-center gap-4">
+                            <div v-if="$slots.actions">
                                 <slot name="actions"/>
                             </div>
                         </DialogPanel>
@@ -53,6 +53,10 @@ import { Dialog, DialogTitle, DialogPanel, DialogDescription, TransitionChild, T
 
 const props = defineProps({
     isOpen: Boolean,
+    as: {
+        type: String,
+        default: 'div'
+    },
     maxWidth: {
         type: String,
         default: 'max-w-xl'
@@ -63,6 +67,6 @@ const props = defineProps({
     }
 });
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close', 'submitted']);
 
 </script>

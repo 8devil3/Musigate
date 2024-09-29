@@ -37,7 +37,7 @@ class DatabaseSeeder extends Seeder
             
             RoomSeeder::class,
             EquipmentSeeder::class,
-            StudioVideoSeeder::class,
+            VideoSeeder::class,
             RoomPhotoSeeder::class,
 
             BookingSettingSeeder::class,

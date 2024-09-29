@@ -5,7 +5,7 @@ namespace App\Models\Studio;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class StudioVideo extends Model
+class Video extends Model
 {
     protected $fillable = [
         'studio_id',

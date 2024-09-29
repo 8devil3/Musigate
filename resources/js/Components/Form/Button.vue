@@ -98,6 +98,9 @@ const colorClasses = computed(() => {
         case 'gray':
             classes = [props.outline ? 'bg-gray-500/20' : 'bg-gray-600', 'border-gray-600 hover:bg-gray-500 active:bg-gray-500 focus:ring-gray-500/50 transition-colors shadow-gray-500/30'];
         break;
+        case 'slate':
+            classes = [props.outline ? 'bg-slate-500/20' : 'bg-slate-600', 'border-slate-600 hover:bg-slate-500 active:bg-slate-500 focus:ring-slate-500/50 transition-colors shadow-slate-500/30'];
+        break;
         case 'red':
             classes = [props.outline ? 'bg-red-500/20' : 'bg-red-600', 'border-red-600 hover:bg-red-500 active:bg-red-500 focus:ring-red-500/50 transition-colors shadow-red-500/30'];
         break;

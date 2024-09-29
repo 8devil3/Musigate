@@ -8,6 +8,7 @@
         icon="fa-solid fa-sliders"
         :tabLinks="tabLinks"
         :backRoute="route('rooms.index')"
+        showBackRoute
     >
         <template #content>
             <FormElement v-for="category, key in props.equipment_categories">
@@ -165,8 +166,8 @@ const removeEquip = (equip)=>{
 const tabLinks = [
     {
         name: 'Descrizione',
-        href: route('rooms.description.edit', props.room.id),
-        active: route().current('rooms.description.edit', props.room.id)
+        href: route('rooms.edit', props.room.id),
+        active: route().current('rooms.edit', props.room.id)
     },
     {
         name: 'Equipaggiamento',

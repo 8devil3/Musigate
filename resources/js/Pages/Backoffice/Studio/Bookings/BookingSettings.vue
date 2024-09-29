@@ -3,10 +3,10 @@
         @submitted="submit()"
         title="Impostazioni prenotazioni"
         icon="fa-solid fa-gears"
-        :backRoute="route('studio.links')"
         :isLoading="form.processing"
         :onSuccess="form.recentlySuccessful"
         :onFail="form.hasErrors"
+        :backRoute="route('studio.links')"
     >
         <template #content>
             <!-- vista calendario -->
@@ -38,15 +38,12 @@
                 </template>
 
                 <template #content>
-                    <div class="flex items-center gap-3">
-                        <NumberInput v-model.number="form.min_booking" :error="form.errors.min_booking" :min="1" :max="8" required class="w-32" />
-                        {{ form.min_booking === 1 ? 'ora' : 'ore' }}
-                    </div>
+                    <NumberInput v-model.number="form.min_booking" :error="form.errors.min_booking" :min="1" :max="8" :unit="form.min_booking === 1 ? 'ora' : 'ore'" required />
                 </template>
             </FormElement>
             <!-- / -->
 
-            <!-- anticipo -->
+            <!-- preavviso -->
             <FormElement>
                 <template #title>
                     Preavviso
@@ -58,10 +55,7 @@
                 </template>
 
                 <template #content>
-                    <div class="flex items-center gap-3">
-                        <NumberInput v-model.number="form.booking_advance" :error="form.errors.booking_advance" :min="0" :max="form.max_booking_horizon -1" required class="w-32" />
-                        {{ form.booking_advance === 1 ? 'giorno' : 'giorni' }}
-                    </div>
+                    <NumberInput v-model.number="form.booking_advance" :error="form.errors.booking_advance" :min="0" :max="form.max_booking_horizon -1" :unit="form.booking_advance === 1 ? 'giorno' : 'giorni'" required />
                 </template>
             </FormElement>
             <!-- / -->
@@ -78,10 +72,7 @@
                 </template>
 
                 <template #content>
-                    <div class="flex items-center gap-3">
-                        <NumberInput v-model.number="form.max_booking_horizon" :error="form.errors.max_booking_horizon" :min="7" :max="365" required class="w-32" />
-                        giorni
-                    </div>
+                    <NumberInput v-model.number="form.max_booking_horizon" :error="form.errors.max_booking_horizon" :min="7" :max="365" unit="giorni"required />
                 </template>
             </FormElement>
             <!-- / -->
@@ -127,7 +118,7 @@
 
                 <template #description>
                     Abilita/disabilita le pause di 30 minuti tra le sessioni.<br>
-                    Puoi scegliere di applicare le pause anche agli eventi importati
+                    Puoi scegliere di applicare le pause anche agli eventi importati.<br>
                     Se abilitata, verrà attivata automaticamente anche l'impostazione <strong>Durate frazionate</strong>
                 </template>
 

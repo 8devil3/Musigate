@@ -26,8 +26,8 @@ import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
 const links = [
     {
         name: 'Generale',
-        href: route('studio.general.edit'),
-        active: route().current('studio.general.edit'),
+        href: route('studio.description.edit'),
+        active: route().current('studio.description.edit'),
         icon: 'fa-solid fa-file-lines'
     },
     {
@@ -68,8 +68,8 @@ const links = [
     },
     {
         name: 'Servizi e comfort',
-        href: route('studio.servicescomforts.edit'),
-        active: route().current('studio.servicescomforts.edit'),
+        href: route('studio.comforts.edit'),
+        active: route().current('studio.comforts.edit'),
         icon: 'fa-solid fa-hand-holding-heart'
     },
     {

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Room\Equipment;
 use App\Models\Room\EquipmentCategory;
 use App\Models\Room\Room;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -14,13 +15,13 @@ class EquipmentController extends Controller
 {
     public function edit(Room $room): Response
     {
-        $equipment = $room->equipments()->get(['id', 'name', 'equipment_category_id']);
+        $equipment = Equipment::where('room_id', $room->id)->get(['id', 'name', 'equipment_category_id']);
         $equipment_categories = EquipmentCategory::pluck('name', 'id');
 
         return Inertia::render('Backoffice/Studio/Rooms/Equipment', compact('room', 'equipment', 'equipment_categories'));
     }
 
-    public function update(Request $request, Room $room)
+    public function update(Request $request, Room $room): RedirectResponse
     {
         $request->validate([
             'equipment.*.equipment_category_id' => 'required|int|exists:equipment_categories,id',
@@ -37,8 +38,6 @@ class EquipmentController extends Controller
             ]);
         }
 
-        $room->update(['room_status_id' => 2]);
-
-        return redirect()->back();
+        return back()->with('success', 'Equipaggiamento salvato');
     }
 }

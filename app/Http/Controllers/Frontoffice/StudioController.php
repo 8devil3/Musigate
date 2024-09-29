@@ -77,7 +77,6 @@ class StudioController extends Controller
 
         $request = session('request');
 
-        $room_types = RoomType::pluck('name', 'id');
         $equipment_categories = EquipmentCategory::pluck('name', 'id');
         $booking_settings = $studio->booking_settings;
 
@@ -95,11 +94,11 @@ class StudioController extends Controller
             'payment_methods'
         ])->load(['rooms' => function($query){
             //mostro solo le sale pubblicate
-            $query->where('room_status_id', 4)->with(['equipments', 'photos']);
+            $query->where('is_visible', true)->with(['equipments', 'photos']);
         }]);
 
         $contacts = Inertia::lazy(fn () => $studio->contacts->only('email', 'phone', 'telegram', 'messenger', 'whatsapp'));
         
-        return Inertia::render('Frontoffice/Studio/Show', compact('request', 'studio', 'user', 'room_types', 'equipment_categories', 'booking_settings', 'contacts'));
+        return Inertia::render('Frontoffice/Studio/Show', compact('request', 'studio', 'user', 'equipment_categories', 'booking_settings', 'contacts'));
     }
 }

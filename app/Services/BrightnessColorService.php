@@ -27,7 +27,8 @@ class BrightnessColorService
             if($color !== 0){
                 $adjustable_limit = $brightness < 0 ? $color : 255 - $color;
                 $adjust_amount = ceil($adjustable_limit * $brightness);
-                $new_color[] = dechex($color + $adjust_amount);
+                $dec_hex = dechex($color + $adjust_amount);
+                $new_color[] = strlen($dec_hex) === 1 ? str_pad($dec_hex, 2, '0', STR_PAD_LEFT) : $dec_hex;
             } else {
                 $new_color[] = '00';
             }
