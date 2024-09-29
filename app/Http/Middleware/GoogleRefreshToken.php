@@ -20,7 +20,7 @@ class GoogleRefreshToken
         $user = auth()->user();
 
         // Aggiorna il token di accesso e la data di scadenza nel database
-        if($user && $user->google_id && $user->google_refresh_token && Carbon::parse($user->google_token_expires_at)->lessThan(now())){
+        if($user && $user->google_id && $user->google_refresh_token && Carbon::parse($user->google_token_expires_at)->isBefore(now())){
             $refreshed_google_tokens = Socialite::driver('google')->refreshToken($user->google_refresh_token);
 
             $user->update([
