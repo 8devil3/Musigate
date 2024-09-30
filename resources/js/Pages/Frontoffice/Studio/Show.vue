@@ -5,17 +5,17 @@
         <!-- / -->
         
         <!-- menu orizzontale -->
-        <ListingMenu :links="links" />
+        <Menu :links="links" />
         <!-- / -->
 
         <!-- contenuto -->
-        <div class="w-full max-w-6xl gap-16 px-4 mx-auto md:flex md:items-start">
+        <div class="w-full max-w-6xl p-4 mx-auto md:p-6">
             <!-- sezioni -->
-            <div class="py-8 space-y-20 lg:py-12 md:grow">
+            <div class="py-6 space-y-16 lg:py-8 md:grow">
                 <TitleBar :studio="props.studio" :user="props.user" :request="props.request" />
 
-                <ListingSection v-if="props.studio.desc" title="Lo Studio" id="studio">
-                    <p>{{ props.studio.desc }}</p>
+                <Section v-if="props.studio.description" title="Presentazione" id="studio">
+                    <p>{{ props.studio.description }}</p>
             
                     <div v-if="props.studio.payment_methods.length" class="pt-2 space-y-2">
                         <h3>Pagamenti accettati</h3>
@@ -26,19 +26,19 @@
                             </li>
                         </ul>
                     </div>
-                </ListingSection>
+                </Section>
 
-                <ListingSection v-if="props.studio.collaborations.length" title="Collaborazioni" id="collaborazioni">
+                <Section v-if="props.studio.collaborations.length" title="Collaborazioni" id="collaborazioni">
                     <div class="space-y-2">
                         <ul class="grid grid-cols-1 list-musigate sm:grid-cols-none sm:grid-rows-4 md:grid-rows-3 sm:grid-flow-col sm:auto-cols-max sm:gap-x-12">
                             <template v-for="collab, id in props.studio.collaborations">
-                                <li v-if="id < 12" class="list-musigate whitespace-nowrap">
+                                <li v-if="id <= 15" class="list-musigate whitespace-nowrap">
                                     {{ collab.title }}
                                 </li>
                             </template>
                         </ul>
                 
-                        <ShowAll @click="openCollabModal = true" />
+                        <ShowAll v-if="props.studio.collaborations.length > 15" @click="openCollabModal = true" />
                     </div>
 
                     <Modal :isOpen="openCollabModal" @close="openCollabModal = false">
@@ -56,74 +56,43 @@
                             </ul>
                         </template>
                     </Modal>
-                </ListingSection>
+                </Section>
             
-                <ListingSection v-if="props.studio.services.length || props.studio.comforts.length" title="Servizi & Comfort" id="servizi-comfort">
-                    <div class="grid grid-flow-row md:grid-flow-col auto-rows-min lg:grid-rows-1 gap-y-6">
+                <Section v-if="props.studio.comforts.length" title="Comfort" id="comfort">
+                    <div class="space-y-2">
+                        <ul class="grid grid-cols-1 list-musigate sm:grid-cols-none sm:grid-rows-4 md:grid-rows-3 sm:grid-flow-col sm:auto-cols-max sm:gap-x-12">
+                            <template v-for="comfort, id in props.studio.comforts">
+                                <li v-if="id <= 15" class="list-musigate whitespace-nowrap">
+                                    {{ comfort.name }}
+                                </li>
+                            </template>
+                        </ul>
+        
+                        <ShowAll v-if="props.studio.comforts.length > 15" @click="openComfortsModal = true" />
 
-                        <div v-if="props.studio.services.length" class="space-y-4 md:space-y-2">
-                            <h3>Servizi</h3>
-                            <ul class="grid grid-cols-1 list-musigate sm:grid-cols-none sm:grid-rows-3 sm:grid-flow-col sm:auto-cols-max sm:gap-x-12">
-                                <template v-for="service, id in props.studio.services">
-                                    <li v-if="id < 6" class="list-musigate whitespace-nowrap">
-                                        {{ service.name }}
-                                    </li>
-                                </template>
-                            </ul>
-            
-                            <ShowAll v-if="props.studio.services.length > 6" @click="openServicesModal = true" />
+                        <Modal :isOpen="openComfortsModal" @close="openComfortsModal = false">
+                            <template #title>
+                                Comfort
+                            </template>
 
-                            <Modal :isOpen="openServicesModal" @close="openServicesModal = false">
-                                <template #title>
-                                    Servizi
-                                </template>
-
-                                <template #description>
-                                    <ul class="grid grid-cols-1 list-musigate sm:grid-cols-none sm:grid-rows-4 sm:grid-flow-col sm:auto-cols-max sm:gap-x-16">
-                                        <li v-for="service in props.studio.services" class="list-musigate whitespace-nowrap">
-                                            {{ service.name }}
-                                        </li>
-                                    </ul>
-                                </template>
-                            </Modal>
-                        </div>
-            
-                        <div v-if="props.studio.comforts.length" class="space-y-4 md:space-y-2">
-                            <h3>Comforts</h3>
-                            <ul class="grid grid-cols-1 list-musigate sm:grid-cols-none sm:grid-rows-3 sm:grid-flow-col sm:auto-cols-max sm:gap-x-12">
-                                <template v-for="comfort, id in props.studio.comforts">
-                                    <li v-if="id < 6" class="list-musigate whitespace-nowrap">
+                            <template #description>
+                                <ul class="grid grid-cols-1 list-musigate sm:grid-cols-none sm:grid-rows-4 sm:grid-flow-col sm:auto-cols-max sm:gap-x-16">
+                                    <li v-for="comfort in props.studio.comforts" class="list-musigate whitespace-nowrap">
                                         {{ comfort.name }}
                                     </li>
-                                </template>
-                            </ul>
-            
-                            <ShowAll v-if="props.studio.comforts.length > 6" @click="openComfortsModal = true" />
-
-                            <Modal :isOpen="openComfortsModal" @close="openComfortsModal = false">
-                                <template #title>
-                                    Comfort
-                                </template>
-
-                                <template #description>
-                                    <ul class="grid grid-cols-1 list-musigate sm:grid-cols-none sm:grid-rows-4 sm:grid-flow-col sm:auto-cols-max sm:gap-x-16">
-                                        <li v-for="comfort in props.studio.comforts" class="list-musigate whitespace-nowrap">
-                                            {{ comfort.name }}
-                                        </li>
-                                    </ul>
-                                </template>
-                            </Modal>
-                        </div>
+                                </ul>
+                            </template>
+                        </Modal>
                     </div>
-                </ListingSection>
+                </Section>
 
-                <ListingSection v-if="props.studio.rooms.length" title="Sale Studio" id="sale-studio">
+                <Section v-if="props.studio.rooms.length" title="Sale prova" id="sale-prova">
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                        <ListingRoomCard v-for="room in props.studio.rooms" :room="room" :equipment_categories="props.equipment_categories" />
+                        <RoomCard v-for="room in props.studio.rooms" :room="room" :equipment_categories="props.equipment_categories" />
                     </div>
-                </ListingSection>
+                </Section>
             
-                <ListingSection v-if="props.studio.rule.before || props.studio.rule.during || props.studio.rule.after" title="Regolamento" id="regolamento">
+                <Section v-if="props.studio.rule.before || props.studio.rule.during || props.studio.rule.after" title="Regolamento" id="regolamento">
                     <div class="mb-6">
                         <h3>Prima della sessione</h3>
                         <p>{{ props.studio.rule.before.substring(0, 300) }}...</p>
@@ -165,15 +134,15 @@
                             </div>
                         </template>
                     </Modal>
-                </ListingSection>
+                </Section>
 
-                <ListingSection v-if="props.studio.videos.length" title="Video" id="video">
+                <Section v-if="props.studio.videos.length" title="Video" id="video">
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
                         <iframe v-for="video in props.studio.videos" :src="'https://www.youtube.com/embed/' + video.yt_id" frameborder="0" title="YouTube video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; web-share" allowfullscreen class="w-full border border-gray-700 rounded-xl aspect-video"></iframe>
                     </div>                    
-                </ListingSection>
+                </Section>
                 
-                <ListingSection title="Location" id="location">
+                <Section title="Location" id="location">
                     <div class="flex flex-wrap items-start sm:flex-nowrap gap-x-10 gap-y-6">
                         <div class="shrink-0">
                             <h3>Indirizzo</h3>
@@ -197,7 +166,7 @@
                     </div>
             
                     <GoogleMaps :studios="[props.studio]" :lat="props.studio.location.lat" :lon="props.studio.location.lon" :zoom="14" class="h-64 border border-gray-400 md:h-96 overflow-clip rounded-xl" />
-                </ListingSection>
+                </Section>
             </div>
             <!-- / -->
 
@@ -312,9 +281,9 @@ import ShowAll from '@/Components/ShowAll.vue';
 import Button from '@/Components/Form/Button.vue';
 import Gallery from './Gallery.vue';
 import TitleBar from './TitleBar.vue';
-import ListingMenu from './ListingMenu.vue';
-import ListingSection from './ListingSection.vue';
-import ListingRoomCard from './ListingRoomCard.vue';
+import Menu from './Menu.vue';
+import Section from './Section.vue';
+import RoomCard from './RoomCard.vue';
 import dayjs from 'dayjs';
 
 const props = defineProps({
@@ -353,7 +322,7 @@ const links = [
     {
         text: 'studio',
         id: '#studio',
-        enabled: props.studio.desc ? true : false
+        enabled: props.studio.description ? true : false
     },
     {
         text: 'collaborazioni',
@@ -361,13 +330,13 @@ const links = [
         enabled: props.studio.collaborations.length ? true : false
     },
     {
-        text: 'servizi & comfort',
-        id: '#servizi-comfort',
+        text: 'comfort',
+        id: '#comfort',
         enabled: props.studio.services.length || props.studio.comforts.length ? true : false
     },
     {
-        text: 'sale studio',
-        id: '#sale-studio',
+        text: 'sale prova',
+        id: '#sale-prova',
         enabled: props.studio.rooms.length ? true : false
     },
     {

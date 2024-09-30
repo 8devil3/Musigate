@@ -1,5 +1,5 @@
 <template>
-    <div class="space-y-8">
+    <div class="space-y-6">
         <!-- link per tonare alla ricerca -->
         <div class="pb-4">
             <BackLink text="Torna alla ricerca" :router="route('studio.index', props.request)" />
@@ -7,20 +7,21 @@
         <!-- / -->
 
         <div class="flex items-center justify-between gap-8">
-            <div class="flex items-start gap-4">
+            <div class="flex items-center gap-4">
                 <!-- studio logo -->
-                <div class="flex items-center justify-center w-16 h-16 text-center bg-gray-900 border-2 border-orange-500 rounded-full md:w-20 md:h-20 shrink-0">
+                <div class="flex items-center justify-center w-16 h-16 text-center border-2 border-orange-500 rounded-full bg-slate-900 md:w-24 md:h-24 shrink-0">
                     <img v-if="props.studio.logo" :src="'/storage/' + props.studio.logo" :alt="props.studio.name" class="object-contain w-full h-full rounded-full">
                     <img v-else src="/img/logo/logo_placeholder.svg" :alt="props.studio.name" class="object-contain w-1/2 aspect-square">
                 </div>
                 <!-- / -->
                 
                 <!-- categoria & nome -->
-                <div>
-                    <div v-if="props.studio.category" class="text-sm mb-0.5 font-semibold leading-none text-gray-400 uppercase">
+                <div class="space-y-2">
+                    <div v-if="props.studio.category" class="text-sm leading-none uppercase font-lemon text-slate-400">
                         {{ props.studio.category }} studio
                     </div>
-                    <h1 class="m-0 text-2xl lg:text-3xl">{{ props.studio.name }}</h1>
+
+                    <h1 class="m-0 text-2xl lg:text-4xl">{{ props.studio.name }}</h1>
                 </div>
                 <!-- / -->
             </div>
@@ -44,9 +45,10 @@
         <div class="flex flex-col items-start sm:flex-row sm:flex-wrap gap-y-6 gap-x-12">
             <!-- indirizzo -->
             <div class="flex items-start gap-2">
-                <i class="w-4 text-base text-orange-500 fa-solid fa-location-dot"></i>
+                <i class="text-base text-orange-500 fa-solid fa-location-dot"></i>
                 <address class="text-sm capitalize md:text-base">
-                    {{ props.studio.location.city }}
+                    {{ props.studio.location.address }}, {{ props.studio.location.number }}<br>
+                    {{ props.studio.location.city }} - <span class="normal-case">{{ props.studio.location.province }}</span>
                 </address>
             </div>
             <!-- indirizzo -->
@@ -57,7 +59,7 @@
                     <circle cx="12" cy="12" r="9.5" fill="#000000" stroke="#FF6600"/>
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16ZM12 12.8C12.4418 12.8 12.8 12.4418 12.8 12C12.8 11.5582 12.4418 11.2 12 11.2C11.5582 11.2 11.2 11.5582 11.2 12C11.2 12.4418 11.5582 12.8 12 12.8Z" fill="#FF6600"/>
                 </svg>
-    
+
                 <span>
                     Etichetta discografica
                 </span>

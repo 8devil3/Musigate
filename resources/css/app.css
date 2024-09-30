@@ -55,8 +55,7 @@
     }
 }
 
-html,
-body {
+:root {
     --fc-border-color: #1e293b; /* Fullcalendar border */
     --fc-today-bg-color: #ff7d2812;
     --fc-button-text-color: #fff;
@@ -67,8 +66,8 @@ body {
     --fc-button-active-bg-color: #f60;
     --fc-button-active-border-color: #f60;
     --fc-page-bg-color: #0f172a;
-
     scroll-behavior: smooth;
+    @apply md:scroll-pt-16;
 }
 
 .link {

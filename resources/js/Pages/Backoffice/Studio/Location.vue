@@ -42,7 +42,7 @@
                     </fieldset>
                     
                     <div class="px-4 mt-4">
-                        <Checkbox v-model="isManual" id="location-manual-insert">Inserimento indirizzo manuale</Checkbox>
+                        <Checkbox v-model="isManual" id="location-manual-insert">Inserimento manuale indirizzo</Checkbox>
                     </div>
                 </template>
             </FormElement>
@@ -117,7 +117,8 @@ loader.importLibrary('places').then(({ Autocomplete }) => {
     const options = {
         componentRestrictions: { country: "it" },
         fields: ['address_components', 'formatted_address'],
-        types: ['address']
+        types: ['address'],
+        language: 'it',
     };
 
     const autocomplete = new Autocomplete(inputGooglePlaces.value, options);

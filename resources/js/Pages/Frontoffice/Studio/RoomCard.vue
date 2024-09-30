@@ -1,6 +1,6 @@
 <template>
     <article class="flex flex-col w-full overflow-hidden border border-gray-600 bg-gray-950 bg-opacity-60 rounded-2xl">
-        <Carosello :imgs="room.photos" class="h-60" />
+        <Carosello :imgs="props.room.photos" class="h-60" />
 
         <div class="flex flex-col gap-6 p-4 md:p-6 grow">
             <!-- icon bar -->
@@ -42,9 +42,15 @@
             <!-- / -->
 
             <!-- tariffa minima -->
-            <div v-if="props.room.min_price" class="flex flex-col gap-1">
-                <span class="text-xs">a partire da</span>
-                <span class="text-base font-medium font-lemon">{{ props.room.min_price }} €/h</span>
+            <div v-if="props.room.discounted_price || props.room.price" class="flex flex-col gap-1">
+                Tariffa
+                <span v-if="props.room.discounted_price" class="text-base font-medium font-lemon">
+                    <span class="line-through text-slate-400">{{ props.room.price }} €/h</span>
+                    {{ props.room.discounted_price }} €/h
+                </span>
+                <span v-else class="text-base font-medium font-lemon">
+                    {{ props.room.price }} €/h
+                </span>
             </div>
 
             <div v-else class="text-base">
@@ -54,7 +60,7 @@
 
             <div class="flex justify-between gap-2">
                 <ShowAll @click="openModalRoom = true" text="Dettagli Sala" />
-                <Button type="router" :href="route('reservation.create', props.room.id)" text="Prenota" icon="fa-solid fa-calendar-days" />
+                <Button type="router" v-if="props.room.is_bookable" :href="route('reservation.create', props.room.id)" text="Prenota" icon="fa-solid fa-calendar-days" />
             </div>
         </div>
     </article>
@@ -64,7 +70,7 @@
             {{ props.room.name }}
         </template>
         <template #description>
-            <Carosello :imgs="roomImgs" class="h-64 shrink-0 md:h-96" />
+            <Carosello :imgs="props.room.photos" class="h-64 shrink-0 md:h-96" />
             
             <div class="flex flex-col gap-8 pt-6 grow">
                 <!-- icon bar -->
@@ -85,7 +91,7 @@
                 <!-- / -->
                 
                 <!-- nome -->
-                <h3 class="text-[18px] md:text-xl m-0">{{ props.room.name }}</h3>
+                <h3 class="m-0 text-lg md:text-xl">{{ props.room.name }}</h3>
                 <!-- / -->
 
                 <!-- descrizione -->

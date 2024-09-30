@@ -1,7 +1,7 @@
 <template>
     <Head :title="props.title" />
 
-    <div class="flex flex-col bg-no-repeat h-dvh scroll-pt-14 md:scroll-pt-16">
+    <div class="flex flex-col bg-no-repeat h-dvh">
         <Header />
     
         <main class="grow">

@@ -34,7 +34,10 @@
                 <span class="shrink-0">
                     {{ dayjs(arg.event.start).format('HH:mm') }}
                 </span>
-                <div class="w-full font-semibold truncate">{{ arg.event.title }}</div>
+                <div class="w-full font-semibold truncate">
+                    {{ arg.event.extendedProps.user.first_name }}
+                    {{ arg.event.extendedProps.user.last_name }}
+                </div>
             </div>
         </template>
     </template>
@@ -172,7 +175,7 @@ const calendarOptions = {
 }
 
 .fc-timegrid-slot {
-    @apply !py-2 !px-0 h-auto;
+    @apply !py-3 !px-0 h-auto;
 }
 
 .fc-event {

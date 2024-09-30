@@ -13,7 +13,7 @@
                 </button>
             </div>
 
-            <div v-if="otherPhotos.length" class="grid grid-cols-2 grid-rows-4 gap-1">
+            <div v-if="otherPhotos.length" class="grid grid-cols-2 grid-rows-4 gap-1 lg:w-1/3 2xl:w-1/5">
                 <img v-for="photo in otherPhotos" :src="'/storage/' + photo.path" :alt="photo.filename" class="object-cover w-full h-full">
                 <img v-for="i in 8 - otherPhotos.length" src="/img/logo/logo_placeholder.svg" class="object-contain w-full h-full p-6 bg-slate-900">
             </div>

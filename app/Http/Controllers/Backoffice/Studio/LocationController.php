@@ -43,6 +43,6 @@ class LocationController extends Controller
             'lat' => $geocode['lat']
         ]));
 
-        return redirect()->back();
+        return back()->with('success', 'Salvato');
     }
 }
