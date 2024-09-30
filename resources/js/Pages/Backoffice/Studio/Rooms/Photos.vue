@@ -18,7 +18,7 @@
                     Max {{ maxPhotos }} foto.<br>
                     Formati accettati: jpg, jpeg, png<br>
                     Dimensione massima cad.: 2 MB<br>
-                    Risoluzione minima: 1920 x 1080 px
+                    Risoluzione minima: 1280 x 720 px
                 </template>
 
                 <template #content>

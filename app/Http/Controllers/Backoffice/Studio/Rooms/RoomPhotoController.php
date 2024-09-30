@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backoffice\Studio\Rooms;
 
 use App\Http\Controllers\Controller;
 
+use App\Http\Requests\PhotoRequest;
 use App\Models\Room\Room;
 use App\Models\Room\RoomPhoto;
 use Illuminate\Http\RedirectResponse;
@@ -21,12 +22,9 @@ class RoomPhotoController extends Controller
         return Inertia::render('Backoffice/Studio/Rooms/Photos', compact('photos', 'room'));
     }
 
-    public function update(Request $request, Room $room): RedirectResponse
+    public function update(PhotoRequest $request, Room $room): RedirectResponse
     {
-        $request->validate([
-            'photos' => 'array|max:6',
-            'photos.*.file' => 'image|max:2048|dimensions:min_width=1920,min_height=1080',
-        ]);
+        $request->validated();
 
         $studio_id = $room->studio->id;
 

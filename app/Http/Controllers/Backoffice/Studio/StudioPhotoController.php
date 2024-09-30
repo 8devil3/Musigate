@@ -20,12 +20,9 @@ class StudioPhotoController extends Controller
         return Inertia::render('Backoffice/Studio/Photos', compact('photos'));
     }
 
-    public function update(Request $request): RedirectResponse
+    public function update(PhotoRequest $request): RedirectResponse
     {
-        $request->validate([
-            'photos' => 'array|max:12',
-            'photos.*.file' => 'image|max:2048|dimensions:min_width=1920,min_height=1080',
-        ]);
+        $request->validated();
 
         $studio = auth()->user()->studio;
 

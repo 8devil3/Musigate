@@ -18,7 +18,7 @@ class StudioPhotoSeeder extends Seeder
         $studios = Studio::all();
 
         foreach ($studios as $studio) {
-            for ($i=0; $i < 12; $i++) {
+            for ($i=0; $i < 6; $i++) {
                 $path = Storage::disk('public')->putFile('studios/studio-' . $studio->id . '/photos', FakerImage::image());
 
                 StudioPhoto::create([
