@@ -2,6 +2,7 @@
     <FrontofficeLayout title="Cerca Studi">
         <form @submit.prevent="submit()" class="flex h-full">
             <div class="flex flex-col h-full" :class="expandMap ? 'w-0' : 'w-7/12'">
+                <!-- filtri -->
                 <div class="p-4 space-y-2 border-b bg-slate-950/60 lg:px-6 shrink-0 border-slate-700 backdrop-blur-md">
                     <div class="flex items-end gap-2">
                         <SearchLocation v-model="form.location" @update:model-value="submit()" label="Location" required />
@@ -12,8 +13,10 @@
                         <Button type="submit" icon="fa-solid fa-magnifying-glass" />
                     </div>
                 </div>
+                <!-- / -->
 
-                <div class="h-full p-4 space-y-4 overflow-y-scroll lg:p-6 lg:space-y-6">
+                <!-- risultati ricerca -->
+                <div class="h-0 p-4 space-y-4 overflow-y-auto grow lg:p-6 lg:space-y-6">
                     <template v-if="props.studios.data.length">
                         <SearchResultItem v-for="studio in props.studios.data" :studio="studio"/>
                     </template>
@@ -22,8 +25,10 @@
                         <p>Nessuno Studio trovato :(</p>
                     </div>
                 </div>
+                <!-- / -->
             </div>
 
+            <!-- mappa -->
             <div class="relative h-full" :class="expandMap ? 'w-full' : 'w-5/12'">
                 <GoogleMaps
                     :studios="props.studios.data"
@@ -42,6 +47,7 @@
                     <i class="fa-solid fa-chevron-right" />
                 </button>
             </div>
+            <!-- / -->
         </form>
     </FrontofficeLayout>
 </template>
@@ -50,22 +56,14 @@
 import { ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 import FrontofficeLayout from '@/Layouts/FrontofficeLayout.vue';
-import SearchLocation from '@/Components/Frontoffice/Search/SearchLocation.vue';
-// import SearchResultCard from '@/Components/Frontoffice/Search/SearchResultCard.vue';
-import SearchResultItem from '@/Components/Frontoffice/Search/SearchResultItem.vue';
-import Modal from '@/Components/Modal.vue';
-import Pagination from '@/Components/Pagination.vue';
+import SearchLocation from './SearchLocation.vue';
+// import SearchResultCard from './SearchResultCard.vue';
+import SearchResultItem from './SearchResultItem.vue';
 import GoogleMaps from '@/Components/GoogleMaps.vue';
-import Checkbox from '@/Components/Form/Checkbox.vue';
-import Radio from '@/Components/Form/Radio.vue';
-import Select from '@/Components/Form/Select.vue';
+import NumberInput from '@/Components/Form/NumberInput.vue';
 import Button from '@/Components/Form/Button.vue';
 import Input from '@/Components/Form/Input.vue';
-import RangeSlider from '@/Components/Form/RangeSlider.vue';
-import Toggle from '@/Components/Form/Toggle.vue';
-import { TransitionRoot } from '@headlessui/vue';
 import dayjs from 'dayjs';
-import NumberInput from '@/Components/Form/NumberInput.vue';
 
 const props = defineProps({
     studios: Object,

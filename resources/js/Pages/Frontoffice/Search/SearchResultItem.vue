@@ -68,7 +68,7 @@
 <script setup>
 import { computed } from 'vue';
 import { Link } from '@inertiajs/vue3';
-import Carosello from '@/Components/Frontoffice/Carosello.vue';
+import Carosello from '@/Components/Carosello.vue';
 import Badge from '@/Components/Frontoffice/Badge.vue';
 
 const props = defineProps({

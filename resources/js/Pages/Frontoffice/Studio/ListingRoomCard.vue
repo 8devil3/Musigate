@@ -1,8 +1,8 @@
 <template>
     <article class="flex flex-col w-full overflow-hidden border border-gray-600 bg-gray-950 bg-opacity-60 rounded-2xl">
-        <Carosello :imgs="roomImgs" class="h-60" />
+        <Carosello :imgs="room.photos" class="h-60" />
 
-        <div class="flex flex-col gap-6 p-6 grow">
+        <div class="flex flex-col gap-6 p-4 md:p-6 grow">
             <!-- icon bar -->
             <div class="flex items-center gap-6 font-normal">
                 <div class="flex items-center whitespace-nowrap" title="Area in metri quadri">
@@ -17,17 +17,12 @@
             <!-- / -->
             
             <!-- nome sala -->
-            <div>
-                <h3 class="text-[18px] md:text-xl m-0">{{ props.room.name }}</h3>
-                <h4 class="text-sm text-gray-400">
-                    {{ props.roomTypes[props.room.room_type_id] }}
-                </h4>
-            </div>
+            <h3 class="text-[18px] md:text-xl m-0">{{ props.room.name }}</h3>
             <!-- / -->
 
             <!-- descrizione -->
             <p class="m-0 line-clamp-3">
-                {{ props.room.desc }}
+                {{ props.room.description }}
             </p>                
             <!-- / -->
             
@@ -90,19 +85,14 @@
                 <!-- / -->
                 
                 <!-- nome -->
-                <div>
-                    <h3 class="text-[18px] md:text-xl m-0">{{ props.room.name }}</h3>
-                    <h4 class="text-sm text-gray-400">
-                        {{ props.roomTypes[props.room.room_type_id] }}
-                    </h4>
-                </div>
+                <h3 class="text-[18px] md:text-xl m-0">{{ props.room.name }}</h3>
                 <!-- / -->
 
                 <!-- descrizione -->
                 <div class="space-y-4">
                     <h4 class="pb-1 m-0 border-b border-orange-500">Descrizione</h4>
                     <p class="m-0">
-                        {{ props.room.desc }}
+                        {{ props.room.description }}
                     </p>
                 </div>
                 <!-- / -->
@@ -133,25 +123,14 @@
 import { ref, computed } from 'vue';
 import Modal from '@/Components/Modal.vue';
 import ShowAll from '@/Components/ShowAll.vue';
-import Carosello from '@/Components/Frontoffice/Carosello.vue';
+import Carosello from '@/Components/Carosello.vue';
 import Button from '@/Components/Form/Button.vue';
 
 const props = defineProps({
     room: Object,
-    roomTypes: Object,
     equipment_categories: Object,
 });
 
 const openModalRoom = ref(false);
-
-const roomImgs = computed(()=>{
-    let imgs = props.room.photos.sort(photo => photo.is_featured ? -1 : 1).map(photo => photo.path).flat();
-
-    if(imgs.length){
-        return imgs;
-    } else {
-        return [];
-    }
-});
 
 </script>

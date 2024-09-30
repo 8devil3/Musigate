@@ -31,17 +31,3 @@ const props = defineProps({
 });
 
 </script>
-
-<style>
-.carousel button {
-    @apply rounded-full bg-slate-950/50 w-8 h-8 shrink-0;
-}
-
-.carousel__icon {
-    fill: #f60;
-}
-
-.carousel__viewport, .carousel__track {
-    height: 100%;
-}
-</style>

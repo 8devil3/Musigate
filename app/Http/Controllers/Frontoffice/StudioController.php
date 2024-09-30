@@ -8,8 +8,6 @@ use App\Models\Room\EquipmentCategory;
 use App\Models\Studio\Studio;
 use App\Models\Studio\Comfort;
 use App\Models\Studio\Service;
-use App\Models\Room\RoomType;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -35,7 +33,7 @@ class StudioController extends Controller
             ->when($user && $user->role_id === Role::STUDIO , function($query) use($user){
                 $query->whereNot('id', $user->studio->id);
             })
-            ->withMin('rooms as min_price', 'min_price')
+            ->withMin('rooms as min_price', 'price')
             ->whereIn('category', request('category', ['Professional', 'Home']))
             ->when(request('name', null), function ($query){
                 $query->whereLike('name', '%' . request('name', null) . '%');
@@ -68,7 +66,7 @@ class StudioController extends Controller
 
         session()->put('request', $request->toArray());
 
-        return Inertia::render('Frontoffice/Search', compact('studios', 'services', 'comforts', 'request'));
+        return Inertia::render('Frontoffice/Search/Search', compact('studios', 'services', 'comforts', 'request'));
     }
 
     public function show(Studio $studio): Response
@@ -83,7 +81,6 @@ class StudioController extends Controller
         $user = $studio->user->only('first_name', 'last_name', 'avatar');
 
         $studio->load([
-            'photos',
             'videos',
             'location',
             'services',
@@ -94,11 +91,24 @@ class StudioController extends Controller
             'payment_methods'
         ])->load(['rooms' => function($query){
             //mostro solo le sale pubblicate
-            $query->where('is_visible', true)->with(['equipments', 'photos']);
+            $query->with(['equipments', 'photos'])->where('is_visible', true);
         }]);
+
+        $room_photos = [];
+        if(!empty($studio->rooms)){
+            foreach ($studio->rooms as $room) {
+                $room_photos[] = $room->photos()->get()->toArray();
+            }
+        }
+
+        if(!empty($studio->photos)){
+            $studio_photos = $studio->photos()->get()->toArray();
+        }
+        
+        $all_photos = array_merge($studio_photos, ...$room_photos);
 
         $contacts = Inertia::lazy(fn () => $studio->contacts->only('email', 'phone', 'telegram', 'messenger', 'whatsapp'));
         
-        return Inertia::render('Frontoffice/Studio/Show', compact('request', 'studio', 'user', 'equipment_categories', 'booking_settings', 'contacts'));
+        return Inertia::render('Frontoffice/Studio/Show', compact('request', 'studio', 'user', 'equipment_categories', 'booking_settings', 'contacts', 'all_photos'));
     }
 }

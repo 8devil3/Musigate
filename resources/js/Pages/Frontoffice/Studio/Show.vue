@@ -1,7 +1,7 @@
 <template>
     <FrontofficeLayout :title="props.studio.name">
         <!-- galleria -->
-        <Gallery :imgs="imgs" />
+        <Gallery :photos="props.all_photos" />
         <!-- / -->
         
         <!-- menu orizzontale -->
@@ -119,7 +119,7 @@
 
                 <ListingSection v-if="props.studio.rooms.length" title="Sale Studio" id="sale-studio">
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                        <ListingRoomCard v-for="room in props.studio.rooms" :room="room" :roomTypes="props.room_types" :equipment_categories="props.equipment_categories" />
+                        <ListingRoomCard v-for="room in props.studio.rooms" :room="room" :equipment_categories="props.equipment_categories" />
                     </div>
                 </ListingSection>
             
@@ -252,9 +252,9 @@
     </FrontofficeLayout>
 
     <!-- contatti mobile -->
-    <div class="sticky inset-x-0 bottom-0 p-4 border-t border-gray-700 md:hidden bg-gray-950/10 backdrop-blur-md">
+    <!-- <div class="sticky inset-x-0 bottom-0 p-4 border-t border-gray-700 md:hidden bg-gray-950/10 backdrop-blur-md">
         <Button @click="mobileContacts()" text="Contatta lo Studio" />
-    </div>
+    </div> -->
     <!-- / -->
 
     <Modal :isOpen="openContactsModal" @close="openContactsModal = false">
@@ -303,26 +303,23 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
-import { router, useForm } from '@inertiajs/vue3'
+import { ref } from 'vue';
+import { router } from '@inertiajs/vue3'
 import FrontofficeLayout from '@/Layouts/FrontofficeLayout.vue';
 import Modal from '@/Components/Modal.vue';
-import Input from '@/Components/Form/Input.vue';
 import GoogleMaps from '@/Components/GoogleMaps.vue';
 import ShowAll from '@/Components/ShowAll.vue';
 import Button from '@/Components/Form/Button.vue';
-import NumberInput from '@/Components/Form/NumberInput.vue';
-import Gallery from '@/Components/Frontoffice/Show/Gallery.vue';
-import TitleBar from '@/Components/Frontoffice/Show/TitleBar.vue';
-import ListingMenu from '@/Components/Frontoffice/Show/ListingMenu.vue';
-import ListingSection from '@/Components/Frontoffice/Show/ListingSection.vue';
-import ListingRoomCard from '@/Components/Frontoffice/Show/ListingRoomCard.vue';
+import Gallery from './Gallery.vue';
+import TitleBar from './TitleBar.vue';
+import ListingMenu from './ListingMenu.vue';
+import ListingSection from './ListingSection.vue';
+import ListingRoomCard from './ListingRoomCard.vue';
 import dayjs from 'dayjs';
 
 const props = defineProps({
     studio: Object,
-    room_imgs: Array,
-    room_types: Object,
+    all_photos: Object,
     equipment_categories: Object,
     booking_settings: Object,
     user: Object,
@@ -331,7 +328,6 @@ const props = defineProps({
     request: Object
 });
 
-const roomId = ref(null);
 const openCollabModal = ref(false);
 const openRulesModal = ref(false);
 const openServicesModal = ref(false);
@@ -340,8 +336,7 @@ const openContactsModal = ref(false);
 
 //pulsante torna su
 const scrollToTop = ()=>{
-    const app = document.querySelector('#app');
-    app.scrollTo(0,0);
+    window.scrollTo(0,0);
 };
 
 //contatti mobile
@@ -353,15 +348,6 @@ const mobileContacts = ()=>{
         }
     });
 }
-
-//rimappo le immagini per la galleria
-const imgs = computed(()=>{
-    if(props.studio.photos.length){
-        return props.studio.photos.sort(photo => photo.is_featured ? -1 : 1).map(photo => photo.path).flat();
-    } else {
-        return [];
-    }
-});
 
 const links = [
     {

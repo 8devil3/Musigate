@@ -1,5 +1,5 @@
 <template>
-    <header class="px-4 py-3 lg:px-6" :class="{'bg-slate-950/80 border-b border-slate-700': !route().current('home')}">
+    <header class="p-2 lg:px-6" :class="{'bg-slate-950/80 border-b border-slate-700': !route().current('home')}">
         <div class="flex items-center justify-between w-full mx-auto text-sm tracking-wide font-lemon">
             <!-- logo -->
             <Link :href="route('home')" class="shrink-0">
@@ -7,11 +7,6 @@
                 <img src="/img/logo/logo_mobile.svg" alt="Musigate logo" class="h-6 md:hidden">
             </Link>
             <!-- / -->
-
-            <div class="flex items-center gap-4 uppercase">
-                <!-- <a href="#" class="py-2 link">About</a> -->
-                <a href="https://blog.musigate.it" target="_blank" class="py-2 link">Blog</a>
-            </div>
 
             <!-- desktop -->
             <nav class="hidden md:gap-6 md:items-center md:justify-between md:flex">

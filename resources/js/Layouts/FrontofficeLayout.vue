@@ -1,14 +1,14 @@
 <template>
     <Head :title="props.title" />
 
-    <div class="flex flex-col bg-no-repeat scroll-pt-14 md:scroll-pt-16 bg-cover bg-[url(/public/img/banner_home.jpg)] bg-center" :class="route().current('home') ? 'bg-gray-950 bg-opacity-30' : 'bg-gray-950 bg-opacity-60'">
+    <div class="flex flex-col bg-no-repeat h-dvh scroll-pt-14 md:scroll-pt-16">
         <Header />
     
-        <main class="h-[calc(100dvh-73px)]">
+        <main class="grow">
             <slot />
         </main>
     
-        <!-- <Footer v-if="!route().current('studio.index')" /> -->
+        <Footer v-if="!route().current('studio.index')" />
     </div>
 </template>
 

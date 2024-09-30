@@ -1,7 +1,11 @@
 <template>
-    <FrontofficeLayout title="SuonoErgoSono">
-        <div class="self-center w-full max-w-4xl px-4 my-24 space-y-10 md:pb-32 md:m-auto drop-shadow-md">
-            <h1 class="uppercase text-[22px] md:text-3xl font-lemonLight">
+    <Head title="SuonoErgoSono" />
+
+    <div class="flex flex-col min-h-dvh justify-between bg-cover bg-[url(/public/img/banner_home.jpg)] bg-center">
+        <Header />
+
+        <div class="w-full max-w-4xl px-4 mx-auto pace-y-10 drop-shadow-md">
+            <h1 class="uppercase text-[22px] md:text-3xl font-lemonLight mb-8">
                 Cerchi una <span class="font-lemon uppercase text-[22px] md:text-3xl">sala prove</span> oppure<br class="hidden sm:inline">
                 uno <span class="font-lemon uppercase text-[22px] md:text-3xl">studio di registrazione</span>?
             </h1>
@@ -31,18 +35,21 @@
                 </div>
             </form>
         </div>
-    </FrontofficeLayout>
+
+        <Footer />
+    </div>
 </template>
 
 <script setup>
-import { useForm } from '@inertiajs/vue3';
-import FrontofficeLayout from '@/Layouts/FrontofficeLayout.vue';
+import { Head, useForm } from '@inertiajs/vue3';
+import Header from '@/Components/Frontoffice/Header.vue';
+import Footer from '@/Components/Frontoffice/Footer.vue';
+import NumberInput from '@/Components/Form/NumberInput.vue';
 import Button from '@/Components/Form/Button.vue';
 import Label from '@/Components/Form/Label.vue';
 import Input from '@/Components/Form/Input.vue';
-import SearchLocation from '@/Components/Frontoffice/Search/SearchLocation.vue';
+import SearchLocation from './Search/SearchLocation.vue';
 import dayjs from 'dayjs';
-import NumberInput from '@/Components/Form/NumberInput.vue';
 
 const form = useForm({
     location: {},
