@@ -23,6 +23,7 @@ return new class extends Migration
             $table->text('google_token')->nullable();
             $table->dateTime('google_token_expires_at')->nullable();
             $table->text('google_refresh_token')->nullable();
+            $table->json('approved_scopes')->nullable();
             $table->boolean('is_banned')->default(false);
             $table->string('first_name');
             $table->string('last_name');

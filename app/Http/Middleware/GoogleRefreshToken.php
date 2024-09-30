@@ -18,9 +18,11 @@ class GoogleRefreshToken
     public function handle(Request $request, Closure $next): Response
     {
         $user = auth()->user();
+        $has_google_calendar_scope = in_array(config('google-calendar.scope'), $user->approved_scopes);
+        $has_sync = $user->studio->booking_settings->has_sync;
 
         // Aggiorna il token di accesso e la data di scadenza nel database
-        if($user && $user->google_id && $user->google_refresh_token && Carbon::parse($user->google_token_expires_at)->isBefore(now())){
+        if($user && $has_sync && $has_google_calendar_scope && $user->google_refresh_token && Carbon::parse($user->google_token_expires_at)->isBefore(now())){
             $refreshed_google_tokens = Socialite::driver('google')->refreshToken($user->google_refresh_token);
 
             $user->update([

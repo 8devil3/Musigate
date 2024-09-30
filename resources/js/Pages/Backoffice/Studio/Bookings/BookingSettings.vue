@@ -87,21 +87,21 @@
                     Abilita/disablita la sincronizzazione con un calendario Google. Abilitandola potrai scegliere tra due modalità: <strong>unidirezionale</strong> o <strong>bidirezionale</strong>.<br><br>
                     Se <strong>unidirezionale</strong> Musigate scaricherà semplicamente gli eventi dal calendario prescelto.<br><br>
                     Se <strong>bidirezionale</strong> Musigate, oltra a scaricare gli event, potrà anche crearli nel calendario prescelto.<br><br>
-                    Per abilitare la sincronizzazione devi affettuare l'accesso con Google.
+                    Per abilitare la sincronizzazione devi affettuare l'accesso con Google e autorizzare l'utilizzo dei calendari.
                 </template>
 
                 <template #content>
                     <div class="flex flex-col gap-4">
                         <div class="space-y-2">
-                            <Toggle v-model="form.has_sync" :disabled="!props.google_token" :label="form.has_sync ? 'Sincronizzazione abilitata' : 'Sincronizzazione disabilitata'" />
+                            <Toggle v-model="form.has_sync" :disabled="!has_google_calendar_scope" :label="form.has_sync ? 'Sincronizzazione abilitata' : 'Sincronizzazione disabilitata'" />
 
-                            <div v-if="!props.google_token" class="text-sm text-red-500">
-                                Devi accedere con Google per abilitare la sincronizzazione.<br>
-                                Effettua il log out e accedi con Google.
+                            <div v-if="!has_google_calendar_scope" class="text-sm font-normal text-red-500">
+                                Devi accedere con Google e autorizzare l'utilizzo dei calendari per abilitare la sincronizzazione.<br>
+                                Effettua il log out e accedi con Google autorizzando l'utilizzo dei calendari.
                             </div>
                         </div>
 
-                        <template v-if="form.has_sync && props.google_token">
+                        <template v-if="form.has_sync && has_google_calendar_scope && props.google_calendar_ids.length">
                             <Select v-model="form.sync_mode" isArray :options="['unidirezionale', 'bidirezionale']" default="Seleziona modalità" class="w-full max-w-xs" />
                             <Select v-model="form.google_calendar_id" isArray :options="props.google_calendar_ids" default="Seleziona un calendario" class="w-full max-w-xs" />
                         </template>
@@ -168,8 +168,8 @@ import Select from '@/Components/Form/Select.vue';
 const props = defineProps({
     booking_settings: Object,
     google_calendar_ids: Array,
-    google_token: String,
-})
+    has_google_calendar_scope: Boolean,
+});
 
 const form = useForm({
     min_booking: props.booking_settings.min_booking,
@@ -206,6 +206,7 @@ const calendarViews = {
 
 <script>
 import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
+import { computed } from 'vue';
 
 export default {
     layout: (h, page) => h(BackofficeLayout, {

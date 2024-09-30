@@ -41,4 +41,10 @@ return [
      *  The email address of the user account to impersonate.
      */
     'user_to_impersonate' => env('GOOGLE_CALENDAR_IMPERSONATE'),
+
+    /*
+     *  The scope requested to user.
+     */
+    'scope' => env('GOOGLE_CALENDAR_SCOPE'),
+
 ];

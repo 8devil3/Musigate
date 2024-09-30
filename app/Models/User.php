@@ -34,6 +34,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'google_token',
         'google_refresh_token',
         'google_token_expires_at',
+        'approved_scopes'
     ];
 
     /**
@@ -56,6 +57,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'password' => 'hashed',
         'tos' => 'boolean',
         'privacy' => 'boolean',
+        'approved_scopes' => 'array',
     ];
 
     /**
