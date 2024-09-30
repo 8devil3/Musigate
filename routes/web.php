@@ -139,7 +139,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/account', [AccountController::class, 'edit'])->name('account.edit');
     Route::patch('/account', [AccountController::class, 'update'])->name('account.update');
     Route::delete('/account', [AccountController::class, 'destroy'])->name('account.destroy');
-    Route::put('/avatar', [AccountController::class, 'avatar_upload'])->name('account.avatar_upload');
+    Route::post('/avatar', [AccountController::class, 'avatar_upload'])->name('account.avatar_upload');
     Route::delete('/avatar', [AccountController::class, 'avatar_delete'])->name('account.avatar_delete');
 });
 

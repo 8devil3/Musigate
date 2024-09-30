@@ -43,7 +43,6 @@
                         routeDelete="studio.logo_delete"
                         :maxSizeMB="1"
                         accept="image/jpg, image/jpeg, image/png"
-                        rounded
                     />
                 </template>
             </FormElement>

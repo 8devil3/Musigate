@@ -20,18 +20,17 @@
 
                 <template #description>
                     L'immagine del tuo profilo. Verrà mostrata nella pagina del tuo Studio.<br><br>
-                    Formati accettati: <strong> jpg, jpeg, png, bmp</strong><br>
+                    Formati accettati: <strong> jpg, jpeg, png</strong><br>
                     Dimensione max: <strong>1 MB</strong><br>
                 </template>
 
                 <template #content>
                     <ImageUploader
                         v-model="props.avatar"
-                        id="avatar-uploader"
-                        :routeUpload="route('account.avatar_upload')"
-                        :routeDelete="route('account.avatar_delete')"
+                        routeUpload="account.avatar_upload"
+                        routeDelete="account.avatar_delete"
                         :maxSizeMB="1"
-                        accept="image/jpg, image/jpeg, image/png, image/bmp"
+                        accept="image/jpg, image/jpeg, image/png"
                     />
                 </template>
             </FormElement>

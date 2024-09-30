@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backoffice;
 
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -62,7 +63,7 @@ class AccountController extends Controller
             ]);
         }
 
-        return Redirect::route('account.edit');
+        return back()->with('success', 'Salvato');
     }
 
     /**
@@ -78,7 +79,15 @@ class AccountController extends Controller
 
         Auth::logout();
 
-        Storage::disk('public')->deleteDirectory('user-' . $user->id);
+        if($user->role_id === Role::STUDIO){
+            Storage::disk('public')->deleteDirectory('studios/studio-' . $user->id);
+        }
+
+        if($user->role_id === Role::ARTIST){
+            Storage::disk('public')->deleteDirectory('artists/artist-' . $user->id);
+        }
+
+        Storage::disk('public')->deleteDirectory('users/user-' . $user->id);
 
         $user->delete();
 
