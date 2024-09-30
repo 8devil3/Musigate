@@ -19,7 +19,7 @@ class RoomPhotoSeeder extends Seeder
 
         foreach ($rooms as $room) {
             for ($i=0; $i < rand(2, 6); $i++) {
-                $path = Storage::disk('public')->putFile('users/user-' . $room->studio->user_id . '/studio/rooms/' . $room->id, FakerImage::image());
+                $path = Storage::disk('public')->putFile('studios/studio-' . $room->studio->id . '/rooms/' . $room->id, FakerImage::image());
 
                 RoomPhoto::create([
                     'room_id' => $room->id,

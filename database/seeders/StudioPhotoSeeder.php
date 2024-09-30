@@ -18,11 +18,14 @@ class StudioPhotoSeeder extends Seeder
         $studios = Studio::all();
 
         foreach ($studios as $studio) {
-            for ($i=0; $i < 12; $i++) { 
+            for ($i=0; $i < 12; $i++) {
+                $path = Storage::disk('public')->putFile('studios/studio-' . $studio->id . '/photos', FakerImage::image());
+
                 StudioPhoto::create([
                     'studio_id' => $studio->id,
-                    'is_featured' => $i === 1 ? true : false,
-                    'path' => Storage::disk('public')->putFile('users/user-' . $studio->user_id . '/studio/photos', FakerImage::image()),
+                    'path' => $path,
+                    'filename' => basename($path),
+                    'sort_index' => $i +1,
                 ]);
             }
         }

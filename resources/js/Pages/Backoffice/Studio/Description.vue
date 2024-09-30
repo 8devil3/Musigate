@@ -39,10 +39,10 @@
                     <ImageUploader
                         v-model="props.studio.logo"
                         id="studio-logo-uploader"
-                        routeUpload="studio.general.logo_upload"
-                        routeDelete="studio.general.logo_delete"
+                        routeUpload="studio.logo_upload"
+                        routeDelete="studio.logo_delete"
                         :maxSizeMB="1"
-                        accept="image/jpg, image/jpeg, image/png, image/bmp"
+                        accept="image/jpg, image/jpeg, image/png"
                         rounded
                     />
                 </template>
@@ -227,6 +227,7 @@ const submit = () => {
 
 <script>
 import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
+import { ref } from 'vue';
 
 export default {
     layout: (h, page) => h(BackofficeLayout, {

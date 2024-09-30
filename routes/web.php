@@ -64,16 +64,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
             Route::get('/descrizione', [DescriptionController::class, 'edit'])->name('description.edit');
             Route::put('/descrizione', [DescriptionController::class, 'update'])->name('description.update');
-            Route::put('/descrizione/logo-carica', [DescriptionController::class, 'logo_upload'])->name('description.logo_upload');
-            Route::delete('/descrizione/logo-elimina', [DescriptionController::class, 'logo_delete'])->name('description.logo_delete');
+            Route::post('/descrizione/logo-carica', [DescriptionController::class, 'logo_upload'])->name('logo_upload');
+            Route::delete('/descrizione/logo-elimina', [DescriptionController::class, 'logo_delete'])->name('logo_delete');
             
             Route::get('/location', [LocationController::class, 'edit'])->name('location.edit');
             Route::put('/location', [LocationController::class, 'update'])->name('location.update');
     
             Route::get('/foto', [StudioPhotoController::class, 'edit'])->name('photos.edit');
-            Route::put('/foto', [StudioPhotoController::class, 'update'])->name('photos.update');
-            Route::put('/foto/in-evidenza/{photo}', [StudioPhotoController::class, 'featured'])->name('photos.featured');
-            Route::delete('/foto', [StudioPhotoController::class, 'delete'])->name('photos.delete');
+            Route::post('/foto/salva', [StudioPhotoController::class, 'update'])->name('photos.update');
+            Route::delete('/foto/{photo_id}', [StudioPhotoController::class, 'delete'])->name('photos.delete');
             
             Route::get('/video', [VideoController::class, 'edit'])->name('videos.edit');
             Route::put('/video', [VideoController::class, 'update'])->name('videos.update');

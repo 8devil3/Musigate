@@ -37,7 +37,7 @@ class StudioSeeder extends Seeder
             ]);
 
             $studio->update([
-                'logo' => Storage::disk('public')->putFile('users/user-' . $user->id . '/studio/logo', FakerImage::image(null, 240, 240))
+                'logo' => Storage::disk('public')->putFile('studios/studio-' . $studio->id . '/logo', FakerImage::image(null, 240, 240))
             ]);
         }
     }

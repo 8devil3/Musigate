@@ -29,9 +29,9 @@ class DescriptionController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'category' => 'required|string|max:255|in:Professional,Home',
-            'vat' => 'exclude_unless:category,Professional|required|string|size:11',
-            'record_label' => 'nullable|boolean',
-            'is_visible' => 'nullable|boolean',
+            'vat' => 'nullable|required_if:category,Professional|string|size:11',
+            'record_label' => 'boolean',
+            'is_visible' => 'boolean',
             'description' => 'required|string|min:100'
         ]);
 
@@ -39,47 +39,45 @@ class DescriptionController extends Controller
 
         $studio->update($request->toArray());
 
-        if($request->category === 'Professional' && $request->vat){
-            $studio->update(['vat' => $request->vat]);
-        } else {
+        if($request->category !== 'Professional'){
             $studio->update(['vat' => null]);
         }
 
-        return redirect()->back();
+        return back()->with('success', 'Salvato');
     }
 
     public function logo_upload(Request $request): RedirectResponse
     {
         $request->validate([
-            'file' => 'required|image|max:1024',
+            'file' => 'image|max:1024',
         ]);
 
-        $current_studio = auth()->user()->studio;
+        $studio = auth()->user()->studio;
 
-        if($current_studio->logo){
-            Storage::disk('public')->delete($current_studio->logo);
-            $current_studio->update(['logo' => null]);
+        if($studio->logo){
+            Storage::disk('public')->delete($studio->logo);
+            $studio->update(['logo' => null]);
         }
 
-        $scaled_image = Image::read($request->file)->scale(160, 160);
+        $scaled_image = Image::read($request->file)->scale(160, 160)->toPng();
 
-        $img_path = 'users/user-' . auth()->id() . '/studio/logo/' . \Str::uuid()->toString() . '.png';
+        $path = 'studios/studio-' . $studio->id . '/logo/' . \Str::uuid() . '.png';
 
-        Storage::disk('public')->put($img_path, $scaled_image->toPng());
+        Storage::disk('public')->put($path, $scaled_image);
 
-        $current_studio->update(['logo' => $img_path]);
+        $studio->update(['logo' => $path]);
 
-        return redirect()->back();
+        return back()->with('success', 'Logo caricato');
     }
 
     public function logo_delete(): RedirectResponse
     {
-        $current_studio = auth()->user()->studio;
+        $studio = auth()->user()->studio;
 
-        Storage::disk('public')->delete($current_studio->logo);
+        Storage::disk('public')->delete($studio->logo);
         
-        $current_studio->update(['logo' => null]);
+        $studio->update(['logo' => null]);
 
-        return redirect()->back();
+        return back()->with('success', 'Logo eliminato');
     }
 }

@@ -9,12 +9,9 @@ class StudioPhoto extends Model
 {
     protected $fillable = [
         'studio_id',
-        'is_featured',
-        'path'
-    ];
-
-    protected $casts = [
-        'is_featured' => 'boolean'
+        'path',
+        'filename',
+        'sort_index',
     ];
 
     public function studio(): BelongsTo

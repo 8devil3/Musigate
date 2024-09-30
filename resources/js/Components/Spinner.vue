@@ -1,15 +1,8 @@
 <template>
-    <div :class="props.isOrange ? 'orange' : 'white'"></div>
+    <div />
 </template>
 
 <script setup>
-const props = defineProps({
-    isOrange: {
-        type: Boolean,
-        default: false
-    }
-});
-
 </script>
 
 <style scoped>
@@ -22,8 +15,8 @@ const props = defineProps({
 
 .orange {
     border-radius: 50%;
-    background: radial-gradient(farthest-side,#f60 96%, #ff660000) top/8px 8px no-repeat, conic-gradient(#ff660000 24%,#f60);
-    mask: radial-gradient(farthest-side,#ff660000 calc(100% - 8px),#f60 0);
+    background: radial-gradient(farthest-side,#f60 96%, #ff660000) top/4px 4px no-repeat, conic-gradient(#ff660000 24%,#f60);
+    mask: radial-gradient(farthest-side,#ff660000 calc(100% - 4px),#f60 0);
     animation: spinner 0.3s infinite linear;
 }
 

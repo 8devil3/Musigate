@@ -20,45 +20,46 @@ class StudioPhotoController extends Controller
         return Inertia::render('Backoffice/Studio/Photos', compact('photos'));
     }
 
-    public function update(PhotoRequest $request): RedirectResponse
+    public function update(Request $request): RedirectResponse
     {
-        $request->validated();
+        $request->validate([
+            'photos' => 'array|max:12',
+            'photos.*.file' => 'image|max:2048|dimensions:min_width=1920,min_height=1080',
+        ]);
 
-        $user = auth()->user();
+        $studio = auth()->user()->studio;
 
-        foreach($request->photos as $photo){
-            $path = Storage::disk('public')->putFile('users/user-' . $user->id . '/studio/photos', $photo);
+        if(!empty($request->photos)){
+            foreach($request->photos as $key => $photo){
+                if(!isset($photo['file'])){
+                    $studio->photos()->findOrFail($photo['id'])->update([
+                        'sort_index' => $key +1,
+                    ]);
+                } else {
+                    $path = 'studios/studio-' . $studio->id . '/photos';
+                    $file_path = Storage::disk('public')->putFile($path, $photo['file']);
 
-            StudioPhoto::create([
-                'studio_id' => $user->studio->id,
-                'path' => $path,
-            ]);
+                    StudioPhoto::create([
+                        'studio_id' => $studio->id,
+                        'path' => $file_path,
+                        'filename' => basename($file_path),
+                        'sort_index' => $key +1,
+                    ]);
+                }
+            }
         }
 
-        return redirect()->back();
+        return back()->with('success', 'Foto salvate');
     }
 
-    public function featured(StudioPhoto $photo): RedirectResponse
+    public function delete(int $photo_id): RedirectResponse
     {
-        StudioPhoto::where('is_featured', true)->update(['is_featured' => false]);
-
-        $photo->update(['is_featured' => true]);
-
-        return redirect()->back();
-    }
-
-    public function delete(Request $request): RedirectResponse
-    {
-        if(!empty($request->checkedPhotos)){
-            $photos = StudioPhoto::whereIn('id', $request->checkedPhotos);
+        $photo = auth()->user()->studio->photos()->findOrFail($photo_id);
     
-            $photo_paths = $photos->pluck('path')->toArray();
-    
-            Storage::disk('public')->delete($photo_paths);
-    
-            $photos->delete();
-        }
+        Storage::disk('public')->delete($photo->path);
 
-        return redirect()->back();
+        $photo->delete();
+
+        return back()->with('success', 'Foto eliminate');
     }
 }

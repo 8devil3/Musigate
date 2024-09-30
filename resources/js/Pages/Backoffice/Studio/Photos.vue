@@ -1,7 +1,7 @@
 <template>
     <ContentLayout
-        as="div"
-        :isLoading="form.processing || formFeature.processing"
+        @submitted="submit()"
+        :isLoading="form.processing"
         :onSuccess="form.recentlySuccessful"
         :onFail="form.hasErrors"
         title="Foto"
@@ -11,143 +11,115 @@
         <template #content>
             <FormElement>
                 <template #description>
-                    Carica le foto dello Studio: verranno mostrate nella galleria principale della pagina dello Studio.<br>
-                    Puoi impostare un'immagine in evidenza cliccando sulla stellina sopra le foto. L'immagine in evidenza è contornata in giallo e viene mostrata nella ricerca e come prima immagine nella galleria.<br>
-                    Le foto devono essere in alta risoluzione, minimo <strong>1920 x 1080 px</strong>.
+                    Carica le foto dello Studio e trascinale per riordinarle.<br>
                     <br>
-                    <br>
-                    <strong>Massimo 12 foto.</strong><br>
-                    Formati accettati: <strong>jpg, jpeg, png, bmp</strong><br>
-                    Dimensione di ogni foto: <strong>max 6 MB</strong><br>
-                    Risoluzione: <strong>minimo 1920 x 1080 px</strong><br>
+                    Max {{ maxPhotos }} foto.<br>
+                    Formati accettati: jpg, jpeg, png<br>
+                    Dimensione massima cad.: 2 MB<br>
+                    Risoluzione minima: 1920 x 1080 px
                 </template>
 
                 <template #content>
-                    <!-- errori di validazione -->
-                    <div v-if="Object.entries(form.errors).length" class="p-4 mb-8 space-y-4 text-red-500 border border-red-500 rounded-xl">
-                        <h4>Errori di caricamento foto</h4>
-                        <ul class="ml-4 space-y-1 list-disc list-outside">
-                            <li v-for="error, key in form.errors">
-                                <template v-if="error.includes(key)">
-                                    {{ error.replace(key, form.photos[key.replace('photos.', '')].name) }}
-                                </template>
-                                <template v-else>
-                                    {{ error }}
-                                </template>
-                            </li>
-                        </ul>
+                    <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+                        <!-- foto -->
+                        <draggable 
+                            v-model="form.photos"
+                            tag="div"
+                            item-key="sort_index"
+                            class="contents"
+                        >
+                            <template #item="{ element, index }">
+                                <div>
+                                    <div class="relative cursor-move">
+                                        <img :src="element.id ? '/storage/' + element.path : element.path " alt="photo" class="object-cover w-full border rounded-xl aspect-video border-slate-800" />
+                                        <button type="button" @click="deletePhoto(index, element.id)" title="Elimina foto" class="absolute flex items-center justify-center w-5 h-5 text-xs text-white bg-red-500 border border-white rounded-full shadow top-1 right-1 lg:top-2 lg:right-2">
+                                            <i class="fa-solid fa-xmark" />
+                                        </button>
+        
+                                        <div v-if="index === 0" class="absolute bottom-1 right-1 lg:bottom-2 lg:right-2 font-medium py-1 leading-none px-2 shadow-md bg-slate-900/70 border border-orange-500 rounded-full text-[10px] lg:text-xs text-white uppercase">
+                                            principale
+                                        </div>
+                                    </div>
+
+                                    <div v-if="form.errors['photos.' + index + '.file']" class="px-2 mt-1 text-xs font-normal text-red-500">
+                                        {{ form.errors['photos.' + index + '.file'] }}
+                                    </div>
+                                </div>
+                            </template>
+                        </draggable>
+                        <!-- / -->
+                        
+                        <!-- placeholder -->
+                        <template v-if="form.photos.length < maxPhotos">
+                            <label for="carica-foto2" class="relative flex items-center justify-center p-4 text-xs text-center transition-colors border-2 border-dashed cursor-pointer border-slate-400 rounded-xl text-slate-400 hover:bg-slate-800">
+                                <div class="space-y-1">
+                                    <i class="text-2xl fa-solid fa-upload" />
+                                    <div>
+                                        Click o tap per caricare le foto<br>
+                                    </div>
+                                </div>
+    
+                                <input id="carica-foto2" type="file" @change="previewPhotos($event.target.files)" accept="image/png, image/jpeg" hidden multiple />
+                            </label>
+    
+                            <div v-for="i in maxPhotos -1 - form.photos.length" class="flex items-center justify-center p-4 border aspect-video border-slate-600 rounded-xl text-slate-600">
+                                <i class="text-2xl lg:text-4xl fa-solid fa-camera" />
+                            </div>
+                        </template>
+                        <!-- / -->
                     </div>
-
-                    <div v-if="props.photos.length" class="grid grid-cols-2 gap-2 mb-6 sm:grid-cols-2">
-                        <div v-for="photo, indx in props.photos.sort(photo => photo.is_featured ? -1 : 1)" class="relative rounded-md overflow-clip group aspect-video" :class="photo.is_featured || indx === 0 ? 'border-4 p-1 shadow-md shadow-amber-500/50 border-amber-500' : 'border border-gray-600'">
-                            <img :src="'/storage/' + photo.path" class="object-cover w-full h-full" />
-
-                            <input type="checkbox" v-model="form.checkedPhotos" :value="photo.id" title="Seleziona per eliminare" class="absolute top-2 right-2 w-4 h-4 rounded-[4px] border-2 border-red-600 bg-gray-900 text-red-600 cursor-pointer shadow-sm" />
-
-                            <button type="button" title="Imposta in evidenza" @click="featurePhoto(photo.id)" class="absolute flex items-center justify-center w-5 h-5 leading-none transition-opacity rounded-full bg-gray-900/30 hover:bg-gray-900/40 hover:text-amber-400 lg:opacity-0 left-2 top-2 text-amber-500 group-hover:opacity-100">
-                                <i class="text-xs fa-solid fa-star"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <Empty v-else>
-                        <template #title>
-                            Nessuna foto caricata.
-                        </template>
-                        <template #description>
-                            Non sono presenti foto del tuo Studio.
-                        </template>
-                        <template #actions>
-                            <Button @click="inputFile.click()" :isLoading="form.processing" text="Carica foto" icon="fa-solid fa-upload" />
-                        </template>
-                    </Empty>
-                                        
-                    <input @change="uploadPhotos($event.target.files)" type="file" ref="inputFile" accept="image/png, image/jpeg, image/bmp" multiple hidden />
                 </template>
             </FormElement>
         </template>
 
         <template #actions>
-            <div class="space-x-2">
-                <Button v-if="form.checkedPhotos.length" @click="openModalDanger = true" text="Elimina foto selezionate" icon="fa-solid fa-trash-can" color="red" />
-                <Button v-if="!form.checkedPhotos.length" @click="inputFile.click()" :isLoading="form.processing" text="Carica foto" icon="fa-solid fa-upload" color="green" />
-            </div>
+            <SaveButton :isLoading="form.processing" :disabled="form.processing" />
         </template>
     </ContentLayout>
-    
-    <ModalDanger :isOpen="openModalDanger" @close="openModalDanger = false; currentPhotoId = null">
-        <template #title>
-            Elimina foto selezionate
-        </template>
-        <template #description>
-            Confermi l'eliminazione delle foto selezionate?<br>
-            Questa azione è irreversibile.
-        </template>
-        <template #actions>
-            <Button text="Sì, elimina" @click="deletePhoto()" :isLoading="form.processing" :disabled="form.processing" color="red"/>
-            <Button text="No, annulla" color="gray" @click="openModalDanger = false; currentPhotoId = null"/>
-        </template>
-    </ModalDanger>
 </template>
 
 <script setup>
-import { ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
-import Empty from '@/Components/Backoffice/Empty.vue';
-import Button from '@/Components/Form/Button.vue';
-import ModalDanger from '@/Components/ModalDanger.vue';
+import SaveButton from '@/Components/Form/SaveButton.vue';
 import FormElement from '@/Components/Backoffice/FormElement.vue';
 import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
+import draggable from 'vuedraggable';
 
 const props = defineProps({
-    photos: Array,
+    photos: Object,
 });
-
-const inputFile = ref(null);
-const openModalDanger = ref(false);
-const currentPhotoId = ref(null);
 
 const form = useForm({
-    _method: 'PUT',
-    photos: [],
-    checkedPhotos: []
+    photos: props.photos ?? [],
 });
 
-const uploadPhotos = (photos)=>{
-    form.reset();
+const maxPhotos = 12;
 
-    if(photos){
-        Object.values(photos).forEach((photo) => {
-            form.photos.push(photo);
-        });
-        
-        form.post(route('studio.photos.update'), {
-            preserveScroll: true,
-            onSuccess: ()=>{
-                form.reset();
-            }
+const previewPhotos = (files)=>{
+    let photos = Array.from(files);
+
+    if(photos.length > maxPhotos - form.photos.length){
+        photos.splice(maxPhotos - form.photos.length);
+    }
+
+    photos.forEach((photo, index) => {
+        form.photos.push({id: false, file: photo, path: URL.createObjectURL(photo), sort_index: index});
+    });
+};
+
+const deletePhoto = (index, id)=>{
+    if(!id){
+        form.photos.splice(index, 1);
+    } else {
+        form.delete(route('studio.photos.delete', id), {
+            preserveState: false,
         });
     }
-}
+};
 
-const deletePhoto = ()=>{
-    form.delete(route('studio.photos.delete'), {
-        preserveScroll: true,
-        onSuccess: ()=>{
-            form.reset();
-            openModalDanger.value = false;
-        }
-    });
-}
-
-
-const formFeature = useForm({});
-
-const featurePhoto = (photoId)=>{
-    formFeature.put(route('studio.photos.featured', photoId), {
-        preserveScroll: true,
-    });
-}
+const submit = ()=>{
+    form.post(route('studio.photos.update'));
+};
 
 </script>
 

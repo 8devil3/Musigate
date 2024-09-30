@@ -47,12 +47,12 @@ class Studio extends Model
 
     public function photos(): HasMany
     {
-        return $this->hasMany(StudioPhoto::class)->orderByDesc('created_at');
+        return $this->hasMany(StudioPhoto::class)->orderBy('sort_index');
     }
 
     public function videos(): HasMany
     {
-        return $this->hasMany(StudioVideo::class);
+        return $this->hasMany(Video::class);
     }
 
     public function location(): HasOne

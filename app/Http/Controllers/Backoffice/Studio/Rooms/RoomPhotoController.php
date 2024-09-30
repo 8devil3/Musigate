@@ -28,7 +28,7 @@ class RoomPhotoController extends Controller
             'photos.*.file' => 'image|max:2048|dimensions:min_width=1920,min_height=1080',
         ]);
 
-        $user_id = auth()->id();
+        $studio_id = $room->studio->id;
 
         if(!empty($request->photos)){
             foreach($request->photos as $key => $photo){
@@ -37,7 +37,7 @@ class RoomPhotoController extends Controller
                         'sort_index' => $key +1,
                     ]);
                 } else {
-                    $path = 'users/user-' . $user_id . '/studio/rooms/' . $room->id;
+                    $path = 'studios/studio-' . $studio_id . '/rooms/' . $room->id;
                     $file_path = Storage::disk('public')->putFile($path, $photo['file']);
 
                     RoomPhoto::create([
@@ -56,7 +56,7 @@ class RoomPhotoController extends Controller
     public function delete(int $photo_id, Room $room): RedirectResponse
     {
         $photo = $room->photos()->findOrFail($photo_id);
-    
+
         Storage::disk('public')->delete($photo->path);
 
         $photo->delete();

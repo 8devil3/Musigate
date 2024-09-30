@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('studio_photos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('studio_id')->constrained()->cascadeOnDelete();
-            $table->boolean('is_featured')->default(false);
+            $table->string('filename');
             $table->string('path');
+            $table->unsignedTinyInteger('sort_index');
             $table->timestamps();
         });
     }

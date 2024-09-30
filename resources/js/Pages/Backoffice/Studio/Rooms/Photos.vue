@@ -15,7 +15,7 @@
                 <template #description>
                     Carica le foto della sala e trascinale per riordinarle.<br>
                     <br>
-                    Max 6 foto.<br>
+                    Max {{ maxPhotos }} foto.<br>
                     Formati accettati: jpg, jpeg, png<br>
                     Dimensione massima cad.: 2 MB<br>
                     Risoluzione minima: 1920 x 1080 px
