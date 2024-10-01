@@ -73,7 +73,7 @@
                                 <li class="text-sm list-musigate" v-if="props.booking_settings.has_buffer">
                                     Sono previste pause di 30 min tra le sessioni
                                 </li>
-                                <li v-if="props.room.discounted_price" class="text-sm list-musigate">
+                                <li v-if="props.room.has_discounted_price" class="text-sm list-musigate">
                                     Tariffa
                                     <span class="line-through text-slate-400">{{ props.room.price }} €/h</span>
                                     <span class="font-semibold text-orange-500">{{ props.room.discounted_price }} €/h</span>
@@ -108,7 +108,7 @@
 
                             <div class="space-y-4">
                                 <h4 class="pb-1 border-b border-orange-500">Importo totale</h4>
-                                <div v-if="props.room.discounted_price">
+                                <div v-if="props.room.has_discounted_price">
                                     <i class="inline-flex justify-center w-5 fa-solid fa-euro" />
                                     {{ props.room.discounted_price * form.duration }}
                                 </div>

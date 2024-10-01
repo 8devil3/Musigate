@@ -33,8 +33,8 @@
 
                         <div class="flex items-center gap-2">
                             <i class="text-orange-500 fa-solid fa-euro" />
-                            <span :class="{'line-through text-slate-400' : room.discounted_price}">{{ room.price }} €/h</span>
-                            <span v-if="room.discounted_price">{{ room.discounted_price }} €/h</span>
+                            <span :class="{'line-through text-slate-400' : room.has_discounted_price}">{{ room.price }} €/h</span>
+                            <span v-if="room.has_discounted_price">{{ room.discounted_price }} €/h</span>
                         </div>
                         
                         <div class="flex items-center gap-2">

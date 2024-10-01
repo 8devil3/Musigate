@@ -42,9 +42,9 @@
             <!-- / -->
 
             <!-- tariffa minima -->
-            <div v-if="props.room.discounted_price || props.room.price" class="flex flex-col gap-1">
+            <div v-if="props.room.has_discounted_price || props.room.price" class="flex flex-col gap-1">
                 Tariffa
-                <span v-if="props.room.discounted_price" class="text-base font-medium font-lemon">
+                <span v-if="props.room.has_discounted_price" class="text-base font-medium font-lemon">
                     <span class="line-through text-slate-400">{{ props.room.price }} €/h</span>
                     {{ props.room.discounted_price }} €/h
                 </span>
