@@ -1,10 +1,10 @@
 <template>
-    <Carousel v-if="props.imgs" :items-to-show="1" class="w-full">
-        <slide v-for="img, id in props.imgs" :key="id" class="w-full h-full">
+    <Carousel v-if="props.imgs" :items-to-show="1" wrap-around class="w-full h-full">
+        <Slide v-for="img in props.imgs" :key="img.id" class="w-full h-full">
             <div class="w-full h-full">
-                <img :src="'/storage/' + img.path" :alt="'Foto-' + id" class="w-full h-full" :class="objectImg">
+                <img :src="'/storage/' + img.path" :alt="'Foto-' + img.id" class="object-cover w-full h-full">
             </div>
-        </slide>
+        </Slide>
         <template #addons>
             <Navigation />
         </template>
@@ -24,10 +24,6 @@ const props = defineProps({
         type: Object,
         default: null
     },
-    objectImg: {
-        type: String,
-        default: 'object-cover'
-    }
 });
 
 </script>

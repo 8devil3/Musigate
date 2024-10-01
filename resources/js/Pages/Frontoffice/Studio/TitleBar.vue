@@ -2,7 +2,7 @@
     <div class="space-y-6">
         <!-- link per tonare alla ricerca -->
         <div class="pb-4">
-            <BackLink text="Torna alla ricerca" :router="route('studio.index', props.request)" />
+            <BackLink label="Torna alla ricerca" :href="route('studio.index', props.request)" />
         </div>
         <!-- / -->
 
