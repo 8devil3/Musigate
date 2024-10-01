@@ -3,6 +3,7 @@
 namespace App\Models\Room;
 
 use App\Models\Booking;
+use App\Models\TempBooking;
 use App\Models\Studio\Studio;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -56,5 +57,10 @@ class Room extends Model
     public function bookings(): HasMany
     {
         return $this->hasMany(Booking::class);
+    }
+
+    public function temp_bookings(): HasMany
+    {
+        return $this->hasMany(TempBooking::class);
     }
 }

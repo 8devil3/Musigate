@@ -47,11 +47,21 @@ class ReservationController extends Controller
                     $end = BufferService::add_buffer($booking_settings->has_buffer, $event->end, $availability->end);
 
                     return [
-                        'title' => 'Occupato',
                         'start' => $event->start,
                         'end' => $end->toDateTimeString(),
-                        'borderColor' => '#b91c1c',
-                        'backgroundColor' => '#450a0a',
+                    ];
+                })->toBase();
+
+                $temp_bookings = $room->temp_bookings()
+                ->whereDate('start', $request_start_date->toDateString())
+                ->get(['start', 'end'])
+                ->map(function($event) use($booking_settings, $availability){
+                    //buffer
+                    $end = BufferService::add_buffer($booking_settings->has_buffer, $event->end, $availability->end);
+
+                    return [
+                        'start' => $event->start,
+                        'end' => $end->toDateTimeString(),
                     ];
                 })->toBase();
 
@@ -76,7 +86,7 @@ class ReservationController extends Controller
                 }
 
                 //riunisco gli eventi in un unica collection
-                $events = $bookings->merge($google_events);
+                $events = $bookings->merge($temp_bookings)->merge($google_events);
 
                 //genero gli slot per la selezione dell'orario iniziale
                 $period_start = $request_start_date->setTimeFromTimeString($availability->first()->start)->toImmutable();

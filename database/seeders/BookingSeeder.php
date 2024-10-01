@@ -37,7 +37,6 @@ class BookingSeeder extends Seeder
                     'end' => $end,
                     'guests' => rand(1, $room->max_capacity),
                     'qr_code' => fake()->uuid(),
-                    'is_temp' => false
                 ]);
             }
         }
