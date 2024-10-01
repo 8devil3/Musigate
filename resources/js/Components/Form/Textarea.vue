@@ -73,7 +73,7 @@ const props = defineProps({
     },
 });
 
-const classes = "text-left form-textarea w-full px-4 py-3 text-sm font-light leading-normal text-white bg-slate-800/50 rounded-xl border border-slate-400 placeholder:text-slate-300/80 disabled:bg-slate-800 disabled:cursor-not-allowed placeholder:truncate disabled:text-slate-500 disabled:border-slate-500 font-sans focus:ring-orange-500/50 focus:border-orange-500 focus:shadow-md focus:shadow-orange-500";
+const classes = "text-left form-textarea w-full px-3 py-2 text-sm font-light leading-normal text-white bg-slate-800/50 rounded-xl border border-slate-400 placeholder:text-slate-300/80 disabled:bg-slate-800 disabled:cursor-not-allowed placeholder:truncate disabled:text-slate-500 disabled:border-slate-500 font-sans focus:ring-orange-500/50 focus:border-orange-500 focus:shadow-md focus:shadow-orange-500";
 
 const vModel = defineModel({ default: null });
 

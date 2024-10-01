@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\Studio\Availability;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Database\Eloquent\Collection;

@@ -16,19 +16,36 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class RegisteredUserController extends Controller
+class RegisteredStudioController extends Controller
 {
-    /**
-     * Display the registration view.
-     */
-    public function create(): Response
+    public function create_step_1(): Response
     {
-        return Inertia::render('Auth/Register');
+        $step = 1;
+        $request = session()->get('studio_data');
+
+        return Inertia::render('Auth/RegisterStudio', compact('step', 'request'));
+    }
+    
+    public function create_step_2(Request $request): Response
+    {
+        $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
+            'category' => 'required|string|in:Home,Professional',
+            'vat' => 'nullable|required_if:category,Professional|string|size:11',
+        ]);
+
+        $step = 2;
+        $request = $request->toArray();
+
+        session()->put('studio_data', $request);
+
+        return Inertia::render('Auth/RegisterStudio', compact('step', 'request'));
     }
 
     /**
@@ -38,13 +55,12 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+
         $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email:rfc,dns|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'tos' => 'accepted|boolean',
-            'privacy' => 'accepted|boolean',
+            'tos' => 'accepted',
+            'privacy' => 'accepted',
         ]);
 
         $user = User::create([
@@ -63,17 +79,18 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
+        session()->flush();
+
         return to_route('dashboard');
     }
 
-    public function store_new_studio(User $user, Request $request)
+    public function store_new_studio(User $user, $studio_data)
     {
-        //creo il nuovo studio
         $studio = Studio::create([
             'user_id' => $user->id,
-            'name' => ucwords(strtolower($request->studio_name)),
-            'category' => $request->category,
-            'vat' => $request->vat,
+            'name' => ucwords(strtolower($studio_data['name'])),
+            'category' => $studio_data['category'],
+            'vat' => $studio_data['vat'],
         ]);
 
         for ($i = 1; $i <= 7; $i++){

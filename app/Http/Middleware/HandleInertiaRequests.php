@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -32,7 +33,7 @@ class HandleInertiaRequests extends Middleware
         $user = null;
         $studio = null;
 
-        if(auth()->check()){
+        if(auth()->check() && auth()->user()->role_id === Role::STUDIO){
             $user = auth()->user();
             $studio = $user->studio->only('name', 'vat', 'logo', 'category');
         }

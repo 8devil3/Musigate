@@ -6,11 +6,6 @@
         :onFail="formDelete.hasErrors"
         icon="fa-solid fa-music"
     >
-        <template #description>
-            Gestisci le Sale del tuo Studio.<br>
-            Per modificare o eliminare una Sala dovrai prima sospenderla.
-        </template>
-
         <template #content>
             <div v-if="props.rooms.length" class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 lg:gap-6">
                 <article v-for="room in props.rooms" class="flex flex-col gap-4 p-4 transition-colors border hover:shadow-xl border-slate-700 hover:border-orange-500 hover:bg-slate-800/50 rounded-xl overflow-clip min-h-80">
@@ -54,9 +49,9 @@
                 </article>
             </div>
 
-            <Empty v-else icon="fa-solid fa-microphone-lines">
+            <Empty v-else icon="fa-solid fa-music">
                 <template #title>
-                    Non sono presenti Sale Studio.
+                    Non sono presenti Sale prova
                 </template>
 
                 <template #description>
@@ -64,13 +59,13 @@
                 </template>
 
                 <template #actions>
-                    <Button type="router" :href="route('rooms.create')" text="Aggiungi" icon="fa-solid fa-plus" title="Aggiungi Sala"/>
+                    <Button type="router" :href="route('rooms.create')" text="Crea una Sala" icon="fa-solid fa-plus" title="Crea una Sala"/>
                 </template>
             </Empty>
         </template>
 
         <template #actions>
-            <Button type="router" v-if="props.rooms.length" :href="route('rooms.create')" text="Aggiungi" icon="fa-solid fa-plus" title="Aggiungi Sala"/>
+            <Button type="router" v-if="props.rooms.length" :href="route('rooms.create')" text="Aggiungi Sala" icon="fa-solid fa-plus" title="Aggiungi Sala"/>
         </template>
     </ContentLayout>
 

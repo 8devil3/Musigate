@@ -7,6 +7,7 @@
     >
         <template #content>
             <Calendar
+                v-if="props.rooms.length"
                 :events="props.events"
                 :availability="props.availability"
                 :has_buffer="props.booking_settings.has_buffer"
@@ -14,12 +15,20 @@
                 :min_booking="props.booking_settings.min_booking"
                 :maxBookingHorizon="props.booking_settings.maxBookingHorizon"
                 :initialView="props.booking_settings.default_calendar_view"
+                :is_open_24_7="props.is_open_24_7"
                 @eventClick="openModalEvent"
             />
+
+            <div v-else class="flex flex-col items-center h-full gap-4 mt-16 text-center">
+                <p class="text-xl font-medium text-slate-500 max-w-80">
+                    Devi creare almeno una Sala prove per visualizzare le prenotazioni.
+                </p>
+                <Button type="router" :href="route('rooms.create')" text="Crea una Sala" icon="fa-solid fa-plus" />
+            </div>
         </template>
 
         <template #actions>
-            <Select v-model="currentRoomId" @change="refresh()" :options="props.rooms" default="Seleziona una Sala" class="w-48" />
+            <Select v-if="props.rooms.length" v-model="currentRoomId" @change="refresh()" :options="props.rooms" default="Seleziona una Sala" class="w-48" />
         </template>
     </ContentLayout>
 
@@ -84,6 +93,7 @@ const props = defineProps({
     events: Object,
     availability: Object,
     booking_settings: Object,
+    is_open_24_7: Boolean,
     rooms: Object,
     request: Object,
 });
@@ -110,6 +120,7 @@ const closeModalEvent = ()=>{
 
 <script>
 import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
+import Button from '@/Components/Form/Button.vue';
 
 export default {
     layout: (h, page) => h(BackofficeLayout, {

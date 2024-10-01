@@ -1,9 +1,7 @@
 <template>
-    <nav class="flex flex-col w-64 h-full gap-3 pb-6 overflow-y-auto font-sans font-medium shrink-0 bg-slate-900 lg:gap-10 noscrollbar">
-        <hr class="hidden shrink-0 lg:block h-0.5 bg-gradient-to-r from-transparent via-orange-500 to-transparent-500" />
-
+    <nav class="flex flex-col w-64 h-full gap-3 pb-6 overflow-y-auto font-sans font-medium shrink-0 bg-slate-900 lg:gap-6 noscrollbar">
         <!-- nome e logo studio -->
-        <div class="px-2 py-4 space-y-4 lg:py-0 shrink-0">
+        <div class="px-2 pt-6 space-y-4 shrink-0">
             <div class="flex items-center justify-center w-16 mx-auto border-2 border-orange-500 rounded-full aspect-square">
                 <img v-if="usePage().props.auth.studio.logo" :src="'/storage/' + usePage().props.auth.studio.logo" :alt="usePage().props.auth.studio.name" class="object-contain w-full h-full rounded-full overflow-clip">
                 <img v-else src="/img/logo/logo_placeholder.svg" :alt="usePage().props.auth.studio.name" class="object-contain w-8 aspect-square">
@@ -17,8 +15,6 @@
                 </div>
             </div>
         </div>
-
-        <hr class="lg:hidden shrink-0 h-0.5 bg-gradient-to-r from-transparent via-orange-500 to-transparent-500" />
 
         <!-- menu -->
         <ul class="space-y-2 list-none list-image-none">
@@ -43,7 +39,7 @@
                         
                         <ul class="mt-1 ml-6 space-y-1 list-none border-l list-image-none border-slate-600">
                             <li v-for="child in item.children">
-                                <Link :href="route(child.route)" class="flex items-center gap-2 px-3 py-1.5 text-xs transition-colors border-transparent text-slate-300 border-x-4 hover:border-l-orange-500 hover:bg-slate-700/50" :class="[{'border-l-orange-500 text-slate-100 bg-slate-700/80' : route().current(child.active)}]">
+                                <Link :href="route(child.route)" class="flex items-center gap-2 px-3 py-1.5 text-xs transition-colors border-transparent font-normal text-slate-300 border-x-4 hover:border-l-orange-500 hover:bg-slate-700/50" :class="[{'border-l-orange-500 text-slate-100 bg-slate-700/80' : route().current(child.active)}]">
                                     <i class="w-5 text-center" :class="child.icon" />
                                     {{ child.label }}
                                 </Link>
@@ -162,7 +158,7 @@ const menu = computed(()=>{
                 children: [
                     {
                         icon: 'fa-solid fa-calendar-days',
-                        label: 'Prenotazioni',
+                        label: 'Calendario',
                         route: 'bookings.index',
                         active: 'bookings.index'
                     },

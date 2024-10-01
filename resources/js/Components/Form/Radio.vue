@@ -9,7 +9,7 @@
             :id="props.id"
             class="text-orange-500 bg-transparent border-2 border-orange-500 appearance-none cursor-pointer focus:ring-1 focus:outline-none focus:ring-offset-transparent focus:ring-orange-500/50"
         />
-        <span class="text-[13px] font-normal leading-tight pt-[1px]">
+        <span class="text-[13px] font-normal leading-tight text-white pt-[1px]">
             <slot />
         </span>
     </label>

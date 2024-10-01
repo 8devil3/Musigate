@@ -22,8 +22,8 @@
                         />
                     </div>
 
-                    <fieldset :disabled="form.is_open_24_7" class="w-full overflow-x-auto disabled:cursor-not-allowed" :class="{'opacity-50' : form.is_open_24_7}">
-                        <table class="w-full text-sm">
+                    <div v-if="!form.is_open_24_7" class="w-full overflow-hidden">
+                        <table class="w-full overflow-x-auto text-sm">
                             <thead>
                                 <tr>
                                     <th class="p-2 uppercase bg-slate-800">Giorno</th>
@@ -35,7 +35,7 @@
 
                             <tbody>
                                 <tr v-for="wd, key in weekdays">
-                                    <td class="w-32 px-2 py-3 text-center" :class="{'text-slate-400' : !form.availability[key].is_open}">
+                                    <td class="w-32 px-2 py-3 font-normal text-center" :class="{'text-slate-400' : !form.availability[key].is_open}">
                                         {{ wd }}
                                         <div v-if="!form.availability[key].is_open" class="text-xs text-red-600">chiuso</div>
                                         <div v-else class="text-xs text-green-600">aperto</div>
@@ -53,7 +53,7 @@
                             </tbody>
 
                         </table>
-                    </fieldset>
+                    </div>
                 </template>
             </FormElement>
         </template>
@@ -85,9 +85,7 @@ const form = useForm({
 
 const submit = () => {
     if(form.processing) return;
-    form.put(route('studio.availability.update'), {
-        preserveScroll: true,
-    });
+    form.put(route('studio.availability.update'));
 };
 
 const toggleIsOpen = (key)=>{

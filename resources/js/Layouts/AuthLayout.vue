@@ -21,9 +21,14 @@
             <slot name="actions" />
         </fieldset>
     </form>
+
+    <div v-show="props.isLoading" class="fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm">
+        <Spinner class="w-16 h-16 orange" />
+    </div>
 </template>
 
 <script setup>
+import Spinner from '@/Components/Spinner.vue';
 import { Head, Link } from '@inertiajs/vue3';
 
 const props = defineProps({

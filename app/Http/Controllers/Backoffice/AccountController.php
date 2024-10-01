@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backoffice;
 
 use App\Http\Controllers\Controller;
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -11,11 +12,9 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use App\Models\User;
 use Inertia\Inertia;
 use Inertia\Response;
-use Intervention\Image\Drivers\Gd\Driver;
-use Intervention\Image\ImageManager;
+use Intervention\Image\Laravel\Facades\Image;
 
 class AccountController extends Controller
 {
@@ -112,17 +111,15 @@ class AccountController extends Controller
             $user->update(['avatar' => null]);
         }
 
-        $img_manager = new ImageManager(new Driver());
+        $scaled_image = Image::read($request->file)->scale(160, 160);
 
-        $scaled_image = $img_manager->read($request->file)->scale(160, 160);
+        $path = 'users/user-' . $user->id . '/avatar/' . \Str::uuid()->toString() . '.png';
 
-        $img_path = 'users/user-' . $user->id . '/avatar/' . \Str::uuid()->toString() . '.png';
+        Storage::disk('public')->put($path, $scaled_image->toPng());
 
-        Storage::disk('public')->put($img_path, $scaled_image->toPng());
+        $user->update(['avatar' => $path]);
 
-        $user->update(['avatar' => $img_path]);
-
-        return redirect()->back();
+        return back()->with('success', 'Avatar aggiornato');
     }
 
     public function avatar_delete(): RedirectResponse
@@ -133,7 +130,7 @@ class AccountController extends Controller
         
         $user->update(['avatar' => null]);
 
-        return redirect()->back();
+        return back()->with('success', 'Avatar eliminato');
     }
 
 }

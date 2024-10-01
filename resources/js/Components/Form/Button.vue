@@ -4,10 +4,11 @@
         :href="props.href"
         :class="[commonClasses, colorClasses]"
     >
-        <i v-if="props.icon" :class="commonIconClasses"></i>
+        <i v-if="props.icon && !iconRight" :class="commonIconClasses" />
         <template v-if="props.text">
             {{ props.text.charAt(0).toUpperCase() + props.text.slice(1, props.text.length) }}
         </template>
+        <i v-if="props.icon && iconRight" :class="commonIconClasses" />
     </Link>
 
     <a
@@ -15,10 +16,11 @@
         :href="props.href"
         :class="[commonClasses, colorClasses]"
     >
-        <i v-if="props.icon" :class="commonIconClasses"></i>
+        <i v-if="props.icon && !iconRight" :class="commonIconClasses" />
         <template v-if="props.text">
             {{ props.text.charAt(0).toUpperCase() + props.text.slice(1, props.text.length) }}
         </template>
+        <i v-if="props.icon && iconRight" :class="commonIconClasses" />
     </a>
 
     <button
@@ -28,14 +30,12 @@
         :disabled="props.disabled"
         :class="[commonClasses, colorClasses, {'px-8' : props.isLoading}] "
     >
-        <template v-if="!props.isLoading">
-            <i v-if="props.icon" :class="commonIconClasses"></i>
-            <template v-if="props.text">
-                {{ props.text.charAt(0).toUpperCase() + props.text.slice(1, props.text.length) }}
-            </template>
+        <Spinner v-if="props.isLoading" class="w-5 h-5 white"/>
+        <i v-if="props.icon && !iconRight && !props.isLoading" :class="commonIconClasses" />
+        <template v-if="props.text">
+            {{ props.text.charAt(0).toUpperCase() + props.text.slice(1, props.text.length) }}
         </template>
-        
-        <Spinner v-else class="w-5 h-5"/>
+        <i v-if="props.icon && iconRight && !props.isLoading" :class="commonIconClasses" />
     </button>
 </template>
 
@@ -56,6 +56,10 @@ const props = defineProps({
     href: {
         type: String,
         default: '#',
+    },
+    iconRight: {
+        type: Boolean,
+        default: false
     },
     color: {
         type: String,

@@ -13,7 +13,7 @@
             />
         </Switch>
 
-        <div class="flex flex-col">
+        <div v-if="props.label || props.description" class="flex flex-col">
             <SwitchLabel v-if="props.label" class="text-sm leading-tight text-white cursor-pointer disabled:cursor-not-allowed" :class="{'cursor-not-allowed' : props.disabled}">
                 {{ props.label }}
             </SwitchLabel>

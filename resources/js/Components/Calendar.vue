@@ -62,6 +62,7 @@ const props = defineProps({
     has_buffer: Boolean,
     allow_fractional_durations: Boolean,
     maxBookingHorizon: Number,
+    is_open_24_7: Boolean,
     initialView: String,
 });
 
@@ -84,9 +85,18 @@ const businessHours = computed(()=>{
 });
 
 const minMaxSlotTime = computed(()=>{
-    return {
-        min: dayjs.min(businessHours.value.filter(item => item.isOpen).map(item => dayjs(dayjs().format('YYYY-MM-DD') + 'T' + item.startTime))).format('HH:mm'),
-        max: dayjs.max(businessHours.value.filter(item => item.isOpen).map(item => dayjs(dayjs().format('YYYY-MM-DD') + 'T' + item.endTime))).format('HH:mm'),
+    let bh = businessHours.value.filter(item => item.isOpen);
+
+    if(!bh.length || props.is_open_24_7){
+        return {
+            min: '00:00',
+            max: '24:00',
+        };
+    } else {
+        return {
+            min: dayjs.min(businessHours.value.filter(item => item.isOpen).map(item => dayjs(dayjs().format('YYYY-MM-DD') + 'T' + item.startTime))).format('HH:mm'),
+            max: dayjs.max(businessHours.value.filter(item => item.isOpen).map(item => dayjs(dayjs().format('YYYY-MM-DD') + 'T' + item.endTime))).format('HH:mm'),
+        }
     }
 });
 
@@ -167,7 +177,7 @@ const calendarOptions = {
 }
 
 .fc-toolbar-title {
-    @apply capitalize;
+    @apply capitalize !text-base xl:!text-2xl !text-center;
 }
 
 .fc-button-group {

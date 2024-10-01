@@ -21,14 +21,17 @@ class BookingController extends Controller
 {
     public function index(Request $request): Response
     {
-        $booking_settings = auth()->user()->studio->booking_settings;
-        $availability = auth()->user()->studio->availability;
+        $studio = auth()->user()->studio;
+        $booking_settings = $studio->booking_settings;
+        $availability = $studio->availability;
+        $is_open_24_7 = $studio->ais_open_24_7;
         $time_fraction = $booking_settings->allow_fractional_durations || $booking_settings->has_buffer ? '30 minutes' : '1 hour';
 
         $current_room_id = request('room_id', 'all');
-        $rooms = auth()->user()->studio->rooms()->pluck('name', 'id')->toArray();
+        $rooms = $studio->rooms()->pluck('name', 'id')->toArray();
 
         $events = collect([]);
+        $bookings = collect([]);
 
         if(!empty($rooms)){
             $bookings = Booking::with(['room:id,name,color', 'user:id,first_name,last_name'])
@@ -109,7 +112,7 @@ class BookingController extends Controller
         $rooms['all'] = 'Tutte le Sale';
         $request->toArray();
 
-        return Inertia::render('Backoffice/Studio/Bookings/Index', compact('events', 'booking_settings', 'availability', 'rooms', 'request'));
+        return Inertia::render('Backoffice/Studio/Bookings/Index', compact('events', 'booking_settings', 'is_open_24_7', 'availability', 'rooms', 'request'));
     }
 
     public function show(Booking $booking): Response

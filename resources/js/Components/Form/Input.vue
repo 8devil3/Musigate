@@ -12,6 +12,7 @@
                 :placeholder="props.placeholder"
                 :autocomplete="props.autocomplete"
                 :min="props.min"
+                :inputmode="props.inputmode"
                 :max="props.max"
                 :step="props.step"
                 :pattern="props.pattern"
@@ -21,7 +22,7 @@
                 :autofocus="props.autofocus"
                 :aria-label="props.label"
                 :aria-placeholder="props.placeholder"
-                :class="[classes, props.unit && 'pr-10', props.error && 'border-red-600 bg-red-600/10 focus:ring-red-600/50 focus:border-red-600 focus:shadow-md focus:shadow-red-600']"
+                :class="[classes, props.unit && 'pr-10', props.error ? 'border-red-500 bg-red-600/10 focus:ring-red-600/50 focus:border-red-600 focus:shadow-md focus:shadow-red-600' : 'bg-slate-800/50 border-slate-400 focus:ring-orange-500/50 focus:border-orange-500 focus:shadow-md focus:shadow-orange-500']"
             >
 
             <div v-if="props.unit" class="absolute inset-y-0 flex items-center text-xs text-right text-slate-400 right-4">
@@ -95,10 +96,14 @@ const props = defineProps({
     disabled: {
         type: Boolean,
         default: false
+    },
+    inputmode: {
+        type: String,
+        default: null
     }
 });
 
-const classes = "text-left w-full h-8 px-4 py-0 text-sm text-white bg-slate-800/50 border border-slate-400 rounded-full placeholder:text-slate-300/80 disabled:bg-slate-800 placeholder:truncate truncate disabled:cursor-not-allowed disabled:text-slate-500 disabled:border-slate-500 font-sans placeholder:font-light font-light focus:ring-orange-500/50 focus:border-orange-500 focus:shadow-md focus:shadow-orange-500";
+const classes = "text-left w-full h-8 px-3 py-0 text-sm text-white border rounded-full placeholder:text-slate-500 disabled:bg-slate-800 placeholder:truncate truncate disabled:cursor-not-allowed disabled:text-slate-500 disabled:border-slate-500 font-sans placeholder:font-light font-light";
 
 const emit = defineEmits(['input', 'change']);
 

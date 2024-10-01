@@ -25,8 +25,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'role_id',
         'first_name',
         'last_name',
-        'avatar',
         'email',
+        'email_verified_at',
         'password',
         'tos',
         'privacy',
@@ -34,7 +34,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'google_token',
         'google_refresh_token',
         'google_token_expires_at',
-        'approved_scopes'
+        'approved_scopes',
+        'avatar',
     ];
 
     /**

@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Auth\RegisteredStudioController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Auth\SocialiteController;
@@ -17,19 +18,20 @@ Route::middleware('guest')->group(function () {
     Route::get('/auth/callback', [SocialiteController::class, 'callback'])->name('socialite.google.callback');
 
     Route::get('iscriviti', [RegisteredUserController::class, 'create'])->name('register');
-
     Route::post('iscriviti', [RegisteredUserController::class, 'store']);
 
-    Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
+    Route::get('registrazione/studio/step-1', [RegisteredStudioController::class, 'create_step_1'])->name('register.studio.step_1');
+    Route::post('registrazione/studio/step-2', [RegisteredStudioController::class, 'create_step_2'])->name('register.studio.step_2');
+    Route::post('registrazione/studio', [RegisteredStudioController::class, 'store'])->name('register.studio.store');
 
+
+    Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
 
     Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])->name('password.request');
-
     Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])->name('password.email');
 
     Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])->name('password.reset');
-
     Route::post('reset-password', [NewPasswordController::class, 'store'])->name('password.store');
 });
 
