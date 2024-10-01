@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontoffice;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Room\Room;
+use App\Models\TempBooking;
 use App\Models\User;
 use App\Services\BufferService;
 use Carbon\Carbon;
@@ -27,7 +28,7 @@ class ReservationController extends Controller
         $booking_settings = $room->studio->booking_settings;
         $time_fraction = $booking_settings->allow_fractional_durations || $booking_settings->has_buffer ? '30 minutes' : '1 hour';
         $request_duration = intval($request->duration);
-        $room->load('photos');
+        $room->load(['studio.booking_settings', 'studio.user', 'photos']);
         $slots = [];
         $events = collect([]);
 
@@ -113,18 +114,23 @@ class ReservationController extends Controller
             }
         }
 
+        session()->put('room', $room);
+
         return Inertia::render('Frontoffice/Booking/Create', compact('events', 'slots', 'room', 'booking_settings', 'request'));
     }
 
-    public function store(Room $room, Request $request): \Symfony\Component\HttpFoundation\Response|RedirectResponse
+    public function store(Request $request): \Symfony\Component\HttpFoundation\Response|RedirectResponse
     {
+        $room = session()->get('room');
+        
         if(!$room->is_visible) abort(404, 'Sala non trovata');
         if(!$room->is_bookable) abort(403, 'Sala non prenotabile');
 
         $booking_settings = $room->studio->booking_settings;
+        $max_start_dateTime = now()->addDays($booking_settings->booking_advance)->toDateTimeString();
 
         $request->validate([
-            'start' => ['required', 'date', 'after:' . now()->addDays($booking_settings->booking_advance)->toDateTimeString()],
+            'start' => ['required', 'date', 'after:' . $max_start_dateTime],
             'duration' => ['required', 'integer', 'min:' . $booking_settings->min_booking, 'max:8'],
             'guests' => ['required', 'integer', 'min:1', 'max:' . $room->max_capacity],
         ]);
@@ -134,7 +140,7 @@ class ReservationController extends Controller
         $start = Carbon::parse($request->start);
         $end = Carbon::parse($request->start)->addHours($request_duration);
 
-        Booking::create([
+        $temp_booking = TempBooking::create([
             'room_id' => $room->id,
             'user_id' => $current_user->id,
             'start' => $start->toDateTimeString(),
@@ -142,8 +148,22 @@ class ReservationController extends Controller
             'guests' => $request->guests,
             'duration' => $request_duration,
             'qr_code' => \Str::uuid()->toString(),
-            // 'is_temp' => true, //prenotazione temporanea da completare. In attesa che l'utente completi il pagamento, blocco il calendario in modo da garantire lo slot di prenotazione per quell'utente. Quando l'utente completa il pagamento e ricevo il webhook da Stripe, allora la prenotazione diventa definitiva.
         ]);
+
+        //copio la prenotazione dalla tabella temporanea
+        $booking = $temp_booking->replicate();
+        $booking->setTable('bookings');
+        $booking->save();
+
+        // Booking::create([
+        //     'room_id' => $room->id,
+        //     'user_id' => $current_user->id,
+        //     'start' => $start->toDateTimeString(),
+        //     'end' => $end->toDateTimeString(),
+        //     'guests' => $request->guests,
+        //     'duration' => $request_duration,
+        //     'qr_code' => \Str::uuid()->toString(),
+        // ]);
 
         //TODO: elaborazione pagamento Stripe
         // if($is_temp_booking_created){
@@ -179,9 +199,10 @@ class ReservationController extends Controller
             // return Inertia::location($checkout_session->url);
         // }
 
-        //TODO: inserimento nel calndario google collegato. Cosa fare se l'utente non ha concesso i permessi in scrittura (quelli da impostare direttamente nel calendario in "Impostazioni e condivisione")?
+        //inserimento nel calndario google collegato. 
+        $has_google_calendar_scope = in_array(config('google-calendar.scope'), $room->studio->user->approved_scopes);
 
-        if($booking_settings->has_sync && $booking_settings->google_calendar_id && $booking_settings->sync_mode === 'bidirezionale'){
+        if($booking_settings->has_sync && $has_google_calendar_scope && $booking_settings->google_calendar_id && $booking_settings->sync_mode === 'bidirezionale'){
             $google_event_id = str_replace('-', '', 'musigate' . \Str::uuid());
 
             $new_google_event = Event::create([
@@ -211,8 +232,8 @@ class ReservationController extends Controller
             ]);
         }
 
-        // return back()->withErrors('error', 'Si è verificato un problema con il pagamento.');
-        
+        session()->forget('room');
+
         return back()->with('success', 'Sala prenotata con successo');
     }
 }

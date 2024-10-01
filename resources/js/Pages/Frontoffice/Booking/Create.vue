@@ -2,30 +2,27 @@
     <Head :title="'Prenota ' + props.room.name" />
 
     <div class="flex items-center justify-center w-full h-full p-4 bg-slate-950 md:p-6">
-        <div class="w-full max-w-5xl space-y-6">
-            <Link :href="route('studio.show', props.room.studio_id)" class="block text-sm text-orange-500 transition-colors hover:text-orange-400">
-                <i class="mr-2 fa-solid fa-arrow-left" />
-                Annulla e torna allo Studio
-            </Link>
+        <div class="w-full max-w-6xl space-y-6">
+            <BackLink label="Annulla e torna allo Studio" :href="route('studio.show', props.room.studio_id)" />
 
             <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-0">
                 <fieldset :disabled="form.processing" class="mr-12 space-y-8 disabled:cursor-not-allowed">
-                    <form @submit.prevent="updateSlot()" class="flex flex-wrap items-end gap-2">
-                        <Input type="date" v-model="form.startDate" @change="updateSlotSubmitBtn.click()" label="Data" required />
-                        <NumberInput v-model="form.duration" @input="updateSlotSubmitBtn.click()" @change="updateSlotSubmitBtn.click()" label="Durata (ore)" :min="1" :max="24" required />
-                        <NumberInput v-model="form.guests" label="Artisti" :min="1" :max="props.room.max_capacity" required />
+                    <form @submit.prevent="updateSlot()" class="flex items-end gap-2">
+                        <Input type="date" v-model="form.startDate" @change="updateSlotSubmitBtn.click()" label="Data" :min="dayjs().add(props.booking_settings.booking_advance, 'days').format('YYYY-MM-DD')" :max="dayjs().add(props.booking_settings.max_booking_horizon, 'days').format('YYYY-MM-DD')" required class="grow" />
+                        <NumberInput v-model="form.duration" @input="updateSlotSubmitBtn.click()" @change="updateSlotSubmitBtn.click()" label="Durata" unit="ore" :min="1" :max="24" required />
+                        <NumberInput v-model="form.guests" label="Persone" :min="1" :max="props.room.max_capacity" required />
                         <Button @click="reset()" title="Reset" icon="fa-solid fa-arrow-rotate-left" class="hidden lg:inline-flex" />
                         <button ref="updateSlotSubmitBtn" type="submit" hidden />
                     </form>
 
-                    <div v-if="form.processing" class="flex items-center justify-center min-h-[400px]">
-                        <Spinner class="w-8 h-8" />
+                    <div v-if="form.processing" class="flex items-center justify-center min-h-64">
+                        <Spinner class="w-8 h-8 orange" />
                     </div>
 
                     <div v-else-if="form.startDate && form.duration && props.slots.length" class="space-y-4">
                         <h4 class="pb-1 mb-4 border-b border-orange-500">Scegli l'orario d'inizio</h4>
 
-                        <ul class="grid grid-cols-2 gap-2 list-none sm:grid-cols-3 list-image-none">
+                        <ul class="grid grid-cols-2 gap-2 list-none sm:grid-cols-3 md:grid-cols-4 list-image-none">
                             <li v-for="slot in props.slots">
                                 <button type="button" @click="selectSlot(slot)" class="block w-full px-4 py-2 transition-colors border-2 rounded-full hover:border-orange-500" :class="form.start === slot ? 'bg-orange-900 border-orange-500 font-medium text-white' : 'border-slate-500'">
                                     {{ dayjs(slot).format('HH:mm') }}
@@ -50,13 +47,15 @@
                 </fieldset>
 
                 <div class="space-y-8 grow">
-                    <div class="space-y-6">
-                        <div>
+                    <div class="flex">
+                        <div class="w-1/3">
+                            <Carosello :imgs="props.room.photos" class="rounded-xl overflow-clip" />
+                        </div>
+                        <div class="ml-4">
                             <div class="text-xs font-semibold uppercase text-slate-400">{{ props.room.studio.category }} studio</div>
                             <h1>{{ props.room.studio.name }}</h1>
-                            <h2>{{ props.room.name }}</h2>
+                            <h2 class="text-lg">{{ props.room.name }}</h2>
                         </div>
-                        <Carosello :imgs="props.room.photos" class="rounded-xl overflow-clip" />
                     </div>
 
                     <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
@@ -74,27 +73,50 @@
                                 <li class="text-sm list-musigate" v-if="props.booking_settings.has_buffer">
                                     Sono previste pause di 30 min tra le sessioni
                                 </li>
+                                <li v-if="props.room.discounted_price" class="text-sm list-musigate">
+                                    Tariffa
+                                    <span class="line-through text-slate-400">{{ props.room.price }} €/h</span>
+                                    <span class="font-semibold text-orange-500">{{ props.room.discounted_price }} €/h</span>
+                                </li>
+                                <li v-else class="text-sm list-musigate">
+                                    Tariffa
+                                    <span class="font-semibold text-orange-500">{{ props.room.price }} €/h</span>
+                                </li>
                             </ul>
                         </div>
                         <!-- / -->
     
                         <!-- dati prenotazione -->
-                        <div v-if="form.start && form.end">
-                            <h4 class="pb-1 mb-4 border-b border-orange-500">Dati di prenotazione</h4>
-                            <ul class="space-y-2">
-                                <li class="text-sm">
-                                    <i class="inline-flex justify-center w-5 mr-2 fa-solid fa-calendar-days" />{{ dayjs(form.start).format('DD MMMM YYYY') }}
-                                </li>
-                                <li class="text-sm">
-                                    <i class="inline-flex justify-center w-5 mr-2 fa-solid fa-clock" />{{ dayjs(form.start).format('HH:mm') }} - {{ dayjs(form.end).format('HH:mm') }}
-                                </li>
-                                <li class="text-sm">
-                                    <i class="inline-flex justify-center w-5 mr-2 fa-solid fa-hourglass-half" />{{ bookingDuration === 1 ? bookingDuration + ' ora' : bookingDuration.toString().replace('.', ',') + ' ore' }}
-                                </li>
-                                <li class="text-sm">
-                                    <i class="inline-flex justify-center w-5 mr-2 fa-solid fa-users" />{{ form.guests == 1 ? form.guests + ' artista' : form.guests + ' artisti' }}
-                                </li>
-                            </ul>
+                        <div v-if="form.start && form.end" class="space-y-6">
+                            <div class="space-y-4">
+                                <h4 class="pb-1 border-b border-orange-500">Parametri di prenotazione</h4>
+                                <ul class="space-y-2">
+                                    <li class="text-sm">
+                                        <i class="inline-flex justify-center w-5 mr-2 fa-solid fa-calendar-days" />{{ dayjs(form.start).format('DD MMMM YYYY') }}
+                                    </li>
+                                    <li class="text-sm">
+                                        <i class="inline-flex justify-center w-5 mr-2 fa-solid fa-clock" />{{ dayjs(form.start).format('HH:mm') }} - {{ dayjs(form.end).format('HH:mm') }}
+                                    </li>
+                                    <li class="text-sm">
+                                        <i class="inline-flex justify-center w-5 mr-2 fa-solid fa-hourglass-half" />{{ bookingDuration === 1 ? bookingDuration + ' ora' : bookingDuration.toString().replace('.', ',') + ' ore' }}
+                                    </li>
+                                    <li class="text-sm">
+                                        <i class="inline-flex justify-center w-5 mr-2 fa-solid fa-users" />{{ form.guests == 1 ? form.guests + ' artista' : form.guests + ' artisti' }}
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="space-y-4">
+                                <h4 class="pb-1 border-b border-orange-500">Importo totale</h4>
+                                <div v-if="props.room.discounted_price">
+                                    <i class="inline-flex justify-center w-5 fa-solid fa-euro" />
+                                    {{ props.room.discounted_price * form.duration }}
+                                </div>
+                                <div v-else>
+                                    <i class="inline-flex justify-center w-5 fa-solid fa-euro" />
+                                    {{ props.room.price * form.duration }}
+                                </div>
+                            </div>
                         </div>
                         <!-- / -->
                     </div>
@@ -125,6 +147,7 @@ import NumberInput from '@/Components/Form/NumberInput.vue';
 import Spinner from '@/Components/Spinner.vue';
 import Carosello from '@/Components/Carosello.vue';
 import InfoIcon from '@/Components/InfoIcon.vue';
+import BackLink from '@/Components/BackLink.vue';
 
 dayjs.extend(duration);
 

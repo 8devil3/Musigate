@@ -39,7 +39,7 @@ Route::get('/offline', function () {
 Route::get('/cerca', [StudioController::class, 'index'])->name('studio.index');
 Route::get('/studio/{studio}', [StudioController::class, 'show'])->name('studio.show');
 Route::get('/prenota/{room}', [ReservationController::class, 'create'])->name('reservation.create');
-Route::post('/prenota/store/{room}', [ReservationController::class, 'store'])->name('reservation.store');
+Route::post('/prenota/store', [ReservationController::class, 'store'])->name('reservation.store');
 
 //testi legali
 Route::get('/privacy', [LegalTextController::class, 'privacy'])->name('privacy');
