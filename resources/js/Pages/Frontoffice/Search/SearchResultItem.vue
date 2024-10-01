@@ -1,12 +1,12 @@
 <template>
     <article class="overflow-hidden border border-gray-500 min-h-40 bg-gray-900/75 md:flex rounded-xl">
         <div class="w-full md:max-w-80">
-            <Carosello :imgs="imgs" class="md:h-full" />
+            <Carosello :imgs="props.studio.photos" class="md:h-full" />
         </div>
         
         <div class="flex flex-col gap-6 p-4 md:px-6 md:grow">
             <!-- nome e logo -->
-            <div class="flex items-start gap-4">
+            <div class="flex items-center gap-4">
                 <div class="flex items-center justify-center w-16 h-16 text-center bg-gray-900 border-2 border-orange-500 rounded-full shrink-0">
                     <img v-if="props.studio.logo" :src="'/storage/' + props.studio.logo" :alt="props.studio.name" class="object-contain w-full h-full rounded-full">
                     <img v-else src="/img/logo/logo_placeholder.svg" :alt="props.studio.name" class="object-contain w-1/2 aspect-square">
@@ -66,23 +66,12 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import Carosello from '@/Components/Carosello.vue';
 import Badge from '@/Components/Frontoffice/Badge.vue';
 
 const props = defineProps({
-   studio: Object,
-});
-
-const imgs = computed(()=>{
-    let imgs = props.studio.photos.sort(photo => photo.is_featured ? -1 : 1).map(photo => photo.path).flat();
-
-    if(imgs.length){
-        return imgs;
-    } else {
-        return [];
-    }
+    studio: Object,
 });
 
 </script>

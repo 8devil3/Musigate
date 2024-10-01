@@ -56,7 +56,7 @@
                             <h1>{{ props.room.studio.name }}</h1>
                             <h2>{{ props.room.name }}</h2>
                         </div>
-                        <Carosello :imgs="roomImgs" class="rounded-xl overflow-clip" />
+                        <Carosello :imgs="props.room.photos" class="rounded-xl overflow-clip" />
                     </div>
 
                     <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
@@ -123,7 +123,7 @@ import duration from 'dayjs/plugin/duration';
 import Input from '@/Components/Form/Input.vue';
 import NumberInput from '@/Components/Form/NumberInput.vue';
 import Spinner from '@/Components/Spinner.vue';
-import Carosello from '@/Components/Frontoffice/Carosello.vue';
+import Carosello from '@/Components/Carosello.vue';
 import InfoIcon from '@/Components/InfoIcon.vue';
 
 dayjs.extend(duration);
@@ -173,15 +173,5 @@ const submit = ()=>{
     if(form.processing || !form.start || !form.end) return;
     form.post(route('reservation.store', props.room.id));
 };
-
-const roomImgs = computed(()=>{
-    let imgs = [];
-    
-    if(props.room.photos.length){
-        imgs = props.room.photos.sort(photo => photo.is_featured ? -1 : 1).map(photo => photo.path).flat();
-    }
-
-    return imgs;
-});
 
 </script>
