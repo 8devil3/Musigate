@@ -27,6 +27,7 @@ class GoogleRefreshToken
 
             $user->update([
                 'google_token' => $refreshed_google_tokens->token,
+                'google_refresh_token' => $refreshed_google_tokens->refreshToken,
                 'google_token_expires_at' => now()->addSeconds(intval($refreshed_google_tokens->expiresIn)),
             ]);
         }

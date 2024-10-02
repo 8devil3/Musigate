@@ -22,12 +22,12 @@
                     <div>
                         <Label for="when" label="Quando" />
                         <div id="when" class="flex gap-2">
-                            <Input type="date" v-model="form.date" required class="w-full" />
+                            <Input type="date" v-model="form.date" :min="dayjs().format('YYYY-MM-DD')" required class="w-full" />
                             <Input type="time" v-model="form.time" :step="1800" required class="w-28" />
                         </div>
                     </div>
                     
-                    <NumberInput v-model="form.duration" label="Durata (ore)" required />
+                    <NumberInput v-model="form.duration" :min="1" :max="8" label="Durata" unit="ore" required />
                 </div>
 
                 <div class="w-full pt-4">

@@ -7,8 +7,10 @@ use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
-use App\Http\Controllers\Auth\RegisteredStudioController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Auth\RegisterStudio\SubscriptionController;
+use App\Http\Controllers\Auth\RegisterStudio\BusinessController;
+use App\Http\Controllers\Auth\RegisterStudio\StarterController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Auth\SocialiteController;
 use Illuminate\Support\Facades\Route;
@@ -20,11 +22,20 @@ Route::middleware('guest')->group(function () {
     Route::get('iscriviti', [RegisteredUserController::class, 'create'])->name('register');
     Route::post('iscriviti', [RegisteredUserController::class, 'store']);
 
-    Route::get('registrazione/studio/step-1', [RegisteredStudioController::class, 'step_1'])->name('register.studio.step_1');
-    Route::get('registrazione/studio/step-2', [RegisteredStudioController::class, 'step_2'])->name('register.studio.step_2');
-    Route::get('registrazione/studio/step-3', [RegisteredStudioController::class, 'step_3'])->name('register.studio.step_3');
-    Route::post('registrazione/studio', [RegisteredStudioController::class, 'store'])->name('register.studio.store');
+    //registrazione studio: scelta piano abbonamento
+    Route::get('registrazione/studio/abbonamento', [SubscriptionController::class, 'choose_plan'])->name('register.studio.choose_plan');
 
+    //registrazione abbonamento Starter
+    Route::get('registrazione/studio/starter/step-1', [StarterController::class, 'step_1'])->name('register.studio.starter.step_1');
+    Route::get('registrazione/studio/starter/step-2', [StarterController::class, 'step_2'])->name('register.studio.starter.step_2');
+    Route::get('registrazione/studio/starter/step-3', [StarterController::class, 'step_3'])->name('register.studio.starter.step_3');
+    Route::get('registrazione/studio/starter', [StarterController::class, 'store'])->name('register.studio.starter.store');
+
+    //registrazione abbonamento Business
+    Route::get('registrazione/studio/business/step-1', [BusinessController::class, 'step_1'])->name('register.studio.business.step_1');
+    Route::get('registrazione/studio/business/step-2', [BusinessController::class, 'step_2'])->name('register.studio.business.step_2');
+    Route::get('registrazione/studio/business/step-3', [BusinessController::class, 'step_3'])->name('register.studio.business.step_3');
+    Route::get('registrazione/studio/business', [BusinessController::class, 'store'])->name('register.studio.business.store');
 
     Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
     Route::post('login', [AuthenticatedSessionController::class, 'store']);

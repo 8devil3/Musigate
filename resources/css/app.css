@@ -81,6 +81,7 @@ ol {
 ul.list-musigate {
     list-style-position: outside;
     padding-left: 20px;
+    text-align: left;
 }
 
 li.list-musigate {

@@ -1,43 +1,41 @@
 <template>
-    <AuthLayout @submitted="submit()" title="Registrazione Studio" :isLoading="isLoading">
-        <template #head>
-            <h1 class="text-lg uppercase md:text-xl font-lemon">Registrazione Studio</h1>
-            <h2 class="m-0 text-sm md:text-base font-lemon">
-                Già registrato?
-                <Link :href="route('login')" class="text-orange-500 hover:text-orange-400">
-                    Accedi
-                </Link>
-            </h2>
+    <RegisterStudioLayout @submitted="submit()" title="Registrazione Studio" :isLoading="isLoading">
+        <template #title>
+            1/3 - Rappresentante legale
         </template>
 
         <template #content>
             <!-- titolare -->
-            <div v-if="props.step === 1" class="space-y-6">
-                <div class="pt-4 space-y-4">
-                    <h2 class="pb-1 m-0 text-base border-b border-orange-500">
-                        1/3 - Titolare dello Studio
-                    </h2>
+            <div v-if="props.step === 1" class="w-full max-w-xs mx-auto space-y-6">
+                <h2 class="pb-1 m-0 text-base border-b border-orange-500">
+                    1/3 - Rappresentante legale
+                </h2>
 
+                <div class="space-y-4">
                     <Input v-model="formStep1.first_name" label="Nome" placeholder="Il nome del titolare dello Studio" :error="formStep1.errors.first_name"  />
 
                     <Input v-model="formStep1.last_name" label="Cognome" placeholder="Il cognome del titolare dello Studio" :error="formStep1.errors.last_name" required />
+
+                    <!-- <Input type="date" v-model="formStep1.dob" label="Data di nascita" placeholder="La data di nascita" :error="formStep1.errors.dob" required />
+
+                    <Input v-model="formStep1.cod_fiscale" pattern="[a-z][0-9]{16}" label="Codice fiscale" placeholder="Il codice fiscale" :error="formStep1.errors.cod_fiscale" required /> -->
                 </div>
 
-                <Button text="Prosegui" type="submit" icon="fa-solid fa-arrow-right" iconRight :isLoading="formStep1.processing" :disabled="formStep1.processing" class="w-full" />
+                <Button text="Prosegui" type="submit" icon="fa-solid fa-arrow-right" iconRight :isLoading="isLoading" :disabled="isLoading" class="w-full" />
             </div>
             <!-- / -->
 
             <!-- dati studio -->
-            <div v-else-if="props.step === 2" class="space-y-6">
-                <div class="pt-4 space-y-4">
-                    <h2 class="pb-1 m-0 text-base border-b border-orange-500">
-                        2/3 - Dati Studio
-                    </h2>
+            <div v-else-if="props.step === 2" class="w-full max-w-xs mx-auto space-y-6">
+                <h2 class="pb-1 m-0 text-base border-b border-orange-500">
+                    2/3 - Dati Studio
+                </h2>
+
+                <div class="space-y-4">
+                    <Input v-model="formStep2.name" label="Nome Studio" placeholder="Il nome dello Studio" :error="formStep2.errors.name" required />
     
-                    <Input v-model="formStep2.name" label="Nome" placeholder="Il nome dello Studio" :error="formStep2.errors.name" required />
-    
-                    <fieldset class="p-2 border border-slate-400 rounded-xl">
-                        <legend class="text-xs font-normal px-1 text-slate-300 mb-0.5">
+                    <fieldset class="px-2 py-1 border border-slate-400 rounded-xl">
+                        <legend class="px-1 text-xs font-normal text-slate-300">
                             Seleziona la categoria dello Studio
                         </legend>
                         
@@ -54,16 +52,16 @@
                     <Input inputmode="numeric" v-if="formStep2.category === 'Professional'" v-model="formStep2.vat" pattern="[0-9]{11}" label="Partita IVA" placeholder="La partita IVA della tua attività" :error="formStep2.errors.vat" required />
                 </div>
 
-                <div class="flex justify-between gap-6">
-                    <Button type="router" :href="route('register.studio.step_1', props.studio_data)" icon="fa-solid fa-arrow-left" :isLoading="formStep2.processing" :disabled="formStep2.processing" title="Indietro" />
+                <div class="grid grid-cols-2 gap-12">
+                    <Button @click="router.get(route('register.studio.starter.step_1', props.studio_data))" icon="fa-solid fa-arrow-left" :isLoading="isLoading" :disabled="isLoading" text="Indietro" color="slate" />
 
-                    <Button text="Prosegui" type="submit" icon="fa-solid fa-arrow-right" iconRight :isLoading="formStep2.processing" :disabled="formStep2.processing" />
+                    <Button text="Prosegui" type="submit" icon="fa-solid fa-arrow-right" iconRight :isLoading="isLoading" :disabled="isLoading" />
                 </div>
             </div>
             <!-- / -->
 
             <!-- account -->
-            <div v-else-if="props.step === 3" class="space-y-6">
+            <div v-else-if="props.step === 3" class="w-full max-w-xs mx-auto space-y-6">
                 <h2 class="pb-1 m-0 text-base border-b border-orange-500">
                     3/3 - Account
                 </h2>
@@ -90,25 +88,25 @@
                     <!-- / -->
                 </div>
 
-                <div class="flex justify-between gap-6">
-                    <Button type="router" :href="route('register.studio.step_2', props.studio_data)" icon="fa-solid fa-arrow-left" :isLoading="formStep3.processing" :disabled="formStep3.processing" title="Indietro" />
+                <div class="grid grid-cols-2 gap-12">
+                    <Button @click="router.get(route('register.studio.starter.step_2', props.studio_data))" icon="fa-solid fa-arrow-left" :isLoading="isLoading" :disabled="isLoading" text="Indietro" color="slate" />
 
-                    <Button text="Registrati" type="submit" icon="fa-solid fa-check" :isLoading="formStep3.processing" :disabled="formStep3.processing" color="green" />
+                    <Button text="Registrati" type="submit" icon="fa-solid fa-check" :isLoading="isLoading" :disabled="isLoading" color="green" />
                 </div>
             </div>
             <!-- / -->
         </template>
-    </AuthLayout>
+    </RegisterStudioLayout>
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { Link, useForm } from '@inertiajs/vue3';
-import AuthLayout from '@/Layouts/AuthLayout.vue';
+import { computed, ref } from 'vue';
+import { Link, router, useForm } from '@inertiajs/vue3';
+import RegisterStudioLayout from '@/Layouts/Register/RegisterStudioLayout.vue';
 import Button from '@/Components/Form/Button.vue';
 import Radio from '@/Components/Form/Radio.vue';
 import Input from '@/Components/Form/Input.vue';
-import GoogleLogin from './GoogleLogin.vue';
+import GoogleLogin from '../../GoogleLogin.vue';
 import Checkbox from '@/Components/Form/Checkbox.vue';
 
 const props = defineProps({
@@ -141,14 +139,17 @@ const formStep3 = useForm({
     privacy: false,
 });
 
-const isLoading = ref(formStep1.processing || formStep2.processing || formStep3.processing)
+const isLoading = ref(false);
+
+router.on('start', ()=> isLoading.value = true);
+router.on('finish', ()=> isLoading.value = false);
 
 const submit = () => {
     if(isLoading.value) return;
 
-    if(props.step === 1) formStep1.get(route('register.studio.step_2'));
-    else if(props.step === 2) formStep2.get(route('register.studio.step_3'));
-    else if(props.step === 3) formStep3.post(route('register.studio.store'), {
+    if(props.step === 1) formStep1.get(route('register.studio.starter.step_2'));
+    else if(props.step === 2) formStep2.get(route('register.studio.starter.step_3'));
+    else if(props.step === 3) formStep3.post(route('register.studio.starter.store'), {
         onFinish: () => form.reset('password', 'password_confirmation'),
     });
 };

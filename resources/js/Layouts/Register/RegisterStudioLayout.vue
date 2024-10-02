@@ -7,18 +7,12 @@
                 <img src="/img/logo/logo_vertical_complete.svg" alt="Musigate logo" class="h-24 md:h-32">
             </Link>
 
-            <div class="text-center">
-                <slot name="head" />
-            </div>
-            
-            <div class="space-y-4">
-                <div v-if="props.status" class="p-2 text-sm font-medium text-center text-white rounded-lg bg-emerald-600">
-                    {{ props.status }}
-                </div>
-                <slot name="content" />
+            <div>
+                <h1 class="text-lg text-center uppercase md:text-xl font-lemon">Registrazione Studio</h1>
+                <h2 v-if="props.plan" class="m-0 text-sm text-center uppercase md:text-base font-lemonLight">{{ props.plan }}</h2>
             </div>
 
-            <slot name="actions" />
+            <slot name="content" />
         </fieldset>
     </form>
 
@@ -34,7 +28,7 @@ import { Head, Link } from '@inertiajs/vue3';
 const props = defineProps({
     title: String,
     isLoading: Boolean,
-    status: String,
+    plan: String,
 });
 
 const emit = defineEmits(['submitted']);
