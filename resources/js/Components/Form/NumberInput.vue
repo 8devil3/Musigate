@@ -11,7 +11,7 @@
                 type="number"
                 @change="emit('change')"
                 @input="emit('input')"
-                v-model="vModel"
+                v-model.number="vModel"
                 :id="props.id ?? id"
                 :min="props.min"
                 :max="props.max"

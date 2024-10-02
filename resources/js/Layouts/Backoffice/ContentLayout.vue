@@ -40,9 +40,14 @@
             </div>
         </transition>
 
-        <div v-show="props.onFail" class="flex items-center gap-2 px-4 py-2 text-sm font-medium leading-none text-white border-2 border-red-600 rounded-full shadow-lg bg-red-600/20">
-            <i class="fa-solid fa-xmark" />
-            Salvataggio non riuscito!
+        <div v-show="props.onFail" class="flex items-start gap-2 p-2 text-sm font-medium leading-none text-white border-2 border-red-600 shadow-lg rounded-xl bg-red-600/20">
+            <i class="fa-solid fa-circle-exclamation" />
+            <div>
+                Salvataggio non riuscito!
+                <div class="mt-1 text-xs font-light">
+                    Controlla i campi
+                </div>
+            </div>
         </div>
     </div>
 
