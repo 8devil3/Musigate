@@ -51,14 +51,22 @@ class SocialiteController extends Controller
                 'google_refresh_token' => $google_user->refreshToken,
                 'google_token_expires_at' => now()->addSeconds(intval($google_user->expiresIn))->toDateTimeString(),
                 'approved_scopes' => $google_user->approvedScopes,
-                'role_id' => Role::STUDIO,
                 'email_verified_at' => now()->toDateTimeString(),
                 'tos' => true,
                 'privacy' => true,
             ]);
-            
-            $studio_data = session()->get('studio_data');
-            (new RegisteredStudioController)->store_new_studio($user, $studio_data);
+
+            if(session()->exists('studio_data')){
+                //creazione nuovo studio
+                (new RegisteredStudioController)->store_new_studio($user, session()->get('studio_data'));
+            } else if(session()->exists('artist_data')){
+                //creazione nuovo artista
+                $user->update(['role_id' => Role::ARTIST]);
+
+                $artist_data = session()->get('artist_data');
+
+                //TODO creazione dati artista
+            }
 
             //salvo l'avatar come png
             $scaled_image = Image::read(file_get_contents($google_user->getAvatar()))->scale(160, 160)->toPng();
@@ -78,6 +86,8 @@ class SocialiteController extends Controller
 
             $user = $user->firstOrFail();
         }
+
+        session()->flush();
 
         Auth::login($user);
 

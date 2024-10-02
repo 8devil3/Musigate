@@ -4,11 +4,12 @@
         :href="props.href"
         :class="[commonClasses, colorClasses]"
     >
-        <i v-if="props.icon && !iconRight" :class="commonIconClasses" />
+        <Spinner v-if="props.isLoading" class="w-5 h-5 white"/>
+        <i v-if="props.icon && !iconRight && !props.isLoading" :class="commonIconClasses" />
         <template v-if="props.text">
             {{ props.text.charAt(0).toUpperCase() + props.text.slice(1, props.text.length) }}
         </template>
-        <i v-if="props.icon && iconRight" :class="commonIconClasses" />
+        <i v-if="props.icon && iconRight && !props.isLoading" :class="commonIconClasses" />
     </Link>
 
     <a
@@ -16,11 +17,12 @@
         :href="props.href"
         :class="[commonClasses, colorClasses]"
     >
-        <i v-if="props.icon && !iconRight" :class="commonIconClasses" />
+        <Spinner v-if="props.isLoading" class="w-5 h-5 white"/>
+        <i v-if="props.icon && !iconRight && !props.isLoading" :class="commonIconClasses" />
         <template v-if="props.text">
             {{ props.text.charAt(0).toUpperCase() + props.text.slice(1, props.text.length) }}
         </template>
-        <i v-if="props.icon && iconRight" :class="commonIconClasses" />
+        <i v-if="props.icon && iconRight && !props.isLoading" :class="commonIconClasses" />
     </a>
 
     <button

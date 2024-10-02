@@ -22,30 +22,52 @@ use Inertia\Response;
 
 class RegisteredStudioController extends Controller
 {
-    public function create_step_1(): Response
+    public function step_1(): Response
     {
         $step = 1;
-        $request = session()->get('studio_data');
+        $studio_data = session()->get('studio_data.step1');
 
-        return Inertia::render('Auth/RegisterStudio', compact('step', 'request'));
+        return Inertia::render('Auth/RegisterStudio', compact('step', 'studio_data'));
+    }
+
+    public function step_2(Request $request): Response
+    {
+        if($request->step == 1){
+            $request->validate([
+                'first_name' => 'required|string|max:255',
+                'last_name' => 'required|string|max:255',
+            ]);
+    
+            session()->put('studio_data.step1', [
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+            ]);
+        }
+
+        $studio_data = session()->get('studio_data.step2');
+
+        $step = 2;
+
+        return Inertia::render('Auth/RegisterStudio', compact('step', 'studio_data'));
     }
     
-    public function create_step_2(Request $request): Response
+    public function step_3(Request $request): Response
     {
         $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
             'name' => 'required|string|max:255',
             'category' => 'required|string|in:Home,Professional',
             'vat' => 'nullable|required_if:category,Professional|string|size:11',
         ]);
 
-        $step = 2;
-        $request = $request->toArray();
+        session()->put('studio_data.step2', [
+            'name' => $request->name,
+            'category' => $request->category,
+            'vat' => $request->vat,
+        ]);
 
-        session()->put('studio_data', $request);
+        $step = 3;
 
-        return Inertia::render('Auth/RegisterStudio', compact('step', 'request'));
+        return Inertia::render('Auth/RegisterStudio', compact('step'));
     }
 
     /**
@@ -55,7 +77,6 @@ class RegisteredStudioController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-
         $request->validate([
             'email' => 'required|string|lowercase|email:rfc,dns|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
@@ -63,34 +84,35 @@ class RegisteredStudioController extends Controller
             'privacy' => 'accepted',
         ]);
 
+        $studio_data = session()->get('studio_data');
+
         $user = User::create([
-            'role_id' => 2,
-            'first_name' => ucfirst(strtolower($request->first_name)),
-            'last_name' => ucfirst(strtolower($request->last_name)),
+            'first_name' => ucfirst(strtolower($studio_data['step1']['first_name'])),
+            'last_name' => ucfirst(strtolower($studio_data['step1']['last_name'])),
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'tos' => $request->tos,
             'privacy' => $request->privacy,
         ]);
 
-        $this->store_new_studio($user, $request);
+        $this->store_new_studio($user, $studio_data);
 
         event(new Registered($user));
+        
+        session()->flush();
 
         Auth::login($user);
-
-        session()->flush();
 
         return to_route('dashboard');
     }
 
-    public function store_new_studio(User $user, $studio_data)
+    public function store_new_studio(User $user, array $studio_data)
     {
         $studio = Studio::create([
             'user_id' => $user->id,
-            'name' => ucwords(strtolower($studio_data['name'])),
-            'category' => $studio_data['category'],
-            'vat' => $studio_data['vat'],
+            'name' => ucwords(strtolower($studio_data['step2']['name'])),
+            'category' => $studio_data['step2']['category'],
+            'vat' => $studio_data['step2']['vat'],
         ]);
 
         for ($i = 1; $i <= 7; $i++){

@@ -17,6 +17,7 @@ class BookingSettingController extends Controller
         $booking_settings = $user->studio->booking_settings;
 
         $has_google_calendar_scope = in_array(config('google-calendar.scope'), $user->approved_scopes);
+        $has_google_id = $user->google_id ? true : false;
         $google_calendar_ids = [];
 
         if($has_google_calendar_scope){
@@ -28,7 +29,7 @@ class BookingSettingController extends Controller
             }
         }
 
-        return Inertia::render('Backoffice/Studio/Bookings/BookingSettings', compact('booking_settings', 'google_calendar_ids', 'has_google_calendar_scope'));
+        return Inertia::render('Backoffice/Studio/Bookings/BookingSettings', compact('booking_settings', 'google_calendar_ids', 'has_google_id', 'has_google_calendar_scope'));
     }
 
     public function update(Request $request): RedirectResponse

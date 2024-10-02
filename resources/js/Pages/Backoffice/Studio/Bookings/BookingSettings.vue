@@ -92,16 +92,19 @@
 
                 <template #content>
                     <div class="flex flex-col gap-4">
-                        <div class="space-y-2">
-                            <Toggle v-model="form.has_sync" :disabled="!has_google_calendar_scope" :label="form.has_sync ? 'Sincronizzazione abilitata' : 'Sincronizzazione disabilitata'" />
+                        <div class="space-y-4">
+                            <Toggle v-model="form.has_sync" :disabled="!props.has_google_calendar_scope" :label="form.has_sync ? 'Sincronizzazione abilitata' : 'Sincronizzazione disabilitata'" />
 
-                            <div v-if="!has_google_calendar_scope" class="text-sm font-normal text-red-500">
-                                Devi accedere con Google e autorizzare l'utilizzo dei calendari per abilitare la sincronizzazione.<br>
-                                Effettua il log out e accedi con Google autorizzando l'utilizzo dei calendari.
-                            </div>
+                            <InfoBlock v-if="props.has_google_id && !props.has_google_calendar_scope" title="Sincronizzazione non disponibile" icon="fa-solid fa-circle-exclamation" color="warning">
+                                Hai effettuato l'acesso con Google ma non hai autorizzato l'utilizzo dei calendari per abilitare la sincronizzazione. Effettua il log out e accedi con Google autorizzando l'utilizzo dei calendari.
+                            </InfoBlock>
+
+                            <InfoBlock v-else-if="!props.has_google_id && !props.has_google_calendar_scope" title="Sincronizzazione non disponibile" icon="fa-solid fa-circle-exclamation" color="danger">
+                                Devi accedere con Google e autorizzare l'utilizzo dei calendari per abilitare la sincronizzazione. Effettua il log out e accedi con Google autorizzando l'utilizzo dei calendari.
+                            </InfoBlock>
                         </div>
 
-                        <template v-if="form.has_sync && has_google_calendar_scope && props.google_calendar_ids.length">
+                        <template v-if="form.has_sync && props.has_google_calendar_scope && props.google_calendar_ids.length">
                             <Select v-model="form.sync_mode" isArray :options="['unidirezionale', 'bidirezionale']" default="Seleziona modalità" class="w-full max-w-xs" />
                             <Select v-model="form.google_calendar_id" isArray :options="props.google_calendar_ids" default="Seleziona un calendario" class="w-full max-w-xs" />
                         </template>
@@ -164,10 +167,12 @@ import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
 import NumberInput from '@/Components/Form/NumberInput.vue';
 import Toggle from '@/Components/Form/Toggle.vue';
 import Select from '@/Components/Form/Select.vue';
+import InfoBlock from '@/Components/InfoBlock.vue';
 
 const props = defineProps({
     booking_settings: Object,
     google_calendar_ids: Array,
+    has_google_id: Boolean,
     has_google_calendar_scope: Boolean,
 });
 
@@ -206,7 +211,6 @@ const calendarViews = {
 
 <script>
 import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
-import { computed } from 'vue';
 
 export default {
     layout: (h, page) => h(BackofficeLayout, {

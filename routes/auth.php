@@ -20,8 +20,9 @@ Route::middleware('guest')->group(function () {
     Route::get('iscriviti', [RegisteredUserController::class, 'create'])->name('register');
     Route::post('iscriviti', [RegisteredUserController::class, 'store']);
 
-    Route::get('registrazione/studio/step-1', [RegisteredStudioController::class, 'create_step_1'])->name('register.studio.step_1');
-    Route::post('registrazione/studio/step-2', [RegisteredStudioController::class, 'create_step_2'])->name('register.studio.step_2');
+    Route::get('registrazione/studio/step-1', [RegisteredStudioController::class, 'step_1'])->name('register.studio.step_1');
+    Route::get('registrazione/studio/step-2', [RegisteredStudioController::class, 'step_2'])->name('register.studio.step_2');
+    Route::get('registrazione/studio/step-3', [RegisteredStudioController::class, 'step_3'])->name('register.studio.step_3');
     Route::post('registrazione/studio', [RegisteredStudioController::class, 'store'])->name('register.studio.store');
 
 
