@@ -21,3 +21,6 @@ npm cache clean --force
 
 #Rebuild config cache
 php artisan config:cache
+
+#modifca permessi
+# chmod +x ./clear.sh

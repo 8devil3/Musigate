@@ -71,7 +71,7 @@ class BookingController extends Controller
 
         //recupero gli eventi da Google Calendar
         $google_events = collect([]);
-        if($booking_settings->google_calendar_id){
+        if($booking_settings->has_sync && $booking_settings->google_calendar_id){
             $border_color = '#64748b';
             $bg_color = BrightnessColorService::set_brightness($border_color, -0.6);
 

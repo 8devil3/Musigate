@@ -2,7 +2,7 @@
     <Head :title="props.title" />
 
     <form @submit.prevent="emit('submitted')" class="flex p-6 grow bg-gray-950/30 md:bg-transparent">
-        <fieldset :disabled="props.isLoading" class="flex flex-col w-full max-w-[640px] gap-8 px-6 py-12 m-auto md:backdrop-blur-md md:bg-gray-950/50">
+        <fieldset :disabled="props.isLoading" class="flex flex-col w-full max-w-xs gap-8 px-6 py-12 m-auto md:backdrop-blur-md md:bg-gray-950/50">
             <Link :href="route('home')" class="block mx-auto">
                 <img src="/img/logo/logo_vertical_complete.svg" alt="Musigate logo" class="h-24 md:h-32">
             </Link>

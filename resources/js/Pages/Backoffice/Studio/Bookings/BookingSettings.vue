@@ -12,17 +12,21 @@
             <!-- vista calendario -->
             <FormElement>
                 <template #title>
-                    Vista calendario predefinita
+                    Conto PayPal
                 </template>
 
                 <template #description>
-                    Seleziona la vista predefinita del calendario delle prenotazioni.
+                    Accedi al tuo conto PayPal per abilitare i pagamenti delle prenotazioni.
                 </template>
 
                 <template #content>
-                    <div class="flex items-center gap-3">
-                        <Select v-model.number="form.default_calendar_view" :options="calendarViews" default="Seleziona vista" :error="form.errors.default_calendar_view" required class="w-full max-w-xs" />
-                    </div>
+                    <a v-if="!props.has_paypal" :href="route('socialite.paypal.redirect')" class="inline-flex items-center gap-1 px-12 h-8 py-2 rounded-full bg-[#ffc439]">
+                        <img src="/img/logo/logo_paypal.svg" class="h-full" />
+                    </a>
+
+                    <InfoBlock v-else icon="fa-solid fa-check" color="success">
+                        PayPal abilitato
+                    </InfoBlock>
                 </template>
             </FormElement>
             <!-- / -->
@@ -38,7 +42,7 @@
                 </template>
 
                 <template #content>
-                    <NumberInput v-model.number="form.min_booking" :error="form.errors.min_booking" :min="1" :max="8" :unit="form.min_booking === 1 ? 'ora' : 'ore'" required />
+                    <NumberInput v-model.number="form.min_booking" :error="form.errors.min_booking" :min="1" :max="8" unit="ore" required />
                 </template>
             </FormElement>
             <!-- / -->
@@ -55,7 +59,7 @@
                 </template>
 
                 <template #content>
-                    <NumberInput v-model.number="form.booking_advance" :error="form.errors.booking_advance" :min="0" :max="form.max_booking_horizon -1" :unit="form.booking_advance === 1 ? 'giorno' : 'giorni'" required />
+                    <NumberInput v-model.number="form.booking_advance" :error="form.errors.booking_advance" :min="0" :max="form.max_booking_horizon -1" unit="giorni" required />
                 </template>
             </FormElement>
             <!-- / -->
@@ -167,6 +171,7 @@ import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
 import NumberInput from '@/Components/Form/NumberInput.vue';
 import Toggle from '@/Components/Form/Toggle.vue';
 import Select from '@/Components/Form/Select.vue';
+import Button from '@/Components/Form/Button.vue';
 import InfoBlock from '@/Components/InfoBlock.vue';
 
 const props = defineProps({
@@ -174,6 +179,7 @@ const props = defineProps({
     google_calendar_ids: Array,
     has_google_id: Boolean,
     has_google_calendar_scope: Boolean,
+    has_paypal: Boolean,
 });
 
 const form = useForm({

@@ -67,7 +67,7 @@ class ReservationController extends Controller
 
                 //recupero gli eventi da Google Calendar
                 $google_events = collect([]);
-                if($booking_settings->google_calendar_id){
+                if($booking_settings->has_sync && $booking_settings->google_calendar_id){
                     $request_start = Carbon::parse($request->startDate);
 
                     $google_events = Event::get(

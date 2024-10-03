@@ -13,6 +13,8 @@
         "laravel/sanctum": "^4.0",
         "laravel/socialite": "^5.16",
         "laravel/tinker": "^2.9",
+        "socialiteproviders/paypal": "^4.3",
+        "socialiteproviders/paypal-sandbox": "^4.3",
         "spatie/geocoder": "^3.15",
         "spatie/laravel-google-calendar": "^3.8",
         "tightenco/ziggy": "^2.0"

@@ -14,20 +14,35 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('role_id')->default(2)->constrained(); //1=superadmin, 2=studio, 3=chi prenota
+            //1 = superadmin, 2 = studio, 3 = artista
+            $table->foreignId('role_id')->default(2)->constrained();
+
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
             $table->rememberToken();
+
             $table->text('google_id')->nullable();
             $table->text('google_token')->nullable();
             $table->dateTime('google_token_expires_at')->nullable();
             $table->text('google_refresh_token')->nullable();
-            $table->json('approved_scopes')->nullable();
-            $table->boolean('is_banned')->default(false);
+            $table->json('google_scopes')->nullable();
+
+            $table->string('paypal_id')->nullable();
+            $table->string('paypal_name')->nullable();
+            $table->string('paypal_email')->nullable();
+            $table->string('paypal_token_type')->nullable();
+            $table->string('paypal_access_token')->nullable();
+            $table->dateTime('paypal_access_token_expiration_at')->nullable();
+            $table->json('paypal_scopes')->nullable();
+            $table->string('paypal_nonce')->nullable();
+            $table->string('paypal_app_id')->nullable();
+
             $table->string('first_name');
             $table->string('last_name');
             $table->string('avatar')->nullable();
+
+            $table->boolean('is_active')->default(true);
             $table->boolean('tos');
             $table->boolean('privacy');
 

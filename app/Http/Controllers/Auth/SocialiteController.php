@@ -15,7 +15,7 @@ use Laravel\Socialite\Facades\Socialite;
 
 class SocialiteController extends Controller
 {
-    public function redirect(): RedirectResponse
+    public function google_redirect(): RedirectResponse
     {
         return Socialite::driver('google')
         ->scopes(['https://www.googleapis.com/auth/calendar']) //leggere i calendari, creare-modificare-eliminare gli eventi
@@ -23,7 +23,7 @@ class SocialiteController extends Controller
         ->redirect(); 
     }
 
-    public function callback(Request $request): RedirectResponse
+    public function google_callback(Request $request): RedirectResponse
     {
         if(!$request->has('code')) return to_route('home');
 
@@ -42,16 +42,18 @@ class SocialiteController extends Controller
         $user = User::where('email', $google_user->getEmail());
 
         if(!$user->exists()){
+            //utente nuovo
+
             $user = User::create([
                 'email' => $google_user->getEmail(),
+                'email_verified_at' => now()->toDateTimeString(),
                 'first_name' => $first_name,
                 'last_name' => $last_name,
                 'google_id' => $google_user->getId(),
                 'google_token' => $google_user->token,
                 'google_refresh_token' => $google_user->refreshToken,
                 'google_token_expires_at' => now()->addSeconds(intval($google_user->expiresIn))->toDateTimeString(),
-                'approved_scopes' => $google_user->approvedScopes,
-                'email_verified_at' => now()->toDateTimeString(),
+                'google_scopes' => $google_user->approvedScopes,
                 'tos' => true,
                 'privacy' => true,
             ]);
@@ -74,14 +76,25 @@ class SocialiteController extends Controller
             $path = 'users/user-' . $user->id . '/avatar/' . \Str::uuid() . '.png';
             Storage::disk('public')->put($path, $scaled_image);
             $user->update(['avatar' => $path]);
-        } else {
+        } else if($user->exists() && !$user->firstOrFail()->google_id) {
+            //utente esite ma non ha mai acceduto con Google
             $user->update([
                 'first_name' => $first_name,
                 'last_name' => $last_name,
                 'google_id' => $google_user->getId(),
                 'google_token' => $google_user->token,
+                'google_refresh_token' => $google_user->refreshToken,
                 'google_token_expires_at' => now()->addSeconds(intval($google_user->expiresIn))->toDateTimeString(),
-                'approved_scopes' => $google_user->approvedScopes,
+                'google_scopes' => $google_user->approvedScopes,
+            ]);
+
+            $user = $user->firstOrFail();
+        } else if($user->exists() && $user->firstOrFail()->google_id) {
+            //utente esite ed ha già acceduto con Google
+            $user->update([
+                'google_token' => $google_user->token,
+                'google_token_expires_at' => now()->addSeconds(intval($google_user->expiresIn))->toDateTimeString(),
+                'google_scopes' => $google_user->approvedScopes,
             ]);
 
             $user = $user->firstOrFail();
@@ -92,5 +105,35 @@ class SocialiteController extends Controller
         Auth::login($user);
 
         return to_route('dashboard');
+    }
+
+    public function paypal_redirect(): RedirectResponse
+    {
+        $driver = app()->environment('production') ? 'paypal' : 'paypal_sandbox';
+
+        return Socialite::driver($driver)->redirect(); 
+    }
+
+    public function paypal_callback(): RedirectResponse
+    {
+        $driver = app()->environment('production') ? 'paypal' : 'paypal_sandbox';
+
+        $paypal_user = Socialite::driver($driver)->user();
+
+        $user = auth()->user();
+
+        $user->update([
+            'paypal_id' => $paypal_user->getId(),
+            'paypal_name' => $paypal_user->getName(),
+            'paypal_email' => $paypal_user->getEmail(),
+            'paypal_token_type' => $paypal_user->token_type,
+            'paypal_access_token' => $paypal_user->access_token,
+            'paypal_access_token_expiration_at' => now()->addSeconds(intval($paypal_user->expires_in))->toDateTimeString(),
+            'paypal_scopes' => explode(' ', $paypal_user->scope),
+            'paypal_nonce' => $paypal_user->nonce,
+            'paypal_app_id' => $paypal_user->app_id,
+        ]);
+
+        return to_route('bookings.settings.edit');
     }
 }

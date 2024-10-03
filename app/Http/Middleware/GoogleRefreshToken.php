@@ -18,7 +18,7 @@ class GoogleRefreshToken
     public function handle(Request $request, Closure $next): Response
     {
         $user = auth()->user();
-        $has_google_calendar_scope = in_array(config('google-calendar.scope'), $user->approved_scopes);
+        $has_google_calendar_scope = in_array(config('google-calendar.scope'), $user->google_scopes);
         $has_sync = $user->studio->booking_settings->has_sync;
 
         // Aggiorna il token di accesso e la data di scadenza nel database

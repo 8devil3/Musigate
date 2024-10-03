@@ -23,19 +23,33 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $fillable = [
         'role_id',
-        'first_name',
-        'last_name',
         'email',
         'email_verified_at',
         'password',
-        'tos',
-        'privacy',
+        'avatar',
+
+        'first_name',
+        'last_name',
+        
         'google_id',
         'google_token',
         'google_refresh_token',
         'google_token_expires_at',
-        'approved_scopes',
-        'avatar',
+        'google_scopes',
+
+        'paypal_id',
+        'paypal_name',
+        'paypal_email',
+        'paypal_token_type',
+        'paypal_access_token',
+        'paypal_access_token_expiration_at',
+        'paypal_scopes',
+        'paypal_nonce',
+        'paypal_app_id',
+
+        'is_active',
+        'tos',
+        'privacy',
     ];
 
     /**
@@ -56,9 +70,11 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'google_scopes' => 'array',
+        'paypal_scopes' => 'array',
+        'is_active' => 'boolean',
         'tos' => 'boolean',
         'privacy' => 'boolean',
-        'approved_scopes' => 'array',
     ];
 
     /**
@@ -105,8 +121,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected function lastName(): Attribute
     {
         return Attribute::make(
-            get: fn (string $value) => substr($value, 0, 1) . '.',
-            // set: fn (string $value) => strtolower($value),
+            get: fn (string $value): string => substr($value, 0, 1) . '.',
         );
     }
 }

@@ -16,8 +16,9 @@ use App\Http\Controllers\Auth\SocialiteController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
-    Route::get('/auth/redirect', [SocialiteController::class, 'redirect'])->name('socialite.google.redirect');
-    Route::get('/auth/callback', [SocialiteController::class, 'callback'])->name('socialite.google.callback');
+    //Google OAuth
+    Route::get('/google/auth/redirect', [SocialiteController::class, 'google_redirect'])->name('socialite.google.redirect');
+    Route::get('/google/auth/callback', [SocialiteController::class, 'google_callback'])->name('socialite.google.callback');
 
     Route::get('iscriviti', [RegisteredUserController::class, 'create'])->name('register');
     Route::post('iscriviti', [RegisteredUserController::class, 'store']);
@@ -48,24 +49,22 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('verify-email', EmailVerificationPromptController::class)
-                ->name('verification.notice');
+    Route::get('verify-email', EmailVerificationPromptController::class)->name('verification.notice');
+    Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)->middleware(['signed', 'throttle:6,1'])->name('verification.verify');
 
-    Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
-                ->middleware(['signed', 'throttle:6,1'])
-                ->name('verification.verify');
+    Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])->middleware('throttle:6,1')->name('verification.send');
 
-    Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
-                ->middleware('throttle:6,1')
-                ->name('verification.send');
-
-    Route::get('confirm-password', [ConfirmablePasswordController::class, 'show'])
-                ->name('password.confirm');
-
+    Route::get('confirm-password', [ConfirmablePasswordController::class, 'show'])->name('password.confirm');
     Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
 
     Route::put('password', [PasswordController::class, 'update'])->name('password.update');
 
-    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
-                ->name('logout');
+    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    //PayPal OAuth
+    Route::get('/paypal/auth/redirect', [SocialiteController::class, 'paypal_redirect'])->name('socialite.paypal.redirect');
+    Route::get('/paypal/auth/callback', [SocialiteController::class, 'paypal_callback'])->name('socialite.paypal.callback');
+});
+

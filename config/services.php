@@ -40,4 +40,17 @@ return [
         'client_secret' => env('GOOGLE_CLIENT_SECRET'),
         'redirect' => env('GOOGLE_REDIRECT_URI'),
     ],
+
+    'paypal_sandbox' => [    
+        'client_id' => env('PAYPALSANDBOX_CLIENT_ID'),  
+        'client_secret' => env('PAYPALSANDBOX_CLIENT_SECRET'),  
+        'redirect' => env('PAYPALSANDBOX_REDIRECT_URI') 
+    ],
+
+    'paypal' => [    
+        'client_id' => env('PAYPAL_CLIENT_ID'),  
+        'client_secret' => env('PAYPAL_CLIENT_SECRET'),  
+        'redirect' => env('PAYPAL_REDIRECT_URI') 
+    ],
+
 ];
