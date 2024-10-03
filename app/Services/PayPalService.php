@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Http;
 
 class PayPalService
 {
-    protected $client_id, $client_secret, $base_auth_endpoint, $token_endpoint, $redirect_uri, $params;
+    protected $client_id, $client_secret, $base_auth_endpoint, $token_endpoint, $redirect_uri;
 
     public function __construct()
     {
@@ -25,20 +25,15 @@ class PayPalService
         }
     }
 
-    public function auth_endpoint()
+    public function redirect(): RedirectResponse
     {
-        $this->params = http_build_query([
+        $params = http_build_query([
             'client_id' => $this->client_id,
             'scope' => 'openid',
             'redirect_uri' => $this->redirect_uri,
         ]);
 
-        return $this;
-    }
-
-    public function redirect(): RedirectResponse
-    {
-        return redirect()->away($this->base_auth_endpoint . '&' . $this->params);
+        return redirect()->away($this->base_auth_endpoint . '&' . $params);
     }
 
     public function get_access_token(string $code)
