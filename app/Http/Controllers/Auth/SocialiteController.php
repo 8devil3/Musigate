@@ -115,8 +115,10 @@ class SocialiteController extends Controller
         return Socialite::driver($driver)->redirect(); 
     }
 
-    public function paypal_callback(): RedirectResponse
+    public function paypal_callback(Request $request): RedirectResponse
     {
+        if(!$request->has('code')) return to_route('bookings.settings.edit');
+
         $driver = app()->environment('production') ? 'paypal' : 'paypal_sandbox';
 
         // $paypal_user = Socialite::driver($driver)->user();
