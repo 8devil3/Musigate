@@ -40,9 +40,7 @@ class PayPalService
     {
         $base64_auth = base64_encode($this->client_id . ':' . $this->client_secret);
 
-        $response =  Http::asForm()
-            ->withHeaders([
-                'Content-Type' => 'application/x-www-form-urlencoded',
+        $response =  Http::withHeaders([
                 'Authorization' => 'Basic ' . $base64_auth,
             ])
             ->post($this->token_endpoint, [
