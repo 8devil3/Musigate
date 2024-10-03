@@ -112,7 +112,8 @@ class SocialiteController extends Controller
     {
         $driver = app()->environment('production') ? 'paypal' : 'paypal_sandbox';
 
-        return Socialite::driver($driver)->redirect(); 
+        return Socialite::driver($driver)->scopes(['openid', 'profile', 'email', 'https://uri.paypal.com/services/paypalattributes'])
+        ->redirect();
     }
 
     public function paypal_callback(Request $request): RedirectResponse
@@ -121,7 +122,7 @@ class SocialiteController extends Controller
 
         $driver = app()->environment('production') ? 'paypal' : 'paypal_sandbox';
 
-        // $paypal_user = Socialite::driver($driver)->user();
+        $paypal_user = Socialite::driver($driver)->user();
 
         $paypal_user = PayPalService::get_access_token();
 

@@ -16,7 +16,7 @@
                 </template>
 
                 <template #description>
-                    Accedi al tuo conto PayPal per abilitare i pagamenti delle prenotazioni.
+                    Collega il tuo conto PayPal per abilitare i pagamenti delle prenotazioni.
                 </template>
 
                 <template #content>
