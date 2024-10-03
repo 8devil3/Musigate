@@ -38,7 +38,7 @@ class PayPalService
 
     public function redirect(): RedirectResponse
     {
-        return redirect()->away($this->params);
+        return redirect()->away($this->base_auth_endpoint . '&' . $this->params);
     }
 
     public function get_access_token(string $code)
