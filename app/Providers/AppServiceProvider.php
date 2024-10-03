@@ -29,13 +29,5 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('create-update-room', function(User $user, Room $room){
             return $user->id === $room->studio->user_id;
         });
-
-        Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
-            $event->extendSocialite('paypal_sandbox', \SocialiteProviders\PayPalSandbox\Provider::class);
-        });
-
-        Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
-            $event->extendSocialite('paypal', \SocialiteProviders\PayPal\Provider::class);
-        });
     }
 }
