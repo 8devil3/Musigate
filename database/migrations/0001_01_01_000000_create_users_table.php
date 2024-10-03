@@ -28,15 +28,12 @@ return new class extends Migration
             $table->text('google_refresh_token')->nullable();
             $table->json('google_scopes')->nullable();
 
-            $table->string('paypal_id')->nullable();
-            $table->string('paypal_name')->nullable();
-            $table->string('paypal_email')->nullable();
             $table->string('paypal_token_type')->nullable();
             $table->string('paypal_access_token')->nullable();
+            $table->string('paypal_refresh_token')->nullable();
             $table->dateTime('paypal_access_token_expiration_at')->nullable();
             $table->json('paypal_scopes')->nullable();
             $table->string('paypal_nonce')->nullable();
-            $table->string('paypal_app_id')->nullable();
 
             $table->string('first_name');
             $table->string('last_name');

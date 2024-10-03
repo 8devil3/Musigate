@@ -110,36 +110,24 @@ class SocialiteController extends Controller
 
     public function paypal_redirect(): RedirectResponse
     {
-        $driver = app()->environment('production') ? 'paypal' : 'paypal_sandbox';
-
-        return Socialite::driver($driver)->scopes(['openid', 'profile', 'email', 'https://uri.paypal.com/services/paypalattributes'])
-        ->redirect();
+        return PayPalService::auth_endpoint()->redirect();
     }
 
     public function paypal_callback(Request $request): RedirectResponse
     {
         if(!$request->has('code')) return to_route('bookings.settings.edit');
 
-        $driver = app()->environment('production') ? 'paypal' : 'paypal_sandbox';
-
-        // $paypal_user = Socialite::driver($driver)->user();
-
-        $paypal_user = PayPalService::get_access_token();
-
-        dd($paypal_user);
+        $paypal_user = PayPalService::get_access_token($request->code);
 
         $user = auth()->user();
 
         $user->update([
-            'paypal_id' => $paypal_user->getId(),
-            'paypal_name' => $paypal_user->getName(),
-            'paypal_email' => $paypal_user->getEmail(),
             'paypal_token_type' => $paypal_user->token_type,
             'paypal_access_token' => $paypal_user->access_token,
+            'paypal_refresh_token' => $paypal_user->refresh_token,
             'paypal_access_token_expiration_at' => now()->addSeconds(intval($paypal_user->expires_in))->toDateTimeString(),
             'paypal_scopes' => explode(' ', $paypal_user->scope),
             'paypal_nonce' => $paypal_user->nonce,
-            'paypal_app_id' => $paypal_user->app_id,
         ]);
 
         return to_route('bookings.settings.edit');

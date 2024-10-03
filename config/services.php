@@ -44,13 +44,17 @@ return [
     'paypal_sandbox' => [    
         'client_id' => env('PAYPALSANDBOX_CLIENT_ID'),  
         'client_secret' => env('PAYPALSANDBOX_CLIENT_SECRET'),  
-        'redirect' => env('PAYPALSANDBOX_REDIRECT_URI') 
+        'redirect' => env('PAYPALSANDBOX_REDIRECT_URI'),
+        'base_auth_endpoint' => env('PAYPALSANDBOX_BASE_AUTH_ENDPOINT'),
+        'token_endpoint' => env('PAYPALSANDBOX_TOKEN_ENDPOINT'),
     ],
 
     'paypal' => [    
         'client_id' => env('PAYPAL_CLIENT_ID'),  
         'client_secret' => env('PAYPAL_CLIENT_SECRET'),  
-        'redirect' => env('PAYPAL_REDIRECT_URI') 
+        'redirect' => env('PAYPAL_REDIRECT_URI') ,
+        'base_auth_endpoint' => env('PAYPAL_BASE_AUTH_ENDPOINT'),
+        'token_endpoint' => env('PAYPAL_TOKEN_ENDPOINT'),
     ],
 
 ];
