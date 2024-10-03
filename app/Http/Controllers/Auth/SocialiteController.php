@@ -119,6 +119,7 @@ class SocialiteController extends Controller
 
         $paypal_user = (new PayPalService)->get_access_token($request->code);
 
+        dd($paypal_user);
         $user = auth()->user();
 
         $user->update([
