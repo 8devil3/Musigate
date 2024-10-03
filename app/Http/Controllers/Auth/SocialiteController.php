@@ -110,14 +110,14 @@ class SocialiteController extends Controller
 
     public function paypal_redirect(): RedirectResponse
     {
-        return PayPalService::auth_endpoint()->redirect();
+        return (new PayPalService)->auth_endpoint()->redirect();
     }
 
     public function paypal_callback(Request $request): RedirectResponse
     {
         if(!$request->has('code')) return to_route('bookings.settings.edit');
 
-        $paypal_user = PayPalService::get_access_token($request->code);
+        $paypal_user = (new PayPalService)->get_access_token($request->code);
 
         $user = auth()->user();
 

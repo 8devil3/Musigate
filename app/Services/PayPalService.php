@@ -25,15 +25,15 @@ class PayPalService
         }
     }
 
-    public static function auth_endpoint()
+    public function auth_endpoint()
     {
-        self::$params = http_build_query([
-            'client_id' => self::$client_id,
+        $this->params = http_build_query([
+            'client_id' => $this->client_id,
             'scope' => 'openid',
-            'redirect_uri' => self::$redirect_uri,
+            'redirect_uri' => $this->redirect_uri,
         ]);
 
-        return new self;
+        return $this;
     }
 
     public function redirect(): RedirectResponse
@@ -41,16 +41,16 @@ class PayPalService
         return redirect()->away($this->params);
     }
 
-    public static function get_access_token(string $code)
+    public function get_access_token(string $code)
     {
-        $base64_auth = base64_encode(self::$client_id . ':' . self::$client_secret);
+        $base64_auth = base64_encode($this->client_id . ':' . $this->client_secret);
 
         $response =  Http::asForm()
             ->withHeaders([
                 'Content-Type' => 'application/x-www-form-urlencoded',
                 'Authorization' => 'Basic ' . $base64_auth,
             ])
-            ->post(self::$token_endpoint, [
+            ->post($this->token_endpoint, [
                 'grant_type' => 'authorization_code',
                 'code' => $code,
             ])->getBody();
