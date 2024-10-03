@@ -122,7 +122,7 @@ class SocialiteController extends Controller
 
         $driver = app()->environment('production') ? 'paypal' : 'paypal_sandbox';
 
-        $paypal_user = Socialite::driver($driver)->user();
+        // $paypal_user = Socialite::driver($driver)->user();
 
         $paypal_user = PayPalService::get_access_token();
 
