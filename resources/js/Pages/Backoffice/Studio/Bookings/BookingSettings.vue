@@ -24,7 +24,7 @@
                         <img src="/img/logo/logo_paypal.svg" class="h-full" />
                     </a>
 
-                    <InfoBlock v-else icon="fa-solid fa-check" title="PayPal abilitato" color="success" />
+                    <InfoBlock v-else icon="fa-solid fa-check" title="Conto PayPal collegato" color="success" />
                 </template>
             </FormElement>
             <!-- / -->

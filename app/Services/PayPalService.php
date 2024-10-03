@@ -38,10 +38,10 @@ class PayPalService
 
     public function get_access_token(string $code)
     {
-        $base64_auth = base64_encode($this->client_id . ':' . $this->client_secret);
+        // $base64_auth = base64_encode($this->client_id . ':' . $this->client_secret);
 
         $response =  Http::withHeaders([
-                'Authorization' => 'Basic ' . $base64_auth,
+                'Authorization' => 'Basic ' . $this->client_id . ':' . $this->client_secret,
             ])
             ->post($this->token_endpoint, [
                 'grant_type' => 'authorization_code',
