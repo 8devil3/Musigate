@@ -110,7 +110,7 @@ class SocialiteController extends Controller
 
     public function paypal_redirect(): RedirectResponse
     {
-        return (new PayPalService)->auth_endpoint()->redirect();
+        return (new PayPalService)->redirect();
     }
 
     public function paypal_callback(Request $request): RedirectResponse
