@@ -193,7 +193,7 @@ import AuthLayout from '@/Layouts/AuthLayout.vue';
 import Button from '@/Components/Form/Button.vue';
 import Radio from '@/Components/Form/Radio.vue';
 import Input from '@/Components/Form/Input.vue';
-import GoogleLogin from './GoogleLogin.vue';
+import GoogleLogin from '../../GoogleLogin.vue';
 import Checkbox from '@/Components/Form/Checkbox.vue';
 
 const props = defineProps({
