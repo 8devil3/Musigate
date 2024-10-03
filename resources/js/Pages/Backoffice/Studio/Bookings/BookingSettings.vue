@@ -20,13 +20,11 @@
                 </template>
 
                 <template #content>
-                    <a v-if="!props.has_paypal" :href="route('socialite.paypal.redirect')" class="inline-flex items-center gap-1 px-12 h-8 py-2 rounded-full bg-[#ffc439]">
+                    <a v-if="!props.has_paypal" :href="route('socialite.paypal.redirect')" class="inline-flex items-center gap-1 px-16 h-8 py-2 rounded-full bg-[#ffc439]">
                         <img src="/img/logo/logo_paypal.svg" class="h-full" />
                     </a>
 
-                    <InfoBlock v-else icon="fa-solid fa-check" color="success">
-                        PayPal abilitato
-                    </InfoBlock>
+                    <InfoBlock v-else icon="fa-solid fa-check" title="PayPal abilitato" color="success" />
                 </template>
             </FormElement>
             <!-- / -->
