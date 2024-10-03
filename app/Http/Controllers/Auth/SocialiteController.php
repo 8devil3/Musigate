@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\User;
 use App\Services\CreateStudioService;
+use App\Services\PayPalService;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -118,7 +119,9 @@ class SocialiteController extends Controller
     {
         $driver = app()->environment('production') ? 'paypal' : 'paypal_sandbox';
 
-        $paypal_user = Socialite::driver($driver)->user();
+        // $paypal_user = Socialite::driver($driver)->user();
+
+        $paypal_user = PayPalService::get_access_token();
 
         $user = auth()->user();
 
