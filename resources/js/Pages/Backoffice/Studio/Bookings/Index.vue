@@ -7,7 +7,7 @@
     >
         <template #content>
             <Calendar
-                v-if="props.rooms.length"
+                v-if="props.rooms"
                 :events="props.events"
                 :availability="props.availability"
                 :has_buffer="props.booking_settings.has_buffer"
@@ -28,7 +28,7 @@
         </template>
 
         <template #actions>
-            <Select v-if="props.rooms.length" v-model="currentRoomId" @change="refresh()" :options="props.rooms" default="Seleziona una Sala" class="w-48" />
+            <Select v-if="props.rooms" v-model="currentRoomId" @change="refresh()" :options="props.rooms" default="Seleziona una Sala" class="w-48" />
         </template>
     </ContentLayout>
 

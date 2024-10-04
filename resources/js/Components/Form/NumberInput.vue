@@ -3,7 +3,7 @@
         <Label v-if="props.label" :label="props.label" :for="props.id ?? id" />
 
         <div class="flex bg-slate-800/50 h-8 border text-sm border-slate-400 rounded-full has-[input:disabled]:cursor-not-allowed has-[input:disabled]:border-slate-700 transition-colorsfocus-within:ring-orange-500/50 focus-within:border-orange-500 focus-within:shadow-md focus-within:shadow-orange-500" :class="{'text-red-500 bg-red-600/10 border-red-600' : props.error}">
-            <button ref="downButton" type="button" @click="down()" :disabled="props.disabled || props.min >= vModel" class="flex items-center justify-center w-8 h-8 leading-none text-orange-500 shrink-0 focus:ring-0 disabled:opacity-50 disabled:cursor-not-allowed">
+            <button ref="downButton" type="button" @click="down()" :disabled="props.disabled || props.min >= vModel" class="flex items-center justify-center w-8 h-8 text-base leading-none text-orange-500 shrink-0 focus:ring-0 disabled:opacity-50 disabled:cursor-not-allowed">
                 <i class="fa-solid fa-minus" />
             </button>
 
@@ -20,14 +20,14 @@
                 :required="props.required"
                 :error="props.error"
                 :disabled="props.disabled"
-                class="p-0 m-0 text-center text-white bg-transparent border-0 grow min-w-12 focus:outline-none focus:ring-0 disabled:cursor-not-allowed disabled:opacity-50"
+                class="p-0 m-0 text-sm text-center text-white bg-transparent border-0 grow min-w-12 focus:outline-none focus:ring-0 disabled:cursor-not-allowed disabled:opacity-50"
             />
 
             <div v-if="props.unit" class="self-center text-xs text-slate-400">
                 {{ props.unit }}
             </div>
     
-            <button ref="upButton" type="button" @click="up()" :disabled="props.disabled || props.max <= vModel" class="flex items-center justify-center w-8 h-8 leading-none text-orange-500 shrink-0 focus:ring-0 disabled:opacity-50 disabled:cursor-not-allowed">
+            <button ref="upButton" type="button" @click="up()" :disabled="props.disabled || props.max <= vModel" class="flex items-center justify-center w-8 h-8 text-base leading-none text-orange-500 shrink-0 focus:ring-0 disabled:opacity-50 disabled:cursor-not-allowed">
                 <i class="fa-solid fa-plus" />
             </button>
         </div>

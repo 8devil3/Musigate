@@ -32,6 +32,7 @@ class BookingController extends Controller
 
         $events = collect([]);
         $bookings = collect([]);
+        $google_events = collect([]);
 
         if(!empty($rooms)){
             $bookings = Booking::with(['room:id,name,color', 'user:id,first_name,last_name'])
@@ -69,7 +70,6 @@ class BookingController extends Controller
         }
 
         //recupero gli eventi da Google Calendar
-        $google_events = collect([]);
         if($booking_settings->has_sync && $booking_settings->google_calendar_id){
             $border_color = '#64748b';
             $bg_color = BrightnessColorService::set_brightness($border_color, -0.6);
