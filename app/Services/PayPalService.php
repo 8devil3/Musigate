@@ -29,7 +29,7 @@ class PayPalService
     {
         $params = http_build_query([
             'client_id' => $this->client_id,
-            'scope' => 'openid',
+            'scope' => 'openid email',
             'redirect_uri' => $this->redirect_uri,
         ]);
 
@@ -38,8 +38,6 @@ class PayPalService
 
     public function get_access_token(string $code)
     {
-        // $base64_auth = base64_encode($this->client_id . ':' . $this->client_secret);
-
         $response =  Http::asForm()->withBasicAuth($this->client_id, $this->client_secret)
             ->post($this->token_endpoint, [
                 'grant_type' => 'authorization_code',
