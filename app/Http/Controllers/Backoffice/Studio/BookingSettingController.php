@@ -16,7 +16,7 @@ class BookingSettingController extends Controller
         $user = auth()->user();
         $booking_settings = $user->studio->booking_settings;
 
-        $has_paypal = $user->paypal_id && $user->paypal_access_token;
+        $has_paypal = $user->paypal_access_token;
         $has_google_calendar_scope = in_array(config('google-calendar.scope'), $user->google_scopes);
         $has_google_id = $user->google_id ? true : false;
         $google_calendar_ids = [];
