@@ -41,7 +41,6 @@ class BookingController extends Controller
                 ->when($current_room_id === 'all', function($query) use($rooms){
                     $query->whereIn('room_id', array_keys($rooms));
                 })
-                ->where('is_temp', false)
                 ->get()
                 ->map(function($event) use($booking_settings, $availability): array{
                     $weekday_availability = $availability->where('is_open', true)->where('weekday', Carbon::parse($event->start)->dayOfWeekIso)->first();
