@@ -22,19 +22,35 @@
         </fieldset>
     </form>
 
+    <div class="fixed -translate-x-1/2 top-9 lg:top-4 left-1/2 z-[2000]">
+        <transition leave-active-class="transition duration-1000 ease-in" leave-from-class="opacity-100" leave-to-class="opacity-0">
+            <div v-show="props.onSuccess" class="flex items-center gap-2 px-4 py-2 text-sm font-normal leading-none text-white border-2 rounded-full shadow-lg bg-emerald-600/20 border-emerald-500">
+                <i class="fa-solid fa-check" />
+                {{ usePage().props.flash.success }}
+            </div>
+        </transition>
+
+        <div v-show="usePage().props.flash.error" class="flex items-start max-w-sm gap-2 px-2.5 py-2 text-sm font-normal text-white border-2 border-red-600 shadow-lg rounded-xl bg-red-600/20">
+            <i class="mt-1 fa-solid fa-circle-exclamation" />
+            {{ usePage().props.flash.error }}
+        </div>
+    </div>
+
     <div v-show="props.isLoading" class="fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm">
         <Spinner class="w-16 h-16 orange" />
     </div>
 </template>
 
 <script setup>
+import { Head, Link, usePage } from '@inertiajs/vue3';
 import Spinner from '@/Components/Spinner.vue';
-import { Head, Link } from '@inertiajs/vue3';
 
 const props = defineProps({
     title: String,
     isLoading: Boolean,
     status: String,
+    onSuccess: Boolean,
+    onFail: Boolean,
 });
 
 const emit = defineEmits(['submitted']);

@@ -4,24 +4,25 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
+use App\Http\Controllers\Auth\GoogleLoginController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Auth\PayPalLoginController;
+use App\Http\Controllers\Auth\RegisterArtist\RegisteredArtistController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\RegisterStudio\SubscriptionController;
 use App\Http\Controllers\Auth\RegisterStudio\BusinessController;
 use App\Http\Controllers\Auth\RegisterStudio\StarterController;
 use App\Http\Controllers\Auth\VerifyEmailController;
-use App\Http\Controllers\Auth\SocialiteController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
     //Google OAuth
-    Route::get('/google/auth/redirect', [SocialiteController::class, 'google_redirect'])->name('socialite.google.redirect');
-    Route::get('/google/auth/callback', [SocialiteController::class, 'google_callback'])->name('socialite.google.callback');
-
-    Route::get('iscriviti', [RegisteredUserController::class, 'create'])->name('register');
-    Route::post('iscriviti', [RegisteredUserController::class, 'store']);
+    Route::get('google/auth/redirect', [GoogleLoginController::class, 'redirect'])->name('google.redirect');
+    Route::get('google/auth/login', [GoogleLoginController::class, 'login'])->name('google.login');
+    Route::get('google/auth/register/studio', [GoogleLoginController::class, 'register_studio'])->name('google.register.studio');
+    Route::get('google/auth/register/artist', [GoogleLoginController::class, 'register_artist'])->name('google.register.artist');
 
     //registrazione studio: scelta piano abbonamento
     Route::get('registrazione/studio/abbonamento', [SubscriptionController::class, 'choose_plan'])->name('register.studio.choose_plan');
@@ -37,6 +38,10 @@ Route::middleware('guest')->group(function () {
     Route::get('registrazione/studio/business/step-2', [BusinessController::class, 'step_2'])->name('register.studio.business.step_2');
     Route::get('registrazione/studio/business/step-3', [BusinessController::class, 'step_3'])->name('register.studio.business.step_3');
     Route::get('registrazione/studio/business', [BusinessController::class, 'store'])->name('register.studio.business.store');
+
+    //registrazione artista
+    Route::get('iscriviti', [RegisteredArtistController::class, 'create'])->name('register');
+    Route::post('iscriviti', [RegisteredArtistController::class, 'store'])->name('register.artist.store');
 
     Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
@@ -64,7 +69,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     //PayPal OAuth
-    Route::get('/paypal/auth/redirect', [SocialiteController::class, 'paypal_redirect'])->name('socialite.paypal.redirect');
-    Route::get('/paypal/auth/callback', [SocialiteController::class, 'paypal_callback'])->name('socialite.paypal.callback');
+    Route::get('/paypal/auth/redirect', [PayPalLoginController::class, 'redirect'])->name('paypal.redirect');
+    Route::get('/paypal/auth/callback', [PayPalLoginController::class, 'callback'])->name('paypal.callback');
 });
 

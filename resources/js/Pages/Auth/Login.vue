@@ -1,13 +1,7 @@
 <template>
     <AuthLayout @submitted="submit()" title="Accesso" :isLoading="form.processing" :status="props.status">
         <template #head>
-            <h1 class="text-lg uppercase md:text-xl font-lemon">Accedi al tuo account</h1>
-            <h2 class="text-sm md:text-base font-lemon">
-                Non ancora iscritto?
-                <Link :href="route('register')" class="text-orange-500 hover:text-orange-400">
-                    Iscriviti
-                </Link>
-            </h2>
+            <h1 class="text-lg uppercase md:text-xl font-lemon">Accesso</h1>
         </template>
 
         <template #content>

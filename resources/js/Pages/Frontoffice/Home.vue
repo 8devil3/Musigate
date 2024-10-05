@@ -10,30 +10,39 @@
                 uno <span class="font-lemon uppercase text-[22px] md:text-3xl">studio di registrazione</span>?
             </h1>
 
-            <form @submit.prevent="submit()" class="flex flex-col w-full max-w-xs gap-4">
-                <h2 class="pb-2 m-0 uppercase border-b-2 border-b-orange-500">iniza da qui</h2>
-                
-                <div>
-                    <Label for="where" label="Dove" />
-                    <SearchLocation id="where" v-model="form.location"/>
-                </div>
-
-                <div class="space-y-4">
-                    <div>
-                        <Label for="when" label="Quando" />
-                        <div id="when" class="flex gap-2">
-                            <Input type="date" v-model="form.date" :min="dayjs().format('YYYY-MM-DD')" required class="w-full" />
-                            <Input type="time" v-model="form.time" :step="1800" required class="w-28" />
-                        </div>
-                    </div>
+            <div class="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-12">
+                <form @submit.prevent="submit()" class="flex flex-col w-full max-w-xs gap-4">
+                    <h2 class="pb-2 m-0 uppercase border-b-2 border-b-orange-500">iniza da qui</h2>
                     
-                    <NumberInput v-model="form.duration" :min="1" :max="8" label="Durata" unit="ore" required />
-                </div>
+                    <div>
+                        <Label for="where" label="Dove" />
+                        <SearchLocation id="where" v-model="form.location"/>
+                    </div>
+    
+                    <div class="space-y-4">
+                        <div>
+                            <Label for="when" label="Quando" />
+                            <div id="when" class="flex gap-2">
+                                <Input type="date" v-model="form.date" :min="dayjs().format('YYYY-MM-DD')" required class="w-full" />
+                                <Input type="time" v-model="form.time" :step="1800" required class="w-28" />
+                            </div>
+                        </div>
+                        
+                        <NumberInput v-model="form.duration" :min="1" :max="8" label="Durata" unit="ore" required />
+                    </div>
+    
+                    <div class="w-full pt-4">
+                        <Button type="submit" icon="fa-solid fa-magnifying-glass" text="cerca" class="w-full" />
+                    </div>
+                </form>
 
-                <div class="w-full pt-4">
-                    <Button type="submit" icon="fa-solid fa-magnifying-glass" text="cerca" class="w-full" />
+                <div class="flex flex-col max-w-[240px] gap-4">
+                    <h2 class="pb-2 m-0 uppercase border-b-2 border-b-orange-500">Nuovo su Musigate?</h2>
+
+                    <Button type="router" :href="route('register')" text="Iscriviti come artista" icon="fa-solid fa-guitar" />
+                    <Button type="router" :href="route('register.studio.choose_plan')" text="Registra il tuo Studio" icon="fa-solid fa-microphone-lines" />
                 </div>
-            </form>
+            </div>
         </div>
 
         <Footer />

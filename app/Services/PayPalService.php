@@ -29,7 +29,7 @@ class PayPalService
     {
         $params = http_build_query([
             'client_id' => $this->client_id,
-            'scope' => 'openid email https://uri.paypal.com/services/invoicing',
+            'scope' => 'openid email profile https://uri.paypal.com/services/invoicing',
             'redirect_uri' => $this->redirect_uri,
         ]);
 
@@ -42,6 +42,17 @@ class PayPalService
             ->post($this->token_endpoint, [
                 'grant_type' => 'authorization_code',
                 'code' => $code,
+            ])->getBody();
+
+        return json_decode($response);
+    }
+
+    public function refresh_token(string $refresh_token)
+    {
+        $response =  Http::asForm()->withBasicAuth($this->client_id, $this->client_secret)
+            ->post($this->token_endpoint, [
+                'grant_type' => 'refresh_token',
+                'refresh_token' => $refresh_token,
             ])->getBody();
 
         return json_decode($response);

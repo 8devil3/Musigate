@@ -1,6 +1,6 @@
 <template>
     <div>
-        <a :href="route('socialite.google.redirect')" class="flex items-center justify-between w-full h-8 gap-3 px-2 hover:bg-slate-800 transition-colors text-center py-1.5 bg-slate-800/50 border border-slate-400 rounded-full text-sm font-medium">
+        <a :href="route('google.redirect')" class="flex items-center justify-between w-full h-8 gap-3 px-2 hover:bg-slate-800 transition-colors text-center py-1.5 bg-slate-800/50 border border-slate-400 rounded-full text-sm font-medium">
             <img src="/img/logo/icon_google.svg" class="h-full" />
             Continua con Google
             <div class="w-[18px]" />
