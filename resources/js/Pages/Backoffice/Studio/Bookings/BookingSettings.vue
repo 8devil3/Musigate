@@ -27,7 +27,7 @@
                     <template v-else>
                         <InfoBlock icon="fa-solid fa-check" title="Conto PayPal collegato" color="success" />
                         <div class="mt-4">
-                            <Button @click="router.patch('paypal.unlink')" text="Scollega conto PayPal" icon="fa-solid fa-arrow-right-from-bracket" />
+                            <Button @click="form.patch(route('paypal.unlink'))" text="Scollega conto PayPal" icon="fa-solid fa-arrow-right-from-bracket" :disabled="form.processing" :isLoading="form.processing" />
                         </div>
                     </template>
                 </template>
@@ -167,7 +167,7 @@
 </template>
 
 <script setup>
-import { useForm, router } from '@inertiajs/vue3';
+import { useForm } from '@inertiajs/vue3';
 import SaveButton from '@/Components/Form/SaveButton.vue';
 import FormElement from '@/Components/Backoffice/FormElement.vue';
 import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
@@ -207,7 +207,6 @@ const submit = () => {
     if(form.processing) return;
 
     if(form.has_buffer) form.allow_fractional_durations = true;
-
     form.put(route('bookings.settings.update'));
 };
 
