@@ -31,7 +31,7 @@ class PayPalService
     {
         $params = http_build_query([
             'client_id' => $this->client_id,
-            'scope' => 'openid email account_type https://uri.paypal.com/services/invoicing',
+            'scope' => 'openid email https://uri.paypal.com/services/invoicing',
             'redirect_uri' => $this->redirect_uri,
         ]);
 
