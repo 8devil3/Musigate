@@ -20,6 +20,8 @@ class PayPalLoginController extends Controller
 
         $paypal_user = (new PayPalService)->get_access_token($request->code);
 
+        dd((new PayPalService)->user_info($paypal_user->access_token));
+
         $account_type = (new PayPalService)->user_info($paypal_user->access_token)->account_type;
 
         if($account_type !== 'BUSINESS'){
