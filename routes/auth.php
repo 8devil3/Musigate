@@ -71,5 +71,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     //PayPal OAuth
     Route::get('/paypal/auth/redirect', [PayPalLoginController::class, 'redirect'])->name('paypal.redirect');
     Route::get('/paypal/auth/callback', [PayPalLoginController::class, 'callback'])->name('paypal.callback');
+    Route::patch('/paypal/auth/unlink', [PayPalLoginController::class, 'unlink'])->name('paypal.unlink');
 });
 

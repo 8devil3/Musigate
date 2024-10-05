@@ -37,15 +37,12 @@ class User extends Authenticatable implements MustVerifyEmail
         'google_token_expires_at',
         'google_scopes',
 
-        'paypal_id',
-        'paypal_name',
-        'paypal_email',
         'paypal_token_type',
         'paypal_access_token',
+        'paypal_refresh_token',
         'paypal_access_token_expiration_at',
         'paypal_scopes',
         'paypal_nonce',
-        'paypal_app_id',
 
         'is_active',
         'tos',

@@ -39,4 +39,20 @@ class PayPalLoginController extends Controller
 
         return to_route('bookings.settings.edit');
     }
+
+    public function unlink(): RedirectResponse
+    {
+        $user = auth()->user();
+
+        $user->update([
+            'paypal_token_type' => null,
+            'paypal_access_token' => null,
+            'paypal_refresh_token' => null,
+            'paypal_access_token_expiration_at' => null,
+            'paypal_scopes' => null,
+            'paypal_nonce' => null,
+        ]);
+
+        return back()->with('success', 'Account PayPal scollegato');
+    }
 }

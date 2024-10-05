@@ -24,7 +24,12 @@
                         <img src="/img/logo/logo_paypal.svg" class="h-full" />
                     </a>
 
-                    <InfoBlock v-else icon="fa-solid fa-check" title="Conto PayPal collegato" color="success" />
+                    <template v-else>
+                        <InfoBlock icon="fa-solid fa-check" title="Conto PayPal collegato" color="success" />
+                        <div class="mt-4">
+                            <Button @click="router.patch('paypal.unlink')" text="Scollega conto PayPal" icon="fa-solid fa-arrow-right-from-bracket" />
+                        </div>
+                    </template>
                 </template>
             </FormElement>
             <!-- / -->
@@ -162,7 +167,7 @@
 </template>
 
 <script setup>
-import { useForm } from '@inertiajs/vue3';
+import { useForm, router } from '@inertiajs/vue3';
 import SaveButton from '@/Components/Form/SaveButton.vue';
 import FormElement from '@/Components/Backoffice/FormElement.vue';
 import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
