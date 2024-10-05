@@ -20,6 +20,10 @@ class PayPalLoginController extends Controller
 
         $paypal_user = (new PayPalService)->get_access_token($request->code);
 
+        if($paypal_user->account_type !== 'BUSINESS'){
+            return to_route('bookings.settings.edit')->with('error', 'Il tuo account PayPal non è di tipo Business.');
+        }
+
         $user = auth()->user();
 
         $user->update([

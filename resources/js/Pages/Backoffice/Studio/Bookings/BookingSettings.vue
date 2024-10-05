@@ -16,7 +16,7 @@
                 </template>
 
                 <template #description>
-                    Collega il tuo conto PayPal per abilitare i pagamenti delle prenotazioni.
+                    Collega il tuo conto PayPal per abilitare i pagamenti delle prenotazioni. Il conto deve essere esclusivamente di tipo <strong>PayPal Business</strong>.
                 </template>
 
                 <template #content>
