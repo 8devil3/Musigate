@@ -47,6 +47,7 @@ return [
         'redirect' => env('PAYPALSANDBOX_REDIRECT_URI'),
         'base_auth_endpoint' => env('PAYPALSANDBOX_BASE_AUTH_ENDPOINT'),
         'token_endpoint' => env('PAYPALSANDBOX_TOKEN_ENDPOINT'),
+        'user_info_endpoint' => env('PAYPALSANDBOX_USER_INFO_ENDPOINT'),
     ],
 
     'paypal' => [    
@@ -55,6 +56,7 @@ return [
         'redirect' => env('PAYPAL_REDIRECT_URI') ,
         'base_auth_endpoint' => env('PAYPAL_BASE_AUTH_ENDPOINT'),
         'token_endpoint' => env('PAYPAL_TOKEN_ENDPOINT'),
+        'user_info_endpoint' => env('PAYPAL_USER_INFO_ENDPOINT'),
     ],
 
 ];
