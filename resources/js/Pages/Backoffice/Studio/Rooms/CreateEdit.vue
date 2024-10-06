@@ -7,7 +7,7 @@
         :onFail="form.hasErrors"
         icon="fa-solid fa-microphone-lines"
         :tabLinks="tabLinks"
-        :backRoute="route('rooms.index')"
+        :backRoute="route('sale-prova.index')"
         showBackRoute
     >
         <template #content>
@@ -22,7 +22,7 @@
                 </template>
 
                 <template #content>
-                    <Input id="room-name" v-model="form.name" :error="form.errors.name" required class="w-full max-w-xs" />
+                    <Input v-model="form.name" :error="form.errors.name" required class="w-full max-w-xs" />
                 </template>
             </FormElement>
             <!-- / -->
@@ -191,11 +191,11 @@ const submit = ()=>{
     if(form.processing) return;
 
     if(props.room.id){
-        form.put(route('rooms.update', props.room.id), {
+        form.put(route('sale-prova.update', props.room.id), {
             preserveScroll: true
         });
     } else {
-        form.post(route('rooms.store'));
+        form.post(route('sale-prova.store'));
     }
 }
 
@@ -204,18 +204,18 @@ const tabLinks = computed(()=>{
         return [
             {
                 name: 'Descrizione',
-                href: route('rooms.edit', props.room.id),
+                href: route('sale-prova.edit', props.room.id),
                 active: route().current('rooms.edit', props.room.id)
             },
             {
                 name: 'Equipaggiamento',
-                href: route('rooms.equipment.edit', props.room.id),
-                active: route().current('rooms.equipment.edit', props.room.id)
+                href: route('sale-prova.equipment.edit', props.room.id),
+                active: route().current('sale-prova.equipment.edit', props.room.id)
             },
             {
                 name: 'Foto',
-                href: route('rooms.photos.edit', props.room.id),
-                active: route().current('rooms.photos.edit', props.room.id)
+                href: route('sale-prova.photos.edit', props.room.id),
+                active: route().current('sale-prova.photos.edit', props.room.id)
             },
         ];
     } else {

@@ -1,6 +1,6 @@
 <template>
     <ContentLayout
-        :title="props.service.name"
+        :title="props.service?.name ?? 'Nuovo servizio'"
         :isLoading="form.processing"
         :onFail="form.hasErrors"
         icon="fa-solid fa-microphone-lines"
@@ -31,7 +31,9 @@ const form = useForm({
 
 const submit = ()=>{
     if(form.processing) return;
-    form.put(route('servizi.update', props.service.id));
+
+    if(props.service) form.put(route('servizi.update', props.service.id));
+    else form.post(route('servizi.store'));
 }
 
 </script>

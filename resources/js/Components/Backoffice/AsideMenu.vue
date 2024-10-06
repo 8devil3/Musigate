@@ -179,8 +179,8 @@ const menu = computed(()=>{
             {
                 icon: 'fa-solid fa-music',
                 label: 'Sale prova',
-                route: 'rooms.index',
-                active: 'rooms.*',
+                route: 'sale-prova.index',
+                active: 'sale-prova.*',
                 children: []
             },
             {

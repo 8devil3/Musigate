@@ -2,14 +2,15 @@
     <ContentLayout
         as="div"
         title="Sale prova"
-        :isLoading="formDelete.processing"
-        :onFail="formDelete.hasErrors"
+        :isLoading="form.processing"
+        :onSuccess="form.recentlySuccessful"
+        :onFail="form.hasErrors"
         icon="fa-solid fa-music"
     >
         <template #content>
             <div v-if="props.rooms.length" class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 lg:gap-6">
                 <article v-for="room in props.rooms" class="flex flex-col gap-4 p-4 transition-colors border hover:shadow-xl border-slate-700 hover:border-orange-500 hover:bg-slate-800/50 rounded-xl overflow-clip min-h-80">
-                    <Link :href="route('rooms.edit', room.id)" class="block">
+                    <Link :href="route('sale-prova.edit', room.id)" class="block">
                         <h2 class="flex items-center gap-2">
                             <span class="inline-block w-5 h-5 rounded-full shadow-inner" :style="'background-color: ' + room.color" />
                             {{ room.name }}
@@ -43,7 +44,7 @@
                     </p>
 
                     <div class="flex justify-end gap-2 pt-4 mt-auto">
-                        <ActionButton type="router" :href="route('rooms.edit', room.id)" icon="fa-solid fa-pen-to-square" title="Modifica sala" color="orange" />
+                        <ActionButton type="router" :href="route('sale-prova.edit', room.id)" icon="fa-solid fa-pen-to-square" title="Modifica sala" color="orange" />
                         <ActionButton @click="openModalDanger(room.id)" icon="fa-solid fa-trash-can" title="Elimina sala" color="red" />
                     </div>
                 </article>
@@ -59,35 +60,31 @@
                 </template>
 
                 <template #actions>
-                    <Button type="router" :href="route('rooms.create')" text="Crea una Sala" icon="fa-solid fa-plus" title="Crea una Sala"/>
+                    <Button type="router" :href="route('sale-prova.create')" text="Crea una Sala" icon="fa-solid fa-plus" title="Crea una Sala"/>
                 </template>
             </Empty>
+
+            <ModalDanger :isOpen="isOpenModalDanger" @submitted="deleteRoom()" @close="closeModalDanger()">
+                <template #title>
+                    Eliminazione Sala
+                </template>
+
+                <template #description>
+                    <strong class="text-red-500">Attenzione:</strong> eliminando la sala verranno eliminate anche le relative prenotazioni. Se non vuoi più ricevere prenotazioni per questa sala puoi renderla non prenotabile o invisibile.<br>
+                    L'eliminazione è irreversibile.
+                </template>
+
+                <template #actions>
+                    <Button type="submit" text="Sì, elimina" color="red"/>
+                    <Button text="Annulla" color="slate" @click="closeModalDanger()"/>
+                </template>
+            </ModalDanger>
         </template>
 
         <template #actions>
-            <Button type="router" v-if="props.rooms.length" :href="route('rooms.create')" text="Aggiungi Sala" icon="fa-solid fa-plus" title="Aggiungi Sala"/>
+            <Button type="router" v-if="props.rooms.length" :href="route('sale-prova.create')" text="Aggiungi Sala" icon="fa-solid fa-plus" title="Aggiungi Sala"/>
         </template>
     </ContentLayout>
-
-    <ModalDanger :isOpen="isOpenModalDanger" @submitted="deleteRoom()" @close="closeModalDanger()">
-        <template #title>
-            Eliminazione Sala
-        </template>
-
-        <template #description>
-            <strong class="text-red-500">Attenzione:</strong> eliminando la sala verranno eliminate anche le relative prenotazioni. Se non vuoi più ricevere prenotazioni per questa sala puoi renderla non prenotabile o invisibile.<br>
-            L'eliminazione è irreversibile.
-        </template>
-
-        <template #actions>
-            <Input v-model="formDelete.confirmDeletion" placeholder="Digita la parola 'elimina' per confermare l'eliminazione" required class="w-full" />
-
-            <div class="mt-6 space-x-2">
-                <Button type="submit" text="Elimina" color="red"/>
-                <Button text="Annulla" color="slate" @click="closeModalDanger()"/>
-            </div>
-        </template>
-    </ModalDanger>
 </template>
 
 <script setup>
@@ -108,10 +105,7 @@ const props = defineProps({
 const isOpenModalDanger = ref(false);
 const currentRoomId = ref(null);
 
-const formDelete = useForm({
-    confirmDeletion: null,
-});
-
+const form = useForm({});
 
 //elimina sala
 const openModalDanger = (roomId)=>{
@@ -125,8 +119,8 @@ const closeModalDanger = ()=>{
 };
 
 const deleteRoom = ()=>{
-    if(currentRoomId.value && formDelete.confirmDeletion){
-        formDelete.delete(route('rooms.delete', currentRoomId.value), {
+    if(currentRoomId.value){
+        form.delete(route('sale-prova.destroy', currentRoomId.value), {
             onFinish: () => {
                 closeModalDanger();
             }

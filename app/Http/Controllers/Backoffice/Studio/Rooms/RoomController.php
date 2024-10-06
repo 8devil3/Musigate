@@ -40,9 +40,7 @@ class RoomController extends Controller
         //     return abort(403);
         // }
 
-        $room = Room::create([
-            'studio_id' => auth()->user()->studio->id,
-        ] + $request->toArray());
+        $room = auth()->user()->studio->rooms->create($request->toArray());
 
         return to_route('rooms.description.edit', $room->id);
     }
@@ -74,7 +72,7 @@ class RoomController extends Controller
         return back()->with('success', 'Sala aggiornata');
     }
 
-    public function delete(int $room_id): RedirectResponse
+    public function destroy(int $room_id): RedirectResponse
     {
         $this->rooms->findOrFail($room_id)->delete();
 

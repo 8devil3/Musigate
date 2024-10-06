@@ -39,7 +39,7 @@
                             <slot name="description"/>
                         </DialogDescription>
 
-                        <div v-if="$slots.actions">
+                        <div v-if="$slots.actions" class="space-x-2">
                             <slot name="actions"/>
                         </div>
                     </DialogPanel>
