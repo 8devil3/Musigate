@@ -31,7 +31,7 @@
         </fieldset>
     </component>
 
-    <!-- messaggi flash e spinner -->
+    <!-- messaggi flash -->
     <div class="fixed -translate-x-1/2 top-9 lg:top-4 left-1/2 z-[2000]">
         <transition leave-active-class="transition duration-1000 ease-in" leave-from-class="opacity-100" leave-to-class="opacity-0">
             <div v-show="props.onSuccess" class="flex items-center gap-2 px-4 py-2 text-sm font-medium leading-none text-white border-2 rounded-full shadow-lg bg-emerald-600/20 border-emerald-500">
@@ -50,10 +50,14 @@
             </div>
         </div>
     </div>
+    <!-- / -->
 
-    <div v-if="props.isLoading" class="fixed inset-0 z-[2000] flex items-center justify-center backdrop-blur-sm bg-black/30">
-        <Spinner class="w-16 h-16 orange"/>
-    </div>
+    <!-- spinner -->
+    <teleport to="#spinner">
+        <div v-if="props.isLoading" class="fixed inset-0 z-[2000] flex items-center justify-center backdrop-blur-sm bg-black/30">
+            <Spinner class="w-16 h-16 orange"/>
+        </div>
+    </teleport>
     <!-- / -->
 </template>
 

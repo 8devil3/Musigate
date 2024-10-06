@@ -36,5 +36,7 @@
     </head>
     <body class="font-sans font-extralight text-slate-100 bg-slate-950">
         @inertia
+
+        <div id="spinner"></div>
     </body>
 </html>
