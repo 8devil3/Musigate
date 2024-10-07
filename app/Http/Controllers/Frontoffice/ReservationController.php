@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\Frontoffice;
 
 use App\Http\Controllers\Controller;
-use App\Models\Booking;
 use App\Models\Room\Room;
 use App\Models\TempBooking;
 use App\Models\User;
-use App\Services\BufferService;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Http\RedirectResponse;
@@ -42,26 +40,20 @@ class ReservationController extends Controller
                 $bookings = $room->bookings()
                 ->whereDate('start', $request_start_date->toDateString())
                 ->get(['start', 'end'])
-                ->map(function($event) use($booking_settings, $availability){
-                    //buffer
-                    $end = BufferService::add_buffer($booking_settings->has_buffer, $event->end, $availability->end);
-
+                ->map(function($event): array {
                     return [
                         'start' => $event->start,
-                        'end' => $end->toDateTimeString(),
+                        'end' => $event->end
                     ];
                 })->toBase();
 
                 $temp_bookings = $room->temp_bookings()
                 ->whereDate('start', $request_start_date->toDateString())
                 ->get(['start', 'end'])
-                ->map(function($event) use($booking_settings, $availability){
-                    //buffer
-                    $end = BufferService::add_buffer($booking_settings->has_buffer, $event->end, $availability->end);
-
+                ->map(function($event): array {
                     return [
                         'start' => $event->start,
-                        'end' => $end->toDateTimeString(),
+                        'end' => $event->end,
                     ];
                 })->toBase();
 
@@ -75,12 +67,13 @@ class ReservationController extends Controller
                         $request_start->clone()->endOfDay(),
                         [],
                         $booking_settings->google_calendar_id
-                    )->map(function($event) use($booking_settings, $availability): array{
-                        $end = BufferService::add_buffer($booking_settings->has_buffer, $event->googleEvent->end->dateTime, $availability->end);
+                    )->map(function($event): array{
+                        $start = Carbon::parse($event->googleEvent->start->dateTime)->toDateTimeString();
+                        $end = Carbon::parse($event->googleEvent->end->dateTime)->toDateTimeString();
 
                         return [
-                            'start' => Carbon::parse($event->googleEvent->start->dateTime)->toDateTimeString(),
-                            'end' => $end->toDateTimeString(),
+                            'start' => $start,
+                            'end' => $end,
                         ];
                     });
                 }
@@ -93,17 +86,11 @@ class ReservationController extends Controller
                 $period_end = $request_start_date->setTimeFromTimeString($availability->first()->end)->subHours($request_duration);
 
                 $periods = CarbonPeriod::create($period_start, $time_fraction, $period_end)
-                ->filter(function(Carbon $period) use($events, $request_duration, $booking_settings): bool {
+                ->filter(function(Carbon $period) use($events, $request_duration): bool {
                     $is_available = true;
 
                     $period_start = $period->toImmutable();
-
-                    if($booking_settings->has_buffer){
-                        $period_plus_duration = $period_start->addHours($request_duration)->addMinutes(30);
-                    } else {
-                        $period_plus_duration = $period_start->addHours($request_duration);
-                    }
-
+                    $period_plus_duration = $period_start->addHours($request_duration);
                     $request_period = CarbonPeriod::create($period_start, $period_plus_duration);
 
                     foreach ($events as $event) {

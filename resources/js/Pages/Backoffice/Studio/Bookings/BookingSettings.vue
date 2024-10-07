@@ -12,24 +12,15 @@
             <!-- vista calendario -->
             <FormElement>
                 <template #title>
-                    Conto PayPal
+                    Vist calendario
                 </template>
 
                 <template #description>
-                    Collega il tuo conto PayPal per abilitare i pagamenti delle prenotazioni. Il conto deve essere esclusivamente di tipo <strong>PayPal Business</strong>.
+                    Scegli la vista predefinita per il calendario delle prenotazioni.
                 </template>
 
                 <template #content>
-                    <a v-if="!props.has_paypal" :href="route('paypal.redirect')" class="inline-flex items-center gap-1 px-16 h-8 py-2 rounded-full bg-[#ffc439]">
-                        <img src="/img/logo/logo_paypal.svg" class="h-full" />
-                    </a>
-
-                    <template v-else>
-                        <InfoBlock icon="fa-solid fa-check" title="Conto PayPal collegato" color="success" />
-                        <div class="mt-4">
-                            <Button @click="form.patch(route('paypal.unlink'))" text="Scollega conto PayPal" icon="fa-solid fa-arrow-right-from-bracket" :disabled="form.processing" :isLoading="form.processing" />
-                        </div>
-                    </template>
+                    <Select v-model="form.default_calendar_view" :options="calendarViews" class="max-w-xs" />
                 </template>
             </FormElement>
             <!-- / -->
@@ -120,29 +111,6 @@
             </FormElement>
             <!-- / -->
 
-            <!-- buffer -->
-            <FormElement>
-                <template #title>
-                    Pause
-                </template>
-
-                <template #description>
-                    Abilita/disabilita le pause di 30 minuti tra le sessioni.<br>
-                    Puoi scegliere di applicare le pause anche agli eventi importati.<br>
-                    Se abilitata, verrà attivata automaticamente anche l'impostazione <strong>Durate frazionate</strong>
-                </template>
-
-                <template #content>
-                    <Toggle v-model="form.has_buffer" @click="forceAllowFractionlDurations()" :label="form.has_buffer ? 'Pause abilitate' : 'Pause disabilitate'" />
-                    <div v-if="form.has_sync && form.has_buffer" class="mt-4">
-                        <Toggle v-model="form.buffer_on_imported_event" :label="form.buffer_on_imported_event ? 'Pause eventi importati abilitate' : 'Pause eventi importati disabilitate'" />
-
-                        <p class="mt-2 text-xs text-slate-400">Puoi decidere di calcolare 30 minuti di pausa anche agli eventi importati. Per esempio se un evento importato dura 2 ore, abilitando l'impostazione verrà calcolato come 2,5 ore.</p>
-                    </div>
-                </template>
-            </FormElement>
-            <!-- / -->
-
             <!-- durate frazionate -->
             <FormElement>
                 <template #title>
@@ -174,7 +142,6 @@ import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
 import NumberInput from '@/Components/Form/NumberInput.vue';
 import Toggle from '@/Components/Form/Toggle.vue';
 import Select from '@/Components/Form/Select.vue';
-import Button from '@/Components/Form/Button.vue';
 import InfoBlock from '@/Components/InfoBlock.vue';
 
 const props = defineProps({
@@ -182,31 +149,21 @@ const props = defineProps({
     google_calendar_ids: Array,
     has_google_id: Boolean,
     has_google_calendar_scope: Boolean,
-    has_paypal: Boolean,
 });
 
 const form = useForm({
     min_booking: props.booking_settings.min_booking,
     booking_advance: props.booking_settings.booking_advance,
     max_booking_horizon: props.booking_settings.max_booking_horizon,
-    has_buffer: props.booking_settings.has_buffer,
-    buffer: props.booking_settings.buffer,
     allow_fractional_durations: props.booking_settings.allow_fractional_durations,
     has_sync: props.booking_settings.has_sync,
     sync_mode: props.booking_settings.sync_mode ?? '',
     google_calendar_id: props.booking_settings.google_calendar_id ?? '',
     default_calendar_view: props.booking_settings.default_calendar_view ?? 'dayGridMonth',
-    buffer_on_imported_event: props.booking_settings.buffer_on_imported_event,
 });
-
-const forceAllowFractionlDurations = ()=>{
-    if(form.has_buffer) form.allow_fractional_durations = true;
-};
 
 const submit = () => {
     if(form.processing) return;
-
-    if(form.has_buffer) form.allow_fractional_durations = true;
     form.put(route('bookings.settings.update'));
 };
 
