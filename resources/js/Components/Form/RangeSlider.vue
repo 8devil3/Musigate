@@ -1,7 +1,11 @@
 <template>
    <div class="has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-70 flex flex-col gap-3 text-left">
-        <label v-if="props.label" :for="props.id" class="w-full mb-1 text-xs font-medium leading-none text-left text-white truncate disable:text-gray-400">
+        <label v-if="props.label" :for="props.id" class="flex justify-between w-full mb-1 text-xs font-medium text-left text-white truncate disable:text-gray-400">
             {{ props.label }}
+
+            <span>
+                {{ vModel }} {{ props.unit }}
+            </span>
         </label>
 
         <input type="range"
@@ -37,7 +41,7 @@ const props = defineProps({
         type: Number,
         default: 10
     },
-    symbol: {
+    unit: {
         type: String,
         default: ''
     },

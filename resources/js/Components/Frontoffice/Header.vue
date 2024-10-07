@@ -1,10 +1,15 @@
 <template>
-    <header class="p-2 lg:px-6" :class="{'bg-slate-950/80 border-b border-slate-700': !route().current('home')}">
+    <header class="p-4 lg:px-6" :class="{'bg-slate-950/80 border-b border-slate-700': !route().current('home')}">
         <div class="flex items-center justify-between w-full mx-auto text-sm tracking-wide font-lemon">
+
+            <button type="button" class="py-1 pr-2 text-2xl text-white md:hidden">
+                <i class="fa-solid fa-bars" />
+            </button>
+
             <!-- logo -->
             <Link :href="route('home')" class="shrink-0">
                 <img src="/img/logo/logo_horizontal.svg" alt="Musigate logo" class="hidden md:block md:h-5">
-                <img src="/img/logo/logo_mobile.svg" alt="Musigate logo" class="h-6 md:hidden">
+                <img src="/img/logo/logo_mobile.svg" alt="Musigate logo" class="h-8 md:hidden">
             </Link>
             <!-- / -->
 

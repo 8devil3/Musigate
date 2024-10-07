@@ -19,7 +19,7 @@
             leave-from-class="transform scale-100 opacity-100"
             leave-to-class="transform scale-95 opacity-0"
         >
-            <MenuItems as="ul" class="absolute right-0 z-50 py-1 mt-2 overflow-hidden origin-top-right border rounded-md shadow-lg bg-slate-800 border-slate-600 ring-0 focus:outline-none">
+            <MenuItems as="ul" class="absolute right-0 z-50 py-1 mt-2 overflow-hidden origin-top-right border rounded-lg shadow-lg bg-slate-800 border-slate-600 ring-0 focus:outline-none">
                 <MenuItem as="li" class="hover:bg-orange-500 whitespace-nowrap hover:text-white">
                     <Link :href="route('dashboard')" class="flex items-center gap-2 px-4 py-2 text-sm">
                         <i class="w-5 fa-solid fa-home"></i>

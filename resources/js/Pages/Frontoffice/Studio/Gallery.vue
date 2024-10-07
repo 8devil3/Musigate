@@ -20,7 +20,9 @@
         </div>
     </div>
 
-    <Carosello :imgs="props.photos" class="lg:hidden h-80 sm:h-[480px]" />
+    <div class="lg:hidden h-80 sm:h-[480px]">
+        <Carosello :imgs="props.photos" />
+    </div>
 
     <!-- lightbox -->
     <TransitionRoot as="template" :show="openModalGallery" >

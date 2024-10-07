@@ -1,14 +1,15 @@
 <template>
-  <footer class="p-4 font-sans text-sm leading-none lg:p-6">
+  <footer class="px-4 py-8 font-sans text-sm leading-none lg:p-6">
         <div class="mx-auto gap-8 flex flex-col max-w-[1536px] md:flex-row items-center justify-between">
             <!-- copyright -->
             <div class="flex flex-col items-center text-center gap-x-2 gap-y-3 md:flex-row md:text-left">
-                <span>
-                    &copy; {{ new Date().getFullYear() }} OrangeWeb di Aldo Cocurullo
-                </span>
+                &copy; {{ new Date().getFullYear() }}
+                <a href="https://www.orangeweb.biz" class="font-normal text-orange-500 transition-colors hover:text-orange-400">
+                    OrangeWeb
+                </a>
                 <span class="hidden md:inline">-</span>
                 <span>
-                    p.iva 04442720985
+                    P.IVA 04442720985
                 </span>
             </div>
             <!-- / -->

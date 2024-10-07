@@ -1,71 +1,47 @@
 <template>
-    <div class="flex flex-wrap justify-center w-full gap-1 pt-6 mt-12 border-t border-orange-500 font-lemon">
-        <!-- prima pagina -->
-        <div v-if="props.pagination.current_page === 1" title="Primo" class="flex items-center justify-center w-8 h-8 text-center text-gray-300 transition-colors rounded-full">
-            <i class="fa-solid fa-angles-left"></i>
-        </div>
-
-        <Link v-else :href="props.pagination.first_page_url" title="Primo" class="flex items-center justify-center w-8 h-8 text-center transition-colors rounded-full hover:text-white hover:bg-orange-500">
-            <i class="fa-solid fa-angles-left"></i>
-        </Link>
-        <!-- / -->
-
-        <template v-for="link, id in props.pagination.links">
-            <!-- precedente -->
-            <template v-if="id === 0">
-                <div v-if="props.pagination.current_page === 1" title="Precedente" class="flex items-center justify-center w-8 h-8 text-center text-gray-300 transition-colors rounded-full">
-                    <i class="fa-solid fa-chevron-left"></i>
-                </div>
-
-                <Link v-else :href="props.pagination.first_page_url" title="Precedente" class="flex items-center justify-center w-8 h-8 text-center transition-colors rounded-full hover:text-white hover:bg-orange-500">
-                    <i class="fa-solid fa-chevron-left"></i>
-                </Link>
-            </template>
-            <!-- / -->
-
-            <!-- successiva -->
-            <template v-else-if="id === props.pagination.links.length -1">
-                <div v-if="props.pagination.current_page === props.pagination.last_page" title="Successivo" class="flex items-center justify-center w-8 h-8 text-center text-gray-300 transition-colors rounded-full">
-                    <i class="fa-solid fa-chevron-right"></i>
-                </div>
-
-                <Link v-else :href="props.pagination.last_page_url" title="Successivo" class="flex items-center justify-center w-8 h-8 text-center transition-colors rounded-full hover:text-white hover:bg-orange-500">
-                    <i class="fa-solid fa-chevron-right"></i>
-                </Link>
-            </template>
-            <!-- / -->
-
-            <!-- pagine numerate -->
-            <template v-else>
-                <div v-if="link.active" :title="link.label" class="flex items-center justify-center w-8 h-8 text-center text-orange-500 border-2 border-orange-500 rounded-full bg-orange-500/10">
+    <nav v-if="props.data.length && props.links.length > 3" class="flex flex-wrap font-normal justify-center w-full gap-1.5 mt-8">
+        <template v-for="link in props.links">
+            <div v-if="link.url === null" :title="title(link.label)" class="flex items-center justify-center text-xs transition-colors rounded-md cursor-not-allowed text-slate-500 bg-slate-800 w-7 h-7 text-grey-600 md:h-8 md:w-8 md:text-sm">
+                <i v-if="link.label.includes('Previous')" class="text-xs fa-solid fa-chevron-left" />
+                <i v-else-if="link.label.includes('Next')" class="text-xs fa-solid fa-chevron-right" />
+                <template v-else>
                     {{ link.label }}
-                </div>
+                </template>
+            </div>
 
-                <Link v-else :href="link.url" :title="link.label" class="flex items-center justify-center w-8 h-8 text-center transition-colors rounded-full hover:text-white hover:bg-orange-500">
+            <Link
+                v-else
+                :href="link.url"
+                :title="title(link.label)"
+                class="flex items-center justify-center text-xs text-white transition-colors rounded-md h-7 w-7 md:h-8 md:w-8 md:text-sm hover:bg-orange-500"
+                :class="link.active ? 'bg-orange-500 font-medium': 'bg-slate-600'"
+            >
+                <i v-if="link.label.includes('Previous')" class="text-xs fa-solid fa-chevron-left" />
+                <i v-else-if="link.label.includes('Next')" class="text-xs fa-solid fa-chevron-right" />
+                <template v-else>
                     {{ link.label }}
-                </Link>
-            </template>
-            <!-- / -->
+                </template>
+            </Link>
         </template>
-
-
-        <!-- ultima pagina -->
-        <div v-if="props.pagination.current_page === props.pagination.last_page" title="Ultimo" class="flex items-center justify-center w-8 h-8 text-center text-gray-300 transition-colors rounded-full">
-            <i class="fa-solid fa-angles-right"></i>
-        </div>
-        
-        <Link v-else :href="props.pagination.last_page_url" title="Ultimo" class="flex items-center justify-center w-8 h-8 text-center transition-colors rounded-full hover:text-white hover:bg-orange-500">
-            <i class="fa-solid fa-angles-right"></i>
-        </Link>
-        <!-- / -->
-    </div>
+    </nav>
 </template>
 
 <script setup>
 import { Link } from '@inertiajs/vue3';
 
 const props = defineProps({
-    pagination: Object
+    data: Object,
+    links: Object,
 });
+
+const title = (label)=>{
+    if(label.includes('Previous')){
+        return 'Precedente';
+    }
+
+    if(label.includes('Next')){
+        return 'Successivo';
+    }
+};
 
 </script>

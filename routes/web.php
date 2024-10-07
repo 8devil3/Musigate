@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontoffice\ReservationController;
 use App\Http\Controllers\Backoffice\SuggestionController;
 use App\Http\Controllers\Frontoffice\LegalTextController;
-use App\Http\Controllers\Frontoffice\StudioController;
+use App\Http\Controllers\Frontoffice\SearchController;
 use App\Http\Controllers\Backoffice\AccountController;
 use App\Http\Controllers\Backoffice\Studio\BookingSettingController;
 use App\Http\Controllers\Backoffice\Studio\CancelPolicySettingController;
@@ -25,7 +25,6 @@ use App\Http\Controllers\Backoffice\Studio\SocialController;
 use App\Http\Controllers\Backoffice\Studio\Rooms\RoomController;
 use App\Http\Controllers\Backoffice\Studio\Rooms\EquipmentController;
 use App\Http\Controllers\Backoffice\Studio\Rooms\RoomPhotoController;
-use App\Http\Controllers\Backoffice\Studio\Rooms\DescriptionController as RoomDescriptionController;
 use Inertia\Inertia;
 
 Route::get('/', function () {
@@ -36,8 +35,8 @@ Route::get('/offline', function () {
     return view('offline');
 })->name('offline');
 
-Route::get('/cerca', [StudioController::class, 'index'])->name('studio.index');
-Route::get('/studio/{studio}', [StudioController::class, 'show'])->name('studio.show');
+Route::get('/cerca', [SearchController::class, 'index'])->name('rooms.index');
+Route::get('/studio/{studio}', [SearchController::class, 'show'])->name('studio.show');
 Route::get('/prenota/{room}', [ReservationController::class, 'create'])->name('reservation.create');
 Route::post('/prenota/store', [ReservationController::class, 'store'])->name('reservation.store');
 

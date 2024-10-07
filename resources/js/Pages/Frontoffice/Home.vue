@@ -11,7 +11,7 @@
             </h1>
 
             <div class="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-12">
-                <form @submit.prevent="submit()" class="flex flex-col w-full max-w-xs gap-4">
+                <form @submit.prevent="submit()" class="flex flex-col w-full gap-4 max-w-64">
                     <h2 class="pb-2 m-0 uppercase border-b-2 border-b-orange-500">iniza da qui</h2>
                     
                     <div>
@@ -19,18 +19,15 @@
                         <SearchLocation id="where" v-model="form.location"/>
                     </div>
     
-                    <div class="space-y-4">
-                        <div>
-                            <Label for="when" label="Quando" />
-                            <div id="when" class="flex gap-2">
-                                <Input type="date" v-model="form.date" :min="dayjs().format('YYYY-MM-DD')" required class="w-full" />
-                                <Input type="time" v-model="form.time" :step="1800" required class="w-28" />
-                            </div>
+                    <div class="space-y-4">                        
+                        <Input type="dateTime-local" v-model="form.start" label="Quando" :min="dayjs().add(1, 'day').hour(0).minute(0).second(0).format('YYYY-MM-DD HH:mm')" :step="1800" class="w-full" />
+
+                        <div class="flex gap-2">
+                            <NumberInput v-model="form.duration" :min="1" :max="24" label="Durata" unit="ore" class="grow" />
+                            <NumberInput v-model="form.guests" :min="1" :max="99" label="Persone" class="grow" />
                         </div>
-                        
-                        <NumberInput v-model="form.duration" :min="1" :max="8" label="Durata" unit="ore" required />
                     </div>
-    
+                    
                     <div class="w-full pt-4">
                         <Button type="submit" icon="fa-solid fa-magnifying-glass" text="cerca" class="w-full" />
                     </div>
@@ -61,15 +58,14 @@ import SearchLocation from './Search/SearchLocation.vue';
 import dayjs from 'dayjs';
 
 const form = useForm({
-    location: {},
-    radius: 500,
-    date: dayjs().format('YYYY-MM-DD'),
-    time: dayjs().minute(0).format('HH:mm'),
-    duration: 2.
+    location: null,
+    start: dayjs().add(1, 'day').hour(Math.ceil(dayjs().hour())).minute(0).second(0).format('YYYY-MM-DD HH:mm'),
+    duration: 2,
+    guests: 1,
 });
 
 const submit = () => {
-    form.get(route('studio.index'))
+    form.get(route('rooms.index'))
 };
 
 </script>

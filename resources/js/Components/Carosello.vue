@@ -10,7 +10,7 @@
         </template>
     </Carousel>
 
-    <div v-else class="flex items-center justify-center w-full h-80">
+    <div v-else class="flex items-center justify-center w-full h-80 bg-slate-800/40">
         <img src="/img/logo/logo_placeholder.svg" class="object-contain h-1/2 aspect-square">
     </div>
 </template>

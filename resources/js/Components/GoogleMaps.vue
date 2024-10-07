@@ -36,8 +36,8 @@ const loader = new Loader({
 const options = {
     zoom: props.zoom,
     center: {
-        lat: props.lat,
-        lng: props.lon
+        lat: parseFloat(props.lat),
+        lng: parseFloat(props.lon),
     },
     mapTypeIds: ['roadmap'],
     mapTypeControl: false,
