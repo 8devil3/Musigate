@@ -1,6 +1,6 @@
 <template>
   <footer class="px-4 py-8 font-sans text-sm leading-none lg:p-6">
-        <div class="mx-auto gap-8 flex flex-col max-w-[1536px] md:flex-row items-center justify-between">
+        <div class="flex flex-col items-center justify-between gap-8 md:flex-row">
             <!-- copyright -->
             <div class="flex flex-col items-center text-center gap-x-2 gap-y-3 md:flex-row md:text-left">
                 &copy; {{ new Date().getFullYear() }}
