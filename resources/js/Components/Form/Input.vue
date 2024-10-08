@@ -103,7 +103,7 @@ const props = defineProps({
     }
 });
 
-const classes = "text-left w-full h-8 px-3 py-0 text-sm text-white border rounded-full placeholder:text-slate-500 disabled:bg-slate-800 placeholder:truncate truncate disabled:cursor-not-allowed disabled:text-slate-500 disabled:border-slate-500 font-sans placeholder:font-light font-light";
+const classes = "text-left w-full h-8 px-3 py-0 text-sm text-white border rounded-full placeholder:text-slate-500 disabled:bg-slate-800 placeholder:truncate truncate disabled:cursor-not-allowed disabled:text-slate-500 disabled:border-slate-500 font-sans placeholder:font-normal font-light";
 
 const emit = defineEmits(['input', 'change']);
 
