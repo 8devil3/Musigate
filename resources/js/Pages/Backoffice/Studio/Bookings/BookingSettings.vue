@@ -12,7 +12,7 @@
             <!-- vista calendario -->
             <FormElement>
                 <template #title>
-                    Vist calendario
+                    Vista calendario
                 </template>
 
                 <template #description>
