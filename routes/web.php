@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backoffice\Studio\Rooms\RoomPriceController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontoffice\ReservationController;
 use App\Http\Controllers\Backoffice\SuggestionController;
@@ -112,11 +113,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/prenotazioni', [BookingController::class, 'index'])->name('bookings.index');
         Route::get('/prenotazioni/modifica/{booking_id}', [BookingController::class, 'edit'])->name('bookings.edit');
         Route::put('/prenotazioni/update/{booking_id}', [BookingController::class, 'update'])->name('bookings.update');
-        
-        //gestione sale studio
+
+        //gestione sale prova
         Route::resource('/sale-prova', RoomController::class)->parameter('sale-prova', 'room_id');
+
+        //tariffe sale prova
+        Route::get('/sale/tariffe/{room}', [RoomPriceController::class, 'edit'])->name('sale-prova.prices.edit');
+        Route::put('/sale/tariffe/{price_id}/{room}', [RoomPriceController::class, 'update'])->name('sale-prova.prices.update');
+        Route::delete('/sale/tariffe/{price_id}/{room}', [RoomPriceController::class, 'delete'])->name('sale-prova.prices.delete');
+
+        //equipaggiamento sale prova
         Route::get('/sale/equipaggiamento/{room}', [EquipmentController::class, 'edit'])->name('sale-prova.equipment.edit');
         Route::put('/sale/equipaggiamento/{room}', [EquipmentController::class, 'update'])->name('sale-prova.equipment.update');
+
+        //foto sale prova
         Route::get('/sale/foto/{room}', [RoomPhotoController::class, 'edit'])->name('sale-prova.photos.edit');
         Route::post('/sale/foto/{room}', [RoomPhotoController::class, 'update'])->name('sale-prova.photos.update');
         Route::delete('/sale/foto/{photo_id}/{room}', [RoomPhotoController::class, 'delete'])->name('sale-prova.photos.delete');

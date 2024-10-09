@@ -113,7 +113,7 @@
             <!-- / -->
 
             <!-- tariffe -->
-            <FormElement>
+            <!-- <FormElement>
                 <template #title>
                     Tariffe
                 </template>
@@ -134,7 +134,7 @@
                         <NumberInput v-if="form.has_discounted_price" v-model.number="form.discounted_price" label="Tariffa scontata" :min="1" :max="form.price -1" unit="€/h" :error="form.errors.discounted_price" :required="form.has_discounted_price" />
                     </div>
                 </template>
-            </FormElement>
+            </FormElement> -->
             <!-- / -->
 
             <!-- presentazione -->
@@ -179,9 +179,6 @@ const form = useForm({
     color: props.room?.color ?? '#ff6600',
     is_visible: props.room?.is_visible ?? false,
     is_bookable: props.room?.is_bookable ?? false,
-    price: props.room?.price ?? null,
-    has_discounted_price: props.room?.has_discounted_price ?? false,
-    discounted_price: props.room?.discounted_price ?? null,
     area: props.room?.area ?? null,
     max_capacity: props.room?.max_capacity ?? null,
     description: props.room?.description ?? null,
@@ -205,7 +202,12 @@ const tabLinks = computed(()=>{
             {
                 name: 'Descrizione',
                 href: route('sale-prova.edit', props.room.id),
-                active: route().current('rooms.edit', props.room.id)
+                active: route().current('sale-prova.edit', props.room.id)
+            },
+            {
+                name: 'Tariffe',
+                href: route('sale-prova.prices.edit', props.room.id),
+                active: route().current('sale-prova.prices.edit', props.room.id)
             },
             {
                 name: 'Equipaggiamento',

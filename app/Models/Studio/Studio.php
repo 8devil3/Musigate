@@ -109,4 +109,9 @@ class Studio extends Model
     {
         return $this->hasOne(CancelPolicySetting::class);
     }
+
+    public function timebands(): HasMany
+    {
+        return $this->hasMany(Timeband::class);
+    }
 }

@@ -124,23 +124,34 @@ const submit = ()=>{
     form.post(route('rooms.photos.update', props.room.id));
 };
 
-const tabLinks = [
-    {
-        name: 'Descrizione',
-        href: route('rooms.edit', props.room.id),
-        active: route().current('rooms.edit', props.room.id)
-    },
-    {
-        name: 'Equipaggiamento',
-        href: route('rooms.equipment.edit', props.room.id),
-        active: route().current('rooms.equipment.edit', props.room.id)
-    },
-    {
-        name: 'Foto',
-        href: route('rooms.photos.edit', props.room.id),
-        active: route().current('rooms.photos.edit', props.room.id)
-    },
-];
+const tabLinks = computed(()=>{
+    if(props.room.id){
+        return [
+            {
+                name: 'Descrizione',
+                href: route('sale-prova.edit', props.room.id),
+                active: route().current('sale-prova.edit', props.room.id)
+            },
+            {
+                name: 'Tariffe',
+                href: route('sale-prova.prices.edit', props.room.id),
+                active: route().current('sale-prova.prices.edit', props.room.id)
+            },
+            {
+                name: 'Equipaggiamento',
+                href: route('sale-prova.equipment.edit', props.room.id),
+                active: route().current('sale-prova.equipment.edit', props.room.id)
+            },
+            {
+                name: 'Foto',
+                href: route('sale-prova.photos.edit', props.room.id),
+                active: route().current('sale-prova.photos.edit', props.room.id)
+            },
+        ];
+    } else {
+        return null;
+    }
+});
 
 </script>
 
