@@ -69,6 +69,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
             
             Route::get('/location', [LocationController::class, 'edit'])->name('location.edit');
             Route::put('/location', [LocationController::class, 'update'])->name('location.update');
+
+            Route::get('/disponibilità', [WeeklyAvailabilityController::class, 'edit'])->name('availability.edit');
+            Route::put('/disponibilità', [WeeklyAvailabilityController::class, 'update'])->name('availability.update');
     
             Route::get('/foto', [StudioPhotoController::class, 'edit'])->name('photos.edit');
             Route::post('/foto/salva', [StudioPhotoController::class, 'update'])->name('photos.update');
@@ -96,9 +99,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         
             Route::get('/contatti', [ContactController::class, 'edit'])->name('contacts.edit');
             Route::put('/contatti', [ContactController::class, 'update'])->name('contacts.update');
-
-            Route::get('/disponibilità', [WeeklyAvailabilityController::class, 'edit'])->name('availability.edit');
-            Route::put('/disponibilità', [WeeklyAvailabilityController::class, 'update'])->name('availability.update');
         });
 
         //impostazioni prenotazioni

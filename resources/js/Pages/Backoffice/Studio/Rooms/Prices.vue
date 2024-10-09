@@ -3,9 +3,9 @@
         as="div"
         :title="props.room.name"
         icon="fa-solid fa-euro"
-        :isLoading="isLoading"
-        :onSuccess="success"
-        :onFail="error"
+        :isLoading="form.processing"
+        :onSuccess="form.recentlySuccessful"
+        :onFail="form.hasErrors"
         :backRoute="route('rooms.index')"
         showBackRoute
         :tabLinks="tabLinks"
@@ -21,7 +21,7 @@
                 </template>
 
                 <template #content>
-                    <form @submit.prevent="submitModay()" v-if="formMonday.prices.length" class="w-full pb-4 overflow-x-auto">
+                    <form @submit.prevent="submitModay()" v-if="form[1].length" class="w-full pb-4 overflow-x-auto">
                         <table class="w-full text-sm">
                             <thead>
                                 <tr>
@@ -33,7 +33,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="price, index in formMonday.prices">
+                                <tr v-for="price, index in form[1]">
                                     <td class="w-full px-1 py-2 text-center min-w-32">
                                         <Input v-model="price.name" placeholder="Nome fascia oraria" autofocus required />
                                     </td>
@@ -48,7 +48,13 @@
                                             dark
                                         /> -->
 
-                                        <Input type="time" v-model="price.start" :step="props.allow_fractional_durations ? 1800 : 3600" required />
+                                        <Input
+                                            type="time"
+                                            v-model="price.start"
+                                            :step="props.allow_fractional_durations ? 1800 : 3600"
+                                            :disabled="index > 0"
+                                            required
+                                        />
                                     </td>
                                     <td class="px-1 py-2 text-center">
                                         <!-- <VueDatePicker
@@ -63,7 +69,14 @@
                                             :disabled="!price.start"
                                         /> -->
 
-                                        <Input type="time" v-model="price.end" :min="dayjs(dayjs().format('YYY-MM-DD') + ' ' +  price.start).add(1, 'hour').format('HH:mm')" :step="props.allow_fractional_durations ? 1800 : 3600" :disabled="!price.start" required />
+                                        <Input
+                                            type="time"
+                                            v-model="price.end"
+                                            @change="setTimeStartEnd(1, index)"
+                                            :step="props.allow_fractional_durations ? 1800 : 3600"
+                                            :disabled="!price.start"
+                                            required
+                                        />
                                     </td>
                                     <td class="px-1 py-2 text-center">
                                         <NumberInput v-model="price.price" :min="1" unit="€/h" required class="mx-auto" />
@@ -83,7 +96,7 @@
                         </div>
 
                         <div class="mt-6 text-right">
-                            <SaveButton :isLoading="isLoading" :disabled="isLoading" />
+                            <SaveButton :isLoading="form.processing" :disabled="form.processing" />
                         </div>
                     </form>
 
@@ -120,11 +133,8 @@ import NumberInput from '@/Components/Form/NumberInput.vue';
 import Input from '@/Components/Form/Input.vue';
 import ActionButton from '@/Components/Form/ActionButton.vue';
 import dayjs from 'dayjs';
-import objectSupport from 'dayjs/plugin/objectSupport';
 // import VueDatePicker from '@vuepic/vue-datepicker';
 // import '@vuepic/vue-datepicker/dist/main.css';
-
-dayjs.extend(objectSupport);
 
 const props = defineProps({
     room: Object,
@@ -132,22 +142,53 @@ const props = defineProps({
     allow_fractional_durations: Boolean,
 });
 
-const isLoading = ref(false);
-const success = ref(false);
-const error = ref(false);
-
-const formMonday = useForm({
-    prices: [],
+const form = useForm({
+    1: [],
+    2: [],
+    3: [],
+    4: [],
+    5: [],
+    6: [],
+    7: [],
 });
 
 const submitModay = ()=>{
-    console.log(formMonday.prices);
-    // formMonday.put(route('rooms.prices.update', props.room.id));
+    // form.put(route('rooms.prices.update', props.room.id));
+};
+
+const setTimeStartEnd = (weekday, index)=>{
+    if(form[weekday].length > 1){
+        let start = '';
+        let end = '';
+
+        form[weekday].forEach((item, i) => {
+            if(i > index){
+                i = i <= form[weekday].length -2 ? i +1 : i;
+                start = dayjs(dayjs().format('YYYY-MM-DD') + ' ' +  form[weekday][i].end);
+                end = start.clone().add(1, 'hour');
+
+                item.start = start.format('HH:mm');
+                item.end = end.format('HH:mm');
+            }
+        });
+    }
 };
 
 const addPrice = (weekday)=>{
-    if(weekday === 1){
-        formMonday.prices.push({
+    let index = form[1].length;
+
+    if(form[weekday].length){
+        let start = dayjs(dayjs().format('YYYY-MM-DD') + ' ' +  form[weekday][index -1].end);
+        let end = start.clone().add(1, 'hour');
+
+        form[weekday].push({
+            name: null,
+            start: start.format('HH:mm'),
+            end: end.format('HH:mm'),
+            price: 20,
+        });
+    } else {
+        form[weekday].push({
             name: null,
             start: dayjs().minute(0).second(0).format('HH:mm'),
             end: dayjs().add(1, 'hour').minute(0).second(0).format('HH:mm'),
@@ -157,9 +198,7 @@ const addPrice = (weekday)=>{
 };
 
 const deletePrice = (weekday, index)=>{
-    if(weekday === 1){
-        formMonday.prices.splice(index, 1);
-    }
+    form[weekday].splice(index, 1);
 };
 
 const tabLinks = computed(()=>{

@@ -2,10 +2,10 @@
     <div class="flex items-start gap-2">
         <i class="-mt-1 text-lg" :class="[props.icon, colorClasses]" />
         <div class="space-y-1">
-            <div class="text-sm font-normal text-left" :class="colorClasses">
+            <div class="text-sm font-medium text-left" :class="colorClasses">
                 {{ props.title }}
             </div>
-            <div class="text-xs font-light text-slate-400">
+            <div class="text-xs font-light" :class="props.color === 'danger' ? 'text-red-500' : 'text-slate-400'">
                 <slot />
             </div>
         </div>

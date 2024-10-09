@@ -22,10 +22,24 @@ class CreateStudioService
             'vat' => $vat,
         ]);
 
+        //creo la dipsonibiità settimanale
         for ($i = 1; $i <= 7; $i++){
+            $start = null;
+            $end = null;
+            $is_open = false;
+
+            if($i <= 5){
+                $start = '10:00';
+                $end = '23:00';
+                $is_open = true;
+            }
+
             Availability::create([
                 'studio_id' => $studio->id,
                 'weekday' => $i,
+                'is_open' => $is_open,
+                'open_start' => $start,
+                'open_end' => $end,
             ]);
         }
 
