@@ -6,9 +6,12 @@
                     {{ props.weekday.name }}
                 </template>
                 <template #description>
-                    Imposta gli orari di apertura/chiusura dello Studio e le fasce orarie del {{ props.weekday.name }}. Ricordati di salvare anche quando elimini delle fasce orarie. Le fasce orarie, se inserite, devono essere almeno due.
+                    Imposta gli orari di apertura/chiusura dello Studio e le fasce orarie del {{ props.weekday.name }}. Ricordati di salvare anche quando elimini delle fasce orarie.<br>
+                    Le fasce orarie, se inserite, devono essere almeno due e devono avere nomi univoci nello stesso giorno ma possono avere lo stesso nome se in giorni diversi.<br>
+                    L'inizio della prima fascia deve corrispondere all'orario di apertura dello Studio.<br>
+                    La fine dell'ultima fascia deve corrispondere all'orario di chiusura dello Studio.
                     <div class="mt-4">
-                        <SaveButton :disabled="hasValidationError" />
+                        <SaveButton :disabled="hasValidationError ? true : false" />
                     </div>
                 </template>
                 <template #content>
@@ -83,16 +86,16 @@
                                     <thead>
                                         <tr>
                                             <th class="py-2 pl-3 pr-1 font-light text-left uppercase rounded-l-full bg-slate-800 text-slate-400">nome fascia</th>
-                                            <th class="px-1 py-2 font-light text-center uppercase bg-slate-800 text-slate-400">dalle ore</th>
-                                            <th class="px-1 py-2 font-light text-center uppercase bg-slate-800 text-slate-400">alle ore</th>
+                                            <th class="px-1 py-2 font-light text-center uppercase bg-slate-800 text-slate-400">inizio</th>
+                                            <th class="px-1 py-2 font-light text-center uppercase bg-slate-800 text-slate-400">fine</th>
                                             <th class="pl-1 pr-3 font-light text-center uppercase rounded-r-full bg-slate-800 text-slate-400">&nbsp;</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr><td class="pt-1"></td></tr>
-                                        <tr v-for="timeband, idx in form.timebands">
+                                        <tr v-for="timeband, index in form.timebands">
                                             <td class="w-full py-1 pr-1 text-center min-w-32">
-                                                <Input v-model="timeband.name" placeholder="Nome fascia oraria" autofocus required />
+                                                <Input v-model="timeband.name" @change="validations()" placeholder="Nome fascia oraria" autofocus required />
                                             </td>
                                             <td class="px-1 py-1 text-center">
                                                 <Select
@@ -100,7 +103,7 @@
                                                     @change="validations()"
                                                     isArray
                                                     :options="hours.filter(h => h >= form.open_start && h < form.open_end)"
-                                                    :disabled="idx > 0"
+                                                    :disabled="index > 0"
                                                     required
                                                     class="w-24"
                                                 />
@@ -117,7 +120,7 @@
                                                 />
                                             </td>
                                             <td class="w-10 py-1 pl-1 text-center">
-                                                <ActionButton @click="deleteTimeband(idx)" icon="fa-solid fa-trash-can" color="red" title="Elimina" />
+                                                <ActionButton @click="deleteTimeband(index, timeband.id)" icon="fa-solid fa-trash-can" color="red" title="Elimina" />
                                             </td>
                                         </tr>
                                     </tbody>
@@ -166,6 +169,7 @@ import dayjs from 'dayjs';
 
 const props = defineProps({
     availability: Object,
+    timebands: Object,
     weekday: Object,
     errors: Object,
 });
@@ -178,7 +182,7 @@ const form = useForm({
     is_open: props.availability?.is_open ?? false,
     open_start: props.availability?.open_start ?? '',
     open_end: props.availability?.open_end ?? '',
-    timebands: props.availability?.timebands ?? [],
+    timebands: props.timebands ?? [],
 });
 
 const submit = () => {
@@ -188,9 +192,10 @@ const submit = () => {
 
 const addTimeband = ()=>{
     let timeband = {
+        id: null,
         name: null,
         start: dayjs(dayjs().format('YYYY-MM-DD') + ' ' +  form.open_start).format('HH:mm'),
-        end: dayjs(dayjs().format('YYYY-MM-DD') + ' ' +  form.open_start).add(1, 'hour').format('HH:mm'),
+        end: null,
     };
 
     if(form.timebands.length){
@@ -203,19 +208,24 @@ const addTimeband = ()=>{
     }
 
     form.timebands.push(timeband);
-};
-
-const deleteTimeband = (index)=>{
-    form.timebands.splice(index, 1);
-
-    form.timebands.forEach((timeband, index) => {
-        if(index) timeband.start = form.timebands[index -1].end;
-    });
 
     validations();
 };
 
+const deleteTimeband = (index, id)=>{
+    form.timebands.splice(index, 1);
+    validations();
+};
+
+const setTimebandsStartEnd = ()=>{
+    form.timebands.forEach((timeband, index) => {
+        if(index) timeband.start = form.timebands[index -1].end;
+    });
+};
+
 const validations = ()=>{
+    setTimebandsStartEnd();
+
     //validazione orari apertura chiusura
     form.errors.open_start = null;
     form.errors.open_end = null;
@@ -226,7 +236,7 @@ const validations = ()=>{
         }
     }
 
-    //validazione fasce orarie
+    //validazione orari delle fasce orarie
     hasValidationError.value = false;
     if(
         form.timebands.length &&
@@ -240,10 +250,21 @@ const validations = ()=>{
     }
 
     //validazione numero di fasce orarie (minimo 2)
-    if(form.timebands.length < 2){
+    if(form.timebands.length && form.timebands.length < 2){
         hasValidationError.value = {
             title: 'Fascia oraria singola',
             message: 'Devi inserire almeno due fasce orarie.'
+        };
+    }
+
+    //validazione nomi univoci
+    let timebandNames = form.timebands.map(tb => tb.name);
+    let hasDuplicates = new Set(timebandNames).size !== timebandNames.length;
+    
+    if(hasDuplicates){
+        hasValidationError.value = {
+            title: 'Nome fascia non univoco',
+            message: 'Le fasce orarie devono avere nomi univoci nello stesso giorno. Possono avere lo stesso nome in giorni diversi.'
         };
     }
 };

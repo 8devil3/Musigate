@@ -2,35 +2,28 @@
 
 namespace App\Models\Studio;
 
-use App\Models\Studio\Studio;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Availability extends Model
+class Timeband extends Model
 {
     protected $fillable = [
         'studio_id',
         'weekday',
-        'is_open',
-        'open_start',
-        'open_end',
-        'timebands'
+        'name',
+        'start',
+        'end',
     ];
 
-    protected $casts = [
-        'is_open' => 'boolean',
-        'timebands' => 'array',
-    ];
-
-    public function openStart(): Attribute
+    public function start(): Attribute
     {
         return Attribute::make(
             get: fn($value) => substr($value, 0, 5),
         );
     }
 
-    public function openEnd(): Attribute
+    public function end(): Attribute
     {
         return Attribute::make(
             get: fn($value) => substr($value, 0, 5),

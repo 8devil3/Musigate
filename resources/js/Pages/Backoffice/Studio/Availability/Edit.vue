@@ -22,6 +22,7 @@
                     <Weekday
                         :weekday="wd"
                         :availability="props.availability[wd.number]"
+                        :timebands="props.timebands.filter(tb => tb.weekday === wd.number)"
                         :errors="form.errors"
                         @submitted="submit"
                     />
@@ -39,10 +40,12 @@ import Weekday from './Weekday.vue';
 
 const props = defineProps({
     availability: Object,
+    timebands: Object,
     is_open_24_7: Boolean,
+    weekday: Number,
 });
 
-const currentWd = ref(1);
+const currentWd = ref(props.weekday);
 
 const form = useForm({
     weekday: null,
@@ -60,6 +63,7 @@ const submit = (e)=>{
     form.timebands = e.timebands;
 
     form.put(route('studio.availability.update'), {
+        preserveState: false,
         onSuccess: ()=> form.reset(),
     });
 };

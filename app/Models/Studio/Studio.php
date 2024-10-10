@@ -112,6 +112,6 @@ class Studio extends Model
 
     public function timebands(): HasMany
     {
-        return $this->hasMany(Timeband::class);
+        return $this->hasMany(Timeband::class)->orderBy('start');
     }
 }
