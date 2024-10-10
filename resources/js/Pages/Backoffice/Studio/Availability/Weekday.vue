@@ -24,20 +24,20 @@
                                 {{ form.error }}
                             </div>
         
-                            <table>
+                            <table class="table">
                                 <thead>
                                     <tr>
-                                        <th class="py-2 pl-3 pr-1 font-light uppercase rounded-l-full text-slate-400 bg-slate-800">{{ props.weekday.name }} aperto</th>
-                                        <th class="px-1 py-2 font-light uppercase text-slate-400 bg-slate-800">dalle ore</th>
-                                        <th class="py-2 pl-1 pr-3 font-light uppercase rounded-r-full text-slate-400 bg-slate-800">alle ore</th>
+                                        <th class="text-center">{{ props.weekday.name }} aperto</th>
+                                        <th class="ptext-center">dalle ore</th>
+                                        <th class="text-center">alle ore</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td class="py-2 pr-1 text-center">
+                                        <td class="text-center">
                                             <Toggle v-model="form.is_open" :disabled="form.processing" />
                                         </td>
-                                        <td class="px-1 py-2 text-center">
+                                        <td class="text-center">
                                             <Select
                                                 v-model="form.open_start"
                                                 @change="validations()"
@@ -48,7 +48,7 @@
                                                 class="w-24"
                                             />
                                         </td>
-                                        <td class="py-2 pl-1 text-center">
+                                        <td class="text-center">
                                             <Select
                                                 v-model="form.open_end"
                                                 @change="validations()"
@@ -82,22 +82,22 @@
                                     {{ hasValidationError.message }}
                                 </InfoBlock>
 
-                                <table class="w-full text-sm">
+                                <table class="table w-full">
                                     <thead>
                                         <tr>
-                                            <th class="py-2 pl-3 pr-1 font-light text-left uppercase rounded-l-full bg-slate-800 text-slate-400">nome fascia</th>
-                                            <th class="px-1 py-2 font-light text-center uppercase bg-slate-800 text-slate-400">inizio</th>
-                                            <th class="px-1 py-2 font-light text-center uppercase bg-slate-800 text-slate-400">fine</th>
-                                            <th class="pl-1 pr-3 font-light text-center uppercase rounded-r-full bg-slate-800 text-slate-400">&nbsp;</th>
+                                            <th class="text-left">nome fascia</th>
+                                            <th class="text-center">inizio</th>
+                                            <th class="text-center">fine</th>
+                                            <th class="text-center">&nbsp;</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr><td class="pt-1"></td></tr>
                                         <tr v-for="timeband, index in form.timebands">
-                                            <td class="w-full py-1 pr-1 text-center min-w-32">
+                                            <td class="w-full text-center min-w-32">
                                                 <Input v-model="timeband.name" @change="validations()" placeholder="Nome fascia oraria" autofocus required />
                                             </td>
-                                            <td class="px-1 py-1 text-center">
+                                            <td class="text-center">
                                                 <Select
                                                     v-model="timeband.start"
                                                     @change="validations()"
@@ -108,7 +108,7 @@
                                                     class="w-24"
                                                 />
                                             </td>
-                                            <td class="px-1 py-1 text-center">
+                                            <td class="text-center">
                                                 <Select
                                                     v-model="timeband.end"
                                                     @change="validations()"
@@ -119,7 +119,7 @@
                                                     class="w-24"
                                                 />
                                             </td>
-                                            <td class="w-10 py-1 pl-1 text-center">
+                                            <td class="w-10 text-center">
                                                 <ActionButton @click="deleteTimeband(index, timeband.id)" icon="fa-solid fa-trash-can" color="red" title="Elimina" />
                                             </td>
                                         </tr>

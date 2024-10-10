@@ -71,7 +71,7 @@
 }
 
 .link {
-    @apply text-white transition-colors hover:text-orange-500;
+    @apply text-orange-500 underline transition-colors hover:text-orange-400;
 }
 
 ol {
@@ -103,12 +103,16 @@ li.list-musigate::before {
     left: -20px;
 }
 
+.table {
+    @apply text-sm;
+}
+
 .table th {
-    @apply p-2 text-sm uppercase bg-slate-800;
+    @apply px-1 py-2 text-sm font-light uppercase bg-slate-800 first-of-type:rounded-l-full last-of-type:rounded-r-full first-of-type:pl-3 first-of-type:pr-1 last-of-type:pr-3 text-slate-400 last-of-type:pl-1;
 }
 
 .table td {
-    @apply p-2 text-sm border-t border-slate-700;
+    @apply px-1 py-2 text-sm uppercase first-of-type:rounded-l-full last-of-type:rounded-r-full first-of-type:pl-0 last-of-type:pr-0;
 }
 
 .show-all {
