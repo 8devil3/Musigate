@@ -22,9 +22,12 @@ return new class extends Migration
             $table->boolean('is_visible')->default(false);
             $table->boolean('is_bookable')->default(false);
             $table->unsignedTinyInteger('max_capacity')->default(4);
-            $table->boolean('has_timebands')->default(false);
             $table->unsignedSmallInteger('area')->default(20);
             $table->text('description')->nullable();
+            $table->string('price_type')->default('no_price');
+            $table->unsignedInteger('fixed_price')->nullable();
+            $table->boolean('has_discounted_fixed_price')->default(false);
+            $table->unsignedInteger('discounted_fixed_price')->nullable();
 
             $table->timestamps();
         });

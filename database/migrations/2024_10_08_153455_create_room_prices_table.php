@@ -15,12 +15,10 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('room_id')->constrained()->cascadeOnDelete();
-            $table->unsignedTinyInteger('weekday'); //1 = lunedì, 7 = domenica
-            $table->time('start');
-            $table->time('end');
-            $table->unsignedInteger('price');
+            $table->foreignId('timeband_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->unsignedInteger('price')->default(0);
             $table->boolean('has_discounted_price')->default(false);
-            $table->unsignedInteger('discounted_price')->nullable();
+            $table->unsignedInteger('discounted_price')->default(0);
 
             $table->timestamps();
         });

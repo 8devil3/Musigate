@@ -12,7 +12,7 @@
                     {{ props.title }}
                 </div>
                 
-                <div v-if="$slots.actions" class="fixed lg:static bottom-20 right-4">
+                <div v-if="$slots.actions" class="fixed flex gap-2 lg:static bottom-20 right-4">
                     <slot name="actions"/>
                 </div>
 

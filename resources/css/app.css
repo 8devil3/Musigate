@@ -71,7 +71,7 @@
 }
 
 .link {
-    @apply text-orange-500 underline transition-colors hover:text-orange-400;
+    @apply text-white transition-colors hover:text-orange-500;
 }
 
 ol {
@@ -112,7 +112,7 @@ li.list-musigate::before {
 }
 
 .table td {
-    @apply px-1 py-2 text-sm uppercase first-of-type:rounded-l-full last-of-type:rounded-r-full first-of-type:pl-0 last-of-type:pr-0;
+    @apply px-1 py-2 text-sm first-of-type:rounded-l-full last-of-type:rounded-r-full first-of-type:pl-0 last-of-type:pr-0;
 }
 
 .show-all {

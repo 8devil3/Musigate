@@ -12,25 +12,23 @@ use Inertia\Response;
 
 class RoomPriceController extends Controller
 {
-    public function edit(Room $room): Response
+    public function edit(Request $request, Room $room): Response
     {
-        $allow_fractional_durations = $room->studio->booking_settings->allow_fractional_durations;
+        $weekday = request('weekday', 1);
+        $studio = auth()->user()->studio;
+        $price_types = Room::PRICE_TYPES;
 
-        $prices = $room->prices()->get()->mapWithKeys(function($price){
-            return [
-                $price->weekday => [
-                    'start' => $price->start,
-                    'end' => $price->end,
-                    'price' => $price->price,
-                ]
-            ];
-        });
+        $open_weekdays = $studio->availability()->where('is_open', true)->pluck('weekday');
+        $timebands = $studio->timebands;
+        $timeband_prices = $room->prices;
 
-        return Inertia::render('Backoffice/Studio/Rooms/Prices', compact('room', 'prices', 'allow_fractional_durations'));
+        return Inertia::render('Backoffice/Studio/Rooms/Prices', compact('room', 'timeband_prices', 'open_weekdays', 'timebands', 'price_types'));
     }
 
     public function update(Request $request, Room $room): RedirectResponse
     {
+        //TODO: validazioi e scrittura a DB
+
         return to_route('')->with('success', 'Tariffa aggiornata');
     }
 

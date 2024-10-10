@@ -23,7 +23,7 @@
                 class="p-0 m-0 text-sm font-light text-center text-white bg-transparent border-0 grow min-w-8 focus:outline-none focus:ring-0 disabled:cursor-not-allowed disabled:opacity-50"
             />
 
-            <div v-if="props.unit" class="self-center text-xs font-normal text-slate-400">
+            <div v-if="props.unit" class="self-center text-xs font-normal shrink-0 text-slate-400">
                 {{ props.unit }}
             </div>
     

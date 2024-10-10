@@ -67,7 +67,7 @@ class WeeklyAvailabilityController extends Controller
                     'id' => $timeband['id'],
                 ], [
                     'weekday' => $request->weekday,
-                    'name' => ucfirst($timeband['name']),
+                    'name' => $timeband['name'],
                     'start' => $timeband['start'],
                     'end' => $timeband['end'],
                 ]);

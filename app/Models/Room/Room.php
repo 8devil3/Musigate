@@ -16,18 +16,23 @@ class Room extends Model
         'In approvazione',
         'Pubblicata',
     ];
-   
+
+    const PRICE_TYPES = [
+        'no_price' => 'Nessuna tariffa',
+        'fixed_price' => 'Tariffa fissa',
+        'timebands_price' => 'Tariffe a fasce orarie',
+    ];
+
     protected $fillable = [
         'studio_id',
         'name',
         'color',
         'is_bookable',
         'is_visible',
-        'price',
-        'has_discounted_price',
-        'discounted_price',
-        'discount_start',
-        'discount_end',
+        'price_type',
+        'fixed_price',
+        'has_discounted_fixed_price',
+        'discounted_fixed_price',
         'area',
         'description',
         'max_capacity',
@@ -36,7 +41,7 @@ class Room extends Model
     protected $casts = [
         'is_bookable' => 'boolean',
         'is_visible' => 'boolean',
-        'has_discounted_price' => 'boolean',
+        'has_discounted_fixed_price' => 'boolean',
     ];
 
     public function studio(): BelongsTo

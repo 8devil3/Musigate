@@ -27,15 +27,19 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th class="text-center">{{ props.weekday.name }} aperto</th>
+                                        <th class="text-center">{{ props.weekday.name }}</th>
                                         <th class="ptext-center">dalle ore</th>
                                         <th class="text-center">alle ore</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td class="text-center">
-                                            <Toggle v-model="form.is_open" :disabled="form.processing" />
+                                        <td class="w-40 text-center">
+                                            <Toggle
+                                                v-model="form.is_open"
+                                                :disabled="form.processing"
+                                                :label="form.is_open ? 'Aperto' : 'Chiuso'"
+                                            />
                                         </td>
                                         <td class="text-center">
                                             <Select
@@ -69,9 +73,9 @@
                         <div v-if="form.is_open && form.open_start && form.open_end">
                             <hr class="h-0 mb-6 border-t border-slate-700" />
 
-                            <template v-if="form.timebands.length">
-                                <h4 class="mb-4 tet-base text-slate-200">Fasce orarie</h4>
+                            <h4 class="mb-4 tet-base text-slate-200">Fasce orarie</h4>
 
+                            <template v-if="form.timebands.length">
                                 <InfoBlock
                                     v-show="hasValidationError"
                                     color="danger"
@@ -103,7 +107,7 @@
                                                     @change="validations()"
                                                     isArray
                                                     :options="hours.filter(h => h >= form.open_start && h < form.open_end)"
-                                                    :disabled="index > 0"
+                                                    disabled
                                                     required
                                                     class="w-24"
                                                 />
@@ -194,17 +198,14 @@ const addTimeband = ()=>{
     let timeband = {
         id: null,
         name: null,
-        start: dayjs(dayjs().format('YYYY-MM-DD') + ' ' +  form.open_start).format('HH:mm'),
+        start: form.open_start,
         end: null,
     };
 
     if(form.timebands.length){
         let index = form.timebands.length;
-        let start = dayjs(dayjs().format('YYYY-MM-DD') + ' ' +  form.timebands[index -1].end);
-        let end = start.clone().add(1, 'hour');
-
-        timeband.start = start.format('HH:mm');
-        timeband.end = end.format('HH:mm');
+        timeband.start = form.timebands[index -1].end;
+        timeband.end = null;
     }
 
     form.timebands.push(timeband);
@@ -220,6 +221,7 @@ const deleteTimeband = (index, id)=>{
 const setTimebandsStartEnd = ()=>{
     form.timebands.forEach((timeband, index) => {
         if(index) timeband.start = form.timebands[index -1].end;
+        else timeband.start = form.open_start;
     });
 };
 
