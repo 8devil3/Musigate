@@ -2,9 +2,7 @@
     <ContentLayout
         @submitted="submit()"
         :isLoading="form.processing"
-        :onSuccess="form.recentlySuccessful"
         :title="props.room.name"
-        :onFail="form.hasErrors"
         icon="fa-solid fa-sliders"
         :tabLinks="tabLinks"
         :backRoute="route('rooms.index')"

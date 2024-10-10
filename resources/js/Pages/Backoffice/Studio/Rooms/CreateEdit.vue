@@ -2,9 +2,7 @@
     <ContentLayout
         @submitted="submit()"
         :isLoading="form.processing"
-        :onSuccess="form.recentlySuccessful"
         :title="props.room?.name ?? form.name"
-        :onFail="form.hasErrors"
         icon="fa-solid fa-microphone-lines"
         :tabLinks="tabLinks"
         :backRoute="route('sale-prova.index')"

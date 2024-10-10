@@ -2,8 +2,6 @@
     <ContentLayout
         as="div"
         :isLoading="form.processing"
-        :onSuccess="form.recentlySuccessful"
-        :onFail="form.hasErrors"
         title="Disponibilità settimanale"
         icon="fa-solid fa-clock"
         :backRoute="route('studio.links')"

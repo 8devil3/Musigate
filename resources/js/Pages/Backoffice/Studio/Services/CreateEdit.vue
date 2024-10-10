@@ -1,8 +1,7 @@
 <template>
     <ContentLayout
-        :title="props.service?.name ?? 'Nuovo servizio'"
         :isLoading="form.processing"
-        :onFail="form.hasErrors"
+        :title="props.service?.name ?? 'Nuovo servizio'"
         icon="fa-solid fa-microphone-lines"
         :backLink="route('servizi.index')"
     >

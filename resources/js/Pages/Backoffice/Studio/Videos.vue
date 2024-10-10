@@ -2,8 +2,6 @@
     <ContentLayout
         @submitted="submit()"
         :isLoading="form.processing"
-        :onSuccess="form.recentlySuccessful"
-        :onFail="form.hasErrors"
         title="Video"
         icon="fa-brands fa-youtube"
         :backRoute="route('studio.links')"

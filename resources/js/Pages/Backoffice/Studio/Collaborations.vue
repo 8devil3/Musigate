@@ -2,8 +2,6 @@
     <ContentLayout
         as="div"
         :isLoading="form.processing || formDelete.processing"
-        :onSuccess="form.recentlySuccessful || formDelete.recentlySuccessful"
-        :onFail="form.hasErrors || formDelete.hasErrors"
         title="Collaborazioni"
         icon="fa-solid fa-handshake"
         :backRoute="route('studio.links')"

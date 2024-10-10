@@ -1,11 +1,9 @@
 <template>
     <ContentLayout
-        title="Social"
-        icon="fa-solid fa-share-nodes"
         @submitted="submit()"
         :isLoading="form.processing"
-        :onSuccess="form.recentlySuccessful"
-        :onFail="form.hasErrors"
+        title="Social"
+        icon="fa-solid fa-share-nodes"
         :backRoute="route('studio.links')"
     >
         <template #content>

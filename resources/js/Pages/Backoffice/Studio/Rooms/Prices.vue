@@ -1,11 +1,9 @@
 <template>
     <ContentLayout
         as="div"
+        :isLoading="form.processing"
         :title="props.room.name"
         icon="fa-solid fa-euro"
-        :isLoading="form.processing"
-        :onSuccess="form.recentlySuccessful"
-        :onFail="form.hasErrors"
         :backRoute="route('rooms.index')"
         showBackRoute
         :tabLinks="tabLinks"

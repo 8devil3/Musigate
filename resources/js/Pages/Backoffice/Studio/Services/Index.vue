@@ -3,8 +3,6 @@
         as="div"
         title="Serivizi"
         :isLoading="form.processing"
-        :onSuccess="form.recentlySuccessful"
-        :onFail="form.hasErrors"
         icon="fa-solid fa-microphone-lines"
     >
         <template #content>

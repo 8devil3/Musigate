@@ -3,8 +3,6 @@
         as="div"
         title="Sale prova"
         :isLoading="form.processing"
-        :onSuccess="form.recentlySuccessful"
-        :onFail="form.hasErrors"
         icon="fa-solid fa-music"
     >
         <template #content>

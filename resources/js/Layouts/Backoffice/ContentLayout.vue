@@ -34,13 +34,13 @@
     <!-- messaggi flash -->
     <div class="fixed -translate-x-1/2 top-9 lg:top-4 left-1/2 z-[2000]">
         <transition leave-active-class="transition duration-1000 ease-in" leave-from-class="opacity-100" leave-to-class="opacity-0">
-            <div v-show="props.onSuccess" class="flex items-center gap-2 px-4 py-2 text-sm font-medium leading-none text-white border-2 rounded-full shadow-lg bg-emerald-600/20 border-emerald-500">
+            <div v-show="success" class="flex items-center gap-2 px-4 py-2 text-sm font-medium leading-none text-white border-2 rounded-full shadow-lg bg-emerald-600/20 border-emerald-500">
                 <i class="fa-solid fa-check" />
                 {{ usePage().props.flash.success }}
             </div>
         </transition>
 
-        <div v-show="props.onFail" class="flex items-start gap-2 p-2 text-sm font-medium leading-none text-white border-2 border-red-600 shadow-lg rounded-xl bg-red-600/20">
+        <div v-show="error" class="flex items-start gap-2 p-2 text-sm font-medium leading-none text-white border-2 border-red-600 shadow-lg rounded-xl bg-red-600/20">
             <i class="fa-solid fa-circle-exclamation" />
             <div>
                 Salvataggio non riuscito!
@@ -62,6 +62,7 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue';
 import { Link, usePage } from '@inertiajs/vue3';
 import UserMenu from '@/Components/Backoffice/UserMenu.vue';
 import Tabs from '@/Components/Backoffice/Tabs.vue';
@@ -71,21 +72,34 @@ const props = defineProps({
     title: String,
     icon: String,
     isLoading: Boolean,
-    onSuccess: Boolean,
-    onFail: Boolean,
     backRoute: String,
     showBackRoute: Boolean,
-    flashMessage: {
-        type: String,
-        default: 'Salvato!'
-    },
+    tabLinks: Object,
     as: {
         type: String,
         default: 'form'
     },
-    tabLinks: Object,
 });
 
 const emit = defineEmits(['submitted']);
+const success = ref(usePage().props.flash.success ? true : false);
+const error = ref(usePage().props.flash.error ? true : false);
+
+const dissolveFlashSuccess = ()=>{
+    let timoutId1 = setTimeout(() => {
+        success.value = false;
+
+        let timoutId2 = setTimeout(() => {
+            usePage().props.flash.success = null;
+            clearTimeout(timoutId2);
+        }, 2000);
+
+        clearTimeout(timoutId1);
+    }, 2000);
+};
+
+onMounted(()=>{
+    dissolveFlashSuccess();
+});
 
 </script>

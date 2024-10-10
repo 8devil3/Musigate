@@ -2,8 +2,6 @@
     <ContentLayout
         @submitted="submit()"
         :isLoading="form.processing"
-        :onSuccess="form.recentlySuccessful"
-        :onFail="form.hasErrors"
         title="Regolamento"
         icon="fa-solid fa-scroll"
         :backRoute="route('studio.links')"
