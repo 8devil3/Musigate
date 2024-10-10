@@ -35,7 +35,7 @@ class WeeklyAvailabilityController extends Controller
             'is_open' => ['boolean'],
             'open_start' => ['nullable', 'string', 'required_if:is_open,accepted', 'date_format:H:i,H:i:s'],
             'open_end' => ['nullable', 'string', 'required_if:is_open,accepted', 'after:open_start', 'date_format:H:i,H:i:s'],
-            'timebands' => ['array'],
+            'timebands' => ['array', 'min:2'],
             'timebands.*.name' => ['required', 'string', 'max:255'],
             'timebands.*.start' => ['required', 'string', 'date_format:H:i,H:i:s'],
             'timebands.*.end' => ['required', 'string', 'after:timebands.*.start', 'date_format:H:i,H:i:s'],

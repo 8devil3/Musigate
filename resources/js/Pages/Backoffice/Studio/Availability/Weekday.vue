@@ -6,7 +6,7 @@
                     {{ props.weekday.name }}
                 </template>
                 <template #description>
-                    Imposta gli orari di apertura/chiusura dello Studio e le fasce orarie del {{ props.weekday.name }}. Ricordati di salvare anche quando elimini delle fasce orarie.
+                    Imposta gli orari di apertura/chiusura dello Studio e le fasce orarie del {{ props.weekday.name }}. Ricordati di salvare anche quando elimini delle fasce orarie. Le fasce orarie, se inserite, devono essere almeno due.
                     <div class="mt-4">
                         <SaveButton :disabled="hasValidationError" />
                     </div>
@@ -73,10 +73,10 @@
                                     v-show="hasValidationError"
                                     color="danger"
                                     icon="fa-solid fa-circle-exclamation"
-                                    title="Orario inizio/fine non coerente con apertura/chiusura"
+                                    :title="hasValidationError.title"
                                     class="mb-4"
                                 >
-                                    Gli orari di inizio e fine della prima e ultima fascia oraria devono coincidere con quelle di apertura e chiusura dello Studio.
+                                    {{ hasValidationError.message }}
                                 </InfoBlock>
 
                                 <table class="w-full text-sm">
@@ -168,7 +168,6 @@ const props = defineProps({
     availability: Object,
     weekday: Object,
     errors: Object,
-    index: Number,
 });
 
 const emit = defineEmits(['isLoading', 'success', 'error', 'submitted']);
@@ -204,17 +203,23 @@ const addTimeband = ()=>{
     }
 
     form.timebands.push(timeband);
-}
+};
 
 const deleteTimeband = (index)=>{
     form.timebands.splice(index, 1);
+
+    form.timebands.forEach((timeband, index) => {
+        if(index) timeband.start = form.timebands[index -1].end;
+    });
+
+    validations();
 };
 
 const validations = ()=>{
     //validazione orari apertura chiusura
     form.errors.open_start = null;
     form.errors.open_end = null;
-    if((form.open_start && form.open_end)){
+    if(form.open_start && form.open_end){
         if(form.open_end <= form.open_start){
             form.errors.open_start = 'Non valido';
             form.errors.open_end = 'Non valido';
@@ -228,7 +233,18 @@ const validations = ()=>{
         (form.timebands[0].start !== form.open_start ||
         form.timebands[form.timebands.length -1].end !== form.open_end)
     ){
-        hasValidationError.value = true;
+        hasValidationError.value = {
+            title: 'Orario inizio/fine non coerente con apertura/chiusura',
+            message: 'Gli orari di inizio e fine della prima e ultima fascia oraria devono coincidere con quelle di apertura e chiusura dello Studio.'
+        };
+    }
+
+    //validazione numero di fasce orarie (minimo 2)
+    if(form.timebands.length < 2){
+        hasValidationError.value = {
+            title: 'Fascia oraria singola',
+            message: 'Devi inserire almeno due fasce orarie.'
+        };
     }
 };
 
