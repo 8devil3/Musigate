@@ -129,24 +129,24 @@ const tabLinks = computed(()=>{
     if(props.room.id){
         return [
             {
-                name: 'Descrizione',
-                href: route('sale-prova.edit', props.room.id),
-                active: route().current('sale-prova.edit', props.room.id)
+                label: 'Descrizione',
+                route: 'sale-prova.edit',
+                params: props.room.id,
             },
             {
-                name: 'Tariffe',
-                href: route('sale-prova.prices.edit', props.room.id),
-                active: route().current('sale-prova.prices.edit', props.room.id)
+                label: 'Tariffe',
+                route: 'sale-prova.prices.edit',
+                params: props.room.id,
             },
             {
-                name: 'Equipaggiamento',
-                href: route('sale-prova.equipment.edit', props.room.id),
-                active: route().current('sale-prova.equipment.edit', props.room.id)
+                label: 'Equipaggiamento',
+                route: 'sale-prova.equipment.edit',
+                params: props.room.id,
             },
             {
-                name: 'Foto',
-                href: route('sale-prova.photos.edit', props.room.id),
-                active: route().current('sale-prova.photos.edit', props.room.id)
+                label: 'Foto',
+                route: 'sale-prova.photos.edit',
+                params: props.room.id,
             },
         ];
     } else {
