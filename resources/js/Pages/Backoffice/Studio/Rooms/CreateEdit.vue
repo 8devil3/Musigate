@@ -60,6 +60,30 @@
             </FormElement>
             <!-- / -->
 
+            <!-- prenotabile? -->
+            <!-- <FormElement>
+                <template #title>
+                    Sala prenotabile
+                </template>
+
+                <template #description>
+                    Scegli se rendere la sala prenotabile.<br>
+                    Se non prenotabile puoi inserire una tariffa che verrà mostrata al pubblico ma sarà solo indicativa.<br>
+                    Se prenotabile è obbligatoria almeno una tariffa.
+                </template>
+
+                <template #content>
+                    <div class="space-y-4">
+                        <Toggle v-model="form.is_bookable" :label="form.is_bookable ? 'Sala prenotabile' : 'Sala non prenotabile'" :disabled="props.room.price_type === 'no_price'" />
+    
+                        <InfoBlock v-if="props.room.price_type === 'no_price'" icon="fa-solid fa-circle-exclamation" color="warning" title="Non disponiile">
+                            Non è possibile rendere prenotabile la Sala perché non ha alcuna tariffa impostata.
+                        </InfoBlock>
+                    </div>
+                </template>
+            </FormElement> -->
+            <!-- / -->
+
             <!-- area -->
             <FormElement>
                 <template #title>
@@ -92,49 +116,6 @@
             </FormElement>
             <!-- / -->
 
-            <!-- prenotabile? -->
-            <FormElement>
-                <template #title>
-                    Sala prenotabile
-                </template>
-
-                <template #description>
-                    Scegli se rendere la sala prenotabile.<br>
-                    Se non prenotabile puoi inserire una tariffa che verrà mostrata al pubblico ma sarà solo indicativa.<br>
-                    Se prenotabile è obbligatoria almeno una tariffa.
-                </template>
-
-                <template #content>
-                    <Toggle v-model="form.is_bookable" :label="form.is_bookable ? 'Sala prenotabile' : 'Sala non prenotabile'" />
-                </template>
-            </FormElement>
-            <!-- / -->
-
-            <!-- tariffe -->
-            <!-- <FormElement>
-                <template #title>
-                    Tariffe
-                </template>
-
-                <template #description>
-                    Inserisci la tariffa espressa in €/h.<br>
-                    Puoi inserire anche una tariffa scontata che prevale su quella intera nelle prenotazioni.
-                </template>
-
-                <template #content>
-                    <div class="space-y-6">
-                        <NumberInput v-model.number="form.price" label="Tariffa intera" :min="2" :max="999" unit="€/h" :error="form.errors.price" :required="form.is_bookable" />
-
-                        <div>
-                            <Toggle v-model="form.has_discounted_price" :label="form.has_discounted_price ? 'Tariffa scontata abilitata' : 'Tariffa scontata disabilitata'" />
-                        </div>
-    
-                        <NumberInput v-if="form.has_discounted_price" v-model.number="form.discounted_price" label="Tariffa scontata" :min="1" :max="form.price -1" unit="€/h" :error="form.errors.discounted_price" :required="form.has_discounted_price" />
-                    </div>
-                </template>
-            </FormElement> -->
-            <!-- / -->
-
             <!-- presentazione -->
             <FormElement>
                 <template #title>
@@ -159,10 +140,13 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
+import Toggle from '@/Components/Form/Toggle.vue';
 import SaveButton from '@/Components/Form/SaveButton.vue';
 import Input from '@/Components/Form/Input.vue'
+import InfoBlock from '@/Components/InfoBlock.vue'
 import ColorPicker from '@/Components/Form/ColorPicker.vue';
 import Textarea from '@/Components/Form/Textarea.vue';
 import FormElement from '@/Components/Backoffice/FormElement.vue';
@@ -226,8 +210,6 @@ const tabLinks = computed(()=>{
 
 <script>
 import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
-import Toggle from '@/Components/Form/Toggle.vue';
-import { computed } from 'vue';
 
 export default {
     layout: (h, page) => h(BackofficeLayout, {

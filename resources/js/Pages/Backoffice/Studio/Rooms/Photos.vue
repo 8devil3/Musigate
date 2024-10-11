@@ -4,7 +4,7 @@
         :isLoading="form.processing"
         :title="props.room.name"
         icon="fa-solid fa-image"
-        :backRoute="route('rooms.index')"
+        :backRoute="route('sale-prova.index')"
         showBackRoute
         :tabLinks="tabLinks"
     >
@@ -79,6 +79,7 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
 import SaveButton from '@/Components/Form/SaveButton.vue';
@@ -155,7 +156,6 @@ const tabLinks = computed(()=>{
 
 <script>
 import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
-import SaveButton from '@/Components/Form/SaveButton.vue';
 
 export default {
     layout: (h, page) => h(BackofficeLayout, {

@@ -16,9 +16,9 @@ return new class extends Migration
 
             $table->foreignId('room_id')->constrained()->cascadeOnDelete();
             $table->foreignId('timeband_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->unsignedInteger('price')->default(0);
+            $table->unsignedInteger('price')->default(1);
             $table->boolean('has_discounted_price')->default(false);
-            $table->unsignedInteger('discounted_price')->default(0);
+            $table->unsignedInteger('discounted_price')->nullable();
 
             $table->timestamps();
         });

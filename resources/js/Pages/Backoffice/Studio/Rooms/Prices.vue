@@ -4,7 +4,7 @@
         :isLoading="form.processing"
         :title="props.room.name"
         icon="fa-solid fa-euro"
-        :backRoute="route('rooms.index')"
+        :backRoute="route('sale-prova.index')"
         showBackRoute
         :tabLinks="tabLinks"
     >
@@ -20,9 +20,13 @@
 
                 <template #content>
                     <div class="space-y-2">
-                        <Radio v-for="type, key in props.price_types" @change="form.price_type === 'timebands_price' ? setTimebandPrices() : null" v-model="form.price_type" :value="key" name="price-type">
+                        <Radio v-for="type, key in props.price_types" @change="form.price_type === 'timebands_price' ? setTimebandPrices() : null" v-model="form.price_type" :value="key" name="price-type" :disabled="key === 'timebands_price' && !props.timebands.length">
                             {{ type }}
                         </Radio>
+
+                        <p v-if="!props.timebands.length" class="text-xs">
+                            Per abilitare le tariffe a fasce orarie occorre prima impostare le <Link :href="route('studio.availability.edit')" class="text-orange-500 underline transition-colors hover:text-orange-400">fasce orarie</Link>.
+                        </p>
                     </div>
                 </template>
             </FormElement>
@@ -41,12 +45,12 @@
 
                     <template #content>
                         <div class="space-y-4">
-                            <NumberInput v-model="form.fixed_price" label="Tariffa base" unit="€/h" required />
+                            <NumberInput v-model="form.fixed_price" label="Tariffa base" :min="2" unit="€/h" :error="form.errors.fixed_price" required />
                             <Toggle
                                 v-model="form.has_discounted_fixed_price"
                                 label="Abilita sconto"
                             />
-                            <NumberInput v-if="form.has_discounted_fixed_price" label="Tariffa scontata" v-model="form.discounted_fixed_price" unit="€/h" required />
+                            <NumberInput v-if="form.has_discounted_fixed_price" label="Tariffa scontata" v-model="form.discounted_fixed_price" :min="1" :max="form.fixed_price -1" unit="€/h" :error="form.errors.discounted_fixed_price" required />
                         </div>
                     </template>
                 </FormElement>
@@ -64,12 +68,12 @@
                         </template>
 
                         <template #content>
-                            <div v-if="props.timebands.filter(tb => tb.weekday == wdKey).length" class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+                            <div v-if="props.timebands.filter(tb => tb.weekday == wdKey).length" class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
                                 <template v-for="timeband in props.timebands.filter(tb => tb.weekday == wdKey)" >
-                                    <div v-for="tbPrice in form.timeband_prices.filter(tbp => tbp.timeband_id === timeband.id)" class="flex flex-col gap-6 p-4 border rounded-xl border-slate-400">
-                                        <div class="space-y-0.5">
-                                            <div class="text-xs font-normal uppercase text-slate-400">Fascia oraria</div>
-                                            <h4 class="p-0 m-0 text-base">
+                                    <div v-for="tbPrice, index in form.timeband_prices.filter(tbp => tbp.timeband_id === timeband.id)" class="flex flex-col gap-6 p-4 border rounded-xl border-slate-400">
+                                        <div class="space-y-1">
+                                            <div class="text-xs font-normal leading-none uppercase text-slate-400">Fascia oraria</div>
+                                            <h4 class="w-full p-0 m-0 text-base truncate">
                                                 {{ wd.slice(0, 3) }} - {{ timeband.name }}
                                             </h4>
                                             <div class="text-xs font-normal text-slate-300">
@@ -77,11 +81,11 @@
                                             </div>
                                         </div>
                                         
-                                        <NumberInput v-model="tbPrice.price" label="Tariffa base" :min="1" unit="€/h" required />
+                                        <NumberInput v-model="tbPrice.price" label="Tariffa base" :min="1" unit="€/h" :error="form.errors['timeband_prices.' + index + '.price']" required />
             
                                         <Toggle v-model="tbPrice.has_discounted_price" label="Abilita sconto" />
             
-                                        <NumberInput v-if="tbPrice.has_discounted_price" v-model="tbPrice.discounted_price" label="Tariffa scontata" :min="1" unit="€/h" required />
+                                        <NumberInput v-if="tbPrice.has_discounted_price" v-model="tbPrice.discounted_price" label="Tariffa scontata" :min="1" unit="€/h" :error="form.errors['timeband_prices.' + index + '.discounted_price']" required />
                                     </div>
                                 </template>
                             </div>
@@ -112,7 +116,7 @@
 
 <script setup>
 import { computed, ref } from 'vue';
-import { useForm, Link } from '@inertiajs/vue3';
+import { useForm, Link, usePage } from '@inertiajs/vue3';
 import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
 import SaveButton from '@/Components/Form/SaveButton.vue';
 import Empty from '@/Components/Backoffice/Empty.vue';
@@ -128,14 +132,12 @@ import ActionButton from '@/Components/Form/ActionButton.vue';
 const props = defineProps({
     room: Object,
     open_weekdays: Array,
-    weekday: Number,
     timebands: Object,
     timeband_prices: Object,
     price_types: Object,
 });
 
 const form = useForm({
-    weekday: props.weekday ?? 1,
     price_type: props.room.price_type,
     fixed_price: props.room.fixed_price,
     has_discounted_fixed_price: props.room.has_discounted_fixed_price,
@@ -143,12 +145,18 @@ const form = useForm({
     timeband_prices: props.timeband_prices ?? [],
 });
 
+const submit = ()=>{
+    form.put(route('sale-prova.prices.update', props.room.id), {
+        preserveState: false
+    });
+};
+
 const setTimebandPrices = ()=>{
     if(form.price_type === 'timebands_price' && !props.timeband_prices.length){
         form.timeband_prices = [];
         props.timebands.forEach(tb => {
             form.timeband_prices.push({
-                room_id: tb.room_id,
+                id: null,
                 timeband_id: tb.id,
                 price: null,
                 has_discounted_price: false,
@@ -158,10 +166,6 @@ const setTimebandPrices = ()=>{
     } else if (form.price_type !== 'timebands_price'){
         form.timeband_prices = [];
     }
-};
-
-const submit = ()=>{
-    // form.put(route('sale-prova.prices.update', props.room.id));
 };
 
 const weekdays = computed(()=>{

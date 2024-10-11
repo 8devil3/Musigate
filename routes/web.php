@@ -119,8 +119,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         //tariffe sale prova
         Route::get('/sale/tariffe/{room}', [RoomPriceController::class, 'edit'])->name('sale-prova.prices.edit');
-        Route::put('/sale/tariffe/{price_id}/{room}', [RoomPriceController::class, 'update'])->name('sale-prova.prices.update');
-        Route::delete('/sale/tariffe/{price_id}/{room}', [RoomPriceController::class, 'delete'])->name('sale-prova.prices.delete');
+        Route::put('/sale/tariffe/{room}', [RoomPriceController::class, 'update'])->name('sale-prova.prices.update');
 
         //equipaggiamento sale prova
         Route::get('/sale/equipaggiamento/{room}', [EquipmentController::class, 'edit'])->name('sale-prova.equipment.edit');

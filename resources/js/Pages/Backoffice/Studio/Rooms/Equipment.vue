@@ -5,7 +5,7 @@
         :title="props.room.name"
         icon="fa-solid fa-sliders"
         :tabLinks="tabLinks"
-        :backRoute="route('rooms.index')"
+        :backRoute="route('sale-prova.index')"
         showBackRoute
     >
         <template #content>
@@ -71,7 +71,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
 import Input from '@/Components/Form/Input.vue'

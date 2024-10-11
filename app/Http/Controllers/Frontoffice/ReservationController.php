@@ -21,7 +21,7 @@ class ReservationController extends Controller
     public function create(Request $request, Room $room): Response
     {
         if(!$room->is_visible) abort(404, 'Sala non trovata');
-        if(!$room->is_bookable) abort(403, 'Sala non prenotabile');
+        if(!$room->is_bookable || $room->price_type === 'no_price') abort(403, 'Sala non prenotabile');
 
         $booking_settings = $room->studio->booking_settings;
         $time_fraction = $booking_settings->allow_fractional_durations || $booking_settings->has_buffer ? '30 minutes' : '1 hour';
@@ -34,6 +34,8 @@ class ReservationController extends Controller
             $request_start_date = Carbon::parse($request->startDate);
             $request_weekday = $request_start_date->dayOfWeekIso;
             $availability = $room->studio->availability()->where('is_open', true)->where('weekday', $request_weekday)->first();
+
+            //TODO: se la sala tariffe con fasce orarie controlla che per il giorno scelto siano presenti le tariffe, esempio: $room->price_type === 'timebands_price' && !empty($room->timebands()->where('weekday', $request_start_date->isoWeekday)->get());
 
             if($availability){
                 //recupero gli eventi (prenotazioni) di Musigate

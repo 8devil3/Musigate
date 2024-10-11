@@ -96,7 +96,6 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr><td class="pt-1"></td></tr>
                                         <tr v-for="timeband, index in form.timebands">
                                             <td class="w-full text-center min-w-32">
                                                 <Input v-model="timeband.name" @change="validations()" placeholder="Nome fascia oraria" autofocus required />

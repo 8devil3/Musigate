@@ -1,5 +1,5 @@
 <template>
-    <div class="p-0 m-0 text-left max-w-32">
+    <div class="p-0 m-0 text-left max-w-40">
         <Label v-if="props.label" :label="props.label" :for="props.id ?? id" />
 
         <div class="flex bg-slate-800/50 h-8 border text-sm border-slate-400 rounded-full has-[input:disabled]:cursor-not-allowed has-[input:disabled]:border-slate-700 transition-colorsfocus-within:ring-orange-500/50 focus-within:border-orange-500 focus-within:shadow-md focus-within:shadow-orange-500" :class="{'text-red-500 bg-red-600/10 border-red-600' : props.error}">

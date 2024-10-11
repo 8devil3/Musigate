@@ -14,7 +14,6 @@ class RoomPriceController extends Controller
 {
     public function edit(Request $request, Room $room): Response
     {
-        $weekday = request('weekday', 1);
         $studio = auth()->user()->studio;
         $price_types = Room::PRICE_TYPES;
 
@@ -27,13 +26,65 @@ class RoomPriceController extends Controller
 
     public function update(Request $request, Room $room): RedirectResponse
     {
-        //TODO: validazioi e scrittura a DB
+        $request->validate([
+            'price_type' => ['required', 'string', 'in:' . implode(',', array_keys(Room::PRICE_TYPES))],
+        ]);
 
-        return to_route('')->with('success', 'Tariffa aggiornata');
-    }
+        $price_type = $request->price_type;
 
-    public function destroy(Room $room): RedirectResponse
-    {
-        return back();
+        if($price_type === 'no_price'){
+            $room->update([
+                'price_type' => $price_type,
+                'fixed_price' => null,
+                'has_discounted_fixed_price' => false,
+                'discounted_fixed_price' => null,
+                'is_bookable' => false,
+            ]);
+
+            $room->prices()->delete();
+        } else if($price_type === 'fixed_price'){
+            $request->validate([
+                'fixed_price' => ['required', 'integer', 'min:2'],
+                'has_discounted_fixed_price' => ['boolean'],
+                'discounted_fixed_price' => ['nullable', 'required_if:has_discounted_fixed_price,accepted', 'integer', 'min:1', 'lt:fixed_price'],
+            ]);
+
+            $room->update([
+                'price_type' => $price_type,
+                'fixed_price' => $request->fixed_price,
+                'has_discounted_fixed_price' => boolval($request->has_discounted_fixed_price),
+                'discounted_fixed_price' => boolval($request->has_discounted_fixed_price) ? $request->discounted_fixed_price : null,
+            ]);
+
+            $room->prices()->delete();
+        } else if($price_type === 'timebands_price'){
+            $room->update([
+                'price_type' => $price_type,
+                'fixed_price' => null,
+                'has_discounted_fixed_price' => false,
+                'discounted_fixed_price' => null,
+            ]);
+
+            $request->validate([
+                'timeband_prices' => ['nullable', 'required_if:price_type,timebands_price', 'array'],
+                'timeband_prices.*.timeband_id' => ['required', 'integer', 'exists:timebands,id'],
+                'timeband_prices.*.price' => ['required', 'integer', 'min:2'],
+                'timeband_prices.*.has_discounted_price' => ['boolean'],
+                'timeband_prices.*.discounted_price' => ['nullable', 'required_if:timeband_prices.*.has_discounted_price,accepted', 'integer', 'min:1', 'lt:timeband_prices.*.price'],
+            ]);
+
+            foreach ($request->timeband_prices as $tbp) {
+                $room->prices()->updateOrCreate([
+                    'id' => $tbp['id'],
+                ], [
+                    'timeband_id' => $tbp['timeband_id'],
+                    'price' => $tbp['price'],
+                    'has_discounted_price' => boolval($tbp['has_discounted_price']),
+                    'discounted_price' => boolval($tbp['has_discounted_price']) ? $tbp['discounted_price'] : null,
+                ]);
+            }
+        }
+
+        return back()->with('success', 'Tariffe aggiornate');
     }
 }
