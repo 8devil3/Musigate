@@ -4,7 +4,7 @@
         :href="props.href"
         :class="[commonClasses, colorClasses]"
     >
-        <Spinner v-if="props.isLoading" class="w-5 h-5 white"/>
+        <Spinner v-if="props.isLoading" class="size-5 white"/>
         <i v-if="props.icon && !iconRight && !props.isLoading" :class="commonIconClasses" />
         <template v-if="props.text">
             {{ props.text.charAt(0).toUpperCase() + props.text.slice(1, props.text.length) }}
@@ -17,7 +17,7 @@
         :href="props.href"
         :class="[commonClasses, colorClasses]"
     >
-        <Spinner v-if="props.isLoading" class="w-5 h-5 white"/>
+        <Spinner v-if="props.isLoading" class="size-5 white"/>
         <i v-if="props.icon && !iconRight && !props.isLoading" :class="commonIconClasses" />
         <template v-if="props.text">
             {{ props.text.charAt(0).toUpperCase() + props.text.slice(1, props.text.length) }}
@@ -32,7 +32,7 @@
         :disabled="props.disabled"
         :class="[commonClasses, colorClasses, {'px-8' : props.isLoading}] "
     >
-        <Spinner v-if="props.isLoading" class="w-5 h-5 white"/>
+        <Spinner v-if="props.isLoading" class="size-5 white"/>
         <i v-if="props.icon && !iconRight && !props.isLoading" :class="commonIconClasses" />
         <template v-if="props.text">
             {{ props.text.charAt(0).toUpperCase() + props.text.slice(1, props.text.length) }}

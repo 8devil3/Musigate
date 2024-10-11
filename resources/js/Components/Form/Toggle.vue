@@ -9,7 +9,7 @@
             <span
                 aria-hidden="true"
                 :class="vModel ? 'translate-x-[14px]' : '-translate-x-1'"
-                class="absolute block w-5 h-5 transition duration-200 ease-in-out transform -translate-y-1/2 bg-white rounded-full pointer-events-none top-1/2 ring-0 disabled:cursor-not-allowed"
+                class="absolute block size-5 transition duration-200 ease-in-out transform -translate-y-1/2 bg-white rounded-full pointer-events-none top-1/2 ring-0 disabled:cursor-not-allowed"
             />
         </Switch>
 

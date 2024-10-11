@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="relative">
-            <button type="button" @mouseover="data.isOpen = true" @mouseout="data.isOpen = false" @click="data.isOpen = !data.isOpen" class="flex items-center justify-center w-4 h-4 p-1 text-sm font-bold text-center text-black border-2 rounded-full border-emerald-600 bg-gray-50">
+            <button type="button" @mouseover="data.isOpen = true" @mouseout="data.isOpen = false" @click="data.isOpen = !data.isOpen" class="flex items-center justify-center size-4 p-1 text-sm font-bold text-center text-black border-2 rounded-full border-emerald-600 bg-gray-50">
                 i
             </button>
         

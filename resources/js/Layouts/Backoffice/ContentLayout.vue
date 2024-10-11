@@ -55,7 +55,7 @@
     <!-- spinner -->
     <teleport to="#spinner">
         <div v-if="props.isLoading" class="fixed inset-0 z-[2000] flex items-center justify-center backdrop-blur-sm bg-black/30">
-            <Spinner class="w-16 h-16 orange"/>
+            <Spinner class="size-16 orange"/>
         </div>
     </teleport>
     <!-- / -->

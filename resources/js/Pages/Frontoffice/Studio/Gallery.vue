@@ -51,7 +51,7 @@
                         leave-to="opacity-0 scale-95"
                     >
                         <DialogPanel as="div" class="w-full h-full">
-                            <button type="button" @click="openModalGallery = false" title="Chiudi" class="absolute z-50 flex items-center justify-center w-10 h-10 text-2xl text-white border border-orange-500 rounded-full right-4 top-4 bg-slate-950/50">
+                            <button type="button" @click="openModalGallery = false" title="Chiudi" class="absolute z-50 flex items-center justify-center size-10 text-2xl text-white border border-orange-500 rounded-full right-4 top-4 bg-slate-950/50">
                                 <i class="fa-solid fa-xmark" />
                             </button>
 

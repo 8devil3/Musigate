@@ -4,7 +4,7 @@
         :href="props.href"
         :class="[commonClasses, buttonColor]"
     >
-        <Spinner v-if="props.isLoading" class="w-4 h-4" />
+        <Spinner v-if="props.isLoading" class="size-4" />
         <i class="text-sm" :class="props.icon"></i>
     </Link>
 
@@ -13,7 +13,7 @@
         :href="props.href"
         :class="[commonClasses, buttonColor]"
     >
-        <Spinner v-if="props.isLoading" class="w-4 h-4" />
+        <Spinner v-if="props.isLoading" class="size-4" />
         <i class="text-sm" :class="props.icon"></i>
     </a>
 
@@ -24,7 +24,7 @@
         :class="[commonClasses, buttonColor]"
         :disabled="props.isLoading"
     >
-        <Spinner v-if="props.isLoading" class="w-4 h-4" />
+        <Spinner v-if="props.isLoading" class="size-4" />
         <i class="text-sm" v-else :class="props.icon"></i>
     </button>
 </template>
@@ -52,7 +52,7 @@ const props = defineProps({
 
 const emit = defineEmits(['click']);
 
-const commonClasses = 'inline-flex items-center justify-center w-8 h-8 text-[16px] transition-colors rounded-full cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed shrink-0'
+const commonClasses = 'inline-flex items-center justify-center size-8 text-[16px] transition-colors rounded-full cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed shrink-0'
 
 const buttonColor = computed(()=>{
     let bc = '';

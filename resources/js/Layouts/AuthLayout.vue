@@ -37,7 +37,7 @@
     </div>
 
     <div v-show="props.isLoading" class="fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm">
-        <Spinner class="w-16 h-16 orange" />
+        <Spinner class="size-16 orange" />
     </div>
 </template>
 

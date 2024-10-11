@@ -1,10 +1,20 @@
 <template>
-    <ul class="flex gap-2 pb-4 mb-4 overflow-x-auto border-b border-slate-600 shrink-0">
-        <li v-for="tabLink in props.tabLinks">
-            <Link :href="route().current(tabLink.route, tabLink.params) ? null : route(tabLink.route, tabLink.params)" class="block px-4 py-1 text-base transition-colors border-2 rounded-full cursor-pointer hover:border-orange-500 hover:text-white focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 whitespace-nowrap" :class="route().current(tabLink.route, tabLink.params) ? 'border-orange-500 bg-orange-500/10 text-white font-medium' : 'bg-transparent border-slate-400 text-slate-400'">
+    <ul class="flex w-full mb-4 overflow-x-scroll">
+        <template v-for="tabLink, index in props.tabLinks">
+            <li v-if="index" class="w-12 border-b-2 shrink-0 border-slate-700" />
+
+            <li v-if="!route().current(tabLink.route, tabLink.params)" class="border-b-2 px-0.5 shrink-0 border-slate-700">
+                <Link :href="route(tabLink.route, tabLink.params)" class="pb-2 text-base font-normal transition-colors last-of-type:mr-0 cursor-point hover:text-white focus:outline-none text-slate-500 focus:ring-0 focus-visible:outline-none focus-visible:ring-0 whitespace-nowrap">
+                    {{ tabLink.label }}
+                </Link>
+            </li>
+
+            <li v-else class="pb-2 px-0.5 text-base font-normal text-white transition-colors border-b-2 border-orange-500 shrink-0 last-of-type:mr-0 whitespace-nowrap">
                 {{ tabLink.label }}
-            </Link>
-        </li>
+            </li>
+        </template>
+
+        <li class="border-b-2 border-slate-700 grow" />
     </ul>
 </template>
 

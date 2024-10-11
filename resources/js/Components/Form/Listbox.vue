@@ -26,7 +26,7 @@
                         type="checkbox"
                         v-model="vModel"
                         :value="parseInt(key)"
-                        class="w-4 h-4 rounded-[4px] border-2 border-emerald-600 bg-transparent text-emerald-600 cursor-pointer"
+                        class="size-4 rounded-[4px] border-2 border-emerald-600 bg-transparent text-emerald-600 cursor-pointer"
                     >
                     <label :for="props.id + '-' + option" class="text-xs cursor-pointer md:text-sm">
                         {{ option }}

@@ -15,7 +15,7 @@
                         </form>
     
                         <div v-if="form.processing" class="flex items-center justify-center min-h-64">
-                            <Spinner class="w-8 h-8 orange" />
+                            <Spinner class="size-8 orange" />
                         </div>
     
                         <div v-else-if="form.startDate && form.duration && props.slots.length" class="space-y-4">

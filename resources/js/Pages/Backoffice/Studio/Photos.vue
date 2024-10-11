@@ -30,7 +30,7 @@
                                 <div>
                                     <div class="relative cursor-move">
                                         <img :src="element.id ? '/storage/' + element.path : element.path " alt="photo" class="object-cover w-full border rounded-xl aspect-video border-slate-800" />
-                                        <button type="button" @click="deletePhoto(index, element.id)" title="Elimina foto" class="absolute flex items-center justify-center w-5 h-5 text-xs text-white bg-red-500 border border-white rounded-full shadow top-1 right-1 lg:top-2 lg:right-2">
+                                        <button type="button" @click="deletePhoto(index, element.id)" title="Elimina foto" class="absolute flex items-center justify-center size-5 text-xs text-white bg-red-500 border border-white rounded-full shadow top-1 right-1 lg:top-2 lg:right-2">
                                             <i class="fa-solid fa-xmark" />
                                         </button>
         

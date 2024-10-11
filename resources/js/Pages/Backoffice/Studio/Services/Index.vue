@@ -9,7 +9,7 @@
             <div v-if="props.services.length" class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 lg:gap-6">
                 <article v-for="service in props.services" class="flex flex-col gap-4 p-4 transition-colors border hover:shadow-xl border-slate-700 hover:border-orange-500 hover:bg-slate-800/50 rounded-xl overflow-clip min-h-80">
                     <h2 class="flex items-center gap-2">
-                        <span class="inline-block w-5 h-5 rounded-full shadow-inner" :style="'background-color: ' + service.color" />
+                        <span class="inline-block size-5 rounded-full shadow-inner" :style="'background-color: ' + service.color" />
                         {{ service.name }}
                     </h2>
 

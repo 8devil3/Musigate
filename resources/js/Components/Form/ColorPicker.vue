@@ -1,5 +1,5 @@
 <template>
-    <button type="button" @click="inputColor.click()" class="relative w-8 h-8 rounded-full shadow-inner shrink-0" :style="'background-color:' + vModel">
+    <button type="button" @click="inputColor.click()" class="relative size-8 rounded-full shadow-inner shrink-0" :style="'background-color:' + vModel">
         <input
             type="color"
             ref="inputColor"

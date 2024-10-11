@@ -9,7 +9,7 @@
         <!-- logo e categoria -->
         <div class="flex items-center gap-4">
             <!-- logo -->
-            <div class="flex items-center justify-center w-16 h-16 text-center border-2 border-orange-500 rounded-full bg-slate-900 lg:w-24 lg:h-24 shrink-0">
+            <div class="flex items-center justify-center size-16 text-center border-2 border-orange-500 rounded-full bg-slate-900 lg:w-24 lg:h-24 shrink-0">
                 <img v-if="props.studio.logo" :src="'/storage/' + props.studio.logo" :alt="props.studio.name" class="object-contain w-full h-full rounded-full">
                 <img v-else src="/img/logo/logo_placeholder.svg" :alt="props.studio.name" class="object-contain w-1/2 aspect-square">
             </div>
@@ -42,7 +42,7 @@
 
                 <!-- etichetta discografica -->
                 <div v-if="props.studio.record_label" class="flex items-start gap-1 text-sm md:text-base">
-                    <svg class="w-6 h-6 -ml-1" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg class="size-6 -ml-1" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="12" cy="12" r="9.5" fill="#000000" stroke="#FF6600"/>
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16ZM12 12.8C12.4418 12.8 12.8 12.4418 12.8 12C12.8 11.5582 12.4418 11.2 12 11.2C11.5582 11.2 11.2 11.5582 11.2 12C11.2 12.4418 11.5582 12.8 12 12.8Z" fill="#FF6600"/>
                     </svg>

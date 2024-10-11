@@ -47,7 +47,7 @@
         </div>
 
         <div v-else class="flex items-center justify-center p-12 mt-12">
-            <Spinner class="w-12 h-12 orange" />
+            <Spinner class="size-12 orange" />
         </div>
         <!-- / -->
 
@@ -56,7 +56,7 @@
         <!-- / -->
 
         <!-- to top -->
-        <button type="button" @click="toTop()" class="fixed flex items-center justify-center w-10 h-10 text-lg leading-none transition-opacity bg-orange-500 rounded-full shadow-lg opacity-0 bottom-4 right-4" :class="scrollPos > 500 ? 'opacity-100' : 'opacity-0'">
+        <button type="button" @click="toTop()" class="fixed flex items-center justify-center size-10 text-lg leading-none transition-opacity bg-orange-500 rounded-full shadow-lg opacity-0 bottom-4 right-4" :class="scrollPos > 500 ? 'opacity-100' : 'opacity-0'">
             <i class="fa-solid fa-chevron-up" />
         </button>
         <!-- / -->
