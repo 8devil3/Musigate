@@ -66,25 +66,23 @@
                         <template #content>
                             <div v-if="props.timebands.filter(tb => tb.weekday == wdKey).length" class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
                                 <template v-for="timeband in props.timebands.filter(tb => tb.weekday == wdKey)" >
-                                    <template v-for="tbPrice in form.timeband_prices">
-                                        <div v-if="tbPrice.timeband_id === timeband.id" class="flex flex-col gap-6 p-4 border rounded-xl border-slate-400">
-                                            <div class="space-y-0.5">
-                                                <div class="text-xs font-normal uppercase text-slate-400">Fascia oraria</div>
-                                                <h4 class="p-0 m-0 text-base">
-                                                    {{ wd.slice(0, 3) }} - {{ timeband.name }}
-                                                </h4>
-                                                <div class="text-xs font-normal text-slate-300">
-                                                    {{ timeband.start }} - {{ timeband.end }}
-                                                </div>
+                                    <div v-for="tbPrice in form.timeband_prices.filter(tbp => tbp.timeband_id === timeband.id)" class="flex flex-col gap-6 p-4 border rounded-xl border-slate-400">
+                                        <div class="space-y-0.5">
+                                            <div class="text-xs font-normal uppercase text-slate-400">Fascia oraria</div>
+                                            <h4 class="p-0 m-0 text-base">
+                                                {{ wd.slice(0, 3) }} - {{ timeband.name }}
+                                            </h4>
+                                            <div class="text-xs font-normal text-slate-300">
+                                                {{ timeband.start }} - {{ timeband.end }}
                                             </div>
-                                            
-                                            <NumberInput v-model="tbPrice.price" label="Tariffa base" :min="1" unit="€/h" required />
-                
-                                            <Toggle v-model="tbPrice.has_discounted_price" label="Abilita sconto" />
-                
-                                            <NumberInput v-if="tbPrice.has_discounted_price" v-model="tbPrice.discounted_price" label="Tariffa scontata" :min="1" unit="€/h" required />
                                         </div>
-                                    </template>
+                                        
+                                        <NumberInput v-model="tbPrice.price" label="Tariffa base" :min="1" unit="€/h" required />
+            
+                                        <Toggle v-model="tbPrice.has_discounted_price" label="Abilita sconto" />
+            
+                                        <NumberInput v-if="tbPrice.has_discounted_price" v-model="tbPrice.discounted_price" label="Tariffa scontata" :min="1" unit="€/h" required />
+                                    </div>
                                 </template>
                             </div>
 
@@ -93,7 +91,7 @@
                                     Nessuna fascia oraria di {{ wd }}
                                 </template>
                                 <template #description>
-                                    Non hai impostato le fasce orarie di {{ wd }}. Per inserire le tariffe con face orarie è necessario prima impostarle.
+                                    Non hai impostato le fasce orarie di {{ wd }}. Per inserire le tariffe con fasce orarie è necessario prima impostarle.
                                 </template>
                                 <template #actions>
                                     <Button type="router" :href="route('studio.availability.edit')" text="Imposta fasce orarie" icon="fa-solid fa-clock" />
@@ -107,7 +105,7 @@
         </template>
 
         <template #actions>
-            <SaveButton :disabled="form.processing || (!form.has_fixed_price && !props.timebands.length)" />
+            <SaveButton :disabled="form.processing" />
         </template>
     </ContentLayout>
 </template>
@@ -163,7 +161,7 @@ const setTimebandPrices = ()=>{
 };
 
 const submit = ()=>{
-    // form.put(route('rooms.prices.update', props.room.id));
+    // form.put(route('sale-prova.prices.update', props.room.id));
 };
 
 const weekdays = computed(()=>{
