@@ -23,7 +23,7 @@ class RoomSeeder extends Seeder
                     'studio_id' => $studio->id,
                     'name' => 'Sala ' . fake()->word(),
                     'color' => fake()->hexColor(),
-                    'is_bookable' => true,
+                    'is_bookable' => false,
                     'is_visible' => true,
                     'area' => rand(10, 50),
                     'description' => fake()->paragraphs(2, true),

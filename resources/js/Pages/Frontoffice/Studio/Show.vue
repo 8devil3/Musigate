@@ -88,7 +88,7 @@
 
                 <Section v-if="props.studio.rooms.length" title="Sale prova" id="sale-prova">
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                        <RoomCard v-for="room in props.studio.rooms" :room="room" :equipment_categories="props.equipment_categories" />
+                        <RoomCard v-for="room in props.studio.rooms" :room="room" :equipment_categories="props.equipment_categories" :booking_settings="props.booking_settings" />
                     </div>
                 </Section>
             
@@ -171,7 +171,7 @@
             <!-- / -->
 
             <!-- contatti desktop -->
-            <!-- <div class="sticky flex-col hidden w-48 gap-4 pt-6 text-center lg:flex top-12 shrink-0">
+            <div class="sticky flex-col hidden w-48 gap-4 pt-6 text-center lg:flex top-12 shrink-0">
                 <div class="pb-2 border-b border-orange-500">
                     <h3 class="m-0">Contatta lo Studio</h3>
                 </div>
@@ -206,24 +206,16 @@
                         Whatsapp
                     </a>
                 </template>
-            </div> -->
+            </div>
             <!-- / -->
-
-            <!-- <div class="sticky flex-col hidden w-48 gap-4 p-4 text-center border-b border-slate-700 border-x rounded-b-3xl lg:flex top-12 shrink-0">
-                <h4 class="p-0 m-0">Prenotazione</h4>
-                <hr class="h-0 border-t border-orange-500">
-                <Input type="date" v-model="form.date" label="Data" required />
-                <Input type="time" v-model="form.time" label="Ora" :step="3600" required />
-                <NumberInput v-model="form.duration" label="Durata (ore)" :min="props.booking_settings.min_booking" :max="8" required />
-            </div> -->
         </div>
         <!-- / -->
     </FrontofficeLayout>
 
     <!-- contatti mobile -->
-    <!-- <div class="sticky inset-x-0 bottom-0 p-4 border-t border-gray-700 md:hidden bg-gray-950/10 backdrop-blur-md">
+    <div class="sticky inset-x-0 bottom-0 p-4 border-t border-gray-700 md:hidden bg-gray-950/10 backdrop-blur-md">
         <Button @click="mobileContacts()" text="Contatta lo Studio" />
-    </div> -->
+    </div>
     <!-- / -->
 
     <Modal :isOpen="openContactsModal" @close="openContactsModal = false">
@@ -266,7 +258,7 @@
 
     <!-- scroll to top -->
     <button type="button" title="Torna su" @click="scrollToTop()" class="fixed flex items-center justify-center w-8 text-sm text-center bg-orange-500 rounded-full shadow-md bottom-4 right-4 md:right-8 md:text-lg md:w-10 aspect-square">
-        <i class="leading-none text-white fa-solid fa-chevron-up"></i>
+        <i class="leading-none text-white fa-solid fa-chevron-up" />
     </button>
     <!-- / -->
 </template>

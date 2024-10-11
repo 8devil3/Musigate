@@ -26,7 +26,7 @@
             <!-- / -->
 
             <!-- colore -->
-            <FormElement>
+            <!-- <FormElement>
                 <template #title>
                     Colore
                 </template>
@@ -41,7 +41,7 @@
                         {{ form.color }}
                     </div>
                 </template>
-            </FormElement>
+            </FormElement> -->
             <!-- / -->
 
             <!-- visibile? -->
@@ -82,6 +82,27 @@
                     </div>
                 </template>
             </FormElement> -->
+            <!-- / -->
+
+            <!-- prenotazione minima -->
+            <FormElement>
+                <template #title>
+                    Prenotazione minima
+                </template>
+
+                <template #description>
+                    imposta la durata minima di una prenotazione espressa in ore.
+                </template>
+
+                <template #content>
+                    <NumberInput
+                        v-model="form.min_booking"
+                        :min="1"
+                        :max="24"
+                        :error="form.errors.min_booking"
+                    />
+                </template>
+            </FormElement>
             <!-- / -->
 
             <!-- area -->
@@ -134,7 +155,7 @@
         </template>
 
         <template #actions>
-            <SaveButton />
+            <SaveButton :disabled="form.processing" />
         </template>
     </ContentLayout>
 </template>
@@ -161,6 +182,7 @@ const form = useForm({
     color: props.room?.color ?? '#ff6600',
     is_visible: props.room?.is_visible ?? false,
     is_bookable: props.room?.is_bookable ?? false,
+    min_booking: props.room?.min_booking ?? 1,
     area: props.room?.area ?? null,
     max_capacity: props.room?.max_capacity ?? null,
     description: props.room?.description ?? null,
@@ -171,10 +193,12 @@ const submit = ()=>{
 
     if(props.room.id){
         form.put(route('sale-prova.update', props.room.id), {
-            preserveScroll: true
+            preserveState: false
         });
     } else {
-        form.post(route('sale-prova.store'));
+        form.post(route('sale-prova.store'), {
+            preserveState: false
+        });
     }
 }
 

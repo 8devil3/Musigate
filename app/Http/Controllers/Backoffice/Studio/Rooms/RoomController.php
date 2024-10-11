@@ -59,15 +59,17 @@ class RoomController extends Controller
             'color' => 'required|string|starts_with:#|size:7',
             'is_bookable' => 'boolean',
             'is_visible' => 'boolean',
-            'price' => 'nullable|required_if:is_bookable,true|int|min:2|max:999',
-            'has_discounted_price' => 'boolean',
-            'discounted_price' => 'nullable|int|lt:price|min:1',
+            'min_booking' => 'required|integer|min:1|max:24',
             'area' => 'required|int|min:1|max:999',
             'max_capacity' => 'required|min:1|max:99',
             'description' => 'required|string|min:100',
         ]);
-
+        
         $this->rooms->findOrFail($room_id)->update($request->toArray());
+
+        auth()->user()->studio->booking_settings()->update([
+            'min_booking' => $request->min_booking
+        ]);
 
         return back()->with('success', 'Sala aggiornata');
     }
