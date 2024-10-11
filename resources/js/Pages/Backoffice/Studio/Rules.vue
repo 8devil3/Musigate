@@ -80,7 +80,7 @@ const form = useForm({
 
 const submit = () => {
     form.put(route('studio.rules.update'), {
-        preserveScroll: true,
+        preserveState: false,
     });
 };
 

@@ -98,7 +98,7 @@ const isManual = ref(false);
 
 const submit = () => {
     form.put(route('studio.location.update'), {
-        preserveScroll: true,
+        preserveState: false,
     });
 };
 

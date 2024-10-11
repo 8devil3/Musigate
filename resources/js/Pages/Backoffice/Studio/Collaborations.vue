@@ -124,7 +124,7 @@ const formDelete = useForm({});
 
 const submitStore = ()=>{
     form.post(route('studio.collaborations.store'), {
-        preserveScroll: true,
+        preserveState: false,
         onSuccess: ()=>{
             openModal.value = false;
             form.reset();
@@ -148,7 +148,7 @@ const closeModalCollab = ()=>{
 
 const submitEdit = ()=>{
     form.put(route('studio.collaborations.update', collabId.value), {
-        preserveScroll: true,
+        preserveState: false,
         onSuccess: ()=>{
             openModal.value = false;
             collabId.value = null;

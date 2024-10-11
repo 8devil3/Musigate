@@ -102,8 +102,8 @@ const form = useForm({
 });
 
 const submit = ()=>{
-    form.put(route('rooms.equipment.update', props.room.id), {
-        preserveScroll: true,
+    form.put(route('sale-prova.equipment.update', props.room.id), {
+        preserveState: false,
     });
 }
 

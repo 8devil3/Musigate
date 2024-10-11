@@ -70,7 +70,7 @@ const form = useForm({
 
 const submit = () => {
     form.put(route('studio.contacts.update'), {
-        preserveScroll: true,
+        preserveState: false,
     });
 };
 

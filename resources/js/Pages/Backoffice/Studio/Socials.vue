@@ -54,7 +54,7 @@ const form = useForm({
 
 const submit = () => {
     form.put(route('studio.socials.update'), {
-        preserveScroll: true,
+        preserveState: false,
     });
 };
 

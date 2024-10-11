@@ -52,7 +52,7 @@ const form = useForm({
 
 const submit = () => {
     form.put(route('studio.comforts.update'), {
-        preserveScroll: true,
+        preserveState: false,
     });
 };
 

@@ -73,7 +73,7 @@ const submit = ()=>{
 
     if(!checkVideoArr.includes(false)){
         form.put(route('studio.videos.update'), {
-            preserveScroll: true
+            preserveState: false,
         });
     }
 

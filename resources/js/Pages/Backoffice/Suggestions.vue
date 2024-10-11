@@ -52,7 +52,7 @@ const form = useForm({
 
 const submit = () => {
     form.post(route('suggestions.store'), {
-        preserveScroll: true,
+        preserveState: false,
         onSuccess: ()=>{
             form.reset();
         }

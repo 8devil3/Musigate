@@ -47,7 +47,7 @@ const form = useForm({
 
 const submit = () => {
     form.put(route('studio.payment_methods.update'), {
-        preserveScroll: true,
+        preserveState: false,
     });
 };
 

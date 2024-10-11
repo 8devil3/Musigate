@@ -31,8 +31,12 @@ const form = useForm({
 const submit = ()=>{
     if(form.processing) return;
 
-    if(props.service) form.put(route('servizi.update', props.service.id));
-    else form.post(route('servizi.store'));
+    if(props.service) form.put(route('servizi.update', props.service.id), {
+        preserveState: false,
+    });
+    else form.post(route('servizi.store'), {
+        preserveState: false,
+    });
 }
 
 </script>

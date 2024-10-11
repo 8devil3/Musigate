@@ -116,7 +116,9 @@ const deletePhoto = (index, id)=>{
 };
 
 const submit = ()=>{
-    form.post(route('studio.photos.update'));
+    form.post(route('studio.photos.update'), {
+        preserveState: false,
+    });
 };
 
 </script>

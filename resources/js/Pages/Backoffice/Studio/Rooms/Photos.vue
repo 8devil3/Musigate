@@ -113,14 +113,16 @@ const deletePhoto = (index, id)=>{
     if(!id){
         form.photos.splice(index, 1);
     } else {
-        form.delete(route('rooms.photos.delete', [id, props.room.id]), {
+        form.delete(route('sale-prova.photos.delete', [id, props.room.id]), {
             preserveState: false,
         });
     }
 };
 
 const submit = ()=>{
-    form.post(route('rooms.photos.update', props.room.id));
+    form.post(route('sale-prova.photos.update', props.room.id), {
+        preserveState: false,
+    });
 };
 
 const tabLinks = computed(()=>{
