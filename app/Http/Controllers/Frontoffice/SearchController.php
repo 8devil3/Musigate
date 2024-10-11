@@ -89,10 +89,13 @@ class SearchController extends Controller
             'collaborations',
             'rule',
             'social',
-            'payment_methods'
+            'payment_methods',
         ])->load(['rooms' => function($query){
             //mostro solo le sale pubblicate
-            $query->with(['equipments', 'photos'])->where('is_visible', true);
+            $query->with(['equipments', 'photos'])
+                ->withMin('prices as min_price', 'price')
+                ->withMin('prices as min_discounted_price', 'discounted_price')
+                ->where('is_visible', true);
         }]);
 
         $room_photos = [];
