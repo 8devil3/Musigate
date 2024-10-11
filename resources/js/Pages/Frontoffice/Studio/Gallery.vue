@@ -40,7 +40,7 @@
                     <div class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm" />
                 </TransitionChild>
     
-                <div class="fixed inset-0 z-50 w-full text-left h-dvh">
+                <div class="fixed inset-0 z-50 p-2">
                     <TransitionChild
                         as="template"
                         enter="duration-300 ease-out"
@@ -56,9 +56,9 @@
                             </button>
 
                             <!-- immagine corrente -->
-                            <Carousel :items-to-show="1" :wrap-around="false" v-model="currentSlide" class="p-2 h-5/6">
-                                <Slide v-for="slide in props.photos" :key="slide.id" class="h-full">
-                                    <div class="h-full carousel__item">
+                            <Carousel :items-to-show="1" :wrap-around="true" v-model="currentSlide" class="w-full h-5/6">
+                                <Slide v-for="slide in props.photos" :key="slide.id" class="w-full h-full">
+                                    <div class="w-full h-full carousel__item">
                                         <img :src="'/storage/' + slide.path" :alt="'Foto-' + slide.id" class="object-contain w-full h-full" />
                                     </div>
                                 </Slide>
@@ -70,7 +70,7 @@
                             <!-- / -->
 
                             <!-- anteprime -->
-                            <Carousel :items-to-show="6" :wrap-around="true" v-model="currentSlide" class="h-1/6">
+                            <Carousel :items-to-show="6" :wrap-around="true" v-model="currentSlide" class="mt-2 h-1/6">
                                 <Slide v-for="slide, index in props.photos" :key="slide.id" class="h-full w-full px-0.5">
                                     <div @click="slideTo(index)" class="w-full h-full cursor-pointer carousel__item">
                                         <img :src="'/storage/' + slide.path" :alt="'Foto-' + slide.id" class="object-cover object-center w-full h-full">

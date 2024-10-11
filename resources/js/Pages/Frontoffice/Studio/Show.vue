@@ -12,9 +12,9 @@
         <div class="w-full max-w-6xl p-4 mx-auto md:p-6">
             <!-- sezioni -->
             <div class="py-6 space-y-16 lg:py-8 md:grow">
-                <TitleBar :studio="props.studio" :user="props.user" :request="props.request" />
+                <TitleBar :studio="props.studio" :socials=props.socials :request="props.request" />
 
-                <Section v-if="props.studio.description" title="Presentazione" id="studio">
+                <Section v-if="props.studio.description" title="Presentazione" id="presentazione">
                     <p>{{ props.studio.description }}</p>
             
                     <div v-if="props.studio.payment_methods.length" class="pt-2 space-y-2">
@@ -22,7 +22,7 @@
             
                         <ul class="flex flex-wrap gap-2">
                             <li v-for="payment in props.studio.payment_methods">
-                                <img :src="'/img/payments/' + payment.img_name" :alt="payment.name" class="h-6 md:h-8" :title="payment.name">
+                                <img :src="'/img/payments/' + payment.img_name" :alt="payment.name" class="h-6 w-9 md:h-8 md:w-11" :title="payment.name">
                             </li>
                         </ul>
                     </div>
@@ -32,7 +32,7 @@
                     <div class="space-y-2">
                         <ul class="grid grid-cols-1 list-musigate sm:grid-cols-none sm:grid-rows-4 md:grid-rows-3 sm:grid-flow-col sm:auto-cols-max sm:gap-x-12">
                             <template v-for="collab, id in props.studio.collaborations">
-                                <li v-if="id <= 15" class="list-musigate whitespace-nowrap">
+                                <li v-if="id <= 15" class="list-musigate">
                                     {{ collab.title }}
                                 </li>
                             </template>
@@ -62,7 +62,7 @@
                     <div class="space-y-2">
                         <ul class="grid grid-cols-1 list-musigate sm:grid-cols-none sm:grid-rows-4 md:grid-rows-3 sm:grid-flow-col sm:auto-cols-max sm:gap-x-12">
                             <template v-for="comfort, id in props.studio.comforts">
-                                <li v-if="id <= 15" class="list-musigate whitespace-nowrap">
+                                <li v-if="id <= 15" class="list-musigate">
                                     {{ comfort.name }}
                                 </li>
                             </template>
@@ -137,14 +137,33 @@
                 </Section>
 
                 <Section v-if="props.studio.videos.length" title="Video" id="video">
-                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
-                        <iframe v-for="video in props.studio.videos" :src="'https://www.youtube.com/embed/' + video.yt_id" frameborder="0" title="YouTube video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; web-share" allowfullscreen class="w-full border border-gray-700 rounded-xl aspect-video"></iframe>
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+                        <iframe v-for="video in props.studio.videos" :src="'https://www.youtube.com/embed/' + video.yt_id" frameborder="0" title="YouTube video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; web-share" allowfullscreen class="w-full border border-slate-700 rounded-xl aspect-video"></iframe>
                     </div>                    
                 </Section>
-                
+
+                <Section title="Contatti" id="contatti">
+                    <Button v-if="!props.contacts" @click="router.reload({ only: ['contacts'] })" text="Mostra contatti" :isLoading="isLoading" :disabled="isLoading" />
+                    
+                    <p v-else-if="!computedContacts.length" class="text-sm text-slate-300">Lo Studio non ha inserito alcun contatto.</p>
+
+                    <ul v-else class="grid grid-cols-1 gap-2 p-0 m-0 list-none sm:grid-cols-3 md:flex md:flex-wrap list-image-none">
+                        <li v-for="contact in computedContacts">
+                            <Button
+                                type="link"
+                                :href="contact.href"
+                                :text="contact.label"
+                                :icon="contact.icon"
+                                :color="contact.color"
+                                class="w-full"
+                            />
+                        </li>
+                    </ul>
+                </Section>
+
                 <Section title="Location" id="location">
-                    <div class="flex flex-wrap items-start sm:flex-nowrap gap-x-10 gap-y-6">
-                        <div class="shrink-0">
+                    <div class="flex flex-wrap items-start sm:flex-nowrap gap-x-10 gap-y-4">
+                        <div class="sm:shrink-0">
                             <h3>Indirizzo</h3>
                             <address class="capitalize">
                                 <div>
@@ -165,106 +184,17 @@
                         </div>
                     </div>
             
-                    <GoogleMaps :studios="[props.studio]" :lat="props.studio.location.lat" :lon="props.studio.location.lon" :zoom="14" class="h-64 border border-gray-400 md:h-96 overflow-clip rounded-xl" />
+                    <GoogleMaps :studios="[props.studio]" :lat="props.studio.location.lat" :lon="props.studio.location.lon" :zoom="14" class="h-64 border border-slate-400 md:h-96 overflow-clip rounded-xl" />
                 </Section>
-            </div>
-            <!-- / -->
-
-            <!-- contatti desktop -->
-            <div class="sticky flex-col hidden w-48 gap-4 pt-6 text-center lg:flex top-12 shrink-0">
-                <div class="pb-2 border-b border-orange-500">
-                    <h3 class="m-0">Contatta lo Studio</h3>
-                </div>
-
-                <Button v-if="!props.contacts" @click="router.reload({ only: ['contacts'] })" text="Mostra contatti" />
-
-                <div v-else-if="!props.contacts.email && !props.contacts.phone && !props.contacts.telegram && !props.contacts.messenger && !props.contacts.whatsapp" class="text-sm text-gray-300">Lo Studio non ha inserito alcun contatto.</div>
-
-                <template v-else>
-                    <a v-if="props.contacts.email" :href="'mailto:' + props.contacts.email" class="inline-flex items-center justify-center h-8 gap-2 px-4 py-0 font-sans text-sm font-medium leading-none text-center text-white capitalize transition-all bg-orange-500 border-0 rounded-full shadow-md whitespace-nowrap disabled:opacity-70 disabled:cursor-not-allowed hover:brightness-110 focus:outline-0 focus:ring-0 active:border-0 focus:border-0">
-                        <i class="text-sm leading-none text-white fa-solid fa-envelope"></i>
-                        Email
-                    </a>
-
-                    <a v-if="props.contacts.phone" :href="'tel:' + props.contacts.phone" class="inline-flex items-center justify-center h-8 gap-2 px-4 py-0 font-sans text-sm font-medium leading-none text-center text-white capitalize transition-all bg-orange-500 border-0 rounded-full shadow-md whitespace-nowrap disabled:opacity-70 disabled:cursor-not-allowed hover:brightness-110 focus:outline-0 focus:ring-0 active:border-0 focus:border-0">
-                        <i class="text-sm leading-none text-white fa-solid fa-phone"></i>
-                        Telefono
-                    </a>
-
-                    <a v-if="props.contacts.telegram" :href="props.contacts.telegram" class="inline-flex items-center justify-center h-8 gap-2 px-4 py-0 font-sans text-sm font-medium leading-none text-center text-white capitalize transition-all border-0 rounded-full shadow-md bg-telegram whitespace-nowrap disabled:opacity-70 disabled:cursor-not-allowed hover:brightness-110 focus:outline-0 focus:ring-0 active:border-0 focus:border-0">
-                        <i class="text-sm leading-none text-white fa-brands fa-telegram"></i>
-                        Telegram
-                    </a>
-
-                    <a v-if="props.contacts.messenger" :href="props.contacts.messenger" class="inline-flex items-center justify-center h-8 gap-2 px-4 py-0 font-sans text-sm font-medium leading-none text-center text-white capitalize transition-all border-0 rounded-full shadow-md bg-messenger whitespace-nowrap disabled:opacity-70 disabled:cursor-not-allowed hover:brightness-110 focus:outline-0 focus:ring-0 active:border-0 focus:border-0">
-                        <i class="text-sm leading-none text-white fa-brands fa-facebook-messenger"></i>
-                        Messenger
-                    </a>
-
-                    <a v-if="props.contacts.whatsapp" :href="props.contacts.whatsapp" class="inline-flex items-center justify-center h-8 gap-2 px-4 py-0 font-sans text-sm font-medium leading-none text-center text-white capitalize transition-all border-0 rounded-full shadow-md bg-whatsapp whitespace-nowrap disabled:opacity-70 disabled:cursor-not-allowed hover:brightness-110 focus:outline-0 focus:ring-0 active:border-0 focus:border-0">
-                        <i class="text-sm leading-none text-white fa-brands fa-whatsapp"></i>
-                        Whatsapp
-                    </a>
-                </template>
             </div>
             <!-- / -->
         </div>
         <!-- / -->
     </FrontofficeLayout>
-
-    <!-- contatti mobile -->
-    <div class="sticky inset-x-0 bottom-0 p-4 border-t border-gray-700 md:hidden bg-gray-950/10 backdrop-blur-md">
-        <Button @click="mobileContacts()" text="Contatta lo Studio" />
-    </div>
-    <!-- / -->
-
-    <Modal :isOpen="openContactsModal" @close="openContactsModal = false">
-        <template #title>
-            Contatta lo Studio
-        </template>
-
-        <template #description>
-            <div v-if="!props.contacts.email && !props.contacts.phone && !props.contacts.telegram && !props.contacts.messenger && !props.contacts.whatsapp" class="text-sm text-gray-300">Lo Studio non ha inserito alcun contatto.</div>
-
-            <div v-else-if="props.contacts" class="flex flex-col justify-center h-full gap-4">
-                <a v-if="props.contacts.email" :href="'mailto:' + props.contacts.email" class="inline-flex items-center justify-center h-8 gap-2 px-4 py-0 font-sans text-sm font-medium leading-none text-center text-white capitalize transition-all bg-orange-500 border-0 rounded-full shadow-md whitespace-nowrap disabled:opacity-70 disabled:cursor-not-allowed hover:brightness-110 focus:outline-0 focus:ring-0 active:border-0 focus:border-0">
-                    <i class="text-sm leading-none text-white fa-solid fa-envelope"></i>
-                    Email
-                </a>
-    
-                <a v-if="props.contacts.phone" :href="'tel:' + props.contacts.phone" class="inline-flex items-center justify-center h-8 gap-2 px-4 py-0 font-sans text-sm font-medium leading-none text-center text-white capitalize transition-all bg-orange-500 border-0 rounded-full shadow-md whitespace-nowrap disabled:opacity-70 disabled:cursor-not-allowed hover:brightness-110 focus:outline-0 focus:ring-0 active:border-0 focus:border-0">
-                    <i class="text-sm leading-none text-white fa-solid fa-phone"></i>
-                    Telefono
-                </a>
-    
-                <a v-if="props.contacts.telegram" :href="props.contacts.telegram" class="inline-flex items-center justify-center h-8 gap-2 px-4 py-0 font-sans text-sm font-medium leading-none text-center text-white capitalize transition-all border-0 rounded-full shadow-md bg-telegram whitespace-nowrap disabled:opacity-70 disabled:cursor-not-allowed hover:brightness-110 focus:outline-0 focus:ring-0 active:border-0 focus:border-0">
-                    <i class="text-sm leading-none text-white fa-brands fa-telegram"></i>
-                    Telegram
-                </a>
-    
-                <a v-if="props.contacts.messenger" :href="props.contacts.messenger" class="inline-flex items-center justify-center h-8 gap-2 px-4 py-0 font-sans text-sm font-medium leading-none text-center text-white capitalize transition-all border-0 rounded-full shadow-md bg-messenger whitespace-nowrap disabled:opacity-70 disabled:cursor-not-allowed hover:brightness-110 focus:outline-0 focus:ring-0 active:border-0 focus:border-0">
-                    <i class="text-sm leading-none text-white fa-brands fa-facebook-messenger"></i>
-                    Messenger
-                </a>
-    
-                <a v-if="props.contacts.whatsapp" :href="props.contacts.whatsapp" class="inline-flex items-center justify-center h-8 gap-2 px-4 py-0 font-sans text-sm font-medium leading-none text-center text-white capitalize transition-all border-0 rounded-full shadow-md bg-whatsapp whitespace-nowrap disabled:opacity-70 disabled:cursor-not-allowed hover:brightness-110 focus:outline-0 focus:ring-0 active:border-0 focus:border-0">
-                    <i class="text-sm leading-none text-white fa-brands fa-whatsapp"></i>
-                    Whatsapp
-                </a>
-            </div>
-        </template>
-    </Modal>
-    <!-- / -->
-
-    <!-- scroll to top -->
-    <button type="button" title="Torna su" @click="scrollToTop()" class="fixed flex items-center justify-center w-8 text-sm text-center bg-orange-500 rounded-full shadow-md bottom-4 right-4 md:right-8 md:text-lg md:w-10 aspect-square">
-        <i class="leading-none text-white fa-solid fa-chevron-up" />
-    </button>
-    <!-- / -->
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { router } from '@inertiajs/vue3'
 import FrontofficeLayout from '@/Layouts/FrontofficeLayout.vue';
 import Modal from '@/Components/Modal.vue';
@@ -283,37 +213,74 @@ const props = defineProps({
     all_photos: Object,
     equipment_categories: Object,
     booking_settings: Object,
-    user: Object,
-    contacts: [Object, String],
-    weekdays: Object,
-    request: Object
+    contacts: Object,
+    socials: Object,
+    request: Object,
 });
 
+const isLoading = ref(false);
 const openCollabModal = ref(false);
 const openRulesModal = ref(false);
 const openServicesModal = ref(false);
 const openComfortsModal = ref(false);
-const openContactsModal = ref(false);
 
-//pulsante torna su
-const scrollToTop = ()=>{
-    window.scrollTo(0,0);
-};
+router.on('start', ()=> isLoading.value = true);
+router.on('finish', ()=> isLoading.value = false);
 
-//contatti mobile
-const mobileContacts = ()=>{
-    router.reload({
-        only: ['contacts'],
-        onFinish: ()=>{
-            openContactsModal.value = true;
-        }
-    });
-}
+const computedContacts = computed(()=>{
+    let arrContacts = Object.entries(props.contacts);
+    let contacts = [];
+
+    if(arrContacts.length){
+        arrContacts.forEach(contact => {
+            let label = contact[0];
+            let href = contact[1];
+            let color = 'orange';
+            let icon = null;
+
+            if(href){    
+                switch (contact[0]) {
+                    case 'phone':
+                        label = 'Telefono';
+                        href = 'tel:' + contact[1];
+                        icon = 'fa-solid fa-phone';
+                    break;
+                    case 'email':
+                        href = 'mailto:' + contact[1];
+                        icon = 'fa-solid fa-envelope';
+                    break;
+                    case 'messenger':
+                        color = 'messenger';
+                        icon = 'fa-brands fa-facebook-messenger';
+                    break;
+                    case 'whatsapp':
+                        color = 'whatsapp';
+                        icon = 'fa-brands fa-whatsapp';
+    
+                    break;
+                    case 'telegram':
+                        color = 'telegram';
+                        icon = 'fa-brands fa-telegram';
+                    break;
+                }
+    
+                contacts.push({
+                    label: label,
+                    href: href,
+                    color: color,
+                    icon: icon,
+                });
+            }
+        });
+    }
+
+    return contacts;
+});
 
 const links = [
     {
-        text: 'studio',
-        id: '#studio',
+        text: 'presentazione',
+        id: '#presentazione',
         enabled: props.studio.description ? true : false
     },
     {
@@ -342,25 +309,15 @@ const links = [
         enabled: props.studio.videos.length ? true : false
     },
     {
+        text: 'contatti',
+        id: '#contatti',
+        enabled: true
+    },
+    {
         text: 'location',
         id: '#location',
         enabled: props.studio.location.complete_address ? true : false
     },
 ];
-
-const months = {
-    1: "Gennaio",
-    2: "Febbraio",
-    3: "Marzo",
-    4: "Aprile",
-    5: "Maggio",
-    6: "Giugno",
-    7: "Luglio",
-    8: "Agosto",
-    9: "Settembre",
-    10: "Ottobre",
-    11: "Novembre",
-    12: "Dicembre",
-};
 
 </script>

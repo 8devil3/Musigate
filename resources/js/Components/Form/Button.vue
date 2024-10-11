@@ -79,15 +79,11 @@ const props = defineProps({
         type: Boolean,
         default: false
     },
-    outline: {
-        type: Boolean,
-        default: false
-    }
 });
 
 const emit = defineEmits(['click']);
 
-const commonClasses = "inline-flex items-center justify-center text-center text-white font-sans font-medium text-sm leading-none whitespace-nowrap h-8 rounded-full disabled:opacity-50 focus:ring-2 disabled:cursor-not-allowed shadow-md gap-2 px-4 border-2 py-0 focus:outline-0";
+const commonClasses = "inline-flex items-center justify-center text-center text-white font-sans font-medium text-sm leading-none whitespace-nowrap h-8 rounded-full disabled:opacity-50 focus:ring-2 disabled:cursor-not-allowed shadow-md gap-2 transition-colors px-4 py-0 focus:outline-0";
 
 const commonIconClasses = `${props.icon} text-white text-sm leading-none`
 
@@ -96,36 +92,43 @@ const colorClasses = computed(() => {
     
     switch (props.color) {
         case 'green':
-            classes = [props.outline ? 'bg-green-500/20' : 'bg-green-600', 'border-green-600 hover:bg-green-500 active:bg-green-500 focus:ring-green-500/50 transition-colors shadow-green-500/30'];
+            classes = 'bg-green-600 hover:bg-green-500 active:bg-green-500 focus:ring-green-500/50 shadow-green-500/30';
         break;
         case 'yellow':
-            classes = [props.outline ? 'bg-yellow-500/20' : 'bg-yellow-600', 'border-yellow-600 hover:bg-yellow-500 active:bg-yellow-500 focus:ring-yellow-500/50 transition-colors shadow-yellow-500/30'];
+            classes = 'bg-yellow-600 hover:bg-yellow-500 active:bg-yellow-500 focus:ring-yellow-500/50 shadow-yellow-500/30';
         break;
         case 'gray':
-            classes = [props.outline ? 'bg-gray-500/20' : 'bg-gray-600', 'border-gray-600 hover:bg-gray-500 active:bg-gray-500 focus:ring-gray-500/50 transition-colors shadow-gray-500/30'];
+            classes = 'bg-gray-600 hover:bg-gray-500 active:bg-gray-500 focus:ring-gray-500/50 shadow-gray-500/30';
         break;
         case 'slate':
-            classes = [props.outline ? 'bg-slate-500/20' : 'bg-slate-600', 'border-slate-600 hover:bg-slate-500 active:bg-slate-500 focus:ring-slate-500/50 transition-colors shadow-slate-500/30'];
+            classes = 'bg-slate-600 hover:bg-slate-500 active:bg-slate-500 focus:ring-slate-500/50 shadow-slate-500/30';
         break;
         case 'red':
-            classes = [props.outline ? 'bg-red-500/20' : 'bg-red-600', 'border-red-600 hover:bg-red-500 active:bg-red-500 focus:ring-red-500/50 transition-colors shadow-red-500/30'];
+            classes = 'bg-red-600 hover:bg-red-500 active:bg-red-500 focus:ring-red-500/50 shadow-red-500/30';
         break;
         case 'orange':
-            classes = [props.outline ? 'bg-orange-500/20' : 'bg-orange-600', 'border-orange-600 hover:bg-orange-500 active:bg-orange-500 focus:ring-orange-500/50 transition-colors shadow-orange-500/30'];
+            classes = 'bg-orange-600 hover:bg-orange-500 active:bg-orange-500 focus:ring-orange-500/50 shadow-orange-500/30';
         break;
         case 'indigo':
-            classes = [props.outline ? 'bg-indigo-500/20' : 'bg-indigo-600', 'border-indigo-600 hover:bg-indigo-500 active:bg-indigo-500 focus:ring-indigo-500/50 transition-colors shadow-indigo-500/30'];
+            classes = 'bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-500 focus:ring-indigo-500/50 shadow-indigo-500/30';
         break;
         case 'violet':
-            classes = [props.outline ? 'bg-violet-500/20' : 'bg-violet-600', 'border-violet-600 hover:bg-violet-500 active:bg-violet-500 focus:ring-violet-500/50 transition-colors shadow-violet-500/30'];
+            classes = 'bg-violet-600 hover:bg-violet-500 active:bg-violet-500 focus:ring-violet-500/50 shadow-violet-500/30';
         break;
-
         case 'sky':
-            classes = [props.outline ? 'bg-sky-500/20' : 'bg-sky-600', 'border-sky-600 hover:bg-sky-500 active:bg-sky-500 focus:ring-sky-500/50 transition-colors shadow-sky-500/30'];
+            classes = 'bg-sky-600 hover:bg-sky-500 active:bg-sky-500 focus:ring-sky-500/50 shadow-sky-500/30';
         break;
-
         case 'green':
-            classes = [props.outline ? 'bg-green-500/20' : 'bg-green-600', 'border-green-600 hover:bg-green-500 active:bg-green-500 focus:ring-green-500/50 transition-colors shadow-green-500/30'];
+            classes = 'bg-green-600 hover:bg-green-500 active:bg-green-500';
+        break;
+        case 'telegram':
+            classes = 'bg-telegram hover:brightness-105 active:bg-telegram';
+        break;
+        case 'whatsapp':
+            classes = 'bg-whatsapp hover:brightness-105 active:bg-whatsapp';
+        break;
+        case 'messenger':
+            classes = 'bg-messenger hover:brightness-105 active:bg-messenger';
         break;
     }
 

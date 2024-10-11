@@ -79,8 +79,6 @@ class SearchController extends Controller
         $equipment_categories = EquipmentCategory::pluck('name', 'id');
         $booking_settings = $studio->booking_settings;
 
-        $user = $studio->user->only('first_name', 'last_name', 'avatar');
-
         $studio->load([
             'videos',
             'location',
@@ -88,7 +86,6 @@ class SearchController extends Controller
             'comforts',
             'collaborations',
             'rule',
-            'social',
             'payment_methods',
         ])->load(['rooms' => function($query){
             //mostro solo le sale pubblicate
@@ -110,9 +107,10 @@ class SearchController extends Controller
         }
         
         $all_photos = array_merge($studio_photos, ...$room_photos);
-
-        $contacts = Inertia::lazy(fn () => $studio->contacts->only('email', 'phone', 'telegram', 'messenger', 'whatsapp'));
+        $studio_contacts = $studio->contacts->only('email', 'phone', 'telegram', 'messenger', 'whatsapp');
+        $socials = $studio->socials->only(['facebook', 'instagram', 'youtube', 'linkedin', 'soundcloud', 'spotify', 'itunes', 'website']);
+        $contacts = Inertia::lazy(fn () => $studio_contacts);
         
-        return Inertia::render('Frontoffice/Studio/Show', compact('request', 'studio', 'user', 'equipment_categories', 'booking_settings', 'contacts', 'all_photos'));
+        return Inertia::render('Frontoffice/Studio/Show', compact('request', 'studio', 'equipment_categories', 'booking_settings', 'socials', 'contacts', 'all_photos'));
     }
 }
