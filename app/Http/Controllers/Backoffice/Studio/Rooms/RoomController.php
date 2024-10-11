@@ -64,12 +64,8 @@ class RoomController extends Controller
             'max_capacity' => 'required|min:1|max:99',
             'description' => 'required|string|min:100',
         ]);
-        
-        $this->rooms->findOrFail($room_id)->update($request->toArray());
 
-        auth()->user()->studio->booking_settings()->update([
-            'min_booking' => $request->min_booking
-        ]);
+        $this->rooms->findOrFail($room_id)->update($request->toArray());
 
         return back()->with('success', 'Sala aggiornata');
     }

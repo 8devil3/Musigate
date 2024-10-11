@@ -17,13 +17,14 @@ class BookingSettingController extends Controller
         $booking_settings = $user->studio->booking_settings;
 
         $has_paypal = $user->paypal_access_token;
-        $has_google_calendar_scope = in_array(config('google-calendar.scope'), $user->google_scopes);
         $has_google_id = $user->google_id ? true : false;
         $google_calendar_ids = [];
+        $has_google_calendar_scope = false;
 
-        if($has_google_calendar_scope){
+        if($user->google_scopes && in_array(config('google-calendar.scope'), $user->google_scopes)){
             $google_token = $user->google_token;
             $google_calendars = GoogleCalendarAPIService::get_calendars($user->google_token);
+            $has_google_calendar_scope = true;
 
             foreach ($google_calendars as $calendar) {
                 $google_calendar_ids[] = $calendar->getId();
@@ -36,7 +37,6 @@ class BookingSettingController extends Controller
     public function update(Request $request): RedirectResponse
     {
         $request->validate([
-            'min_booking' => 'required|integer|min:1|max:8',
             'booking_advance' => 'required|integer|min:0|max:96',
             'max_booking_horizon' => 'required|integer|min:7|max:365',
             'has_buffer' => 'boolean',
@@ -49,10 +49,9 @@ class BookingSettingController extends Controller
         ]);
 
         $user = auth()->user();
-        $has_google_calendar_scope = in_array(config('google-calendar.scope'), $user->google_scopes);
+        $has_google_calendar_scope = $user->google_scopes && in_array(config('google-calendar.scope'), $user->google_scopes);
 
         $user->studio->booking_settings->update([
-            'min_booking' => $request->min_booking,
             'booking_advance' => $request->booking_advance,
             'max_booking_horizon' => $request->max_booking_horizon,
             'has_buffer' => $request->has_buffer,

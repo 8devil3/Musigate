@@ -10,7 +10,6 @@ class BookingSetting extends Model
 {
     protected $fillable = [
         'studio_id',
-        'min_booking',
         'booking_advance',
         'max_booking_horizon',
         'allow_fractional_durations',

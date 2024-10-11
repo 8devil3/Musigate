@@ -33,6 +33,7 @@ class Room extends Model
         'fixed_price',
         'has_discounted_fixed_price',
         'discounted_fixed_price',
+        'min_booking',
         'area',
         'description',
         'max_capacity',

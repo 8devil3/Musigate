@@ -130,7 +130,7 @@ class ReservationController extends Controller
 
         $request->validate([
             'start' => ['required', 'date', 'after:' . $max_start_dateTime],
-            'duration' => ['required', 'integer', 'min:' . $booking_settings->min_booking, 'max:8'],
+            'duration' => ['required', 'integer', 'min:' . $room->min_booking, 'max:8'],
             'guests' => ['required', 'integer', 'min:1', 'max:' . $room->max_capacity],
         ]);
 

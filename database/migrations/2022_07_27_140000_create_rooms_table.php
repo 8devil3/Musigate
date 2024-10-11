@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('color', 7)->default('#f97316');
             $table->boolean('is_visible')->default(false);
             $table->boolean('is_bookable')->default(false);
+            $table->unsignedTinyInteger('min_booking')->default(2); // prenotazione minima, espressa in ore
             $table->unsignedTinyInteger('max_capacity')->default(4);
             $table->unsignedSmallInteger('area')->default(20);
             $table->text('description')->nullable();

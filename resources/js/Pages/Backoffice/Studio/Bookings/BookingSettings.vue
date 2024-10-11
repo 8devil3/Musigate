@@ -25,22 +25,6 @@
             </FormElement>
             <!-- / -->
 
-            <!-- prenotazione minima -->
-            <FormElement>
-                <template #title>
-                    Prenotazione minima
-                </template>
-
-                <template #description>
-                    Inserisci la durata minima di prenotazione, espressa in ore.
-                </template>
-
-                <template #content>
-                    <NumberInput v-model.number="form.min_booking" :error="form.errors.min_booking" :min="1" :max="8" unit="ore" required />
-                </template>
-            </FormElement>
-            <!-- / -->
-
             <!-- preavviso -->
             <FormElement>
                 <template #title>
@@ -152,7 +136,6 @@ const props = defineProps({
 });
 
 const form = useForm({
-    min_booking: props.booking_settings.min_booking,
     booking_advance: props.booking_settings.booking_advance,
     max_booking_horizon: props.booking_settings.max_booking_horizon,
     allow_fractional_durations: props.booking_settings.allow_fractional_durations,
