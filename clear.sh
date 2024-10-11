@@ -1,3 +1,6 @@
+#modifca permessi
+chmod +x ./clear.sh
+
 #Clear Application Cache
 php artisan cache:clear
 wait
@@ -21,6 +24,3 @@ npm cache clean --force
 
 #Rebuild config cache
 php artisan config:cache
-
-#modifca permessi
-# chmod +x ./clear.sh
