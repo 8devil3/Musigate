@@ -21,9 +21,9 @@
                     <div class="mb-4">
                         <label for="google-autocomplete" class="w-full px-3 mb-1 text-xs font-medium leading-tight truncate">Autocompletamento Google</label>
                         <div class="relative">
-                            <i class="absolute text-sm leading-none text-gray-400 -translate-y-1/2 fa-solid fa-location-dot top-1/2 left-4"></i>
+                            <i class="absolute text-sm leading-none text-orange-500 -translate-y-1/2 fa-solid fa-location-dot top-1/2 left-4" />
 
-                            <input type="search" @keypress.enter="$event.preventDefault()" v-model="form.complete_address" id="google-autocomplete" ref="inputGooglePlaces" placeholder="Inizia a digitare un indirizzo" class="w-full h-8 py-0 pr-4 text-sm text-left text-white truncate bg-gray-900 border border-gray-400 rounded-full pl-9 disabled:bg-gray-800 form-input placeholder:text-gray-300/80 placeholder:truncate disabled:border-gray-500 disabled:text-gray-500 focus:ring-orange-500/50 focus:border-orange-500 focus:shadow-md focus:shadow-orange-500" />
+                            <input type="search" @keypress.enter="$event.preventDefault()" v-model="form.complete_address" id="google-autocomplete" ref="inputGooglePlaces" placeholder="Inizia a digitare un indirizzo" class="w-full h-8 py-0 pr-4 text-sm text-left text-white truncate border rounded-full bg-slate-900 border-slate-400 pl-9 disabled:bg-slate-800 form-input placeholder:text-slate-300/80 placeholder:truncate disabled:border-slate-500 disabled:text-slate-500 focus:ring-orange-500/50 focus:border-orange-500 focus:shadow-md focus:shadow-orange-500" />
                         </div>
                     </div>
 
