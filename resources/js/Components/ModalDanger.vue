@@ -3,7 +3,7 @@
         <Dialog @close="emit('close')" as="div" class="fixed inset-0 z-50 overflow-hidden">
             <TransitionChild
                 as="template"
-                enter="duration-300 ease-out"
+                enter="duration-300 ease-in"
                 enter-from="opacity-0"
                 enter-to="opacity-100"
                 leave="duration-200 ease-in"
@@ -16,17 +16,17 @@
             <div class="fixed inset-0 flex items-center justify-center min-h-full p-4 overflow-y-auto text-center">
                 <TransitionChild
                     as="template"
-                    enter="duration-300 ease-out"
+                    enter="duration-300 ease-in"
                     enter-from="opacity-0 scale-95"
                     enter-to="opacity-100 scale-100"
                     leave="duration-200 ease-in"
                     leave-from="opacity-100 scale-100"
                     leave-to="opacity-0 scale-95"
                 >
-                    <DialogPanel as="form" @submit.prevent="emit('submitted')" class="w-full max-w-lg p-6 space-y-6 overflow-hidden text-left align-middle border border-red-600 shadow-xl bg-slate-900 md:rounded-2xl">
+                    <DialogPanel as="form" @submit.prevent="emit('submitted')" class="w-full max-w-lg p-6 space-y-6 overflow-hidden text-left border border-red-600 shadow-xl bg-slate-900 md:rounded-2xl">
                         <DialogTitle as="h3" class="flex items-start justify-between pb-4 text-lg text-red-500 border-b border-red-500">
-                            <div>
-                                <i class="fa-solid fa-circle-exclamation"></i>
+                            <div class="flex items-center gap-2">
+                                <i class="inline-flex items-center justify-center text-sm border-2 border-red-500 rounded-full fa-solid fa-exclamation size-6" />
                                 <slot name="title" />
                             </div>
 
