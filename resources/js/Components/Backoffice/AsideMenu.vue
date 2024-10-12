@@ -156,32 +156,32 @@ const menu = computed(()=>{
                     },
                 ]
             },
-            {
-                icon: 'fa-solid fa-calendar-days',
-                label: 'Prenotazioni',
-                route: null,
-                active: 'bookings.*',
-                children: [
-                    {
-                        icon: 'fa-solid fa-calendar-days',
-                        label: 'Calendario',
-                        route: 'bookings.index',
-                        active: 'bookings.index'
-                    },
-                    {
-                        icon: 'fa-solid fa-gears',
-                        label: 'Impostazioni prenotazioni',
-                        route: 'bookings.settings.edit',
-                        active: 'bookings.settings.edit'
-                    },
-                    {
-                        icon: 'fa-solid fa-calendar-xmark',
-                        label: 'Policy annullamenti',
-                        route: 'cancelling.settings.edit',
-                        active: 'cancelling.settings.edit'
-                    },
-                ]
-            },
+            // {
+            //     icon: 'fa-solid fa-calendar-days',
+            //     label: 'Prenotazioni',
+            //     route: null,
+            //     active: 'bookings.*',
+            //     children: [
+            //         {
+            //             icon: 'fa-solid fa-calendar-days',
+            //             label: 'Calendario',
+            //             route: 'bookings.index',
+            //             active: 'bookings.index'
+            //         },
+            //         {
+            //             icon: 'fa-solid fa-gears',
+            //             label: 'Impostazioni prenotazioni',
+            //             route: 'bookings.settings.edit',
+            //             active: 'bookings.settings.edit'
+            //         },
+            //         {
+            //             icon: 'fa-solid fa-calendar-xmark',
+            //             label: 'Policy annullamenti',
+            //             route: 'cancelling.settings.edit',
+            //             active: 'cancelling.settings.edit'
+            //         },
+            //     ]
+            // },
             {
                 icon: 'fa-solid fa-music',
                 label: 'Sale prova',
