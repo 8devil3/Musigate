@@ -22,9 +22,12 @@ class RoomPhotoController extends Controller
         return Inertia::render('Backoffice/Studio/Rooms/Photos', compact('photos', 'room'));
     }
 
-    public function update(PhotoRequest $request, Room $room): RedirectResponse
+    public function update(Request $request, Room $room): RedirectResponse
     {
-        $request->validated();
+        $request->validate([
+            'photos' => 'array',
+            'photos.*.file' => 'image|max:2048',
+        ]);
 
         $studio_id = $room->studio->id;
 
@@ -51,14 +54,21 @@ class RoomPhotoController extends Controller
         return back()->with('success', 'Foto salvate');
     }
 
-    public function delete(int $photo_id, Room $room): RedirectResponse
+    public function destroy(Request $request, Room $room): RedirectResponse
     {
-        $photo = $room->photos()->findOrFail($photo_id);
+        $request->validate([
+            'selected_photos' => ['required', 'array'],
+            'selected_photos.*' => ['integer', 'exists:studio_photos,id'],
+        ]);
 
-        Storage::disk('public')->delete($photo->path);
+        if($request->selected_photos){
+            foreach ($request->selected_photos as $photo_id) {
+                $photo = $room->photos()->findOrFail($photo_id);
+                Storage::disk('public')->delete($photo->path);
+                $photo->delete();
+            }
+        }
 
-        $photo->delete();
-
-        return back()->with('success', 'Foto eliminata');
+        return back()->with('success', 'Foto eliminate');
     }
 }

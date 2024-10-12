@@ -40,14 +40,9 @@
             </div>
         </transition>
 
-        <div v-show="error" class="flex items-start gap-2 p-2 text-sm font-medium leading-none text-white border-2 border-red-600 shadow-lg rounded-xl bg-red-600/20">
+        <div v-show="error" class="flex items-center gap-2 p-2 text-sm font-medium leading-none text-white border-2 border-red-600 rounded-full shadow-lg bg-red-600/20">
             <i class="fa-solid fa-circle-exclamation" />
-            <div>
-                Salvataggio non riuscito!
-                <div class="mt-1 text-xs font-light">
-                    Controlla i campi
-                </div>
-            </div>
+            Salvataggio non riuscito!
         </div>
     </div>
     <!-- / -->
@@ -72,6 +67,8 @@ const props = defineProps({
     title: String,
     icon: String,
     isLoading: Boolean,
+    isSucess: Boolean,
+    hasErrors: Boolean,
     backRoute: String,
     showBackRoute: Boolean,
     tabLinks: Object,
@@ -82,8 +79,8 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['submitted']);
-const success = ref(usePage().props.flash.success ? true : false);
-const error = ref(usePage().props.flash.error ? true : false);
+const success = ref(props.isSucess || usePage().props.flash.success ? true : false);
+const error = ref(props.hasErrors || usePage().props.flash.error ? true : false);
 
 const dissolveFlashSuccess = ()=>{
     let timoutId1 = setTimeout(() => {

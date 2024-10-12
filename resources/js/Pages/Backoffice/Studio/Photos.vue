@@ -2,6 +2,7 @@
     <ContentLayout
         @submitted="submit()"
         :isLoading="form.processing"
+        :hasErrors="form.hasErrors"
         title="Foto"
         icon="fa-solid fa-image"
         :backRoute="route('studio.links')"
@@ -9,12 +10,11 @@
         <template #content>
             <FormElement>
                 <template #description>
-                    Carica le foto dello Studio e trascinale per riordinarle.<br>
-                    <br>
-                    Max {{ maxPhotos }} foto.<br>
-                    Formati accettati: jpg, jpeg, png<br>
-                    Dimensione massima cad.: 2 MB<br>
-                    Risoluzione minima: 1280 x 720 px
+                    Carica le foto di presentazione dello Studio, le foto delle Sale potrai caricarle quando inserirai le Sale. Puoi trascinale per riordinarle
+                    <br><br>
+                    Max <strong>{{ maxPhotos }} foto</strong>.<br>
+                    Formati accettati: <strong>jpg, jpeg, png, bmp</strong><br>
+                    Dimensione massima di ogni foto: <strong>2 MB</strong>
                 </template>
 
                 <template #content>
@@ -29,11 +29,14 @@
                             <template #item="{ element, index }">
                                 <div>
                                     <div class="relative cursor-move">
-                                        <img :src="element.id ? '/storage/' + element.path : element.path " alt="photo" class="object-cover w-full border rounded-xl aspect-video border-slate-800" />
-                                        <button type="button" @click="deletePhoto(index, element.id)" title="Elimina foto" class="absolute flex items-center justify-center size-5 text-xs text-white bg-red-500 border border-white rounded-full shadow top-1 right-1 lg:top-2 lg:right-2">
+                                        <Checkbox v-if="element.id" v-model="form.selected_photos" :value="element.id" class="absolute shadow-sm top-1 right-1 lg:top-2 lg:right-2" />
+
+                                        <button v-else type="button" @click="removePhoto(index)" title="Elimina foto" class="absolute flex items-center justify-center text-xs text-white bg-red-500 border border-white rounded-full shadow size-5 top-1 right-1 lg:top-2 lg:right-2">
                                             <i class="fa-solid fa-xmark" />
                                         </button>
-        
+
+                                        <img :src="element.id ? '/storage/' + element.path : element.path " alt="photo" class="object-cover w-full border rounded-xl aspect-video border-slate-800" />
+
                                         <div v-if="index === 0" class="absolute bottom-1 right-1 lg:bottom-2 lg:right-2 font-medium py-1 leading-none px-2 shadow-md bg-slate-900/70 border border-orange-500 rounded-full text-[10px] lg:text-xs text-white uppercase">
                                             principale
                                         </div>
@@ -53,7 +56,7 @@
                                 <div class="space-y-1">
                                     <i class="text-2xl fa-solid fa-upload" />
                                     <div>
-                                        Click o tap per caricare le foto<br>
+                                        Click o tap per caricare le foto
                                     </div>
                                 </div>
     
@@ -71,13 +74,15 @@
         </template>
 
         <template #actions>
-            <SaveButton :isLoading="form.processing" :disabled="form.processing" />
+            <Button v-if="form.selected_photos.length" @click="deleteSelectedPhotos()" text="Elimina selezionate" icon="fa-solid fa-trash-can" color="red" />
+            <SaveButton v-if="form.isDirty && !form.selected_photos.length" :disabled="form.processing" />
         </template>
     </ContentLayout>
 </template>
 
 <script setup>
 import { useForm } from '@inertiajs/vue3';
+import Button from '@/Components/Form/Button.vue';
 import SaveButton from '@/Components/Form/SaveButton.vue';
 import FormElement from '@/Components/Backoffice/FormElement.vue';
 import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
@@ -87,44 +92,55 @@ const props = defineProps({
     photos: Object,
 });
 
-const form = useForm({
-    photos: props.photos ?? [],
-});
-
 const maxPhotos = 6;
 
-const previewPhotos = (files)=>{
-    let photos = Array.from(files);
-
-    if(photos.length > maxPhotos - form.photos.length){
-        photos.splice(maxPhotos - form.photos.length);
-    }
-
-    photos.forEach((photo, index) => {
-        form.photos.push({id: false, file: photo, path: URL.createObjectURL(photo), sort_index: index});
-    });
-};
-
-const deletePhoto = (index, id)=>{
-    if(!id){
-        form.photos.splice(index, 1);
-    } else {
-        form.delete(route('studio.photos.delete', id), {
-            preserveState: false,
-        });
-    }
-};
+const form = useForm({
+    photos: props.photos ?? [],
+    selected_photos: [],
+});
 
 const submit = ()=>{
     form.post(route('studio.photos.update'), {
         preserveState: false,
+        onSuccess: ()=> form.selected_photos = [],
     });
+};
+
+const previewPhotos = (files)=>{
+    let photos = Array.from(files);
+
+    if(photos.length > maxPhotos - props.photos.length){
+        photos.splice(maxPhotos - props.photos.length);
+    }
+
+    photos.forEach((photo, index) => {
+        form.photos.push({
+            id: null,
+            file: photo,
+            path: URL.createObjectURL(photo),
+            sort_index: index
+        });
+    });
+};
+
+const removePhoto = (index)=>{
+    form.photos.splice(index, 1);
+};
+
+const deleteSelectedPhotos = ()=>{
+    if(form.selected_photos.length){
+        form.delete(route('studio.photos.delete'), {
+            preserveState: false,
+            onSuccess: ()=> form.selected_photos = [],
+        });
+    }
 };
 
 </script>
 
 <script>
 import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
+import Checkbox from '@/Components/Form/Checkbox.vue';
 
 export default {
     layout: (h, page) => h(BackofficeLayout, {

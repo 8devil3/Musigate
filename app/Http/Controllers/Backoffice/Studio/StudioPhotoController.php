@@ -20,9 +20,12 @@ class StudioPhotoController extends Controller
         return Inertia::render('Backoffice/Studio/Photos', compact('photos'));
     }
 
-    public function update(PhotoRequest $request): RedirectResponse
+    public function update(Request $request): RedirectResponse
     {
-        $request->validated();
+        $request->validate([
+            'photos' => 'array',
+            'photos.*.file' => 'image|max:2048',
+        ]);
 
         $studio = auth()->user()->studio;
 
@@ -49,13 +52,21 @@ class StudioPhotoController extends Controller
         return back()->with('success', 'Foto salvate');
     }
 
-    public function delete(int $photo_id): RedirectResponse
+    public function destroy(Request $request): RedirectResponse
     {
-        $photo = auth()->user()->studio->photos()->findOrFail($photo_id);
-    
-        Storage::disk('public')->delete($photo->path);
+        $request->validate([
+            'selected_photos' => ['required', 'array'],
+            'selected_photos.*' => ['integer', 'exists:studio_photos,id'],
+        ]);
 
-        $photo->delete();
+        if($request->selected_photos){
+            $studio = auth()->user()->studio;
+            foreach ($request->selected_photos as $photo_id) {
+                $photo = $studio->photos()->findOrFail($photo_id);
+                Storage::disk('public')->delete($photo->path);
+                $photo->delete();
+            }
+        }
 
         return back()->with('success', 'Foto eliminate');
     }

@@ -63,60 +63,72 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 return Inertia::render('Backoffice/Studio/AppStudioLinks');
             })->name('links');
 
+            //descrizione
             Route::get('/descrizione', [DescriptionController::class, 'edit'])->name('description.edit');
             Route::put('/descrizione', [DescriptionController::class, 'update'])->name('description.update');
             Route::post('/descrizione/logo-carica', [DescriptionController::class, 'logo_upload'])->name('logo_upload');
             Route::delete('/descrizione/logo-elimina', [DescriptionController::class, 'logo_delete'])->name('logo_delete');
-            
+
+            //location
             Route::get('/location', [LocationController::class, 'edit'])->name('location.edit');
             Route::put('/location', [LocationController::class, 'update'])->name('location.update');
 
+            //disponibilità
             Route::get('/disponibilità', [WeeklyAvailabilityController::class, 'edit'])->name('availability.edit');
             Route::put('/disponibilità', [WeeklyAvailabilityController::class, 'update'])->name('availability.update');
 
+            //fasce orarie
             Route::get('/fasce-orarie', [TimebandController::class, 'edit'])->name('timebands.edit');
             Route::put('/fasce-orarie', [TimebandController::class, 'update'])->name('timebands.update');
-    
+
+            //foto studio
             Route::get('/foto', [StudioPhotoController::class, 'edit'])->name('photos.edit');
             Route::post('/foto/salva', [StudioPhotoController::class, 'update'])->name('photos.update');
-            Route::delete('/foto/{photo_id}', [StudioPhotoController::class, 'delete'])->name('photos.delete');
-            
+            Route::delete('/foto/elimina', [StudioPhotoController::class, 'destroy'])->name('photos.delete');
+
+            //video
             Route::get('/video', [VideoController::class, 'edit'])->name('videos.edit');
             Route::put('/video', [VideoController::class, 'update'])->name('videos.update');
-            
+
+            //metodi di pagamento
             Route::get('/metodi-pagamento', [PaymentMethodController::class, 'edit'])->name('payment_methods.edit');
             Route::put('/metodi-pagamento', [PaymentMethodController::class, 'update'])->name('payment_methods.update');
-        
+
+            //collaborazioni
             Route::get('/collaborazioni', [CollaborationController::class, 'index'])->name('collaborations.index');
             Route::post('/collaborazioni', [CollaborationController::class, 'store'])->name('collaborations.store');
             Route::put('/collaborazioni/{collaboration_id}', [CollaborationController::class, 'update'])->name('collaborations.update');
             Route::delete('/collaborazioni/{collaboration_id}', [CollaborationController::class, 'delete'])->name('collaborations.delete');
-    
+
+            //comfort
             Route::get('/comfort', [ComfortController::class, 'edit'])->name('comforts.edit');
             Route::put('/comfort', [ComfortController::class, 'update'])->name('comforts.update');
-        
+
+            //social
             Route::get('/socials', [SocialController::class, 'edit'])->name('socials.edit');
             Route::put('/socials', [SocialController::class, 'update'])->name('socials.update');
-        
+
+            //regolamento
             Route::get('/regolamento', [RuleController::class, 'edit'])->name('rules.edit');
             Route::put('/regolamento', [RuleController::class, 'update'])->name('rules.update');
-        
+
+            //contatti
             Route::get('/contatti', [ContactController::class, 'edit'])->name('contacts.edit');
             Route::put('/contatti', [ContactController::class, 'update'])->name('contacts.update');
         });
 
-        //impostazioni prenotazioni
-        Route::get('/impostazioni-prenotazioni', [BookingSettingController::class, 'edit'])->name('bookings.settings.edit')->middleware('google_refresh_token');
-        Route::put('/impostazioni-prenotazioni', [BookingSettingController::class, 'update'])->name('bookings.settings.update');
+        // //impostazioni prenotazioni
+        // Route::get('/impostazioni-prenotazioni', [BookingSettingController::class, 'edit'])->name('bookings.settings.edit')->middleware('google_refresh_token');
+        // Route::put('/impostazioni-prenotazioni', [BookingSettingController::class, 'update'])->name('bookings.settings.update');
 
-        //impostazioni annullamenti
-        Route::get('/impostazioni-annullamenti', [CancelPolicySettingController::class, 'edit'])->name('cancelling.settings.edit');
-        Route::put('/impostazioni-annullamenti', [CancelPolicySettingController::class, 'update'])->name('cancelling.settings.update');
+        // //impostazioni annullamenti
+        // Route::get('/impostazioni-annullamenti', [CancelPolicySettingController::class, 'edit'])->name('cancelling.settings.edit');
+        // Route::put('/impostazioni-annullamenti', [CancelPolicySettingController::class, 'update'])->name('cancelling.settings.update');
 
-        //prenotazioni
-        Route::get('/prenotazioni', [BookingController::class, 'index'])->name('bookings.index');
-        Route::get('/prenotazioni/modifica/{booking_id}', [BookingController::class, 'edit'])->name('bookings.edit');
-        Route::put('/prenotazioni/update/{booking_id}', [BookingController::class, 'update'])->name('bookings.update');
+        // //prenotazioni
+        // Route::get('/prenotazioni', [BookingController::class, 'index'])->name('bookings.index');
+        // Route::get('/prenotazioni/modifica/{booking_id}', [BookingController::class, 'edit'])->name('bookings.edit');
+        // Route::put('/prenotazioni/update/{booking_id}', [BookingController::class, 'update'])->name('bookings.update');
 
         //gestione sale prova
         Route::resource('/sale-prova', RoomController::class)->parameter('sale-prova', 'room_id');
@@ -132,7 +144,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         //foto sale prova
         Route::get('/sale/foto/{room}', [RoomPhotoController::class, 'edit'])->name('sale-prova.photos.edit');
         Route::post('/sale/foto/{room}', [RoomPhotoController::class, 'update'])->name('sale-prova.photos.update');
-        Route::delete('/sale/foto/{photo_id}/{room}', [RoomPhotoController::class, 'delete'])->name('sale-prova.photos.delete');
+        Route::delete('/sale/foto/{room}', [RoomPhotoController::class, 'destroy'])->name('sale-prova.photos.destroy');
 
         //gestione servizi
         Route::resource('/servizi', ServiceController::class)->parameter('servizi', 'service_id');
