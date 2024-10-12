@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Laravel\Facades\Image;
+use Intervention\Image\ImageManager;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -59,11 +60,14 @@ class DescriptionController extends Controller
             $studio->update(['logo' => null]);
         }
 
-        $scaled_image = Image::read($request->file)->scale(160, 160)->toPng();
+        $image_manager = ImageManager::gd();
+        $new_image = $image_manager->create(160, 160)->fill('fff');
+        $scaled_logo = $image_manager->read($request->file)->scale(150, 150);
+        $new_image->place($scaled_logo, 'center');
 
         $path = 'studios/studio-' . $studio->id . '/logo/' . \Str::uuid() . '.png';
 
-        Storage::disk('public')->put($path, $scaled_image);
+        Storage::disk('public')->put($path, $new_image->toPng());
 
         $studio->update(['logo' => $path]);
 

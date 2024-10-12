@@ -30,7 +30,7 @@
                 </template>
 
                 <template #description>
-                    Carica il logo dello Studio. Per un risultato ottimale consigliamo un'immagine con proporzioni quadrate e del margine intorno al logo per evitare che risulti tagliato agli angoli.
+                    Carica il logo dello Studio.
                 </template>
 
                 <template #content>
