@@ -17,6 +17,8 @@ class RoomPhotoSeeder extends Seeder
     {
         $rooms = Room::all();
 
+        Storage::disk('public')->rooms('studio');
+
         foreach ($rooms as $room) {
             for ($i=0; $i < rand(2, 6); $i++) {
                 $path = Storage::disk('public')->putFile('studios/studio-' . $room->studio->id . '/rooms/' . $room->id, FakerImage::image());
