@@ -15,12 +15,20 @@ class Availability extends Model
         'is_open',
         'open_start',
         'open_end',
-        'timebands'
     ];
 
     protected $casts = [
         'is_open' => 'boolean',
-        'timebands' => 'array',
+    ];
+
+    const WEEKDAYS = [
+        1 => 'Lunedì',
+        2 => 'Martedì',
+        3 => 'Mercoledì',
+        4 => 'Giovedì',
+        5 => 'Venerdì',
+        6 => 'Sabato',
+        7 => 'Domenica',
     ];
 
     public function openStart(): Attribute

@@ -95,10 +95,16 @@ const menu = computed(()=>{
                         active: 'studio.location.edit'
                     },
                     {
-                        icon: 'fa-solid fa-clock',
+                        icon: 'fa-solid fa-business-time',
                         label: 'Disponibilità',
                         route: 'studio.availability.edit',
                         active: 'studio.availability.edit'
+                    },
+                    {
+                        icon: 'fa-solid fa-clock',
+                        label: 'Fasce orarie',
+                        route: 'studio.timebands.edit',
+                        active: 'studio.timebands.edit'
                     },
                     {
                         icon: 'fa-solid fa-image',

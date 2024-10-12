@@ -1,12 +1,12 @@
 <?php
 
-use App\Http\Controllers\Backoffice\Studio\Rooms\RoomPriceController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontoffice\ReservationController;
-use App\Http\Controllers\Backoffice\SuggestionController;
 use App\Http\Controllers\Frontoffice\LegalTextController;
 use App\Http\Controllers\Frontoffice\SearchController;
+use App\Http\Controllers\Backoffice\SuggestionController;
 use App\Http\Controllers\Backoffice\AccountController;
+use App\Http\Controllers\Backoffice\Studio\TimebandController;
 use App\Http\Controllers\Backoffice\Studio\BookingSettingController;
 use App\Http\Controllers\Backoffice\Studio\CancelPolicySettingController;
 use App\Http\Controllers\Backoffice\Studio\ServiceController;
@@ -24,6 +24,7 @@ use App\Http\Controllers\Backoffice\Studio\LocationController;
 use App\Http\Controllers\Backoffice\Studio\RuleController;
 use App\Http\Controllers\Backoffice\Studio\SocialController;
 use App\Http\Controllers\Backoffice\Studio\Rooms\RoomController;
+use App\Http\Controllers\Backoffice\Studio\Rooms\RoomPriceController;
 use App\Http\Controllers\Backoffice\Studio\Rooms\EquipmentController;
 use App\Http\Controllers\Backoffice\Studio\Rooms\RoomPhotoController;
 use Inertia\Inertia;
@@ -72,6 +73,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
             Route::get('/disponibilità', [WeeklyAvailabilityController::class, 'edit'])->name('availability.edit');
             Route::put('/disponibilità', [WeeklyAvailabilityController::class, 'update'])->name('availability.update');
+
+            Route::get('/fasce-orarie', [TimebandController::class, 'edit'])->name('timebands.edit');
+            Route::put('/fasce-orarie', [TimebandController::class, 'update'])->name('timebands.update');
     
             Route::get('/foto', [StudioPhotoController::class, 'edit'])->name('photos.edit');
             Route::post('/foto/salva', [StudioPhotoController::class, 'update'])->name('photos.update');

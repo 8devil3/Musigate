@@ -1,101 +1,98 @@
 <template>
     <ContentLayout
-        as="div"
+        @submitted="submit()"
         :isLoading="form.processing"
         title="Disponibilità settimanale"
-        icon="fa-solid fa-clock"
+        icon="fa-solid fa-business-time"
         :backRoute="route('studio.links')"
     >
         <template #content>
-            <div class="overflow-x-scroll">
-                <div class="grid grid-cols-7 w-[840px] gap-2 pb-6">
-                    <button v-for="wd in weekdays" type="button" @click="currentWd = wd.number" :disabled="form.processing" class="flex items-center justify-center h-8 px-4 text-center transition-colors border-2 rounded-full disabled:opacity-50 disabled:cursor-not-allowed hover:border-orange-500 hover:text-white" :class="currentWd === wd.number ? 'border-orange-500 text-white font-normal bg-orange-500/10' : 'text-slate-400 border-slate-400'">
-                        {{ wd.name }}
-                    </button>
-                </div>
-            </div>
+            <FormElement>
+                <template #title>
+                    Orari di apertura
+                </template>
+                <template #description>
+                    Imposta i giorni e gli orari di lavoro dello Studio.
+                </template>
+                <template #content>
+                    <div class="space-y-4 divide-y sm:max-w-sm divide-slate-700 sm:divide-y-0">
+                        <div v-for="av in form.availability" class="grid grid-cols-2 pt-4 sm:pt0">
+                            <div class="grid grid-cols-1 gap-y-2 gap-x-0 sm:grid-cols-2">
+                                <div class="text-center md:text-base sm:text-left">
+                                    <div class="text-sm font-normal" :class="av.is_open ? 'text-white' : 'text-slate-400'">
+                                        {{ props.weekdays[av.weekday] }}
+                                    </div>
+                                    <div v-if="av.is_open" class="text-xs font-light text-green-500">
+                                        aperto
+                                    </div>
+                                    <div v-else class="text-xs font-light text-red-500">
+                                        chiuso
+                                    </div>
+                                </div>
 
-            <template v-for="wd in weekdays">
-                <div v-if="currentWd === wd.number">
-                    <Weekday
-                        :weekday="wd"
-                        :availability="props.availability[wd.number]"
-                        :timebands="props.timebands.filter(tb => tb.weekday === wd.number)"
-                        :errors="form.errors"
-                        @submitted="submit"
-                    />
-                </div>
-            </template>
+                                <Toggle v-model="av.is_open" :disabled="form.processing" class="self-center place-self-center" />
+                            </div>
+
+                            <div class="grid w-full grid-cols-1 gap-2 sm:grid-cols-2">
+                                <Select
+                                    v-model="av.open_start"
+                                    isArray
+                                    :options="props.hours"
+                                    :disabled="!av.is_open"
+                                    default="Inizio"
+                                    :error="form.errors['availability' + index + 'open_start']"
+                                    :required="av.is_open"
+                                    class="max-w-24"
+                                />
+
+                                <Select
+                                    v-model="av.open_end"
+                                    isArray
+                                    :options="hours.filter(h => h > av.open_start)"
+                                    default="Fine"
+                                    :disabled="!av.is_open"
+                                    :error="form.errors['availability' + index + 'open_end']"
+                                    :required="av.is_open"
+                                    class="max-w-24"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </FormElement>
+        </template>
+
+        <template #actions>
+            <SaveButton :disabled="form.processing" />
         </template>
     </ContentLayout>
 </template>
 
 <script setup>
-import { ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
-import Weekday from './Weekday.vue';
+import FormElement from '@/Components/Backoffice/FormElement.vue';
+import Toggle from '@/Components/Form/Toggle.vue';
+import Select from '@/Components/Form/Select.vue';
+import SaveButton from '@/Components/Form/SaveButton.vue';
 
 const props = defineProps({
     availability: Object,
     timebands: Object,
-    is_open_24_7: Boolean,
-    weekday: Number,
+    hours: Object,
+    weekdays: Object,
 });
-
-const currentWd = ref(props.weekday);
 
 const form = useForm({
-    weekday: null,
-    is_open: null,
-    open_start: null,
-    open_end: null,
-    timebands: [],
+    availability: props.availability
 });
 
-const submit = (e)=>{
-    form.weekday = e.weekday;
-    form.is_open = e.is_open;
-    form.open_start = e.open_start;
-    form.open_end = e.open_end;
-    form.timebands = e.timebands;
-
+const submit = ()=>{
+    if(form.processing) return;
     form.put(route('studio.availability.update'), {
         preserveState: false,
-        onSuccess: ()=> form.reset(),
     });
 };
-
-const weekdays = [
-    {
-        name: 'Lunedì',
-        number: 1
-    },
-    {
-        name: 'Martedì',
-        number: 2
-    },
-    {
-        name: 'Mercoledì',
-        number: 3
-    },
-    {
-        name: 'Giovedì',
-        number: 4
-    },
-    {
-        name: 'Venerdì',
-        number: 5
-    },
-    {
-        name: 'Sabato',
-        number: 6
-    },
-    {
-        name: 'Domenica',
-        number: 7
-    },
-];
 
 </script>
 

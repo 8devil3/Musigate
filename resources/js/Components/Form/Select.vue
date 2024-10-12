@@ -5,7 +5,7 @@
         <select
             v-model="vModel"
             autocomplete="off"
-            @change="emit('change')"
+            @change="emit('change', vModel)"
             :required="props.required"
             :disabled="props.disabled"
             :aria-label="props.label"

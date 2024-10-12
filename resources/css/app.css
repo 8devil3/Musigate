@@ -43,7 +43,7 @@
     }
 
     strong {
-        @apply font-medium text-white;
+        @apply font-medium;
     }
 
     th {
@@ -108,7 +108,7 @@ li.list-musigate::before {
 }
 
 .table th {
-    @apply px-1 py-2 text-sm font-light uppercase bg-slate-800 first-of-type:rounded-l-full last-of-type:rounded-r-full first-of-type:pl-3 first-of-type:pr-1 last-of-type:pr-3 text-slate-400 last-of-type:pl-1;
+    @apply px-1 py-2 text-sm font-normal uppercase bg-slate-800 first-of-type:rounded-l-full last-of-type:rounded-r-full first-of-type:pl-3 first-of-type:pr-1 last-of-type:pr-3 text-slate-400 last-of-type:pl-1;
 }
 
 .table td {
@@ -275,7 +275,7 @@ input[type="range"]::-moz-range-progress {
 
 /* Vue 3 Carousel */
 .carousel button {
-    @apply size-8 rounded-full bg-slate-950/50 shrink-0;
+    @apply rounded-full size-8 bg-slate-950/50 shrink-0;
 }
 
 .carousel__icon {

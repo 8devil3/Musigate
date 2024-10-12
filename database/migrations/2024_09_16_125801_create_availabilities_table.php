@@ -19,7 +19,6 @@ return new class extends Migration
             $table->boolean('is_open')->default(false);
             $table->time('open_start')->nullable();
             $table->time('open_end')->nullable();
-            $table->json('timebands')->nullable();
 
             $table->timestamps();
         });
