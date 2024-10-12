@@ -9,8 +9,8 @@
             <div v-if="props.rooms.length" class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 lg:gap-6">
                 <article v-for="room in props.rooms" class="flex flex-col gap-4 p-4 transition-colors border hover:shadow-xl border-slate-700 hover:border-orange-500 hover:bg-slate-800/50 rounded-xl overflow-clip min-h-80">
                     <Link :href="route('sale-prova.edit', room.id)" class="block">
-                        <h2 class="flex items-center gap-2">
-                            <span class="inline-block size-5 rounded-full shadow-inner" :style="'background-color: ' + room.color" />
+                        <h2 class="flex items-center gap-2 mb-4">
+                            <!-- <span class="inline-block rounded-full shadow-inner size-5" :style="'background-color: ' + room.color" /> -->
                             {{ room.name }}
                         </h2>
     
@@ -68,8 +68,7 @@
                 </template>
 
                 <template #description>
-                    <strong class="text-red-500">Attenzione:</strong> eliminando la sala verranno eliminate anche le relative prenotazioni. Se non vuoi più ricevere prenotazioni per questa sala puoi renderla non prenotabile o invisibile.<br>
-                    L'eliminazione è irreversibile.
+                    L'eliminazione è irreversibile, confermi di voler procedere?
                 </template>
 
                 <template #actions>
