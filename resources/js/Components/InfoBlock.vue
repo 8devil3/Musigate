@@ -1,11 +1,11 @@
 <template>
-    <div class="flex items-start gap-2">
-        <i class="-mt-1 text-lg" :class="[props.icon, colorClasses]" />
+    <div class="inline-flex items-start gap-2 p-2 border-2 rounded-xl" :class="colorClasses.border">
+        <i class="flex items-center justify-center text-xs border-2 rounded-full shrink-0 size-5" :class="[props.icon, colorClasses.text, colorClasses.border]" />
         <div class="space-y-1">
-            <div class="text-sm font-medium text-left" :class="colorClasses">
+            <div class="text-sm font-medium text-left border-0" :class="colorClasses.text">
                 {{ props.title }}
             </div>
-            <div class="text-xs font-light" :class="props.color === 'danger' ? 'text-red-500' : 'text-slate-400'">
+            <div class="text-xs font-light text-slate-300">
                 <slot />
             </div>
         </div>
@@ -18,29 +18,44 @@ import { computed } from 'vue';
 const props = defineProps({
     icon: {
         type: String,
-        default: 'fa-solid fa-circle-info'
+        default: 'fa-solid fa-info'
     },
     title: String,
     color: {
         type: String,
-        default: 'info',
+        default: 'danger',
     },
 });
 
 const colorClasses = computed(()=>{
+    let color = {
+        border: null,
+        text: null,
+    };
+
     switch (props.color) {
         case 'info':
-        return 'text-blue-500';
+            color.border = 'border-blue-500';
+            color.text = 'text-blue-500';
+        break;
 
         case 'warning':
-        return 'text-amber-500';
+            color.border = 'border-amber-500';
+            color.text = 'text-amber-500';
+        break;
 
         case 'danger':
-        return 'text-red-500';
+            color.border = 'border-red-500';
+            color.text = 'text-red-500';
+        break;
 
         case 'success':
-        return 'text-green-500';
+            color.border = 'border-green-500';
+            color.text = 'text-green-500';
+        break;
     }
+
+    return color;
 })
 
 </script>
