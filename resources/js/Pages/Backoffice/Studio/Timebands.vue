@@ -18,20 +18,20 @@
                     La fine dell'ultima fascia deve corrispondere all'orario di chiusura dello Studio.<br><br>
 
                     <span class="text-red-500">
-                        <strong>ATTENZIONE:</strong> eliminando le fasce orarie verranno eliminate anche le tariffe associate.
+                        <strong>ATTENZIONE:</strong> eliminando le fasce orarie verranno eliminate anche le tariffe associate delle Sale.
                     </span>
                 </template>
                 <template #content>
                     <div v-if="props.availability.is_open">
                         <template v-if="form.timebands.length">
                             <InfoBlock
-                                v-show="hasValidationError"
+                                v-show="hasValidationErrors"
                                 color="danger"
-                                icon="fa-solid fa-circle-exclamation"
-                                :title="hasValidationError.title"
+                                icon="fa-solid fa-exclamation"
+                                :title="hasValidationErrors.title"
                                 class="mb-4"
                             >
-                                {{ hasValidationError.message }}
+                                {{ hasValidationErrors.message }}
                             </InfoBlock>
 
                             <table class="table w-full">
@@ -90,13 +90,17 @@
                                 Non sono presenti fasce orarie per {{ props.weekdays[form.weekday] }}.
                             </template>
                             <template #actions>
-                                <Button @click="addTimeband()" text="Aggiungi" icon="fa-solid fa-plus" />
+                                <div class="flex flex-col w-40 gap-2 mx-auto text-center">
+                                    <Button @click="addTimeband()" text="Aggiungi" icon="fa-solid fa-plus" />
+                                    - oppure -
+                                    <Select v-if="props.all_timebands" v-model="form.clone_from_weekday" @change="submit()" :options="props.all_timebands" label="Copia da" default="Seleziona giorno" />
+                                </div>
                             </template>
                         </Empty>
                     </div>
 
                     <div v-else>
-                        <Empty>
+                        <Empty icon="fa-solid fa-circle-xmark">
                             <template #title>
                                 Giorno di chiusura
                             </template>
@@ -108,7 +112,7 @@
 
         <template #actions>
             <Select v-model.number="form.weekday" @change="selectWeekday()" :options="props.weekdays" default="Seleziona giorno" class="w-40" />
-            <SaveButton v-if="props.availability.is_open && form.isDirty" :disabled="form.processing" />
+            <SaveButton v-if="props.availability.is_open && form.isDirty && !form.clone_from_weekday && !hasValidationErrors" :disabled="form.processing" />
         </template>
     </ContentLayout>
 </template>
@@ -128,21 +132,23 @@ import SaveButton from '@/Components/Form/SaveButton.vue';
 
 const props = defineProps({
     timebands: Object,
+    all_timebands: Array,
     availability: Object,
     weekdays: Object,
     hours: Array,
     weekday: Number,
 });
 
-const hasValidationError = ref(false);
+const hasValidationErrors = ref(false);
 
 const form = useForm({
     weekday: props.weekday ?? 1,
+    clone_from_weekday: '',
     timebands: props.timebands ?? [],
 });
 
 const submit = ()=>{
-    if(form.processing || hasValidationError.value) return;
+    if(form.processing || hasValidationErrors.value) return;
     form.put(route('studio.timebands.update'), {
         preserveState: false,
         onSuccess: ()=> form.reset(),
@@ -190,13 +196,13 @@ const validations = ()=>{
     setTimebandsStartEnd();
 
     //validazione orari delle fasce orarie
-    hasValidationError.value = false;
+    hasValidationErrors.value = false;
     if(
         form.timebands.length &&
         (form.timebands[0].start !== props.availability.open_start ||
         form.timebands[form.timebands.length -1].end !== props.availability.open_end)
     ){
-        hasValidationError.value = {
+        hasValidationErrors.value = {
             title: 'Orario inizio/fine non coerente con apertura/chiusura',
             message: 'Gli orari di inizio e fine della prima e ultima fascia oraria devono coincidere con quelle di apertura e chiusura dello Studio.'
         };
@@ -204,7 +210,7 @@ const validations = ()=>{
 
     //validazione numero di fasce orarie (minimo 2)
     if(form.timebands.length && form.timebands.length < 2){
-        hasValidationError.value = {
+        hasValidationErrors.value = {
             title: 'Fascia oraria singola',
             message: 'Devi inserire almeno due fasce orarie.'
         };
@@ -215,7 +221,7 @@ const validations = ()=>{
     let hasDuplicates = new Set(timebandNames).size !== timebandNames.length;
     
     if(hasDuplicates){
-        hasValidationError.value = {
+        hasValidationErrors.value = {
             title: 'Nome fascia non univoco',
             message: 'Le fasce orarie devono avere nomi univoci nello stesso giorno. Possono avere lo stesso nome in giorni diversi.'
         };
