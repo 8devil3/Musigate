@@ -15,7 +15,7 @@
                 <TitleBar :studio="props.studio" :socials=props.socials :request="props.request" />
 
                 <Section v-if="props.studio.description" title="Presentazione" id="presentazione">
-                    <p>{{ props.studio.description }}</p>
+                    <p class="whitespace-pre-wrap">{{ props.studio.description }}</p>
             
                     <div v-if="props.studio.payment_methods.length" class="pt-2 space-y-2">
                         <h3>Pagamenti accettati</h3>
