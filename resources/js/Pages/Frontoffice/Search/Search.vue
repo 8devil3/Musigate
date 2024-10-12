@@ -1,14 +1,14 @@
 <template>
     <FrontofficeLayout title="Cerca Studi">
         <!-- search bar desktop-->
-        <form @submit.prevent="submit()" class="sticky top-0 z-50 flex-wrap items-end hidden px-6 py-4 border-b bg-slate-950/60 border-slate-700 backdrop-blur-md md:flex gap-x-2 gap-y-4">
-            <SearchLocation v-model="form.location" @update:model-value="submit()" label="Location" class="grow" />
+        <form @submit.prevent="submit()" class="sticky top-0 z-50 flex-wrap items-end justify-center hidden px-6 py-4 border-b bg-slate-950/60 border-slate-700 backdrop-blur-md md:flex gap-x-2 gap-y-4">
+            <SearchLocation v-model="form.location" @update:model-value="submit()" label="Location" />
             <RangeSlider v-model="form.radius" @change="submit()" :min="50" :max="500" :step="10" label="Raggio" unit="km" :disabled="!form.location" class="self-start px-2" />
-            <Input type="dateTime-local" v-model="form.start" @input="submit()" :min="dayjs().add(1, 'day').hour(0).minute(0).second(0).format('YYYY-MM-DD HH:mm')" :step="1800" placeholder="Inizio" label="Data e ora d'inizio" class="grow max-w-48" />
+            <!-- <Input type="dateTime-local" v-model="form.start" @input="submit()" :min="dayjs().add(1, 'day').hour(0).minute(0).second(0).format('YYYY-MM-DD HH:mm')" :step="1800" placeholder="Inizio" label="Data e ora d'inizio" class="grow max-w-48" />
             <NumberInput v-model="form.duration" @input="submit()" @change="submit()" :min="1" :max="24" label="Durata" unit="ore" />
-            <NumberInput v-model="form.guests" @input="submit()" @change="submit()" :min="1" :max="99" label="Persone" />
+            <NumberInput v-model="form.guests" @input="submit()" @change="submit()" :min="1" :max="99" label="Persone" /> -->
 
-            <div class="flex items-end gap-2 grow">
+            <div class="flex items-end gap-2">
                 <Input type="search" v-model="form.name" @input="submit()" placeholder="Nome studio" label="Nome Studio" class="grow" />
                 <Input type="search" v-model="form.equip" @input="submit()" placeholder="Equipaggiamento" label="Cerca equipaggiamento" class="grow" />
                 <Button v-if="!showMap" @click="showMap = true" title="Mostra mappa" icon="fa-solid fa-map-location-dot" :disabled="form.processing" />
@@ -56,7 +56,7 @@
         <!-- / -->
 
         <!-- to top -->
-        <button type="button" @click="toTop()" class="fixed flex items-center justify-center size-10 text-lg leading-none transition-opacity bg-orange-500 rounded-full shadow-lg opacity-0 bottom-4 right-4" :class="scrollPos > 500 ? 'opacity-100' : 'opacity-0'">
+        <button type="button" @click="toTop()" class="fixed flex items-center justify-center text-lg leading-none transition-opacity bg-orange-500 rounded-full shadow-lg opacity-0 size-10 bottom-4 right-4" :class="scrollPos > 500 ? 'opacity-100' : 'opacity-0'">
             <i class="fa-solid fa-chevron-up" />
         </button>
         <!-- / -->
@@ -73,11 +73,11 @@
                 <form @submit.prevent="submit()" class="flex flex-col gap-4">
                     <SearchLocation v-model="form.location" label="Location" />
                     <RangeSlider v-model="form.radius" :min="50" :max="500" :step="10" label="Raggio" unit="km" :disabled="!form.location" />
-                    <Input type="dateTime-local" v-model="form.start" placeholder="Inizio" label="Data e ora d'inizio"  :min="dayjs().add(1, 'day').hour(0).minute(0).second(0).format('YYYY-MM-DD HH:mm')" :step="1800" class="grow" />
+                    <!-- <Input type="dateTime-local" v-model="form.start" placeholder="Inizio" label="Data e ora d'inizio"  :min="dayjs().add(1, 'day').hour(0).minute(0).second(0).format('YYYY-MM-DD HH:mm')" :step="1800" class="grow" />
                     <div class="flex w-full gap-4">
                         <NumberInput v-model="form.duration" :min="1" :max="24" label="Durata" unit="ore" class="grow" />
                         <NumberInput v-model="form.guests" :min="1" :max="99" label="Persone" class="grow" />
-                    </div>
+                    </div> -->
                     <Input type="search" v-model="form.name" placeholder="Nome studio" label="Nome Studio" />
                     <Input type="search" v-model="form.equip" placeholder="Equipaggiamento" label="Equipaggiamento" />
                     <div class="mt-4 space-y-4">
@@ -105,7 +105,7 @@ import Button from '@/Components/Form/Button.vue';
 import Input from '@/Components/Form/Input.vue';
 import Spinner from '@/Components/Spinner.vue';
 import RangeSlider from '@/Components/Form/RangeSlider.vue';
-import dayjs from 'dayjs';
+// import dayjs from 'dayjs';
 
 const props = defineProps({
     rooms: Object,
@@ -117,14 +117,14 @@ const scrollPos = ref(0);
 const isOpenModalFilters = ref(false);
 
 const form = useForm({
-    start: props.request?.start ?? null,
-    duration: props.request?.duration ?? 2,
+    // start: props.request?.start ?? null,
+    // duration: props.request?.duration ?? 2,
+    // guests: props.request?.guests ?? 1,
     name: props.request?.name ?? null,
     location: props.request?.location ?? null,
     radius: props.request?.radius ?? 100,
     category: props.request?.category ?? '',
     equip: props.request?.equip ?? null,
-    guests: props.request?.guests ?? 1,
 });
 
 const submit = ()=>{
