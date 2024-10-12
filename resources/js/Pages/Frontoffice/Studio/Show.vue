@@ -95,17 +95,17 @@
                 <Section v-if="props.studio.rule.before || props.studio.rule.during || props.studio.rule.after" title="Regolamento" id="regolamento">
                     <div class="mb-6">
                         <h3>Prima della sessione</h3>
-                        <p>{{ props.studio.rule.before.substring(0, 300) }}...</p>
+                        <p class="whitespace-pre-wrap">{{ props.studio.rule.before.substring(0, 300) }}...</p>
                     </div>
             
                     <div class="mb-6">
                         <h3>Durante la sessione</h3>
-                        <p>{{ props.studio.rule.during.substring(0, 300) }}...</p>
+                        <p class="whitespace-pre-wrap">{{ props.studio.rule.during.substring(0, 300) }}...</p>
                     </div>
             
                     <div>
                         <h3>Dopo la sessione</h3>
-                        <p>{{ props.studio.rule.after.substring(0, 300) }}...</p>
+                        <p class="whitespace-pre-wrap">{{ props.studio.rule.after.substring(0, 300) }}...</p>
                     </div>
                     
                     <ShowAll @click="openRulesModal = true" />

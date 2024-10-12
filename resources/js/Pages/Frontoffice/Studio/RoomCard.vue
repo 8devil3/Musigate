@@ -39,7 +39,7 @@
             <!-- / -->
 
             <!-- descrizione -->
-            <p class="m-0 line-clamp-3">
+            <p v-if="props.room.description" class="m-0 line-clamp-3">
                 {{ props.room.description }}
             </p>                
             <!-- / -->
@@ -123,7 +123,7 @@
                 <!-- / -->
 
                 <!-- descrizione -->
-                <div class="space-y-4">
+                <div v-if="props.room.description" class="space-y-4">
                     <h4 class="pb-1 m-0 border-b border-orange-500">Descrizione</h4>
                     <p class="m-0">
                         {{ props.room.description }}
