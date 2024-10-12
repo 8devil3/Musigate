@@ -1,8 +1,20 @@
 <template>
-    <article class="flex flex-col w-full overflow-hidden border border-gray-600 bg-gray-950 bg-opacity-60 rounded-2xl">
+    <article class="relative flex flex-col w-full border border-gray-600 overflow-clip bg-gray-950 bg-opacity-60 rounded-2xl">
+        <!-- badge sconto -->
+        <div v-if="props.room.has_discounted_fixed_price || props.room.min_discounted_price" class="absolute z-50 w-40 py-1.5 text-xs font-medium text-center text-white origin-top rotate-45 translate-x-1/2 bg-orange-900/80 backdrop-blur-sm border-orange-500 shadow-sm border-y-2 top-2 right-2">
+            <!-- <i class="-rotate-45 fa-solid fa-tag" /> -->
+            <div>
+                Tariffa<br>
+                scontata
+            </div>
+        </div>
+        <!-- / -->
+
+        <!-- carosello -->
         <div class="h-60">
             <Carosello :imgs="props.room.photos" />
         </div>
+        <!-- / -->
 
         <div class="flex flex-col gap-6 p-4 md:p-6 grow">
             <!-- icon bar -->
@@ -17,7 +29,7 @@
                 </div>
                 <div class="flex items-center whitespace-nowrap" title="Prenotazione minima">
                     <i class="mr-2 text-orange-500 fa-solid fa-hourglass-half"></i>
-                    <span class="text-xs whitespace-nowrap">{{ props.booking_settings.min_booking === 1 ? ' min. 1 ora': 'min. ' + props.booking_settings.min_booking + ' ore' }}</span>
+                    <span class="text-xs whitespace-nowrap">{{ props.room.min_booking === 1 ? ' min. 1 ora': 'min. ' + props.room.min_booking + ' ore' }}</span>
                 </div>
             </div>
             <!-- / -->
@@ -47,14 +59,33 @@
             </div>
             <!-- / -->
 
-            <!-- tariffa minima -->
-            <div v-if="props.room.min_price || props.room.min_discounted_price" class="flex flex-col gap-1">
+            <!-- tariffa -->
+            <div v-if="props.room.fixed_price || props.room.has_discounted_fixed_price || props.room.min_price || props.room.min_discounted_price" class="flex flex-col gap-1">
                 Tariffe a partire da
-                <span v-if="props.room.min_discounted_price" class="text-base font-medium font-lemon">
-                    {{ props.room.min_discounted_price }} €/h
-                </span>
-                <span v-else class="text-base font-medium font-lemon">
+                <template v-if="props.room.min_discounted_price">
+                    <span class="text-xs line-through text-slate-400 font-lemon">
+                        {{ props.room.min_price }} €/h
+                    </span>
+                    <span class="text-base font-medium font-lemon">
+                        {{ props.room.min_discounted_price }} €/h
+                    </span>
+                </template>
+
+                <span v-else-if="props.room.min_price" class="text-base font-medium font-lemon">
                     {{ props.room.min_price }} €/h
+                </span>
+
+                <template v-else-if="props.room.discounted_fixed_price">
+                    <span class="text-xs line-through text-slate-400 font-lemon">
+                        {{ props.room.fixed_price }} €/h
+                    </span>
+                    <span class="text-base font-medium font-lemon">
+                        {{ props.room.discounted_fixed_price }} €/h
+                    </span>
+                </template>
+
+                <span v-else class="text-base font-medium font-lemon">
+                    {{ props.room.discounted_fixed_price }} €/h
                 </span>
             </div>
             <!-- / -->
@@ -86,7 +117,7 @@
                     </div>
                     <div class="flex items-center whitespace-nowrap" title="Prenotazione minima">
                         <i class="mr-2 text-orange-500 fa-solid fa-hourglass-half"></i>
-                        <span class="text-xs whitespace-nowrap">{{ props.booking_settings.min_booking === 1 ? ' min. 1 ora': 'min. ' + props.booking_settings.min_booking + ' ore' }}</span>
+                        <span class="text-xs whitespace-nowrap">{{ props.room.min_booking === 1 ? ' min. 1 ora': 'min. ' + props.room.min_booking + ' ore' }}</span>
                     </div>
                 </div>
                 <!-- / -->
@@ -124,7 +155,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import Modal from '@/Components/Modal.vue';
 import ShowAll from '@/Components/ShowAll.vue';
 import Carosello from '@/Components/Carosello.vue';
@@ -133,7 +164,6 @@ import Button from '@/Components/Form/Button.vue';
 const props = defineProps({
     room: Object,
     equipment_categories: Object,
-    booking_settings: Object,
 });
 
 const openModalRoom = ref(false);

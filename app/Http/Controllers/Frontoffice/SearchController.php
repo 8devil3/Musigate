@@ -58,6 +58,8 @@ class SearchController extends Controller
                     });
                 });
             })
+            ->withMin('prices as min_price', 'price')
+            ->withMin('prices as min_discounted_price', 'discounted_price')
             ->withCount('studio')
             // ->withMin('rooms as min_price', 'price')
             ->paginate(20)
