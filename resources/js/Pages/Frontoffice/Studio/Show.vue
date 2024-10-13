@@ -88,7 +88,7 @@
 
                 <Section v-if="props.studio.rooms.length" title="Sale prova" id="sale-prova">
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                        <RoomCard v-for="room in props.studio.rooms" :room="room" :equipment_categories="props.equipment_categories" :booking_settings="props.booking_settings" />
+                        <RoomCard v-for="room in props.studio.rooms" :room="room" :equipment_categories="props.equipment_categories" />
                     </div>
                 </Section>
             
@@ -212,7 +212,6 @@ const props = defineProps({
     studio: Object,
     all_photos: Object,
     equipment_categories: Object,
-    booking_settings: Object,
     contacts: Object,
     socials: Object,
     request: Object,
