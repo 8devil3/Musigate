@@ -7,16 +7,16 @@
         <template #content>
             <GoogleLogin />
 
-            <Input v-model="form.email" id="login-email" type="email" label="Email" placeholder="La tua email" icon="fa-solid fa-envelope" :error="form.errors.email" required autofocus class="w-full" />
+            <Input type="email" v-model="form.email" label="Email" placeholder="La tua email" :error="form.errors.email" required autofocus class="w-full" />
             
-            <Input v-model="form.password" id="login-password" type="password" label="Password" placeholder="La tua password" :error="form.errors.password" required class="w-full" />
+            <Input type="password" v-model="form.password" label="Password" placeholder="La tua password" :error="form.errors.password" required class="w-full" />
 
             <div class="flex items-center justify-between px-4">
-                <Checkbox id="login-remember" v-model:checked="form.remember">
+                <Checkbox v-model:checked="form.remember">
                     Ricordami
                 </Checkbox>
                 
-                <Link v-model="form.password" v-if="canResetPassword" :href="route('password.request')" class="block text-xs font-medium text-right text-orange-500 hover:text-orange-400">Password dimenticata?</Link>
+                <Link v-if="canResetPassword" v-model="form.password" :href="route('password.request')" class="block text-xs font-medium text-right text-orange-500 hover:text-orange-400">Password dimenticata?</Link>
             </div>
         </template>
 
