@@ -75,10 +75,9 @@ class SearchController extends Controller
     {
         if(!$studio->is_visible || !$studio->is_complete) abort(404);
 
-        $request = session('request');
+        $request = session()->get('request');
 
         $equipment_categories = EquipmentCategory::pluck('name', 'id');
-        $booking_settings = $studio->booking_settings;
 
         $studio->load([
             'videos',
@@ -112,6 +111,6 @@ class SearchController extends Controller
         $socials = $studio->socials->only(['facebook', 'instagram', 'youtube', 'linkedin', 'soundcloud', 'spotify', 'itunes', 'website']);
         $contacts = Inertia::lazy(fn () => $studio_contacts);
         
-        return Inertia::render('Frontoffice/Studio/Show', compact('request', 'studio', 'equipment_categories', 'booking_settings', 'socials', 'contacts', 'all_photos'));
+        return Inertia::render('Frontoffice/Studio/Show', compact('request', 'studio', 'equipment_categories', 'socials', 'contacts', 'all_photos'));
     }
 }
