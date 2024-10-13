@@ -16,16 +16,16 @@ class SearchController extends Controller
 {
     public function index(Request $request): Response
     {
-        $radius = request('radius', null);
-        $lon = request('location.lon', null);
-        $lat = request('location.lat', null);
-        $point = $lon && $lat ? "POINT($lon $lat)" : null;
+        // $radius = request('radius', null);
+        // $lon = request('location.lon', null);
+        // $lat = request('location.lat', null);
+        // $point = $lon && $lat ? "POINT($lon $lat)" : null;
 
-        $start = request('start', null) ? Carbon::parse(request('start')) : null;
-        $duration = request('duration', null);
-        $end = $start && $duration ? $start->clone()->addHours(intval($duration)) : null;
+        // $start = request('start', null) ? Carbon::parse(request('start')) : null;
+        // $duration = request('duration', null);
+        // $end = $start && $duration ? $start->clone()->addHours(intval($duration)) : null;
 
-        $guests = request('guests', null);
+        // $guests = request('guests', null);
         $equip = request('equip', null);
         $user = auth()->user();
 
@@ -42,7 +42,7 @@ class SearchController extends Controller
             //             ->orWhereNotBetween('end', [$start->toDateTimeString(), $end->toDateTimeString()]);
             //     });
             // })
-            ->whereHas('studio', function($query) use($user, $radius, $point){
+            ->whereHas('studio', function($query) use($user){
                 $query->when($user && $user->role_id === Role::STUDIO , function($query) use($user){
                     $query->whereNot('id', $user->studio->id);
                 })
@@ -51,12 +51,12 @@ class SearchController extends Controller
                     $query->whereLike('name', '%' . request('name') . '%');
                 })
                 ->where('is_visible', true)
-                ->where('is_complete', true)
-                ->when(request('location', 'all') !== 'all' && $point && $radius, function($query) use($point, $radius){
-                    $query->whereHas('location', function($query) use($point, $radius){
-                        $query->whereRaw('ST_DISTANCE(ST_GeomFromText(CONCAT("POINT(", lon, " ", lat, ")"), 4326), ST_GeomFromText(?, 4326)) <= ?', [$point, $radius * 1000]);
-                    });
-                });
+                ->where('is_complete', true);
+                // ->when(request('location', 'all') !== 'all' && $point && $radius, function($query) use($point, $radius){
+                //     $query->whereHas('location', function($query) use($point, $radius){
+                //         $query->whereRaw('ST_DISTANCE(ST_GeomFromText(CONCAT("POINT(", lon, " ", lat, ")"), 4326), ST_GeomFromText(?, 4326)) <= ?', [$point, $radius * 1000]);
+                //     });
+                // });
             })
             ->withMin('prices as min_price', 'price')
             ->withMin('prices as min_discounted_price', 'discounted_price')

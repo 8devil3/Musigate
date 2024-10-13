@@ -56,8 +56,8 @@ const props = defineProps({
 
 const emit = defineEmits(['selected', 'clear']);
 
-const query = ref('');
 const vModel = defineModel({default: null});
+const query = ref('');
 const showList = ref(false);
 const classes = "text-left w-full h-8 px-4 pl-8 py-0 text-sm text-white bg-slate-800/50 border border-slate-400 rounded-full placeholder:text-slate-300/80 disabled:bg-slate-800 placeholder:truncate truncate disabled:cursor-not-allowed disabled:text-slate-500 disabled:border-slate-500 font-sans placeholder:font-light font-light focus:ring-orange-500/50 focus:border-orange-500 focus:border-orange-500 focus:shadow-md focus:shadow-orange-500";
 
@@ -75,15 +75,17 @@ const filteredItems = computed(()=>{
 });
 
 const selectItem = (item)=>{
-    emit('selected', item);
     vModel.value = item;
+    query.value = item;
     showList.value = false;
+    emit('selected', item);
 };
 
 const clearInput = ()=>{
-    emit('clear');
+    query.value = '';
     vModel.value = null;
     showList.value = false;
+    emit('clear');
 }
 
 //click outside

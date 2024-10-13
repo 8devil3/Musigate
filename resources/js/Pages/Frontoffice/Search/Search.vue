@@ -136,9 +136,8 @@ const form = useForm({
     // start: props.request?.start ?? null,
     // duration: props.request?.duration ?? 2,
     // guests: props.request?.guests ?? 1,
-    name: props.request?.name ?? null,
     location: props.request?.location ?? null,
-    category: props.request?.category ?? '',
+    name: props.request?.name ?? null,
     equip: props.request?.equip ?? null,
 });
 
