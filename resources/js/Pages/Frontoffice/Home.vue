@@ -15,29 +15,29 @@
                     <h2 class="pb-2 m-0 uppercase border-b-2 border-b-orange-500">iniza da qui</h2>
                     
                     <div>
-                        <Label for="where" label="Dove" />
+                        <!-- <Label for="where" label="Dove" /> -->
                         <SearchLocation id="where" v-model="form.location"/>
                     </div>
     
-                    <div class="space-y-4">                        
+                    <!-- <div class="space-y-4">                        
                         <Input type="dateTime-local" v-model="form.start" label="Quando" :min="dayjs().add(1, 'day').hour(0).minute(0).second(0).format('YYYY-MM-DD HH:mm')" :step="1800" class="w-full" />
 
                         <div class="flex gap-2">
                             <NumberInput v-model="form.duration" :min="1" :max="24" label="Durata" unit="ore" class="grow" />
                             <NumberInput v-model="form.guests" :min="1" :max="99" label="Persone" class="grow" />
                         </div>
-                    </div>
+                    </div> -->
                     
                     <div class="w-full pt-4">
                         <Button type="submit" icon="fa-solid fa-magnifying-glass" text="cerca" class="w-full" />
                     </div>
                 </form>
 
-                <div class="flex flex-col max-w-[240px] gap-4">
+                <div class="flex flex-col max-w-[256px] gap-4">
                     <h2 class="pb-2 m-0 uppercase border-b-2 border-b-orange-500">Nuovo su Musigate?</h2>
 
-                    <Button type="router" :href="route('register')" text="Iscriviti come artista" icon="fa-solid fa-guitar" />
                     <Button type="router" :href="route('register.studio.choose_plan')" text="Registra il tuo Studio" icon="fa-solid fa-microphone-lines" />
+                    <Button type="router" :href="route('register')" text="Iscriviti come artista" icon="fa-solid fa-guitar" />
                 </div>
             </div>
         </div>
@@ -59,9 +59,9 @@ import dayjs from 'dayjs';
 
 const form = useForm({
     location: null,
-    start: dayjs().add(1, 'day').hour(Math.ceil(dayjs().hour())).minute(0).second(0).format('YYYY-MM-DD HH:mm'),
-    duration: 2,
-    guests: 1,
+    // start: dayjs().add(1, 'day').hour(Math.ceil(dayjs().hour())).minute(0).second(0).format('YYYY-MM-DD HH:mm'),
+    // duration: 2,
+    // guests: 1,
 });
 
 const submit = () => {
