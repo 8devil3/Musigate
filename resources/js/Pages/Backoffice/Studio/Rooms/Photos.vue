@@ -77,7 +77,7 @@
 
         <template #actions>
             <Button v-if="form.selected_photos.length" @click="deleteSelectedPhotos()" text="Elimina selezionate" icon="fa-solid fa-trash-can" color="red" />
-            <SaveButton :isLoading="form.processing" :disabled="form.processing" />
+            <SaveButton v-if="form.isDirty && !form.processing" />
         </template>
     </ContentLayout>
 </template>

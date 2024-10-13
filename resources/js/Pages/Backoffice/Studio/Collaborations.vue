@@ -16,7 +16,7 @@
                 <template #content>
                     <ul v-if="props.collaborations.length" class="relative w-full border-l-2 border-orange-500 md:max-w-lg md:mx-auto">                  
                         <li v-for="collab, idx in props.collaborations" class="p-3 mb-8 ml-4 rounded-lg bg-gray-800/50 last:mb-0">
-                            <div class="absolute w-3.5 h-3.5 bg-gray-900 rounded-full mt-1 -left-2 border-2 border-orange-500" />
+                            <div class="absolute size-3.5 bg-gray-900 rounded-full mt-2 -left-2 border-2 border-orange-500" />
                             <div class="flex items-start justify-between gap-4 mb-4">
                                 <h3 class="text-gray-200">{{ collab.title }}</h3>
                                 <div class="flex gap-2">

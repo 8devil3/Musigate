@@ -155,7 +155,7 @@
         </template>
 
         <template #actions>
-            <SaveButton :disabled="form.processing" />
+            <SaveButton v-if="form.isDirty && !form.processing" />
         </template>
     </ContentLayout>
 </template>

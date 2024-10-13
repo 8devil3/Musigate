@@ -1,61 +1,77 @@
 <template>
-    <nav class="flex flex-col w-64 h-full gap-3 pb-6 overflow-y-auto font-sans font-medium shrink-0 bg-slate-900 lg:gap-6 noscrollbar">
-        <!-- nome e logo studio -->
-        <div class="px-2 pt-6 space-y-4 shrink-0">
-            <div class="flex items-center justify-center w-16 mx-auto border-2 border-orange-500 rounded-full aspect-square">
-                <img v-if="usePage().props.auth.studio.logo" :src="'/storage/' + usePage().props.auth.studio.logo" :alt="usePage().props.auth.studio.name" class="object-contain w-full h-full rounded-full overflow-clip">
-                <img v-else src="/img/logo/logo_placeholder.svg" :alt="usePage().props.auth.studio.name" class="object-contain w-8 aspect-square">
-            </div>
-            <div class="space-y-1 font-sans text-lg tracking-wide text-center">
-                <div class="text-xs uppercase text-slate-400">
-                    {{ usePage().props.auth.studio.category }} studio
-                </div>
-                <div class="text-white font-lemon">
-                    {{ usePage().props.auth.studio.name }}
-                </div>
-            </div>
+    <nav class="flex flex-col w-64 h-full font-sans font-medium bg-slate-900 shrink-0 noscrollbar">
+        <div class="sticky top-0 shadow-md">
+            <Link :href="route('dashboard')" class="w-64 h-14 mt-1.5 flex items-center justify-center">
+                <img src="/img/logo/logo_horizontal.svg" alt="Musigate logo" class="h-6">
+            </Link>
+            <div class="shrink-0 block h-0.5 bg-gradient-to-r from-transparent via-orange-500 to-transparent-500" />
         </div>
 
-        <!-- menu -->
-        <ul class="space-y-2 list-none list-image-none">
-            <template v-for="item, index in menu" :key="index">
-                <li v-if="item.route && !item.children.length">
-                    <Link :href="route(item.route)" class="flex items-center gap-2 px-3 py-2 text-sm transition-colors border-transparent text-slate-300 border-x-4 hover:border-l-orange-500 hover:bg-slate-700/50" :class="[{'border-l-orange-500 text-slate-100 bg-slate-700/80' : route().current(item.active)}]">
-                        <i class="w-5 text-center" :class="item.icon" />
-                        {{ item.label }}
-                    </Link>
-                </li>
+        <div class="py-6 space-y-6 overflow-y-auto grow">
+            <!-- nome e logo studio -->
+            <div class="px-2 space-y-4 shrink-0">
+                <div class="flex items-center justify-center w-16 mx-auto border-2 border-orange-500 rounded-full aspect-square">
+                    <img v-if="usePage().props.auth.studio.logo" :src="'/storage/' + usePage().props.auth.studio.logo" :alt="usePage().props.auth.studio.name" class="object-contain w-full h-full rounded-full overflow-clip">
+                    <img v-else src="/img/logo/logo_placeholder.svg" :alt="usePage().props.auth.studio.name" class="object-contain w-8 aspect-square">
+                </div>
+                <div class="space-y-1 font-sans text-lg tracking-wide text-center">
+                    <div class="text-xs uppercase text-slate-400">
+                        {{ usePage().props.auth.studio.category }} studio
+                    </div>
+                    <div class="text-white font-lemon">
+                        {{ usePage().props.auth.studio.name }}
+                    </div>
+                </div>
+            </div>
+    
+            <!-- menu -->
+            <ul class="space-y-2 list-none list-image-none">
+                <template v-for="item, index in menu" :key="index">
+                    <li v-if="item.route && !item.children.length">
+                        <Link :href="route(item.route)" class="flex items-center gap-2 px-4 py-2 text-sm transition-colors hover:text-orange-400" :class="route().current(item.active) ? 'text-white' : 'text-slate-400'">
+                            <i class="w-5 text-center" :class="item.icon" />
+                            {{ item.label }}
+                        </Link>
+                    </li>
+    
+                    <li v-else>
+                        <details open @toggle="toggleDetailState(index)">
+                            <summary class="flex items-center justify-between px-4 py-2 text-sm transition-colors cursor-pointer hover:text-orange-400" :class="route().current(item.active) ? 'text-slate-200' : 'text-slate-400'">
+                                <div class="flex items-center gap-2">
+                                    <i class="w-5 text-center" :class="item.icon" />
+                                    {{ item.label }}
+                                </div>
+    
+                                <i class="text-orange-500 transition-transform fa-solid fa-chevron-down" :class="{'rotate-180' : detailState[index]}" />
+                            </summary>
+                            
+                            <ul class="mt-1 ml-6 space-y-1 list-none border-l list-image-none border-slate-600">
+                                <li v-for="child in item.children">
+                                    <Link :href="route(child.route)" class="flex items-center gap-2 px-4 py-1.5 text-xs transition-colors font-normal hover:text-orange-400" :class="route().current(child.active) ? 'text-white' : 'text-slate-400'">
+                                        <i class="w-5 text-center" :class="child.icon" />
+                                        {{ child.label }}
+                                    </Link>
+                                </li>
+                            </ul>
+                        </details>
+                    </li>
+                </template>
+            </ul>
+            <!-- / -->
+        </div>
 
-                <li v-else>
-                    <details open @toggle="toggleDetailState(index)">
-                        <summary class="flex items-center justify-between px-3 py-2 text-sm transition-colors border-transparent cursor-pointer text-slate-300 border-x-4 hover:bg-slate-700/50" :class="[{'text-slate-100 bg-slate-700/80' : route().current(item.active)}]">
-                            <div class="flex items-center gap-2">
-                                <i class="w-5 text-center" :class="item.icon" />
-                                {{ item.label }}
-                            </div>
-
-                            <i class="text-orange-500 transition-transform fa-solid fa-chevron-down" :class="{'rotate-180' : detailState[index]}" />
-                        </summary>
-                        
-                        <ul class="mt-1 ml-6 space-y-1 list-none border-l list-image-none border-slate-600">
-                            <li v-for="child in item.children">
-                                <Link :href="route(child.route)" class="flex items-center gap-2 px-3 py-1.5 text-xs transition-colors border-transparent font-normal text-slate-300 border-x-4 hover:border-l-orange-500 hover:bg-slate-700/50" :class="[{'border-l-orange-500 text-slate-100 bg-slate-700/80' : route().current(child.active)}]">
-                                    <i class="w-5 text-center" :class="child.icon" />
-                                    {{ child.label }}
-                                </Link>
-                            </li>
-                        </ul>
-                    </details>
-                </li>
-            </template>
-        </ul>
-        <!-- / -->
+        <form @submit.prevent="router.post(route('logout'))" class="border-t bg-slate-900 border-slate-700">
+            <button type="submit" class="flex items-center w-full gap-2 p-4 text-sm hover:text-orange-400">
+                <i class="w-5 fa-solid fa-right-from-bracket" />
+                Logo out
+            </button>
+        </form>
     </nav>
 </template>
 
 <script setup>
 import { computed, ref } from 'vue';
-import { usePage, Link } from '@inertiajs/vue3';
+import { usePage, Link, router } from '@inertiajs/vue3';;
 
 const detailState = ref({});
 

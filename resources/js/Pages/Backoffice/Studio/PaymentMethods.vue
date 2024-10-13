@@ -24,7 +24,7 @@
         </template>
         
         <template #actions>
-            <SaveButton />
+            <SaveButton v-if="form.isDirty && !form.processing" />
         </template>
     </ContentLayout>
 </template>

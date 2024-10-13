@@ -49,10 +49,6 @@
     th {
         @apply font-medium capitalize;
     }
-
-    hr {
-        @apply h-0 border-t border-zinc-700;
-    }
 }
 
 :root {
@@ -108,7 +104,7 @@ li.list-musigate::before {
 }
 
 .table th {
-    @apply px-1 py-2 text-sm font-normal uppercase bg-slate-800 first-of-type:rounded-l-full last-of-type:rounded-r-full first-of-type:pl-3 first-of-type:pr-1 last-of-type:pr-3 text-slate-400 last-of-type:pl-1;
+    @apply px-1 py-2 text-sm font-normal uppercase first-of-type:rounded-l-full last-of-type:rounded-r-full first-of-type:pl-3 first-of-type:pr-1 last-of-type:pr-3 text-slate-400 last-of-type:pl-1;
 }
 
 .table td {

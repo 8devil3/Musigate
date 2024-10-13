@@ -1,7 +1,7 @@
 <template>
-    <component :is="props.as" @submit.prevent="props.as === 'form' ? emit('submitted') : null" class="h-full lg:bg-slate-900">
-        <fieldset :disabled="props.isLoading" class="flex flex-col h-full">
-            <h1 v-if="props.title" class="z-10 flex items-center justify-between h-16 gap-4 px-6 m-0 text-base border-0 border-b-2 shadow-md shrink-0 bg-slate-800 md:text-xl border-slate-800">
+    <component :is="props.as" @submit.prevent="props.as === 'form' ? emit('submitted') : null" class="h-full overflow-clip">
+        <fieldset :disabled="props.isLoading" class="h-full overflow-y-auto">
+            <h1 v-if="props.title" class="sticky top-0 z-10 flex items-center justify-between h-16 gap-4 px-6 m-0 text-base border-b bg-slate-950/50 backdrop-blur-sm md:text-xl border-slate-800">
                 <div class="flex items-center w-full gap-2 leading-tight md:gap-3">
                     <Link v-if="props.backRoute && props.showBackRoute" :href="props.backRoute">
                         <i class="mr-2 text-lg text-orange-500 fa-solid fa-chevron-left"></i>
@@ -19,7 +19,7 @@
                 <UserMenu class="lg:hidden shrink-0" />
             </h1>
     
-            <div v-if="$slots.content" class="p-4 space-y-8 overflow-y-auto grow lg:p-6" :class="{'pb-20' : $slots.actions}">
+            <div v-if="$slots.content" class="p-4 space-y-8 lg:p-6" :class="{'pb-20' : $slots.actions}">
                 <Tabs v-if="props.tabLinks" :tabLinks="tabLinks"/>
 
                 <p v-if="$slots.description" class="pb-6 text-sm border-b text-slate-300 border-slate-800">
