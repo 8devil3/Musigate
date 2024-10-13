@@ -1,7 +1,7 @@
 <template>
     <div class="relative space-y-2">
         <Label v-if="props.label" for="search-location" :label="props.label" />
-        <Input v-model="query" :placeholder="props.placeholder" @clear="clearInput()" :icon="props.inputIcon" :disabled="props.disabled" />
+        <Input v-model="query" :placeholder="props.placeholder" @input="showList = true" @clear="clearInput()" :icon="props.inputIcon" :disabled="props.disabled" />
 
         <Transition name="slide-fade">
             <div v-show="filteredItems.length && showList" class="absolute inset-x-0 z-40 h-48 overflow-hidden text-sm origin-top-right border rounded-lg shadow-lg bg-slate-800 border-slate-600 ring-1 ring-orange-500 ring-opacity-5 focus:outline-none">
@@ -56,14 +56,12 @@ const props = defineProps({
 
 const emit = defineEmits(['selected', 'clear']);
 
-const vModel = defineModel({default: null});
-const query = ref('');
+const query = defineModel({default: null});
 const showList = ref(false);
 const classes = "text-left w-full h-8 px-4 pl-8 py-0 text-sm text-white bg-slate-800/50 border border-slate-400 rounded-full placeholder:text-slate-300/80 disabled:bg-slate-800 placeholder:truncate truncate disabled:cursor-not-allowed disabled:text-slate-500 disabled:border-slate-500 font-sans placeholder:font-light font-light focus:ring-orange-500/50 focus:border-orange-500 focus:border-orange-500 focus:shadow-md focus:shadow-orange-500";
 
 const filteredItems = computed(()=>{
     if(query.value && query.value.length >= 2) {
-        showList.value = true;
         return props.options.filter((item) => {
             let strRegEx =`^${query.value.trim()}.*`;
             let newRegEx = new RegExp(strRegEx, 'gi');
@@ -75,7 +73,6 @@ const filteredItems = computed(()=>{
 });
 
 const selectItem = (item)=>{
-    vModel.value = item;
     query.value = item;
     showList.value = false;
     emit('selected', item);
@@ -83,7 +80,6 @@ const selectItem = (item)=>{
 
 const clearInput = ()=>{
     query.value = '';
-    vModel.value = null;
     showList.value = false;
     emit('clear');
 }
