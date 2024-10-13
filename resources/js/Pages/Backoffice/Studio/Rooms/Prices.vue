@@ -1,11 +1,9 @@
 <template>
     <ContentLayout
         @submitted="submit()"
-        :isLoading="form.processing"
         :title="props.room.name"
         icon="fa-solid fa-euro"
         :backRoute="route('sale-prova.index')"
-        showBackRoute
         :tabLinks="tabLinks"
     >
         <template #content>

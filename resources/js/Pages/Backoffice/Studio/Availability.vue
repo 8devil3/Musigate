@@ -291,9 +291,6 @@ const validations = ()=>{
     }
 };
 
-router.on('start', ()=> form.processing = true);
-router.on('finish', ()=> form.processing = false);
-
 </script>
 
 <script>

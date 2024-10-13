@@ -1,7 +1,6 @@
 <template>
     <ContentLayout
         @submitted="submit()"
-        :isLoading="form.processing"
         title="Comfort"
         icon="fa-solid fa-hand-holding-heart"
     >

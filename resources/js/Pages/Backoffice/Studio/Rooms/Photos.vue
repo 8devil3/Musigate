@@ -1,9 +1,6 @@
 <template>
     <ContentLayout
         @submitted="submit()"
-        :isLoading="form.processing"
-        :isSuccess="form.wasSuccessful"
-        :hasErrors="form.hasErrors"
         :title="props.room.name"
         icon="fa-solid fa-image"
         :backRoute="route('sale-prova.index')"

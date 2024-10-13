@@ -1,7 +1,6 @@
 <template>
     <ContentLayout
         as="div"
-        :isLoading="form.processing || formDelete.processing"
         title="Collaborazioni"
         icon="fa-solid fa-handshake"
     >

@@ -33,13 +33,14 @@
                 <slot name="content"/>
             </div>
         </fieldset>
+
+        <!-- actions mobile -->
+        <div v-if="$slots.actions" class="fixed flex justify-end gap-2 inset-x-4 bottom-4 lg:hidden">
+            <slot name="actions"/>
+        </div>
+        <!-- / -->
     </component>
 
-    <!-- actions mobile -->
-    <div v-if="$slots.actions" class="fixed flex justify-end gap-2 inset-x-4 bottom-4 lg:hidden">
-        <slot name="actions"/>
-    </div>
-    <!-- / -->
 
     <!-- messaggi flash -->
     <div class="fixed -translate-x-1/2 top-9 lg:top-4 left-1/2 z-[2000]">
@@ -65,10 +66,10 @@
                 <div class="fixed inset-0 transition-opacity bg-orange-500/50 backdrop-blur-md" />
             </TransitionChild>
 
-            <div class="fixed inset-y-0 left-0 flex pr-10 pointer-events-none">
-                <TransitionChild as="template" enter="transform transition ease-in-out duration-500 sm:duration-700" enter-from="-translate-x-full" enter-to="translate-x-0" leave="transform transition ease-in-out duration-500 sm:duration-700" leave-from="translate-x-0" leave-to="-translate-x-full">
+            <div class="fixed inset-y-0 right-0 flex pointer-events-none">
+                <TransitionChild as="template" enter="transform transition ease-in-out duration-500 sm:duration-700" enter-from="translate-x-full" enter-to="translate-x-0" leave="transform transition ease-in-out duration-500 sm:duration-700" leave-from="translate-x-0" leave-to="translate-x-full">
                     <DialogPanel class="relative shadow-lg pointer-events-auto">
-                        <button type="button" class="absolute p-4 leading-none text-white top-2 -right-11 bsolute shrink-0 focus:outline-none focus:ring-0" title="Chiudi" @click="isOpenDrawer = false">
+                        <button type="button" class="absolute p-4 leading-none text-white top-2 -left-11 shrink-0 focus:outline-none focus:ring-0" title="Chiudi" @click="isOpenDrawer = false">
                             <i class="fa-solid fa-xmark" />
                         </button>
 
@@ -83,7 +84,7 @@
 
     <!-- spinner -->
     <teleport to="#spinner">
-        <div v-if="props.isLoading" class="fixed inset-0 z-[2000] flex items-center justify-center backdrop-blur-sm bg-black/30">
+        <div v-if="isLoading" class="fixed inset-0 z-[5000] flex items-center justify-center backdrop-blur-sm bg-black/30">
             <Spinner class="size-16 orange"/>
         </div>
     </teleport>
@@ -92,7 +93,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { Link, usePage } from '@inertiajs/vue3';
+import { Link, usePage, router } from '@inertiajs/vue3';
 import UserMenu from '@/Components/Backoffice/UserMenu.vue';
 import Tabs from '@/Components/Backoffice/Tabs.vue';
 import Spinner from '@/Components/Spinner.vue';
@@ -102,7 +103,6 @@ import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } fro
 const props = defineProps({
     title: String,
     icon: String,
-    isLoading: Boolean,
     isSucess: Boolean,
     hasErrors: Boolean,
     backRoute: String,
@@ -114,6 +114,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['submitted']);
+const isLoading = ref(false);
 const success = ref(props.isSucess || usePage().props.flash.success ? true : false);
 const error = ref(props.hasErrors || usePage().props.flash.error ? true : false);
 const isOpenDrawer = ref(false);
@@ -134,5 +135,8 @@ const dissolveFlashSuccess = ()=>{
 onMounted(()=>{
     dissolveFlashSuccess();
 });
+
+router.on('start', ()=> isLoading.value = true);
+router.on('finish', ()=> isLoading.value = false);
 
 </script>

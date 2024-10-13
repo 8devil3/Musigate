@@ -1,12 +1,10 @@
 <template>
     <ContentLayout
         @submitted="submit()"
-        :isLoading="form.processing"
         :title="props.room.name"
         icon="fa-solid fa-sliders"
         :tabLinks="tabLinks"
         :backRoute="route('sale-prova.index')"
-        showBackRoute
     >
         <template #content>
             <FormElement v-for="category, key in props.equipment_categories">

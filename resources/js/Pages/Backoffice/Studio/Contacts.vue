@@ -1,7 +1,6 @@
 <template>
     <ContentLayout
         @submitted="submit()"
-        :isLoading="form.processing"
         title="Contatti"
         icon="fa-solid fa-envelope"
     >

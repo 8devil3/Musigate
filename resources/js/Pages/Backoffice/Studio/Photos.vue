@@ -1,8 +1,6 @@
 <template>
     <ContentLayout
         @submitted="submit()"
-        :isLoading="form.processing"
-        :hasErrors="form.hasErrors"
         title="Foto"
         icon="fa-solid fa-image"
     >

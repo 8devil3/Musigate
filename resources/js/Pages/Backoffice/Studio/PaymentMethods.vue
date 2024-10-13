@@ -1,7 +1,6 @@
 <template>
     <ContentLayout
         @submitted="submit()"
-        :isLoading="form.processing"
         title="Metodi di pagamento"
         icon="fa-regular fa-credit-card"
     >

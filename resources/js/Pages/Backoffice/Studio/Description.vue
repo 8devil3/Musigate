@@ -1,7 +1,6 @@
 <template>
     <ContentLayout
         @submitted="submit()"
-        :isLoading="form.processing"
         title="Descrizione"
         icon="fa-solid fa-file-lines"
     >

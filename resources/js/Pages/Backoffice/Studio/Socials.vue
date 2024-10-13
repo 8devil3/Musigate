@@ -1,7 +1,6 @@
 <template>
     <ContentLayout
         @submitted="submit()"
-        :isLoading="form.processing"
         title="Social"
         icon="fa-solid fa-share-nodes"
     >

@@ -3,25 +3,7 @@
         @submitted="submit()"
         title="Policy annullamenti"
         icon="fa-solid fa-calendar-xmark"
-        :backRoute="route('studio.links')"
-        :isLoading="form.processing"
-        :onSuccess="form.recentlySuccessful"
-        :onFail="form.hasErrors"
     >
-        <!-- <template #description>
-            <template v-if="!form.has_cancel_policy">
-                Policy di annullamento disattivata.
-            </template>
-            <template v-else>
-                Se l'utente annulla la prenotazione:
-                <ul class="list-disc list-inside">
-                    <li class="text-sm">fino a <span class="font-semibold text-orange-500">{{ form.no_refund_hours }} ore</span> prima della data di prenotazione non riceverà alcun rimborso.</li>
-                    <li class="text-sm">da <span class="font-semibold text-orange-500">{{ form.no_refund_hours }} ore</span> a <span class="font-semibold text-orange-500">{{ form.partial_refund_hours }} ore</span> prima della data di prenotazione riceverà un rimborso del <span class="font-semibold text-orange-500">{{ form.partial_refund_percentage }}%</span>.</li>
-                    <li class="text-sm">oltre <span class="font-semibold text-orange-500">{{ form.partial_refund_hours }} ore</span> prima della data di prenotazione riceverà il rimborso totale</li>
-                </ul>
-            </template>
-        </template> -->
-
         <template #content>
             <!-- buffer -->
             <FormElement>

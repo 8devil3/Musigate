@@ -3,10 +3,6 @@
         @submitted="submit()"
         title="Impostazioni prenotazioni"
         icon="fa-solid fa-gears"
-        :isLoading="form.processing"
-        :onSuccess="form.recentlySuccessful"
-        :onFail="form.hasErrors"
-        :backRoute="route('studio.links')"
     >
         <template #content>
             <!-- vista calendario -->

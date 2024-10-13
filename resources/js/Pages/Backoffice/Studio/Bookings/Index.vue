@@ -1,7 +1,6 @@
 <template>
     <ContentLayout
         as="div"
-        @submitted="submit()"
         title="Prenotazioni"
         icon="fa-solid fa-calendar-days"
     >
@@ -35,7 +34,7 @@
     <Modal :isOpen="isOpenModalEvent" @close="closeModalEvent()">
         <template #title>
             <div class="flex items-center gap-3">
-                <span class="inline-block size-6 rounded-full shadow-inner" :style="'background-color:' + currentEvent?.event.borderColor" />
+                <span class="inline-block rounded-full shadow-inner size-6" :style="'background-color:' + currentEvent?.event.borderColor" />
                 {{ currentEvent?.event.title }}
             </div>
         </template>

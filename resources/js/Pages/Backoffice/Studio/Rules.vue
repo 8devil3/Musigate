@@ -1,7 +1,6 @@
 <template>
     <ContentLayout
         @submitted="submit()"
-        :isLoading="form.processing"
         title="Regolamento"
         icon="fa-solid fa-scroll"
     >

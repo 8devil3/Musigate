@@ -2,7 +2,6 @@
     <ContentLayout
         as="div"
         title="Sale prova"
-        :isLoading="form.processing"
         icon="fa-solid fa-music"
     >
         <template #content>
