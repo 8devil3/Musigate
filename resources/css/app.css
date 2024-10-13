@@ -146,7 +146,7 @@ input:-webkit-autofill,
 input:-internal-autofill-selected {
     color-scheme: dark;
     appearance: none !important;
-    border: 1px solid rgb(156 163 175 / 0.8) !important;
+    border: none !important;
     background-color:  rgb(31 41 55 / 0.8) !important;
     background-image: none !important;
     color: #fff !important;
