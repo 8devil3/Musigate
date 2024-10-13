@@ -34,11 +34,16 @@ class RoomController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        // $rooms_count = auth()->user()->studio->rooms()->count();
-
-        // if($this->subscription !== 'business' && $rooms_count >= 2){
-        //     return abort(403);
-        // }
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'color' => 'required|string|starts_with:#|size:7',
+            'is_bookable' => 'boolean',
+            'is_visible' => 'boolean',
+            'min_booking' => 'required|integer|min:1|max:24',
+            'area' => 'required|int|min:1|max:999',
+            'max_capacity' => 'required|min:1|max:99',
+            'description' => 'nullable|string|min:100',
+        ]);
 
         $room = auth()->user()->studio->rooms->create($request->toArray());
 
@@ -62,7 +67,7 @@ class RoomController extends Controller
             'min_booking' => 'required|integer|min:1|max:24',
             'area' => 'required|int|min:1|max:999',
             'max_capacity' => 'required|min:1|max:99',
-            'description' => 'required|string|min:100',
+            'description' => 'nullable|string|min:100',
         ]);
 
         $this->rooms->findOrFail($room_id)->update($request->toArray());

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Backoffice\Studio\Rooms;
 
 use App\Http\Controllers\Controller;
 
-use App\Http\Requests\PhotoRequest;
 use App\Models\Room\Room;
 use App\Models\Room\RoomPhoto;
 use Illuminate\Http\RedirectResponse;

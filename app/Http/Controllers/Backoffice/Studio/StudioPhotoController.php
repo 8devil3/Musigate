@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Backoffice\Studio;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\PhotoRequest;
 use App\Models\Studio\StudioPhoto;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
