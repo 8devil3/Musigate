@@ -76,10 +76,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             //disponibilità
             Route::get('/disponibilità', [WeeklyAvailabilityController::class, 'edit'])->name('availability.edit');
             Route::put('/disponibilità', [WeeklyAvailabilityController::class, 'update'])->name('availability.update');
-
-            //fasce orarie
-            Route::get('/fasce-orarie', [TimebandController::class, 'edit'])->name('timebands.edit');
-            Route::put('/fasce-orarie', [TimebandController::class, 'update'])->name('timebands.update');
+            Route::put('/disponibilità/clona', [WeeklyAvailabilityController::class, 'clone'])->name('availability.clone');
 
             //foto studio
             Route::get('/foto', [StudioPhotoController::class, 'edit'])->name('photos.edit');
