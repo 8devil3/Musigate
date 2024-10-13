@@ -102,7 +102,9 @@
             {{ props.room.name }}
         </template>
         <template #description>
-            <Carosello :imgs="props.room.photos" class="h-48 shrink-0 md:h-96" />
+            <div class="h-48 shrink-0 md:h-96">
+                <Carosello :imgs="props.room.photos" />
+            </div>
             
             <div class="flex flex-col gap-8 pt-6 grow">
                 <!-- icon bar -->
