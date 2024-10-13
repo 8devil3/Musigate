@@ -4,7 +4,6 @@
         :isLoading="form.processing"
         title="Metodi di pagamento"
         icon="fa-regular fa-credit-card"
-        :backRoute="route('studio.links')"
     >
         <template #content>
             <FormElement>

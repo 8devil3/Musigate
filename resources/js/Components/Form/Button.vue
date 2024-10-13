@@ -83,7 +83,7 @@ const props = defineProps({
 
 const emit = defineEmits(['click']);
 
-const commonClasses = "inline-flex items-center justify-center text-center text-white font-sans font-medium text-sm leading-none whitespace-nowrap h-8 rounded-full disabled:opacity-50 focus:ring-2 disabled:cursor-not-allowed shadow-md gap-2 transition-colors px-4 py-0 focus:outline-0";
+const commonClasses = "inline-flex items-center justify-center text-center text-white font-sans font-medium text-sm leading-none whitespace-nowrap h-7 md:h-8 rounded-full disabled:opacity-50 focus:ring-2 disabled:cursor-not-allowed shadow-md gap-2 transition-colors px-3 md:px-4 py-0 focus:outline-0";
 
 const commonIconClasses = `${props.icon} text-white text-sm leading-none`
 

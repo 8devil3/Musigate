@@ -7,7 +7,6 @@
         :title="props.room.name"
         icon="fa-solid fa-image"
         :backRoute="route('sale-prova.index')"
-        showBackRoute
         :tabLinks="tabLinks"
     >
         <template #content>
@@ -31,7 +30,7 @@
                             <template #item="{ element, index }">
                                 <div>
                                     <div class="relative cursor-move">
-                                        <Checkbox v-if="element.id" v-model="form.selected_photos" :value="element.id" class="absolute shadow-sm top-1 right-1 lg:top-2 lg:right-2" />
+                                        <Checkbox v-if="element.id" v-model="form.selected_photos" :value="element.id" class="absolute top-2 right-2" />
 
                                         <button v-else type="button" @click="removePhoto(index)" title="Elimina foto" class="absolute flex items-center justify-center text-xs text-white bg-red-500 border border-white rounded-full shadow size-5 top-1 right-1 lg:top-2 lg:right-2">
                                             <i class="fa-solid fa-xmark" />
@@ -86,8 +85,9 @@
 import { computed } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
-import SaveButton from '@/Components/Form/SaveButton.vue';
+import Checkbox from '@/Components/Form/Checkbox.vue';
 import Button from '@/Components/Form/Button.vue';
+import SaveButton from '@/Components/Form/SaveButton.vue';
 import FormElement from '@/Components/Backoffice/FormElement.vue';
 import draggable from 'vuedraggable';
 

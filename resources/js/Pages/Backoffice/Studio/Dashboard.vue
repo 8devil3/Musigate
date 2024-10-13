@@ -1,8 +1,4 @@
 <template>
-    <!-- <BackofficeLayout as="div" title="Dashboard" icon="fa-solid fa-home">
-        <template #content>
-        </template>
-    </BackofficeLayout> -->
     <ContentLayout
         title="Dashboard"
         icon="fa-solid fa-home"
@@ -86,7 +82,6 @@
                             </li>
                         </ul>
                     </div>
-    
                 </div>
                 <!-- / -->    
             </div>

@@ -4,7 +4,6 @@
         :isLoading="form.processing"
         title="Comfort"
         icon="fa-solid fa-hand-holding-heart"
-        :backRoute="route('studio.links')"
     >
         <template #content>
             <!-- comforts -->

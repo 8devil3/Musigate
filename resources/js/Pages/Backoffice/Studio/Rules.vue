@@ -4,7 +4,6 @@
         :isLoading="form.processing"
         title="Regolamento"
         icon="fa-solid fa-scroll"
-        :backRoute="route('studio.links')"
     >
         <template #description>
             Inserisci il regolamento dello Studio valido prima, durante e dopo le sessioni.<br>

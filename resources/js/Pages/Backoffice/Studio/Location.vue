@@ -4,7 +4,6 @@
         :isLoading="form.processing"
         title="Location"
         icon="fa-solid fa-location-dot"
-        :backRoute="route('studio.links')"
     >
         <template #content>
             <FormElement required>

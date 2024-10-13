@@ -4,7 +4,6 @@
         :isLoading="form.processing || formDelete.processing"
         title="Collaborazioni"
         icon="fa-solid fa-handshake"
-        :backRoute="route('studio.links')"
     >
         <template #content>
             <FormElement>
@@ -74,7 +73,7 @@
         </template>
     </Modal>
     
-    <ModalDanger :isOpen="openModalDanger" @close="openModalDanger = false">
+    <ModalDanger :isOpen="openModalDanger" @close="openModalDelete()" @submitted="submitDelete()">
         <template #title>
             Elimina collaborazione
         </template>
@@ -84,11 +83,9 @@
         </template>
 
         <template #actions>
-            <form @submit.prevent="submitDelete()">
-                <Button type="submit" text="Sì, elimina" icon="fa-solid fa-trash-can" color="red" title="Elimina la collaborazione" :disabled="formDelete.processing" :isLoading="formDelete.processing"/>
-            </form>
+            <Button type="submit" text="Sì, elimina" icon="fa-solid fa-trash-can" color="red" title="Elimina la collaborazione" :disabled="formDelete.processing" :isLoading="formDelete.processing"/>
 
-            <Button @click="openModalDanger = false" text="Annulla" icon="fa-solid fa-xmark" color="gray" title="Annulla e torna indietro" />
+            <Button @click="closeModalDelete()" text="Annulla" icon="fa-solid fa-xmark" color="gray" title="Annulla e torna indietro" />
         </template>
     </ModalDanger>
 </template>
@@ -157,11 +154,14 @@ const submitEdit = ()=>{
     });
 }
 
-
-
 const openModalDelete = (collab_id)=>{
     openModalDanger.value = true;
     collabId.value = collab_id;
+}
+
+const closeModalDelete = ()=>{
+    openModalDanger.value = false;
+    collabId.value = null;
 }
 
 const submitDelete = ()=>{

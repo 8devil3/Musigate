@@ -4,7 +4,6 @@
         :isLoading="form.processing"
         title="Contatti"
         icon="fa-solid fa-envelope"
-        :backRoute="route('studio.links')"
     >
         <template #content>
             <FormElement>

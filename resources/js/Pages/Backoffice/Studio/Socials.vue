@@ -4,7 +4,6 @@
         :isLoading="form.processing"
         title="Social"
         icon="fa-solid fa-share-nodes"
-        :backRoute="route('studio.links')"
     >
         <template #content>
             <FormElement>

@@ -4,7 +4,6 @@
         :isLoading="form.processing"
         title="Descrizione"
         icon="fa-solid fa-file-lines"
-        :backRoute="route('studio.links')"
     >
         <template #content>
             <!-- nome studio -->
