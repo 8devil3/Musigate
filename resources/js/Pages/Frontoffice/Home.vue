@@ -13,11 +13,15 @@
             <div class="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-12">
                 <form @submit.prevent="submit()" class="flex flex-col w-full gap-4 max-w-64">
                     <h2 class="pb-2 m-0 uppercase border-b-2 border-b-orange-500">iniza da qui</h2>
-                    
-                    <div>
-                        <!-- <Label for="where" label="Dove" /> -->
-                        <SearchLocation id="where" v-model="form.location"/>
-                    </div>
+
+                    <ComboBox
+                        v-model="form.location"
+                        @selected="submit()"
+                        :options="province"
+                        placeholder="Digita una provincia"
+                        inputIcon="fa-solid fa-location-dot"
+                        listIcon="fa-solid fa-location-dot"
+                    />
     
                     <!-- <div class="space-y-4">                        
                         <Input type="dateTime-local" v-model="form.start" label="Quando" :min="dayjs().add(1, 'day').hour(0).minute(0).second(0).format('YYYY-MM-DD HH:mm')" :step="1800" class="w-full" />
@@ -50,12 +54,14 @@
 import { Head, useForm } from '@inertiajs/vue3';
 import Header from '@/Components/Frontoffice/Header.vue';
 import Footer from '@/Components/Frontoffice/Footer.vue';
-import NumberInput from '@/Components/Form/NumberInput.vue';
-import Button from '@/Components/Form/Button.vue';
 import Label from '@/Components/Form/Label.vue';
 import Input from '@/Components/Form/Input.vue';
-import SearchLocation from './Search/SearchLocation.vue';
-import dayjs from 'dayjs';
+import ComboBox from '@/Components/Form/ComboBox.vue';
+import Button from '@/Components/Form/Button.vue';
+import province from './Search/province.json';
+// import NumberInput from '@/Components/Form/NumberInput.vue';
+// import Input from '@/Components/Form/Input.vue';
+// import dayjs from 'dayjs';
 
 const form = useForm({
     location: null,

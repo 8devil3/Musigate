@@ -1,21 +1,30 @@
 <template>
     <FrontofficeLayout title="Cerca Studi">
         <!-- search bar desktop-->
-        <form @submit.prevent="submit()" class="sticky top-0 z-50 flex-wrap items-end justify-center hidden px-6 py-4 border-b bg-slate-950/60 border-slate-700 backdrop-blur-md md:flex gap-x-2 gap-y-4">
-            <SearchLocation v-model="form.location" @update:model-value="submit()" label="Location" />
-            <RangeSlider v-model="form.radius" @change="submit()" :min="50" :max="500" :step="10" label="Raggio" unit="km" :disabled="!form.location" class="self-start px-2" />
-            <!-- <Input type="dateTime-local" v-model="form.start" @input="submit()" :min="dayjs().add(1, 'day').hour(0).minute(0).second(0).format('YYYY-MM-DD HH:mm')" :step="1800" placeholder="Inizio" label="Data e ora d'inizio" class="grow max-w-48" />
-            <NumberInput v-model="form.duration" @input="submit()" @change="submit()" :min="1" :max="24" label="Durata" unit="ore" />
-            <NumberInput v-model="form.guests" @input="submit()" @change="submit()" :min="1" :max="99" label="Persone" /> -->
+        <div class="sticky top-0 z-50 border-b bg-slate-950/60 border-slate-700 backdrop-blur-md">
+            <form @submit.prevent="submit()" class="flex-wrap items-end justify-center hidden max-w-4xl px-6 py-4 mx-auto md:flex gap-x-2 gap-y-4">
+                <ComboBox
+                    v-model="form.location"
+                    @selected="submit()"
+                    @clear="submit()"
+                    :options="province"
+                    placeholder="Digita una provincia"
+                    inputIcon="fa-solid fa-location-dot"
+                    listIcon="fa-solid fa-location-dot"
+                    :disabled="form.processing"
+                    class="grow"
+                />
+                <!-- <Input type="dateTime-local" v-model="form.start" @input="submit()" :min="dayjs().add(1, 'day').hour(0).minute(0).second(0).format('YYYY-MM-DD HH:mm')" :step="1800" placeholder="Inizio" label="Data e ora d'inizio" class="grow max-w-48" />
+                <NumberInput v-model="form.duration" @input="submit()" @change="submit()" :min="1" :max="24" label="Durata" unit="ore" />
+                <NumberInput v-model="form.guests" @input="submit()" @change="submit()" :min="1" :max="99" label="Persone" /> -->
 
-            <div class="flex items-end gap-2">
-                <Input type="search" v-model="form.name" @input="submit()" placeholder="Nome studio" label="Nome Studio" class="grow" />
-                <Input type="search" v-model="form.equip" @input="submit()" placeholder="Equipaggiamento" label="Cerca equipaggiamento" class="grow" />
-                <Button v-if="!showMap" @click="showMap = true" title="Mostra mappa" icon="fa-solid fa-map-location-dot" :disabled="form.processing" />
-                <Button v-else @click="showMap = false" title="Nascondi mappa" icon="fa-solid fa-map-location-dot" :disabled="form.processing" color="green" />
-                <Button @click="reset()" icon="fa-solid fa-arrow-rotate-left" color="slate" title="Reset filtri" :disabled="form.processing" />
-            </div>
-        </form>
+                <Input v-model="form.name" @input="submit()" @clear="submit()" placeholder="Nome studio" class="grow" />
+                <Input v-model="form.equip" @input="submit()" @clear="submit()" placeholder="Equipaggiamento" class="grow" />
+                <Button v-if="!showMap" @click="showMap = true" title="Mostra mappa" icon="fa-solid fa-map-location-dot" />
+                <Button v-else @click="showMap = false" title="Nascondi mappa" icon="fa-solid fa-map-location-dot" color="green" />
+                <Button @click="reset()" icon="fa-solid fa-arrow-rotate-left" color="slate" title="Reset filtri" />
+            </form>
+        </div>
         <!-- / -->
 
         <!-- search bar mobile -->
@@ -71,15 +80,21 @@
 
             <template #description>
                 <form @submit.prevent="submit()" class="flex flex-col gap-4">
-                    <SearchLocation v-model="form.location" label="Location" />
-                    <RangeSlider v-model="form.radius" :min="50" :max="500" :step="10" label="Raggio" unit="km" :disabled="!form.location" />
+                <ComboBox
+                    v-model="form.location"
+                    :options="province"
+                    label="Location"
+                    placeholder="Digita una provincia"
+                    inputIcon="fa-solid fa-location-dot"
+                    listIcon="fa-solid fa-location-dot"
+                />
                     <!-- <Input type="dateTime-local" v-model="form.start" placeholder="Inizio" label="Data e ora d'inizio"  :min="dayjs().add(1, 'day').hour(0).minute(0).second(0).format('YYYY-MM-DD HH:mm')" :step="1800" class="grow" />
                     <div class="flex w-full gap-4">
                         <NumberInput v-model="form.duration" :min="1" :max="24" label="Durata" unit="ore" class="grow" />
                         <NumberInput v-model="form.guests" :min="1" :max="99" label="Persone" class="grow" />
                     </div> -->
-                    <Input type="search" v-model="form.name" placeholder="Nome studio" label="Nome Studio" />
-                    <Input type="search" v-model="form.equip" placeholder="Equipaggiamento" label="Equipaggiamento" />
+                    <Input v-model="form.name" placeholder="Nome studio" label="Nome Studio" />
+                    <Input v-model="form.equip" placeholder="Equipaggiamento" label="Equipaggiamento" />
                     <div class="mt-4 space-y-4">
                         <Button type="submit" text="Cerca" icon="fa-solid fa-magnifying-glass" class="w-full" />
                         <Button @click="reset()" icon="fa-solid fa-arrow-rotate-left" color="slate" text="Reset filtri" :disabled="form.processing" class="w-full" />
@@ -95,16 +110,17 @@
 import { ref, onMounted, onUnmounted, computed } from 'vue';
 import { router, useForm } from '@inertiajs/vue3';
 import FrontofficeLayout from '@/Layouts/FrontofficeLayout.vue';
-import SearchLocation from './SearchLocation.vue';
 import RoomCard from './RoomCard.vue';
 import GoogleMaps from '@/Components/GoogleMaps.vue';
 import Modal from '@/Components/Modal.vue';
 import Pagination from '@/Components/Pagination.vue';
 import NumberInput from '@/Components/Form/NumberInput.vue';
+import ComboBox from '@/Components/Form/ComboBox.vue';
 import Button from '@/Components/Form/Button.vue';
 import Input from '@/Components/Form/Input.vue';
 import Spinner from '@/Components/Spinner.vue';
 import RangeSlider from '@/Components/Form/RangeSlider.vue';
+import province from './province.json';
 // import dayjs from 'dayjs';
 
 const props = defineProps({
@@ -122,7 +138,6 @@ const form = useForm({
     // guests: props.request?.guests ?? 1,
     name: props.request?.name ?? null,
     location: props.request?.location ?? null,
-    radius: props.request?.radius ?? 100,
     category: props.request?.category ?? '',
     equip: props.request?.equip ?? null,
 });

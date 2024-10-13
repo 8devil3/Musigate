@@ -29,24 +29,24 @@ class SearchController extends Controller
         $equip = request('equip', null);
         $user = auth()->user();
 
-        $rooms = Room::with(['photos', 'studio.booking_settings', 'studio.location'])
+        $rooms = Room::with(['photos', 'studio.location'])
             ->when($equip, function($query) use($equip){
                 $query->whereRelation('equipments', 'name', 'LIKE', '%' . strtolower($equip) . '%');
             })
-            ->when($guests, function($query) use($guests){
-                $query->where('max_capacity', '>=', intval($guests));
-            })
-            ->when($start && $start->isAfter(now()->addDay()->startOfDay()) && $duration , function($query) use($start, $end){
-                $query->whereHas('bookings', function($query) use($start, $end){
-                    $query->whereNotBetween('start', [$start->toDateTimeString(), $end->toDateTimeString()])
-                        ->orWhereNotBetween('end', [$start->toDateTimeString(), $end->toDateTimeString()]);
-                });
-            })
+            // ->when($guests, function($query) use($guests){
+            //     $query->where('max_capacity', '>=', intval($guests));
+            // })
+            // ->when($start && $start->isAfter(now()->addDay()->startOfDay()) && $duration , function($query) use($start, $end){
+            //     $query->whereHas('bookings', function($query) use($start, $end){
+            //         $query->whereNotBetween('start', [$start->toDateTimeString(), $end->toDateTimeString()])
+            //             ->orWhereNotBetween('end', [$start->toDateTimeString(), $end->toDateTimeString()]);
+            //     });
+            // })
             ->whereHas('studio', function($query) use($user, $radius, $point){
                 $query->when($user && $user->role_id === Role::STUDIO , function($query) use($user){
                     $query->whereNot('id', $user->studio->id);
                 })
-                ->whereIn('category', request('category', ['Professional', 'Home']))
+                // ->whereIn('category', request('category', ['Professional', 'Home']))
                 ->when(request('name', null), function ($query){
                     $query->whereLike('name', '%' . request('name') . '%');
                 })
@@ -61,7 +61,6 @@ class SearchController extends Controller
             ->withMin('prices as min_price', 'price')
             ->withMin('prices as min_discounted_price', 'discounted_price')
             ->withCount('studio')
-            // ->withMin('rooms as min_price', 'price')
             ->paginate(20)
             ->withQueryString();
 
