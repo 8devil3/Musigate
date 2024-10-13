@@ -51,7 +51,12 @@ class SearchController extends Controller
                     $query->whereLike('name', '%' . request('name') . '%');
                 })
                 ->where('is_visible', true)
-                ->where('is_complete', true);
+                ->where('is_complete', true)
+                ->when(request('location', 'all') !== 'all', function($query){
+                    $query->whereHas('location', function($query){
+                        $query->whereLike('province', '%' . request('location'));
+                    });
+                });
                 // ->when(request('location', 'all') !== 'all' && $point && $radius, function($query) use($point, $radius){
                 //     $query->whereHas('location', function($query) use($point, $radius){
                 //         $query->whereRaw('ST_DISTANCE(ST_GeomFromText(CONCAT("POINT(", lon, " ", lat, ")"), 4326), ST_GeomFromText(?, 4326)) <= ?', [$point, $radius * 1000]);
