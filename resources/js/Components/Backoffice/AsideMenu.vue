@@ -1,7 +1,7 @@
 <template>
-    <nav class="flex flex-col w-64 h-full font-sans font-medium bg-slate-900 shrink-0 noscrollbar">
-        <div class="sticky top-0 shadow-md">
-            <Link :href="route('dashboard')" class="w-64 h-14 mt-1.5 flex items-center justify-center">
+    <nav class="flex flex-col h-full font-sans font-medium max-w-64 bg-slate-900 shrink-0 noscrollbar">
+        <div class="sticky top-0 flex flex-col h-16 shadow-md shrink-0">
+            <Link :href="route('dashboard')" class="flex items-center justify-center w-64 grow">
                 <img src="/img/logo/logo_horizontal.svg" alt="Musigate logo" class="h-6">
             </Link>
             <div class="shrink-0 block h-0.5 bg-gradient-to-r from-transparent via-orange-500 to-transparent-500" />
@@ -63,7 +63,7 @@
         <form @submit.prevent="router.post(route('logout'))" class="border-t bg-slate-900 border-slate-700">
             <button type="submit" class="flex items-center w-full gap-2 p-4 text-sm hover:text-orange-400">
                 <i class="w-5 fa-solid fa-right-from-bracket" />
-                Logo out
+                Logout
             </button>
         </form>
     </nav>
