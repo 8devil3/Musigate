@@ -1,7 +1,7 @@
 <template>
     <Head :title="props.title" />
 
-    <div class="flex flex-col bg-no-repeat h-dvh">
+    <div class="flex flex-col min-h-dvh">
         <Header />
     
         <main class="grow">

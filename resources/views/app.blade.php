@@ -37,6 +37,7 @@
     <body class="font-sans font-extralight text-slate-100 bg-slate-950">
         @inertia
 
+        <div id="modal"></div>
         <div id="spinner"></div>
     </body>
 </html>
