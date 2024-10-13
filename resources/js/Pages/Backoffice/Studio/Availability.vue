@@ -86,7 +86,7 @@
                     La fine dell'ultima fascia deve corrispondere all'orario di chiusura dello Studio.
 
                     <div class="mt-2 text-red-500">
-                        <strong>ATTENZIONE:</strong> eliminando le fasce orarie verranno eliminate TUTTE le tariffe delle Sale associate.
+                        <strong>ATTENZIONE:</strong> eliminando le fasce orarie verranno eliminate TUTTE le tariffe delle Sale associate, se presenti.
                     </div>
                 </template>
                 <template #content>
