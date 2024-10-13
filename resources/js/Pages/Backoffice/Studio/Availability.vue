@@ -8,7 +8,7 @@
     >
         <template #content>
             <!-- copia disponibilità -->
-            <FormElement>
+            <FormElement v-if="props.all_timebands">
                 <template #title>
                     Copia disponibilità
                 </template>
@@ -16,11 +16,11 @@
                     Se hai già impostato almeno un giorno della settimana puoi copiarlo senza dover inserire nuovamente gli stessi dati, comprese le fasce orarie.
 
                     <div class="mt-2 text-red-500">
-                        <strong>ATTENZIONE:</strong> copiando la disponibiltà verranno eliminate le tariffe delle Sale associate, se presenti.
+                        <strong>ATTENZIONE:</strong> copiando la disponibiltà verranno eliminate TUTTE le tariffe delle Sale associate, se presenti.
                     </div>
                 </template>
                 <template #content>
-                    <Select v-if="props.all_timebands" v-model="cloneFromWeekday" @change="cloneAvailability()" :options="props.all_timebands" default="Copia dati dal giorno..." class="w-64" />
+                    <Select v-model="cloneFromWeekday" @change="cloneAvailability()" :options="props.all_timebands" default="Copia dati dal giorno..." class="w-64" />
                 </template>
             </FormElement>
             <!-- / -->
@@ -76,7 +76,7 @@
             <!-- / -->
 
             <!-- fasce orarie -->
-            <FormElement v-if="form.open_start && form.open_end">
+            <FormElement v-if="form.is_open && form.open_start && form.open_end">
                 <template #title>
                     Fasce orarie
                 </template>
@@ -86,82 +86,80 @@
                     La fine dell'ultima fascia deve corrispondere all'orario di chiusura dello Studio.
 
                     <div class="mt-2 text-red-500">
-                        <strong>ATTENZIONE:</strong> eliminando le fasce orarie verranno eliminate anche le tariffe delle Sale associate.
+                        <strong>ATTENZIONE:</strong> eliminando le fasce orarie verranno eliminate TUTTE le tariffe delle Sale associate.
                     </div>
                 </template>
                 <template #content>
-                    <div v-if="form.is_open">
-                        <template v-if="form.timebands.length">
-                            <InfoBlock
-                                v-show="hasValidationErrors"
-                                color="danger"
-                                icon="fa-solid fa-exclamation"
-                                :title="hasValidationErrors.title"
-                                class="mb-4"
-                            >
-                                {{ hasValidationErrors.message }}
-                            </InfoBlock>
+                    <template v-if="form.timebands.length">
+                        <InfoBlock
+                            v-show="hasValidationErrors"
+                            color="danger"
+                            icon="fa-solid fa-exclamation"
+                            :title="hasValidationErrors.title"
+                            class="mb-4"
+                        >
+                            {{ hasValidationErrors.message }}
+                        </InfoBlock>
 
-                            <table class="table w-full">
-                                <thead>
-                                    <tr>
-                                        <th class="text-left">nome</th>
-                                        <th class="text-center">inizio</th>
-                                        <th class="text-center">fine</th>
-                                        <th class="text-center">&nbsp;</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="timeband, index in form.timebands">
-                                        <td class="w-full text-center min-w-32">
-                                            <Input v-model="timeband.name" @change="validations()" placeholder="Nome fascia oraria" autofocus required />
-                                        </td>
-                                        <td class="text-center">
-                                            <Input
-                                                v-model="timeband.start"
-                                                disabled
-                                                required
-                                                class="w-24"
-                                            />
-                                        </td>
-                                        <td class="text-center">
-                                            <Select
-                                                v-model="timeband.end"
-                                                @change="validations()"
-                                                isArray
-                                                :options="props.hours.filter(h => h <= form.open_end && h > timeband.start)"
-                                                :disabled="!timeband.start"
-                                                required
-                                                class="w-24"
-                                            />
-                                        </td>
-                                        <td class="w-10 text-center">
-                                            <ActionButton @click="deleteTimeband(index, timeband.id)" icon="fa-solid fa-trash-can" color="red" title="Elimina" />
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <table class="table w-full">
+                            <thead>
+                                <tr>
+                                    <th class="text-left">nome</th>
+                                    <th class="text-center">inizio</th>
+                                    <th class="text-center">fine</th>
+                                    <th class="text-center">&nbsp;</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="timeband, index in form.timebands">
+                                    <td class="w-full text-center min-w-32">
+                                        <Input v-model="timeband.name" @change="validations()" placeholder="Nome fascia oraria" autofocus required />
+                                    </td>
+                                    <td class="text-center">
+                                        <Input
+                                            v-model="timeband.start"
+                                            disabled
+                                            required
+                                            class="w-24"
+                                        />
+                                    </td>
+                                    <td class="text-center">
+                                        <Select
+                                            v-model="timeband.end"
+                                            @change="validations()"
+                                            isArray
+                                            :options="props.hours.filter(h => h <= form.open_end && h > timeband.start)"
+                                            :disabled="!timeband.start"
+                                            required
+                                            class="w-24"
+                                        />
+                                    </td>
+                                    <td class="w-10 text-center">
+                                        <ActionButton @click="deleteTimeband(index, timeband.id)" icon="fa-solid fa-trash-can" color="red" title="Elimina" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
 
-                            <div class="mt-2">
-                                <button type="button" v-if="form.timebands[form.timebands.length -1].end !== form.open_end" @click="addTimeband()" class="p-1 text-sm font-semibold text-orange-500 transition-colors hover:text-orange-400 disabled:opacity-50 disabled:cursor-not-allowed">
-                                    <i class="fa-solid fa-plus" />
-                                    Aggiungi
-                                </button>
-                            </div>
+                        <div class="mt-2">
+                            <button type="button" v-if="form.timebands[form.timebands.length -1].end !== form.open_end" @click="addTimeband()" class="p-1 text-sm font-semibold text-orange-500 transition-colors hover:text-orange-400 disabled:opacity-50 disabled:cursor-not-allowed">
+                                <i class="fa-solid fa-plus" />
+                                Aggiungi
+                            </button>
+                        </div>
+                    </template>
+                    
+                    <Empty v-else icon="fa-solid fa-clock">
+                        <template #title>
+                            Nessuna fascia oraria
                         </template>
-                        
-                        <Empty v-else icon="fa-solid fa-clock">
-                            <template #title>
-                                Nessuna fascia oraria
-                            </template>
-                            <template #description>
-                                Non sono presenti fasce orarie per {{ props.weekdays[form.current_weekday] }}.
-                            </template>
-                            <template #actions>
-                                <Button @click="addTimeband()" text="Aggiungi" icon="fa-solid fa-plus" />
-                            </template>
-                        </Empty>
-                    </div>
+                        <template #description>
+                            Non sono presenti fasce orarie per {{ props.weekdays[form.current_weekday] }}.
+                        </template>
+                        <template #actions>
+                            <Button @click="addTimeband()" text="Aggiungi" icon="fa-solid fa-plus" />
+                        </template>
+                    </Empty>
                 </template>
             </FormElement>
             <!-- / -->
@@ -169,7 +167,6 @@
 
         <template #actions>
             <Select v-model.number="form.current_weekday" @change="selectWeekday()" :options="props.weekdays" default="Seleziona giorno" class="w-40" />
-
             <SaveButton v-if="form.isDirty && !form.processing" />
         </template>
     </ContentLayout>

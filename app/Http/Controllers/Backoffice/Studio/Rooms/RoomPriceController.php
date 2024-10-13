@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backoffice\Studio\Rooms;
 use App\Http\Controllers\Controller;
 use App\Models\Room\Room;
 use App\Models\Room\RoomPrice;
+use App\Models\Studio\Availability;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -14,10 +15,14 @@ class RoomPriceController extends Controller
 {
     public function edit(Request $request, Room $room): Response
     {
+        $price_types = RoomPrice::PRICE_TYPES;
         $studio = auth()->user()->studio;
-        $price_types = Room::PRICE_TYPES;
 
-        $open_weekdays = $studio->availability()->where('is_open', true)->pluck('weekday');
+        $open_weekdays = $studio->availability()->where('is_open', true)
+            ->pluck('weekday')->mapWithKeys(function($wd): array {
+                return [$wd => Availability::WEEKDAYS[$wd]];
+            });
+
         $timebands = $studio->timebands;
         $timeband_prices = $room->prices;
 
@@ -27,7 +32,7 @@ class RoomPriceController extends Controller
     public function update(Request $request, Room $room): RedirectResponse
     {
         $request->validate([
-            'price_type' => ['required', 'string', 'in:' . implode(',', array_keys(Room::PRICE_TYPES))],
+            'price_type' => ['required', 'string', 'in:' . implode(',', array_keys(RoomPrice::PRICE_TYPES))],
         ]);
 
         $price_type = $request->price_type;

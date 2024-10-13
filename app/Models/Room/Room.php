@@ -17,12 +17,6 @@ class Room extends Model
         'Pubblicata',
     ];
 
-    const PRICE_TYPES = [
-        'no_price' => 'Nessuna tariffa',
-        'fixed_price' => 'Tariffa fissa',
-        'timebands_price' => 'Tariffe a fasce orarie',
-    ];
-
     protected $fillable = [
         'studio_id',
         'name',

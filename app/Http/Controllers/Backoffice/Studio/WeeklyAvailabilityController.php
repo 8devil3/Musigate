@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backoffice\Studio;
 
 use App\Http\Controllers\Controller;
+use App\Models\Room\RoomPrice;
 use App\Models\Studio\Availability;
 use App\Services\GeneratePeriodsService;
 use Illuminate\Http\RedirectResponse;
@@ -79,6 +80,21 @@ class WeeklyAvailabilityController extends Controller
         } else {
             //elimino tutte le fasce del weekday se l'utente le ha rimosse tutte
             $studio->timebands()->where('weekday', $request->current_weekday)->delete();
+
+            //aggiorno le tariffe su "nessuna tariffa" ed elimino le eventuali tariffe con fasce orarie
+            $rooms = $studio->rooms;
+            if(!empty($rooms)){
+                foreach($rooms as $room){
+                    $room->update([
+                        'price_type' => 'no_price',
+                        'fixed_price' => null,
+                        'has_dicounted_fixed_price' => false,
+                        'dicounted_fixed_price' => null,
+                    ]);
+
+                    $room->prices()->delete();
+                }
+            }
         }
 
         return back()->with('success', 'Disponibilità aggiornata');
@@ -114,6 +130,21 @@ class WeeklyAvailabilityController extends Controller
             $cloned_tb->save();
         }
 
-        return back()->with('success', 'Disponibilità clonata');
+        //aggiorno le tariffe su "nessuna tariffa" ed elimino le eventuali tariffe con fasce orarie
+        $rooms = $studio->rooms;
+        if(!empty($rooms)){
+            foreach($rooms as $room){
+                $room->update([
+                    'price_type' => 'no_price',
+                    'fixed_price' => null,
+                    'has_dicounted_fixed_price' => false,
+                    'dicounted_fixed_price' => null,
+                ]);
+
+                $room->prices()->delete();
+            }
+        }
+
+        return back()->with('success', 'Disponibilità copiata');
     }
 }
