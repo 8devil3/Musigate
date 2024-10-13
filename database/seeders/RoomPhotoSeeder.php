@@ -17,7 +17,7 @@ class RoomPhotoSeeder extends Seeder
     {
         $rooms = Room::all();
 
-        Storage::disk('public')->rooms('studio');
+        Storage::disk('public')->deleteDirectory('rooms');
 
         foreach ($rooms as $room) {
             for ($i=0; $i < rand(2, 6); $i++) {
