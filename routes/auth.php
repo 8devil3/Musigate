@@ -31,13 +31,13 @@ Route::middleware('guest')->group(function () {
     Route::get('registrazione/studio/starter/step-1', [StarterController::class, 'step_1'])->name('register.studio.starter.step_1');
     Route::get('registrazione/studio/starter/step-2', [StarterController::class, 'step_2'])->name('register.studio.starter.step_2');
     Route::get('registrazione/studio/starter/step-3', [StarterController::class, 'step_3'])->name('register.studio.starter.step_3');
-    Route::get('registrazione/studio/starter', [StarterController::class, 'store'])->name('register.studio.starter.store');
+    Route::post('registrazione/studio/starter', [StarterController::class, 'store'])->name('register.studio.starter.store');
 
     //registrazione abbonamento Business
     Route::get('registrazione/studio/business/step-1', [BusinessController::class, 'step_1'])->name('register.studio.business.step_1');
     Route::get('registrazione/studio/business/step-2', [BusinessController::class, 'step_2'])->name('register.studio.business.step_2');
     Route::get('registrazione/studio/business/step-3', [BusinessController::class, 'step_3'])->name('register.studio.business.step_3');
-    Route::get('registrazione/studio/business', [BusinessController::class, 'store'])->name('register.studio.business.store');
+    Route::post('registrazione/studio/business', [BusinessController::class, 'store'])->name('register.studio.business.store');
 
     //registrazione artista
     Route::get('iscriviti', [RegisteredArtistController::class, 'create'])->name('register');

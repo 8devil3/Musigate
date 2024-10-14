@@ -7,12 +7,12 @@
         <template #content>
             <!-- titolare -->
             <div v-if="props.step === 1" class="w-full max-w-xs mx-auto space-y-6">
-                <h2 class="pb-1 m-0 text-base border-b border-orange-500">
+                <h2 class="pb-1 m-0 text-base text-center border-b border-orange-500">
                     1/3 - Rappresentante legale
                 </h2>
 
                 <div class="space-y-4">
-                    <Input v-model="formStep1.first_name" label="Nome" placeholder="Il nome del titolare dello Studio" :error="formStep1.errors.first_name"  />
+                    <Input v-model="formStep1.first_name" label="Nome" placeholder="Il nome del titolare dello Studio" :error="formStep1.errors.first_name" autofocus required  />
 
                     <Input v-model="formStep1.last_name" label="Cognome" placeholder="Il cognome del titolare dello Studio" :error="formStep1.errors.last_name" required />
 
@@ -21,24 +21,24 @@
                     <Input v-model="formStep1.cod_fiscale" pattern="[a-z][0-9]{16}" label="Codice fiscale" placeholder="Il codice fiscale" :error="formStep1.errors.cod_fiscale" required /> -->
                 </div>
 
-                <Button text="Prosegui" type="submit" icon="fa-solid fa-arrow-right" iconRight :isLoading="isLoading" :disabled="isLoading" class="w-full" />
+                <Button text="Prosegui" type="submit" icon="fa-solid fa-arrow-right" iconRight :disabled="isLoading" class="w-full" />
             </div>
             <!-- / -->
 
             <!-- dati studio -->
             <div v-else-if="props.step === 2" class="w-full max-w-xs mx-auto space-y-6">
-                <h2 class="pb-1 m-0 text-base border-b border-orange-500">
+                <h2 class="pb-1 m-0 text-base text-center border-b border-orange-500">
                     2/3 - Dati Studio
                 </h2>
 
                 <div class="space-y-4">
-                    <Input v-model="formStep2.name" label="Nome Studio" placeholder="Il nome dello Studio" :error="formStep2.errors.name" required />
+                    <Input v-model="formStep2.name" label="Nome Studio" placeholder="Il nome dello Studio" :error="formStep2.errors.name" autofocus required />
     
-                    <fieldset class="px-2 py-1 border border-slate-400 rounded-xl">
+                    <!-- <fieldset class="px-2 py-1 border border-slate-400 rounded-xl">
                         <legend class="px-1 text-xs font-normal text-slate-300">
                             Seleziona la categoria dello Studio
                         </legend>
-                        
+
                         <div class="grid grid-cols-2 gap-4 p-2">
                             <Radio v-model="formStep2.category" name="register-studio-category" value="Professional" required>
                                 Professional
@@ -47,22 +47,44 @@
                                 Home
                             </Radio>
                         </div>
-                    </fieldset>
+                    </fieldset> -->
+
+                    <Input inputmode="numeric" v-model="formStep2.vat" pattern="[0-9]{11}" label="Partita IVA" placeholder="La partita IVA della tua attività" :error="formStep2.errors.vat" required />
+
+                    <!-- location -->                    
+                    <div class="grid grid-cols-3 gap-x-2 gap-y-4">
+                        <div class="col-span-full">
+                            <label for="google-autocomplete" class="w-full px-3 mb-1 text-xs font-medium leading-tight truncate">Autocompletamento indirizzo Google</label>
+                            <div class="relative">
+                                <i class="absolute text-sm leading-none text-orange-500 -translate-y-1/2 fa-solid fa-location-dot top-1/2 left-4" />
+        
+                                <input type="search" @keypress.enter="$event.preventDefault()" v-model="formStep2.complete_address" id="google-autocomplete" ref="inputGooglePlaces" placeholder="Digita un indirizzo" class="w-full h-8 py-0 pr-4 text-sm text-left text-white truncate border rounded-full bg-slate-900 border-slate-400 pl-9 disabled:bg-slate-800 form-input placeholder:text-slate-300/80 placeholder:truncate disabled:border-slate-500 disabled:text-slate-500 focus:ring-orange-500/50 focus:border-orange-500 focus:shadow-md focus:shadow-orange-500" />
+                            </div>
+                        </div>
+                        <Input v-model="formStep2.address" label="Indirizzo" placeholder="Indirizzo, senza numero civico" :error="formStep2.errors.address" :disabled="!isManualAddress" required class="col-span-2" />
+                        <Input v-model="formStep2.number" label="Civico" placeholder="Civico" :error="formStep2.errors.number" :disabled="!isManualAddress" class="col-span-1" />
+                        <Input v-model="formStep2.city" label="Città" placeholder="Città" :error="formStep2.errors.city" :disabled="!isManualAddress" required class="col-span-2" />
+                        <Input v-model="formStep2.cap" label="CAP" placeholder="CAP" pattern="[0-9]{5}" :error="formStep2.errors.cap" :disabled="!isManualAddress" required class="col-span-1" />
+                        <Input v-model="formStep2.province" label="Provincia" placeholder="Provincia" :error="formStep2.errors.province" :disabled="!isManualAddress" required class="col-span-full" />
+                    </div>
                     
-                    <Input inputmode="numeric" v-if="formStep2.category === 'Professional'" v-model="formStep2.vat" pattern="[0-9]{11}" label="Partita IVA" placeholder="La partita IVA della tua attività" :error="formStep2.errors.vat" required />
+                    <div class="px-4 mt-4">
+                        <Checkbox v-model="isManualAddress">Inserimento manuale indirizzo</Checkbox>
+                    </div>
+                    <!-- / -->
                 </div>
 
                 <div class="grid grid-cols-2 gap-12">
-                    <Button @click="router.get(route('register.studio.starter.step_1', props.studio_data))" icon="fa-solid fa-arrow-left" :isLoading="isLoading" :disabled="isLoading" text="Indietro" color="slate" />
+                    <Button @click="router.get(route('register.studio.starter.step_1', props.studio_data))" icon="fa-solid fa-arrow-left" :disabled="isLoading" text="Indietro" color="slate" />
 
-                    <Button text="Prosegui" type="submit" icon="fa-solid fa-arrow-right" iconRight :isLoading="isLoading" :disabled="isLoading" />
+                    <Button text="Prosegui" type="submit" icon="fa-solid fa-arrow-right" iconRight :disabled="isLoading" />
                 </div>
             </div>
             <!-- / -->
 
             <!-- account -->
             <div v-else-if="props.step === 3" class="w-full max-w-xs mx-auto space-y-6">
-                <h2 class="pb-1 m-0 text-base border-b border-orange-500">
+                <h2 class="pb-1 m-0 text-base text-center border-b border-orange-500">
                     3/3 - Account
                 </h2>
 
@@ -89,9 +111,9 @@
                 </div>
 
                 <div class="grid grid-cols-2 gap-12">
-                    <Button @click="router.get(route('register.studio.starter.step_2', props.studio_data))" icon="fa-solid fa-arrow-left" :isLoading="isLoading" :disabled="isLoading" text="Indietro" color="slate" />
+                    <Button @click="router.get(route('register.studio.starter.step_2', props.studio_data))" icon="fa-solid fa-arrow-left" :disabled="isLoading" text="Indietro" color="slate" />
 
-                    <Button text="Registrati" type="submit" icon="fa-solid fa-check" :isLoading="isLoading" :disabled="isLoading" color="green" />
+                    <Button text="Registrati" type="submit" icon="fa-solid fa-check" :disabled="isLoading" color="green" />
                 </div>
             </div>
             <!-- / -->
@@ -108,6 +130,7 @@ import Radio from '@/Components/Form/Radio.vue';
 import Input from '@/Components/Form/Input.vue';
 import GoogleLogin from '../../GoogleLogin.vue';
 import Checkbox from '@/Components/Form/Checkbox.vue';
+import { getGoogleMapsLoader } from '@/Components/GoogleMapsLoader.js';
 
 const props = defineProps({
     step: Number,
@@ -116,6 +139,7 @@ const props = defineProps({
 
 const privacyLink = import.meta.env.VITE_PRIVACY_LINK ?? '#';
 const tosLink = import.meta.env.VITE_TOS_LINK ?? '#';
+const isManualAddress = ref(false);
 
 const formStep1 = useForm({
     step: 1,
@@ -126,8 +150,15 @@ const formStep1 = useForm({
 const formStep2 = useForm({
     step: 2,
     name: props.studio_data?.name ?? null,
-    category: props.studio_data?.category ?? null,
+    // category: props.studio_data?.category ?? null,
     vat: props.studio_data?.vat ?? null,
+
+    complete_address: props.studio_data?.complete_address ?? null,
+    address: props.studio_data?.address ?? null,
+    number: props.studio_data?.number ?? null,
+    cap: props.studio_data?.cap ?? null,
+    city: props.studio_data?.city ?? null,
+    province: props.studio_data?.province ?? null,
 });
 
 const formStep3 = useForm({
@@ -150,7 +181,66 @@ const submit = () => {
     if(props.step === 1) formStep1.get(route('register.studio.starter.step_2'));
     else if(props.step === 2) formStep2.get(route('register.studio.starter.step_3'));
     else if(props.step === 3) formStep3.post(route('register.studio.starter.store'), {
-        onFinish: () => form.reset('password', 'password_confirmation'),
+        onFinish: () => formStep3.reset('password', 'password_confirmation'),
     });
 };
+
+
+
+//Google Places API
+const inputGooglePlaces = ref(null);
+
+getGoogleMapsLoader().importLibrary('places').then(({ Autocomplete }) => {
+    const options = {
+        componentRestrictions: { country: "it" },
+        fields: ['address_components', 'formatted_address'],
+        types: ['address'],
+        language: 'it',
+    };
+
+    if(inputGooglePlaces.value){
+        const autocomplete = new Autocomplete(inputGooglePlaces.value, options);
+        
+        autocomplete.addListener('place_changed', ()=>{
+            formStep2.address = null;
+            formStep2.number = null;
+            formStep2.cap = null;
+            formStep2.city = null;
+            formStep2.province = null;
+            
+            const place = autocomplete.getPlace();
+            formStep2.complete_address = place.formatted_address;
+                    
+            for (const component of place.address_components) {    
+                switch (component.types[0]) {
+                    case "street_number": {
+                        formStep2.number = component.long_name;
+                        break;
+                    }
+        
+                    case "route": {
+                        formStep2.address = component.short_name;
+                        break;
+                    }
+        
+                    case "postal_code": {
+                        formStep2.cap = component.long_name ?? component.short_name;
+                        break;
+                    }
+                    
+                    case "administrative_area_level_2": {
+                        formStep2.province = component.long_name;
+                        break;
+                    }
+     
+                    case "administrative_area_level_3": {
+                        formStep2.city = component.long_name;
+                        break;
+                    }
+                }
+            }
+        });
+    }
+});
+
 </script>

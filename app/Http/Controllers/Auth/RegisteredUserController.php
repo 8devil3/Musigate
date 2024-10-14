@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Models\BookingSetting;
+use App\Models\Studio\BookingSetting;
 use App\Models\Studio\Contact;
 use App\Models\Studio\Location;
 use App\Models\Studio\Rule;
