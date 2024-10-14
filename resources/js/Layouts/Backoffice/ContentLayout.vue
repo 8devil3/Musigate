@@ -42,6 +42,13 @@
     </component>
 
 
+    <!-- drawer mobile -->
+    <Drawer :isOpen="isOpenDrawer" @close="isOpenDrawer = false">
+        <AsideMenu />
+    </Drawer>
+    <!-- / -->
+
+
     <!-- messaggi flash -->
     <div class="fixed -translate-x-1/2 top-9 lg:top-4 left-1/2 z-[2000]">
         <transition leave-active-class="transition duration-1000 ease-in" leave-from-class="opacity-100" leave-to-class="opacity-0">
@@ -56,29 +63,6 @@
             Salvataggio non riuscito!
         </div>
     </div>
-    <!-- / -->
-
-
-    <!-- drawer mobile -->
-    <TransitionRoot as="template" :show="isOpenDrawer">
-        <Dialog class="relative z-40" @close="isOpenDrawer = false">
-            <TransitionChild as="template" enter="ease-in-out duration-500" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in-out duration-500" leave-from="opacity-100" leave-to="opacity-0">
-                <div class="fixed inset-0 transition-opacity bg-orange-500/50 backdrop-blur-md" />
-            </TransitionChild>
-
-            <div class="fixed inset-y-0 right-0 flex pointer-events-none">
-                <TransitionChild as="template" enter="transform transition ease-in-out duration-500 sm:duration-700" enter-from="translate-x-full" enter-to="translate-x-0" leave="transform transition ease-in-out duration-500 sm:duration-700" leave-from="translate-x-0" leave-to="translate-x-full">
-                    <DialogPanel class="relative shadow-lg pointer-events-auto">
-                        <button type="button" class="absolute p-4 leading-none text-white top-2 -left-11 shrink-0 focus:outline-none focus:ring-0" title="Chiudi" @click="isOpenDrawer = false">
-                            <i class="fa-solid fa-xmark" />
-                        </button>
-
-                        <AsideMenu />
-                    </DialogPanel>
-                </TransitionChild>
-            </div>
-        </Dialog>
-    </TransitionRoot>
     <!-- / -->
 
 
@@ -97,6 +81,7 @@ import { Link, usePage, router } from '@inertiajs/vue3';
 import UserMenu from '@/Components/Backoffice/UserMenu.vue';
 import Tabs from '@/Components/Backoffice/Tabs.vue';
 import Spinner from '@/Components/Spinner.vue';
+import Drawer from '@/Components/Drawer.vue';
 import AsideMenu from '@/Components/Backoffice/AsideMenu.vue';
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue';
 
@@ -140,3 +125,4 @@ router.on('start', ()=> isLoading.value = true);
 router.on('finish', ()=> isLoading.value = false);
 
 </script>
+

@@ -1,5 +1,6 @@
 import './bootstrap';
 import '../css/app.css';
+import '../css/animations.css';
 import dayjs from 'dayjs';
 import 'dayjs/locale/it';
 

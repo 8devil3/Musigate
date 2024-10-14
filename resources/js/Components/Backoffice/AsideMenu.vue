@@ -60,7 +60,9 @@
             <!-- / -->
         </div>
 
-        <form @submit.prevent="router.post(route('logout'))" class="border-t bg-slate-900 border-slate-700">
+        <form @submit.prevent="router.post(route('logout'))" class="shadow-md bg-slate-900">
+            <div class="shrink-0 block h-0.5 bg-gradient-to-r from-transparent via-orange-500 to-transparent-500" />
+
             <button type="submit" class="flex items-center w-full gap-2 p-4 text-sm hover:text-orange-400">
                 <i class="w-5 fa-solid fa-right-from-bracket" />
                 Logout
