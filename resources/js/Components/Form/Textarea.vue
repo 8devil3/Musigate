@@ -13,7 +13,7 @@
             :maxlength="props.maxlength"
             :aria-label="props.label"
             :aria-placeholder="props.placeholder"
-            :class="[classes, props.error ? 'border-red-500 bg-red-600/10 focus:ring-red-600/50 focus:border-red-600 focus:shadow-md focus:shadow-red-600' : 'focus:ring-orange-500/50 focus:border-orange-500 focus:shadow-md focus:shadow-orange-500 bg-slate-800/50 border-slate-400']"
+            :class="[classes, props.error ? 'border-red-500 bg-red-600/10 focus:ring-red-600/50 focus:border-red-600 focus:shadow-md focus:shadow-red-600' : 'focus:ring-orange-500/50 focus:border-orange-500 focus:shadow-md focus:shadow-orange-500 bg-slate-900 border-slate-400']"
         >
             {{ vModel }}
         </textarea>

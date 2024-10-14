@@ -4,7 +4,7 @@
         <Input v-model="query" :placeholder="props.placeholder" @input="showList = true" @clear="clearInput()" :icon="props.inputIcon" :disabled="props.disabled" />
 
         <Transition name="slide-fade">
-            <div v-show="filteredItems.length && showList" class="absolute inset-x-0 z-40 h-48 overflow-hidden text-sm origin-top-right border rounded-lg shadow-lg bg-slate-800 border-slate-600 ring-1 ring-orange-500 ring-opacity-5 focus:outline-none">
+            <div v-show="filteredItems.length && showList" class="absolute inset-x-0 z-40 h-48 overflow-hidden text-sm origin-top-right border rounded-lg shadow-lg bg-slate-900 border-slate-600 ring-1 ring-orange-500 ring-opacity-5 focus:outline-none">
                 <ul class="h-full p-0 m-0 mt-1 overflow-y-auto list-none list-image-none">
                     <li v-for="item in filteredItems">
                         <button type="button" @click="selectItem(item)" class="w-full px-4 py-2 text-left truncate transition-colors cursor-pointer text-slate-200 hover:bg-orange-500 hover:text-white group ui-active:bg-orange-500 ui-active:text-white">
@@ -87,10 +87,14 @@ const clearInput = ()=>{
 //click outside
 onBeforeMount(()=>{
     document.addEventListener('click', ()=> showList.value = false);
+    document.addEventListener('keyup', (e)=> {
+        if(e.key === 'Escape') showList.value = false;
+    });
 });
 
 onUnmounted(()=>{
     document.removeEventListener('click', ()=> showList.value = false);
+    document.removeEventListener('keyup', ()=> showList.value = false);
 });
 
 </script>

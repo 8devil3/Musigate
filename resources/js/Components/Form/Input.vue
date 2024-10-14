@@ -5,7 +5,7 @@
         <div
             class="flex w-full h-8 px-3 py-0 font-sans border rounded-full overflow-clip has-[:disabled]:bg-slate-800 has-[:disabled]:cursor-not-allowed has-[:disabled]:text-slate-500 has-[:disabled]:border-slate-500"
 
-            :class="props.error ? 'border-red-500 bg-red-600/10 focus-within:ring-red-600/50 focus-within:border-red-600 focus-within:shadow-md focus-within:shadow-red-600' : 'bg-slate-800/50 focus-within:ring-orange-500/50 focus-within:border-orange-500 focus-within:shadow-md border-slate-400 focus-within:shadow-orange-500'"
+            :class="props.error ? 'border-red-500 bg-red-600/10 focus-within:ring-red-600/50 focus-within:border-red-600 focus-within:shadow-md focus-within:shadow-red-600' : 'bg-slate-900 focus-within:ring-orange-500/50 focus-within:border-orange-500 focus-within:shadow-md border-slate-400 focus-within:shadow-orange-500'"
         >
             <div v-if="props.icon" class="flex items-center pr-2 text-xs text-orange-500" :class="[props.disabled && 'text-slate-500', props.error && 'text-red-500']">
                 <i :class="props.icon" />
@@ -30,11 +30,11 @@
                 :autofocus="props.autofocus"
                 :aria-label="props.label"
                 :aria-placeholder="props.placeholder"
-                class="w-full p-0 text-sm font-light truncate bg-transparent border-0 outline-none grow focus:ring-0 focus:outline-none placeholder:font-light disabled:text-slate-600 disabled:placeholder:text-slate-600 placeholder:truncate placeholder:text-slate-500 disabled:cursor-not-allowed"
+                class="w-full p-0 text-sm font-light truncate bg-transparent border-0 outline-none grow focus:ring-0 focus:outline-none placeholder:font-light disabled:text-slate-500 disabled:placeholder:text-slate-500 placeholder:truncate placeholder:text-slate-500 disabled:cursor-not-allowed"
                 :class="props.error && 'text-red-500 placeholder:text-red-300'"
             >
 
-            <button v-if="!props.disabled && vModel" @click="clear()" type="button" class="flex items-center justify-center w-4 pl-1 shrink-0">
+            <button v-if="!props.disabled && vModel" @click="clear()" type="button" tabindex="-1" class="flex items-center justify-center w-4 pl-1 shrink-0">
                 <i class="text-xs fa-solid fa-circle-xmark text-slate-400" />
             </button>
 
