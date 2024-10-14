@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\Room\EquipmentCategory;
 use App\Models\Room\Room;
+use App\Models\Studio\Availability;
 use App\Models\Studio\Studio;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -80,6 +81,8 @@ class SearchController extends Controller
     {
         if(!$studio->is_visible || !$studio->is_complete) abort(404);
 
+        $weekdays = Availability::WEEKDAYS;
+
         $request = session()->get('request');
 
         $equipment_categories = EquipmentCategory::pluck('name', 'id');
@@ -92,9 +95,10 @@ class SearchController extends Controller
             'collaborations',
             'rule',
             'payment_methods',
+            'availability',
         ])->load(['rooms' => function($query){
             //mostro solo le sale pubblicate
-            $query->with(['equipments', 'photos'])
+            $query->with(['equipments', 'photos', 'prices.timeband:id,weekday,name,start,end'])
                 ->withMin('prices as min_price', 'price')
                 ->withMin('prices as min_discounted_price', 'discounted_price')
                 ->where('is_visible', true);
@@ -116,6 +120,6 @@ class SearchController extends Controller
         $socials = $studio->socials->only(['facebook', 'instagram', 'youtube', 'linkedin', 'soundcloud', 'spotify', 'itunes', 'website']);
         $contacts = Inertia::lazy(fn () => $studio_contacts);
         
-        return Inertia::render('Frontoffice/Studio/Show', compact('request', 'studio', 'equipment_categories', 'socials', 'contacts', 'all_photos'));
+        return Inertia::render('Frontoffice/Studio/Show', compact('request', 'studio', 'equipment_categories', 'socials', 'contacts', 'weekdays', 'all_photos'));
     }
 }

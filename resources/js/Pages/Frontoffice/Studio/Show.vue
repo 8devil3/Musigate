@@ -9,9 +9,9 @@
         <!-- / -->
 
         <!-- contenuto -->
-        <div class="w-full max-w-6xl p-4 mx-auto md:p-6">
+        <div class="w-full max-w-6xl px-4 py-6 mx-auto md:px-6 md:py-8">
             <!-- sezioni -->
-            <div class="py-6 space-y-16 lg:py-8 md:grow">
+            <div class="space-y-16 md:grow">
                 <TitleBar :studio="props.studio" :socials=props.socials :request="props.request" />
 
                 <Section v-if="props.studio.description" title="Presentazione" id="presentazione">
@@ -88,7 +88,7 @@
 
                 <Section v-if="props.studio.rooms.length" title="Sale prova" id="sale-prova">
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                        <RoomCard v-for="room in props.studio.rooms" :room="room" :equipment_categories="props.equipment_categories" />
+                        <RoomCard v-for="room in props.studio.rooms" :room="room" :equipment_categories="props.equipment_categories" :weekdays="props.weekdays" />
                     </div>
                 </Section>
             
@@ -161,30 +161,58 @@
                     </ul>
                 </Section>
 
-                <Section title="Location" id="location">
-                    <div class="flex flex-wrap items-start sm:flex-nowrap gap-x-10 gap-y-4">
-                        <div class="sm:shrink-0">
-                            <h3>Indirizzo</h3>
-                            <address class="capitalize">
-                                <div>
-                                    {{ props.studio.location.address }}
-                                    {{ props.studio.location.number ? ', ' + props.studio.location.number : '' }}
+                <Section title="Orari" id="orari">
+                    <div class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7">
+                        <div v-for="wd, wdKey in props.weekdays" class="space-y-2">
+                            <div>
+                                <div class="font-normal" :class="props.studio.availability.find(av => av.weekday == wdKey).is_open ? 'text-white' : 'text-slate-400'">
+                                    {{ wd }}
                                 </div>
-                                <div>
-                                    {{ props.studio.location.cap }} {{ props.studio.location.city }}
+                                <div class="text-xs font-normal" :class="props.studio.availability.find(av => av.weekday == wdKey).is_open ? 'text-green-500' : 'text-red-500'">
+                                    {{ props.studio.availability.find(av => av.weekday == wdKey).is_open ? 'aperto' : 'chiuso' }}
                                 </div>
-                                <div>
-                                    {{ props.studio.location.province }}
-                                </div>
-                            </address>
-                        </div>
-                        <div v-if="props.studio.location.notes">
-                            <h3>Come arrivare</h3>
-                            <p>{{ props.studio.location.notes }}</p>
+                            </div>
+
+                            <div>
+                                <template v-if="props.studio.availability.find(av => av.weekday == wdKey).is_open">
+                                    {{ props.studio.availability.find(av => av.weekday == wdKey).open_start }}
+                                    -
+                                    {{ props.studio.availability.find(av => av.weekday == wdKey).open_end }}
+                                </template>
+                                <template v-else>
+                                    -
+                                </template>
+                            </div>
                         </div>
                     </div>
-            
-                    <GoogleMaps :studios="[props.studio]" :lat="props.studio.location.lat" :lon="props.studio.location.lon" :zoom="14" class="h-64 border border-slate-400 md:h-96 overflow-clip rounded-xl" />
+                </Section>
+
+                <Section title="Location" id="location">
+                    <div class="space-y-6">
+                        <div class="flex flex-wrap items-start sm:flex-nowrap gap-x-10 gap-y-4">
+                            <div class="sm:shrink-0">
+                                <h3>Indirizzo</h3>
+                                <address class="capitalize">
+                                    <div>
+                                        {{ props.studio.location.address }}
+                                        {{ props.studio.location.number ? ', ' + props.studio.location.number : '' }}
+                                    </div>
+                                    <div>
+                                        {{ props.studio.location.cap }} {{ props.studio.location.city }}
+                                    </div>
+                                    <div>
+                                        {{ props.studio.location.province }}
+                                    </div>
+                                </address>
+                            </div>
+                            <div v-if="props.studio.location.notes">
+                                <h3>Come arrivare</h3>
+                                <p>{{ props.studio.location.notes }}</p>
+                            </div>
+                        </div>
+                
+                        <GoogleMaps :studios="[props.studio]" :lat="props.studio.location.lat" :lon="props.studio.location.lon" :zoom="14" class="h-64 border border-slate-400 md:h-96 overflow-clip rounded-xl" />
+                    </div>
                 </Section>
             </div>
             <!-- / -->
@@ -214,6 +242,7 @@ const props = defineProps({
     equipment_categories: Object,
     contacts: Object,
     socials: Object,
+    weekdays: Object,
     request: Object,
 });
 
@@ -306,6 +335,11 @@ const links = [
         text: 'video',
         id: '#video',
         enabled: props.studio.videos.length ? true : false
+    },
+    {
+        text: 'orari',
+        id: '#orari',
+        enabled: props.studio.availability.length ? true : false
     },
     {
         text: 'contatti',
