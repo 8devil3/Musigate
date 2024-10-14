@@ -63,8 +63,10 @@
                             :disabled="!props.studio.is_complete"
                         />
                     </div>
-                    <p v-if="!props.studio.is_complete" class="mt-4 text-gray-300">
-                        Non sarà possibile modificare questa impostazione fino a quando non saranno salvate le seguenti informazioni:
+                    <div v-if="!props.studio.is_complete" class="mt-4 text-gray-300">
+                        <p>
+                            Non sarà possibile modificare questa impostazione fino a quando non saranno salvate le seguenti informazioni:
+                        </p>
                         <ul class="mt-2 list-none list-inside">
                             <li class="flex items-start gap-2">
                                 <i v-if="props.studio.name" class="w-4 mt-1 text-green-500 shrink-0 fa-solid fa-check"></i>
@@ -107,7 +109,7 @@
                                 almeno un <Link :href="route('studio.contacts.edit')" class="text-orange-500 underline transition-colors hover:text-orange-400">contatto</Link>
                             </li>
                         </ul>
-                    </p>
+                    </div>
                 </template>
             </FormElement>
             <!-- / -->
