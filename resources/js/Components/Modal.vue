@@ -1,7 +1,7 @@
 <template>
     <teleport to="#modal">
         <Transition name="fade">
-            <div v-if="props.isOpen" class="fixed inset-0 z-40 md:inset-4 overflow-clip">
+            <div v-if="props.isOpen" class="fixed inset-0 z-50 md:inset-4 overflow-clip">
                 <div @click.stop="emit('close')" class="fixed inset-0 bg-black/70 backdrop-blur-md overflow-clip" />
 
                 <component :is="props.as" class="absolute flex flex-col w-full h-full p-4 space-y-4 overflow-hidden -translate-x-1/2 -translate-y-1/2 md:p-6 md:space-y-6 top-1/2 left-1/2 bg-slate-900 md:border md:border-slate-600 md:rounded-2xl" :class="[props.maxWidth, props.maxHeight]">

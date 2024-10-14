@@ -80,25 +80,22 @@
 
             <template #description>
                 <form @submit.prevent="submit()" class="flex flex-col gap-4">
-                <ComboBox
-                    v-model="form.location"
-                    :options="province"
-                    label="Location"
-                    placeholder="Digita una provincia"
-                    inputIcon="fa-solid fa-location-dot"
-                    listIcon="fa-solid fa-location-dot"
-                />
+                    <ComboBox
+                        v-model="form.location"
+                        :options="province"
+                        placeholder="Digita una provincia"
+                        inputIcon="fa-solid fa-location-dot"
+                        listIcon="fa-solid fa-location-dot"
+                    />
                     <!-- <Input type="dateTime-local" v-model="form.start" placeholder="Inizio" label="Data e ora d'inizio"  :min="dayjs().add(1, 'day').hour(0).minute(0).second(0).format('YYYY-MM-DD HH:mm')" :step="1800" class="grow" />
                     <div class="flex w-full gap-4">
                         <NumberInput v-model="form.duration" :min="1" :max="24" label="Durata" unit="ore" class="grow" />
                         <NumberInput v-model="form.guests" :min="1" :max="99" label="Persone" class="grow" />
                     </div> -->
-                    <Input v-model="form.name" placeholder="Nome studio" label="Nome Studio" />
-                    <Input v-model="form.equip" placeholder="Equipaggiamento" label="Equipaggiamento" />
-                    <div class="mt-4 space-y-4">
-                        <Button type="submit" text="Cerca" icon="fa-solid fa-magnifying-glass" class="w-full" />
-                        <Button @click="reset()" icon="fa-solid fa-arrow-rotate-left" color="slate" text="Reset filtri" :disabled="form.processing" class="w-full" />
-                    </div>
+                    <Input v-model="form.name" placeholder="Nome studio" />
+                    <Input v-model="form.equip" placeholder="Equipaggiamento" />
+                    <Button type="submit" text="Cerca" icon="fa-solid fa-magnifying-glass" class="w-full" />
+                    <Button @click="reset()" icon="fa-solid fa-arrow-rotate-left" color="slate" text="Reset filtri" :disabled="form.processing" class="w-full" />
                 </form>
             </template>
         </Modal>
