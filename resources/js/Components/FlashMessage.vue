@@ -19,7 +19,7 @@
 </template>
 
 <script setup>
-import { ref, onBeforeUpdate, watch } from 'vue';
+import { ref, onBeforeUpdate } from 'vue';
 import { usePage } from '@inertiajs/vue3';
 
 const success = ref(false);
@@ -29,7 +29,7 @@ const dissolveFlashSuccess = ()=>{
 
     let timeoutId = setTimeout(() => {
         success.value = false;
-    }, 2000000);
+    }, 2000);
 };
 
 onBeforeUpdate(()=>{
