@@ -53,18 +53,20 @@
 
                     <!-- location -->                    
                     <div class="grid grid-cols-3 gap-x-2 gap-y-4">
-                        <div class="col-span-full">
-                            <label for="google-autocomplete" class="w-full px-3 mb-1 text-xs font-medium leading-tight truncate">Autocompletamento indirizzo Google</label>
-                            <div class="relative">
-                                <i class="absolute text-sm leading-none text-orange-500 -translate-y-1/2 fa-solid fa-location-dot top-1/2 left-4" />
-        
-                                <input type="search" @keypress.enter="$event.preventDefault()" v-model="formStep2.complete_address" id="google-autocomplete" ref="inputGooglePlaces" placeholder="Digita un indirizzo" class="w-full h-8 py-0 pr-4 text-sm text-left text-white truncate border rounded-full bg-slate-900 border-slate-400 pl-9 disabled:bg-slate-800 form-input placeholder:text-slate-300/80 placeholder:truncate disabled:border-slate-500 disabled:text-slate-500 focus:ring-orange-500/50 focus:border-orange-500 focus:shadow-md focus:shadow-orange-500" />
-                            </div>
-                        </div>
+                        <GooglePlacesAutocomplete
+                            v-model="formStep2.complete_address"
+                            @addressData="setFormAddress"
+                            required
+                            class="col-span-full"
+                        />
                         <Input v-model="formStep2.address" label="Indirizzo" placeholder="Indirizzo, senza numero civico" :error="formStep2.errors.address" :disabled="!isManualAddress" required class="col-span-2" />
+
                         <Input v-model="formStep2.number" label="Civico" placeholder="Civico" :error="formStep2.errors.number" :disabled="!isManualAddress" class="col-span-1" />
+
                         <Input v-model="formStep2.city" label="Città" placeholder="Città" :error="formStep2.errors.city" :disabled="!isManualAddress" required class="col-span-2" />
-                        <Input v-model="formStep2.cap" label="CAP" placeholder="CAP" pattern="[0-9]{5}" :error="formStep2.errors.cap" :disabled="!isManualAddress" required class="col-span-1" />
+
+                        <Input v-model="formStep2.cap" label="CAP" placeholder="CAP" pattern="[0-9]{5}" :error="formStep2.errors.cap" :disabled="!isManualAddress" :required="isManualAddress" class="col-span-1" />
+
                         <Input v-model="formStep2.province" label="Provincia" placeholder="Provincia" :error="formStep2.errors.province" :disabled="!isManualAddress" required class="col-span-full" />
                     </div>
                     
@@ -91,7 +93,7 @@
                 <div class="space-y-4">
                     <GoogleLogin />
     
-                    <Input v-model="formStep3.email" type="email" label="Email" placeholder="La tua email" icon="fa-solid fa-envelope" :error="formStep3.errors.email" required autofocus />
+                    <Input v-model="formStep3.email" type="email" label="Email" placeholder="La tua email" :error="formStep3.errors.email" required autofocus />
     
                     <Input v-model="formStep3.password" type="password" label="Password" placeholder="La tua password" :error="formStep3.errors.password" required />
     
@@ -130,7 +132,7 @@ import Radio from '@/Components/Form/Radio.vue';
 import Input from '@/Components/Form/Input.vue';
 import GoogleLogin from '../../GoogleLogin.vue';
 import Checkbox from '@/Components/Form/Checkbox.vue';
-import { getGoogleMapsLoader } from '@/Components/GoogleMapsLoader.js';
+import GooglePlacesAutocomplete from '@/Components/GooglePlacesAutocomplete.vue';
 
 const props = defineProps({
     step: Number,
@@ -185,62 +187,12 @@ const submit = () => {
     });
 };
 
-
-
-//Google Places API
-const inputGooglePlaces = ref(null);
-
-getGoogleMapsLoader().importLibrary('places').then(({ Autocomplete }) => {
-    const options = {
-        componentRestrictions: { country: "it" },
-        fields: ['address_components', 'formatted_address'],
-        types: ['address'],
-        language: 'it',
-    };
-
-    if(inputGooglePlaces.value){
-        const autocomplete = new Autocomplete(inputGooglePlaces.value, options);
-        
-        autocomplete.addListener('place_changed', ()=>{
-            formStep2.address = null;
-            formStep2.number = null;
-            formStep2.cap = null;
-            formStep2.city = null;
-            formStep2.province = null;
-            
-            const place = autocomplete.getPlace();
-            formStep2.complete_address = place.formatted_address;
-                    
-            for (const component of place.address_components) {    
-                switch (component.types[0]) {
-                    case "street_number": {
-                        formStep2.number = component.long_name;
-                        break;
-                    }
-        
-                    case "route": {
-                        formStep2.address = component.short_name;
-                        break;
-                    }
-        
-                    case "postal_code": {
-                        formStep2.cap = component.long_name ?? component.short_name;
-                        break;
-                    }
-                    
-                    case "administrative_area_level_2": {
-                        formStep2.province = component.long_name;
-                        break;
-                    }
-     
-                    case "administrative_area_level_3": {
-                        formStep2.city = component.long_name;
-                        break;
-                    }
-                }
-            }
-        });
-    }
-});
+const setFormAddress = (e)=>{
+    formStep2.address = e.address;
+    formStep2.number = e.number;
+    formStep2.cap = e.cap;
+    formStep2.city = e.city;
+    formStep2.province = e.province;
+};
 
 </script>

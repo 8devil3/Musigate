@@ -16,29 +16,25 @@
                 </template>
 
                 <template #content>
-                    <div class="mb-4">
-                        <label for="google-autocomplete" class="w-full px-3 mb-1 text-xs font-medium leading-tight truncate">Autocompletamento Google</label>
-                        <div class="relative">
-                            <i class="absolute text-sm leading-none text-orange-500 -translate-y-1/2 fa-solid fa-location-dot top-1/2 left-4" />
+                    <div class="grid max-w-md grid-cols-3 gap-x-2 gap-y-4">
+                        <GooglePlacesAutocomplete
+                            v-model="form.complete_address"
+                            @addressData="setFormAddress"
+                            class="col-span-full"
+                        />
+                        <Input v-model="form.address" placeholder="Indirizzo, senza numero civico" label="Indirizzo" :error="form.errors.address" :disabled="!isManualAddress" required class="col-span-2" />
 
-                            <input type="search" @keypress.enter="$event.preventDefault()" v-model="form.complete_address" id="google-autocomplete" ref="inputGooglePlaces" placeholder="Inizia a digitare un indirizzo" class="w-full h-8 py-0 pr-4 text-sm text-left text-white truncate border rounded-full bg-slate-900 border-slate-400 pl-9 disabled:bg-slate-800 form-input placeholder:text-slate-300/80 placeholder:truncate disabled:border-slate-500 disabled:text-slate-500 focus:ring-orange-500/50 focus:border-orange-500 focus:shadow-md focus:shadow-orange-500" />
-                        </div>
+                        <Input v-model="form.number" placeholder="Civico" label="Numero" :error="form.errors.number" :disabled="!isManualAddress" class="col-span-1" />
+
+                        <Input v-model="form.city" placeholder="Città" label="Città" :error="form.errors.city" :disabled="!isManualAddress" required class="col-span-2" />
+
+                        <Input v-model="form.cap" placeholder="CAP" label="CAP" pattern="[0-9]{5}" :error="form.errors.cap" :disabled="!isManualAddress" :required="isManualAddress" class="col-span-1" />
+
+                        <Input v-model="form.province" placeholder="Provincia" label="Provincia" :error="form.errors.province" :disabled="!isManualAddress" required class="col-span-full" />
                     </div>
-
-                    <fieldset :disabled="!isManual" class="space-y-4">
-                        <div class="flex w-full gap-2">
-                            <Input v-model="form.address" placeholder="Indirizzo, senza numero civico" label="Indirizzo" id="studio-location-address" :error="form.errors.address" class="grow" required />
-                            <Input v-model="form.number" placeholder="Civico" label="Numero" id="studio-location-number" :error="form.errors.number" class="w-24" />
-                        </div>
-                        <div class="flex w-full gap-2">
-                            <Input v-model="form.city" placeholder="Città" label="Città" id="studio-location-city" :error="form.errors.city" class="grow" required />
-                            <Input v-model="form.cap" placeholder="CAP" label="CAP" pattern="[0-9]{5}" :error="form.errors.cap" class="w-24" required />
-                        </div>
-                        <Input v-model="form.province" placeholder="Provincia" label="Provincia" :error="form.errors.province" required />
-                    </fieldset>
                     
                     <div class="px-4 mt-4">
-                        <Checkbox v-model="isManual" id="location-manual-insert">Inserimento manuale indirizzo</Checkbox>
+                        <Checkbox v-model="isManualAddress">Inserimento manuale indirizzo</Checkbox>
                     </div>
                 </template>
             </FormElement>
@@ -74,7 +70,7 @@ import Textarea from '@/Components/Form/Textarea.vue';
 import Checkbox from '@/Components/Form/Checkbox.vue';
 import FormElement from '@/Components/Backoffice/FormElement.vue';
 import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
-import { getGoogleMapsLoader } from '@/Components/GoogleMapsLoader.js';
+import GooglePlacesAutocomplete from '@/Components/GooglePlacesAutocomplete.vue';
 
 const props = defineProps({
     location: Object,
@@ -87,72 +83,22 @@ const form = useForm({
     cap: props.location.cap,
     city: props.location.city,
     province: props.location.province,
-    lon: props.location.lon,
-    lat: props.location.lat,
     notes: props.location.notes
 });
 
-const isManual = ref(false);
+const isManualAddress = ref(false);
 
 const submit = () => {
     form.put(route('studio.location.update'));
 };
 
-//Google Places API
-const inputGooglePlaces = ref(null);
-
-getGoogleMapsLoader().importLibrary('places').then(({ Autocomplete }) => {
-    const options = {
-        componentRestrictions: { country: "it" },
-        fields: ['address_components', 'formatted_address'],
-        types: ['address'],
-        language: 'it',
-    };
-
-    const autocomplete = new Autocomplete(inputGooglePlaces.value, options);
-    
-    autocomplete.addListener('place_changed', ()=>{
-        form.address = null;
-        form.number = null;
-        form.cap = null;
-        form.city = null;
-        form.province = null;
-        form.lon = null;
-        form.lat = null;
-        
-        const place = autocomplete.getPlace();
-        form.complete_address = place.formatted_address;
-                
-        for (const component of place.address_components) {    
-            switch (component.types[0]) {
-                case "street_number": {
-                    form.number = component.long_name;
-                    break;
-                }
-    
-                case "route": {
-                    form.address = component.short_name;
-                    break;
-                }
-    
-                case "postal_code": {
-                    form.cap = component.long_name ?? component.short_name;
-                    break;
-                }
-                
-                case "administrative_area_level_2": {
-                    form.province = component.long_name;
-                    break;
-                }
- 
-                case "administrative_area_level_3": {
-                    form.city = component.long_name;
-                    break;
-                }
-            }
-        }
-    });
-});
+const setFormAddress = (e)=>{
+    form.address = e.address;
+    form.number = e.number;
+    form.cap = e.cap;
+    form.city = e.city;
+    form.province = e.province;
+};
 
 </script>
 
