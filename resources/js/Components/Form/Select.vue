@@ -57,7 +57,7 @@ const props = defineProps({
 const emit = defineEmits(['change']);
 const vModel = defineModel();
 
-const classes = "text-left w-full h-8 pl-3 pr-6 py-0 text-sm border font-light rounded-full placeholder:text-slate-300/80 disabled:bg-slate-800 placeholder:truncate truncate disabled:cursor-not-allowed disabled:text-slate-500 disabled:border-slate-500 font-sans placeholder:font-light";
+const classes = "text-left w-full h-8 pl-3 pr-6 py-0 text-sm border font-light rounded-full disabled:bg-slate-800 placeholder:truncate truncate disabled:cursor-not-allowed disabled:text-slate-600 disabled:border-slate-500 font-sans placeholder:font-light";
 
 const id = computed(()=>{
     return 'select-' + Math.random() * 1000000000000;

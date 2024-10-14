@@ -75,7 +75,7 @@ const props = defineProps({
     },
 });
 
-const classes = "text-left form-textarea w-full px-3 py-2 text-sm font-light leading-normal text-white rounded-xl border placeholder:text-slate-300/80 disabled:bg-slate-800 disabled:cursor-not-allowed placeholder:truncate disabled:text-slate-500 disabled:border-slate-500 font-sans";
+const classes = "text-left form-textarea w-full px-3 py-2 text-sm font-light leading-normal text-white rounded-xl border placeholder:text-slate-500 disabled:bg-slate-800 disabled:cursor-not-allowed placeholder:truncate disabled:text-slate-600 disabled:border-slate-500 font-sans";
 
 const vModel = defineModel({ default: null });
 

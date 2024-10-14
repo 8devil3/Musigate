@@ -30,7 +30,7 @@
                 :autofocus="props.autofocus"
                 :aria-label="props.label"
                 :aria-placeholder="props.placeholder"
-                class="w-full p-0 text-sm font-light truncate bg-transparent border-0 outline-none grow focus:ring-0 focus:outline-none placeholder:font-light disabled:text-slate-500 disabled:placeholder:text-slate-500 placeholder:truncate placeholder:text-slate-400 disabled:cursor-not-allowed"
+                class="w-full p-0 text-sm font-light truncate bg-transparent border-0 outline-none grow focus:ring-0 focus:outline-none placeholder:font-light disabled:text-slate-600 disabled:placeholder:text-slate-600 placeholder:truncate placeholder:text-slate-500 disabled:cursor-not-allowed"
                 :class="props.error && 'text-red-500 placeholder:text-red-300'"
             >
 
