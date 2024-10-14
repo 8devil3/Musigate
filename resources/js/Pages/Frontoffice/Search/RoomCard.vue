@@ -5,8 +5,8 @@
             <div v-if="props.room.has_discounted_fixed_price || props.room.min_discounted_price" class="absolute z-50 w-40 py-1.5 text-xs font-medium text-center text-white origin-top rotate-45 translate-x-1/2  bg-orange-900/80 backdrop-blur-sm border-orange-500 shadow-sm border-y-2 top-2 right-2">
                 <!-- <i class="-rotate-45 fa-solid fa-tag" /> -->
                 <div>
-                    Tariffa<br>
-                    scontata
+                    Tariffe<br>
+                    scontate
                 </div>
             </div>
             <!-- / -->
@@ -49,9 +49,9 @@
             </div>
             <!-- / -->
 
-            <div class="flex items-center gap-6 border-t border-orange-500">
+            <div class="border-t border-orange-500">
                 <!-- location e tariffa minima -->
-                <address class="py-3 font-sans text-sm not-italic grow">
+                <address class="py-3 font-sans text-sm not-italic">
                     <div>
                         <i class="mr-1 text-sm text-orange-500 fa-solid fa-location-dot" />
                         {{ props.room.studio.location.city }}
@@ -62,7 +62,7 @@
                 </address>
                 <!-- / -->
     
-                <div v-if="props.room.fixed_price || props.room.has_discounted_fixed_price || props.room.min_price || props.room.min_discounted_price" title="Tariffa oraria" class="text-sm font-lemon shrink-0">
+                <!-- <div v-if="props.room.fixed_price || props.room.has_discounted_fixed_price || props.room.min_price || props.room.min_discounted_price" title="Tariffa oraria" class="text-sm font-lemon shrink-0">
                     <template v-if="props.room.min_discounted_price">
                         <div class="text-xs line-through text-slate-400">
                             {{ props.room.min_price }} €/h
@@ -88,7 +88,7 @@
                     <div v-else>
                         {{ props.room.discounted_fixed_price }} €/h
                     </div>
-                </div>
+                </div> -->
             </div>
         </Link>
     </article>

@@ -5,7 +5,7 @@
             <!-- <i class="-rotate-45 fa-solid fa-tag" /> -->
             <div>
                 Tariffe<br>
-                scontata
+                scontate
             </div>
         </div>
         <!-- / -->
