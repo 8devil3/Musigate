@@ -40,7 +40,7 @@
                 </template>
 
                 <template #actions>
-                    <Button type="router" :href="route('sale-prova.create')" text="Crea una Sala" icon="fa-solid fa-plus" title="Crea una Sala"/>
+                    <Button type="router" :href="route('sale-prova.create')" text="Aggiungi" icon="fa-solid fa-plus" title="Aggiungi"/>
                 </template>
             </Empty>
 
