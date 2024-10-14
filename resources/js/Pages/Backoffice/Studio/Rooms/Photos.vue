@@ -16,7 +16,7 @@
                 </template>
 
                 <template #content>
-                    <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+                    <div class="grid grid-cols-2 gap-4">
                         <!-- foto -->
                         <draggable 
                             v-model="form.photos"
