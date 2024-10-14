@@ -130,7 +130,7 @@ const removePhoto = (index)=>{
 
 const deleteSelectedPhotos = ()=>{
     if(form.selected_photos.length){
-        form.delete(route('sale-prova.photos.delete', props.room.id), {
+        form.delete(route('sale-prova.photos.destroy', props.room.id), {
             preserveState: false,
             onSuccess: ()=> form.selected_photos = [],
         });
