@@ -16,7 +16,7 @@
                 </template>
 
                 <template #content>
-                    <Input id="studio-name" v-model="form.name" :error="form.errors.name" class="w-full lg:max-w-xs" required />
+                    <Input id="studio-name" v-model="form.name" placeholder="Nome dello Studio" :error="form.errors.name" required class="w-full lg:max-w-xs" />
                 </template>
             </FormElement>
             <!-- / -->
@@ -78,7 +78,7 @@
                                 <i v-else class="w-4 mt-1 text-red-500 shrink-0 fa-solid fa-xmark"></i>
                                 la categoria
                             </li>
-                            <li v-if="props.studio.category === 'Professional'">
+                            <li v-if="props.studio.category === 'Professional'" class="flex items-start gap-2">
                                 <i v-if="props.studio.vat" class="w-4 mt-1 text-green-500 shrink-0 fa-solid fa-check"></i>
                                 <i v-else class="w-4 mt-1 text-red-500 shrink-0 fa-solid fa-xmark"></i>
                                 la partita iva
