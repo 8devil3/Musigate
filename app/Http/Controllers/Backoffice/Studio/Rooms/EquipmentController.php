@@ -38,7 +38,7 @@ class EquipmentController extends Controller
             'equipments.*.name' => ['required', 'string', 'max:255'],
         ]);
 
-        $room->equipments()->delete();
+        $room->equipments()->where('equipment_category_id', $request->current_category_id)->delete();
 
         foreach ($request->equipments as $equip) {
             Equipment::create([
