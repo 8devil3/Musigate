@@ -72,7 +72,7 @@
         </template>
     </Modal>
     
-    <ModalDanger :isOpen="openModalDanger" @close="openModalDelete()" @submitted="submitDelete()">
+    <ModalDanger :isOpen="openModalDanger" @close="closeModalDelete()" @submitted="submitDelete()">
         <template #title>
             Elimina collaborazione
         </template>
