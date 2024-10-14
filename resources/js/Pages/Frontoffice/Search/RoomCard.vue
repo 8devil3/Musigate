@@ -2,13 +2,12 @@
     <article class="flex flex-col overflow-hidden border border-slate-500 min-h-40 bg-slate-900/75 rounded-xl">
         <div class="relative h-56">
             <!-- badge sconto -->
-            <div v-if="props.room.has_discounted_fixed_price || props.room.min_discounted_price" class="absolute z-50 w-40 py-1.5 text-xs font-medium text-center text-white origin-top rotate-45 translate-x-1/2  bg-orange-900/80 backdrop-blur-sm border-orange-500 shadow-sm border-y-2 top-2 right-2">
-                <!-- <i class="-rotate-45 fa-solid fa-tag" /> -->
+            <!-- <div v-if="props.room.has_discounted_fixed_price || props.room.min_discounted_price" class="absolute z-50 w-40 py-1.5 text-xs font-medium text-center text-white origin-top rotate-45 translate-x-1/2  bg-orange-900/80 backdrop-blur-sm border-orange-500 shadow-sm border-y-2 top-2 right-2">
                 <div>
                     Tariffe<br>
                     scontate
                 </div>
-            </div>
+            </div> -->
             <!-- / -->
 
             <Carosello :imgs="props.room.photos" class="h-full" />
