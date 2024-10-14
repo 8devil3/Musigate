@@ -6,7 +6,7 @@
     >
         <template #content>
             <!-- copia disponibilità -->
-            <FormElement v-if="props.all_timebands">
+            <FormElement>
                 <template #title>
                     Copia disponibilità
                 </template>
@@ -18,7 +18,7 @@
                     </div>
                 </template>
                 <template #content>
-                    <Select v-model="cloneFromWeekday" @change="cloneAvailability()" :options="props.all_timebands" default="Copia dati dal giorno..." class="w-64" />
+                    <Select v-model="cloneFromWeekday" @change="cloneAvailability()" :options="props.weekdays" default="Copia dati dal giorno..." class="w-64" />
                 </template>
             </FormElement>
             <!-- / -->
@@ -189,7 +189,6 @@ import Input from '@/Components/Form/Input.vue';
 const props = defineProps({
     availability: Object,
     timebands: Object,
-    all_timebands: Object,
     current_weekday: Number,
     hours: Object,
     weekdays: Object,

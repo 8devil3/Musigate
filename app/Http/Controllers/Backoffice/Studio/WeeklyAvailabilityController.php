@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Backoffice\Studio;
 
 use App\Http\Controllers\Controller;
-use App\Models\Room\RoomPrice;
 use App\Models\Studio\Availability;
 use App\Services\GeneratePeriodsService;
 use Illuminate\Http\RedirectResponse;
@@ -24,13 +23,10 @@ class WeeklyAvailabilityController extends Controller
         $studio = auth()->user()->studio;
         $availability = $studio->availability()->where('weekday', $current_weekday)->firstOrFail();
         $timebands = $studio->timebands()->where('weekday', $current_weekday)->get();
-        $all_timebands = $studio->timebands()->whereNot('weekday', $current_weekday)->pluck('weekday')->mapWithKeys(function($wd) use($weekdays){
-            return [$wd => $weekdays[$wd]];
-        });
 
         $current_weekday = intval($current_weekday);
 
-        return Inertia::render('Backoffice/Studio/Availability', compact('availability', 'timebands', 'all_timebands', 'current_weekday', 'hours', 'weekdays'));
+        return Inertia::render('Backoffice/Studio/Availability', compact('availability', 'timebands', 'current_weekday', 'hours', 'weekdays'));
     }
 
     public function update(Request $request): RedirectResponse
