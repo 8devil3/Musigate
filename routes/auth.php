@@ -10,7 +10,7 @@ use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\PayPalLoginController;
 use App\Http\Controllers\Auth\RegisterArtist\RegisteredArtistController;
-use App\Http\Controllers\Auth\RegisteredUserController;
+// use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\RegisterStudio\SubscriptionController;
 use App\Http\Controllers\Auth\RegisterStudio\BusinessController;
 use App\Http\Controllers\Auth\RegisterStudio\StarterController;

@@ -9,7 +9,9 @@
                         <i class="fa-solid fa-xmark" />
                     </button>
 
-                    <slot />
+                    <div class="h-full bg-slate-900">
+                        <slot />
+                    </div>
                 </div>
             </div>
         </Transition>
