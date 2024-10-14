@@ -27,7 +27,7 @@ class SocialController extends Controller
             'spotify' => 'nullable|url:https|max:255',
             'itunes' => 'nullable|url:https|max:255',
             'linkedin' => 'nullable|url:https|max:255',
-            'website' => 'nullable|url:https|max:255' ,
+            'website' => 'nullable|url:https,http|max:255' ,
         ]);
 
         auth()->user()->studio->social->update($request->toArray());

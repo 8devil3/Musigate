@@ -60,7 +60,7 @@ class Studio extends Model
         return $this->hasOne(Location::class);
     }
 
-    public function socials(): HasOne
+    public function social(): HasOne
     {
         return $this->hasOne(Social::class);
     }
