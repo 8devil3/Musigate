@@ -51,9 +51,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.put(route('studio.socials.update'), {
-        preserveState: false,
-    });
+    form.put(route('studio.socials.update'));
 };
 
 const socials = {

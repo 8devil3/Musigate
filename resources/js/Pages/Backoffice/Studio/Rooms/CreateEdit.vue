@@ -190,13 +190,9 @@ const submit = ()=>{
     if(form.processing) return;
 
     if(props.room.id){
-        form.put(route('sale-prova.update', props.room.id), {
-            preserveState: false
-        });
+        form.put(route('sale-prova.update', props.room.id));
     } else {
-        form.post(route('sale-prova.store'), {
-            preserveState: false
-        });
+        form.post(route('sale-prova.store'));
     }
 }
 

@@ -70,9 +70,7 @@ const submit = ()=>{
     });
 
     if(!checkVideoArr.includes(false)){
-        form.put(route('studio.videos.update'), {
-            preserveState: false,
-        });
+        form.put(route('studio.videos.update'));
     }
 
 }

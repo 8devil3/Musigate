@@ -77,9 +77,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.put(route('studio.rules.update'), {
-        preserveState: false,
-    });
+    form.put(route('studio.rules.update'));
 };
 
 </script>

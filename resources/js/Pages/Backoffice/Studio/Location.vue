@@ -95,9 +95,7 @@ const form = useForm({
 const isManual = ref(false);
 
 const submit = () => {
-    form.put(route('studio.location.update'), {
-        preserveState: false,
-    });
+    form.put(route('studio.location.update'));
 };
 
 //Google Places API

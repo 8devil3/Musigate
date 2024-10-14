@@ -99,7 +99,6 @@ const form = useForm({
 
 const submit = ()=>{
     form.post(route('studio.photos.update'), {
-        preserveState: false,
         onSuccess: ()=> form.selected_photos = [],
     });
 };

@@ -215,9 +215,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.put(route('studio.description.update'), {
-        preserveState: false,
-    });
+    form.put(route('studio.description.update'));
 };
 
 </script>

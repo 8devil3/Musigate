@@ -67,9 +67,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.put(route('studio.contacts.update'), {
-        preserveState: false,
-    });
+    form.put(route('studio.contacts.update'));
 };
 
 </script>
