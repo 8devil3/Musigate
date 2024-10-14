@@ -15,13 +15,13 @@ class CreateStudioService
 {
     public static function store(User $user)
     {
-        $studio_data_step2 = session()->get('studio_data_step2');
+        $data_step2 = session()->get('data_step2');
 
         $studio = Studio::create([
             'user_id' => $user->id,
-            'name' => ucwords(strtolower($studio_data_step2['studio_name'])),
+            'name' => ucwords(strtolower($data_step2['studio_name'])),
             // 'category' => $category,
-            'vat' => $studio_data_step2['vat'],
+            'vat' => $data_step2['vat'],
         ]);
 
         //creo la dipsonibiità settimanale
@@ -47,14 +47,14 @@ class CreateStudioService
 
         Location::create([
             'studio_id' => $studio->id,
-            'address' => $studio_data_step2['address'],
-            'number' => $studio_data_step2['number'],
-            'city' => $studio_data_step2['city'],
-            'province' => $studio_data_step2['province'],
-            'cap' => $studio_data_step2['cap'],
-            'complete_address' => $studio_data_step2['complete_address'],
-            'lon' => $studio_data_step2['lon'],
-            'lat' => $studio_data_step2['lat']
+            'address' => $data_step2['address'],
+            'number' => $data_step2['number'],
+            'city' => $data_step2['city'],
+            'province' => $data_step2['province'],
+            'cap' => $data_step2['cap'],
+            'complete_address' => $data_step2['complete_address'],
+            'lon' => $data_step2['lon'],
+            'lat' => $data_step2['lat']
         ]);
 
         // BookingSetting::create(['studio_id' => $studio->id]);

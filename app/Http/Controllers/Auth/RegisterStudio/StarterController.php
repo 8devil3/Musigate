@@ -19,9 +19,9 @@ class StarterController extends Controller
     public function step_1(): Response
     {
         $step = 1;
-        $studio_data = session()->get('studio_data');
+        $data_step1 = session()->get('data_step1');
 
-        return Inertia::render('Auth/Studio/Starter/Register', compact('step', 'studio_data'));
+        return Inertia::render('Auth/Studio/Starter/Register', compact('step', 'data_step1'));
     }
 
     public function step_2(Request $request): Response
@@ -32,17 +32,17 @@ class StarterController extends Controller
                 'last_name' => 'required|string|max:255',
             ]);
     
-            session()->put('studio_data_step1', [
+            session()->put('data_step1', [
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
             ]);
         }
 
-        $studio_data = session()->get('studio_data_step1');
+        $data_step2 = session()->get('data_step2');
 
         $step = 2;
 
-        return Inertia::render('Auth/Studio/Starter/Register', compact('step', 'studio_data'));
+        return Inertia::render('Auth/Studio/Starter/Register', compact('step', 'data_step2'));
     }
     
     public function step_3(Request $request): Response
@@ -67,7 +67,7 @@ class StarterController extends Controller
 
         $geocode = Geocoder::getCoordinatesForAddress(implode(' ', $address));
 
-        session()->put('studio_data_step2', [
+        session()->put('data_step2', [
             'studio_name' => $request->name,
             // 'category' => $request->category,
             'vat' => $request->vat,
@@ -100,13 +100,11 @@ class StarterController extends Controller
             'privacy' => 'accepted',
         ]);
 
-        // dd(session()->get('studio_data_step2'));
-
-        $studio_data_step1 = session()->get('studio_data_step1');
+        $data_step1 = session()->get('data_step1');
 
         $user = User::create([
-            'first_name' => ucfirst(strtolower($studio_data_step1['first_name'])),
-            'last_name' => ucfirst(strtolower($studio_data_step1['last_name'])),
+            'first_name' => ucfirst(strtolower($data_step1['first_name'])),
+            'last_name' => ucfirst(strtolower($data_step1['last_name'])),
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'tos' => $request->tos,
