@@ -74,7 +74,7 @@ import Textarea from '@/Components/Form/Textarea.vue';
 import Checkbox from '@/Components/Form/Checkbox.vue';
 import FormElement from '@/Components/Backoffice/FormElement.vue';
 import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
-import { Loader } from '@googlemaps/js-api-loader';
+import { getGoogleMapsLoader } from '@/Components/GoogleMapsLoader.js';
 
 const props = defineProps({
     location: Object,
@@ -101,13 +101,7 @@ const submit = () => {
 //Google Places API
 const inputGooglePlaces = ref(null);
 
-const loader = new Loader({
-    apiKey: import.meta.env.VITE_GOOGLE_API_KEY,
-    version: 'quarterly',
-    libraries: ['places']
-});
-
-loader.importLibrary('places').then(({ Autocomplete }) => {
+getGoogleMapsLoader().importLibrary('places').then(({ Autocomplete }) => {
     const options = {
         componentRestrictions: { country: "it" },
         fields: ['address_components', 'formatted_address'],

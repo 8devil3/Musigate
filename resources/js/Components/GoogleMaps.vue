@@ -4,7 +4,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import { Loader } from '@googlemaps/js-api-loader';
+import { getGoogleMapsLoader } from '@/Components/GoogleMapsLoader.js';
 
 const props = defineProps({
     studios: Object,
@@ -25,14 +25,6 @@ const props = defineProps({
 //Google Places API
 const htmlMap = ref(null);
 
-const loader = new Loader({
-    apiKey: import.meta.env.VITE_GOOGLE_API_KEY,
-    version: 'quarterly',
-    libraries: ['maps', 'marker'],
-    language: 'it',
-    region: 'IT',
-});
-
 const options = {
     zoom: props.zoom,
     center: {
@@ -45,7 +37,7 @@ const options = {
     mapId: 'MUSIGATE-MAP-' + Math.ceil(Math.random()* 1000),
 };
 
-loader.load().then(async () => {
+getGoogleMapsLoader().load().then(async () => {
     const { Map, InfoWindow } = await google.maps.importLibrary("maps"); // Carica la libreria "maps"
     const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker"); // Carica la libreria "marker"
     
