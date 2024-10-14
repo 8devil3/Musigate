@@ -50,19 +50,7 @@
 
 
     <!-- messaggi flash -->
-    <div class="fixed -translate-x-1/2 top-9 lg:top-4 left-1/2 z-[2000]">
-        <transition leave-active-class="transition duration-1000 ease-in" leave-from-class="opacity-100" leave-to-class="opacity-0">
-            <div v-show="success" class="flex items-center gap-2 px-4 py-2 text-sm font-medium leading-none text-white border-2 rounded-full shadow-lg bg-emerald-600/20 border-emerald-500">
-                <i class="fa-solid fa-check" />
-                {{ usePage().props.flash.success }}
-            </div>
-        </transition>
-
-        <div v-show="error" class="flex items-center gap-2 p-2 text-sm font-medium leading-none text-white border-2 border-red-600 rounded-full shadow-lg bg-red-600/20">
-            <i class="fa-solid fa-circle-exclamation" />
-            Salvataggio non riuscito!
-        </div>
-    </div>
+    <FlashMessage />
     <!-- / -->
 
 
@@ -81,6 +69,7 @@ import { Link, usePage, router } from '@inertiajs/vue3';
 import UserMenu from '@/Components/Backoffice/UserMenu.vue';
 import Tabs from '@/Components/Backoffice/Tabs.vue';
 import Spinner from '@/Components/Spinner.vue';
+import FlashMessage from '@/Components/FlashMessage.vue';
 import Drawer from '@/Components/Drawer.vue';
 import AsideMenu from '@/Components/Backoffice/AsideMenu.vue';
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue';
@@ -100,8 +89,6 @@ const props = defineProps({
 
 const emit = defineEmits(['submitted']);
 const isLoading = ref(false);
-const success = ref(props.isSucess || usePage().props.flash.success ? true : false);
-const error = ref(props.hasErrors || usePage().props.flash.error ? true : false);
 const isOpenDrawer = ref(false);
 
 const dissolveFlashSuccess = ()=>{
@@ -116,10 +103,6 @@ const dissolveFlashSuccess = ()=>{
         clearTimeout(timoutId1);
     }, 2000);
 };
-
-onMounted(()=>{
-    dissolveFlashSuccess();
-});
 
 router.on('start', ()=> isLoading.value = true);
 router.on('finish', ()=> isLoading.value = false);
