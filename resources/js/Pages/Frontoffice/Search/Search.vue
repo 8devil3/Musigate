@@ -2,7 +2,7 @@
     <FrontofficeLayout title="Cerca">
         <!-- search bar desktop-->
         <div class="sticky top-0 z-50 border-b bg-slate-950/60 border-slate-700 backdrop-blur-md">
-            <form @submit.prevent="submit()" class="flex-wrap items-end justify-center hidden max-w-4xl px-6 py-4 mx-auto md:flex gap-x-2 gap-y-4">
+            <form @submit.prevent="submit()" class="items-end justify-center hidden max-w-4xl px-6 py-4 mx-auto md:flex gap-x-2 gap-y-4">
                 <ComboBox
                     v-model="form.location"
                     @selected="submit()"
