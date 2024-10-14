@@ -13,27 +13,37 @@ use Inertia\Response;
 
 class EquipmentController extends Controller
 {
-    public function edit(Room $room): Response
+    public function edit(Request $request, Room $room): Response
     {
-        $equipment = Equipment::where('room_id', $room->id)->get(['id', 'name', 'equipment_category_id']);
-        $equipment_categories = EquipmentCategory::pluck('name', 'id');
+        $current_category_id = request('current_category_id', 1);
+        $categories = EquipmentCategory::pluck('name', 'id');
+        if(!is_int($current_category_id) && !in_array($current_category_id, array_keys($categories->toArray()))) $current_category_id = 1;
 
-        return Inertia::render('Backoffice/Studio/Rooms/Equipment', compact('room', 'equipment', 'equipment_categories'));
+        $category = EquipmentCategory::with(['equipments' => function($query) use($room){
+            $query->where('room_id', $room->id);
+        }])->findOrFail($current_category_id);
+
+        $current_category_id = intval($current_category_id);
+
+        return Inertia::render('Backoffice/Studio/Rooms/Equipment', compact('room', 'category', 'categories', 'current_category_id'));
     }
 
     public function update(Request $request, Room $room): RedirectResponse
     {
+        if(empty($request->equipments)) $request->replace($request->except(['equipments']));
+
         $request->validate([
-            'equipment.*.equipment_category_id' => 'required|int|exists:equipment_categories,id',
-            'equipment.*.name' => 'required|string|max:255',
+            'current_category_id' => ['required', 'integer', 'exists:equipment_categories,id'],
+            'equipments' => ['sometimes', 'array'],
+            'equipments.*.name' => ['required', 'string', 'max:255'],
         ]);
 
-        Equipment::where('room_id', $room->id)->delete();
-        
-        foreach ($request->equipment as $equip) {
+        $room->equipments()->delete();
+
+        foreach ($request->equipments as $equip) {
             Equipment::create([
                 'room_id' => $room->id,
-                'equipment_category_id' => $equip['equipment_category_id'],
+                'equipment_category_id' => $request->current_category_id,
                 'name' => $equip['name'],
             ]);
         }

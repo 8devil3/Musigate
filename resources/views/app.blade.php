@@ -38,6 +38,7 @@
         @inertia
 
         <div id="drawer"></div>
+        <div id="flash-message"></div>
         <div id="modal"></div>
         <div id="spinner"></div>
     </body>

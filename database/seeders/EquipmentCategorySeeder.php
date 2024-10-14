@@ -13,14 +13,18 @@ class EquipmentCategorySeeder extends Seeder
     public function run(): void
     {
         $categories = [
+            'Console',
             'Mixer',
             'Outboard',
             'Monitoring',
             'Computer e software',
+            'Master clock',
             'Strumenti musicali',
             'Sintetizzatori',
+            'Reverbs',
             'Microfoni',
             'DAW',
+            'Converters',
             'FX processors',
             'Backline',
             'Dynamics',

@@ -30,7 +30,7 @@
                 :autofocus="props.autofocus"
                 :aria-label="props.label"
                 :aria-placeholder="props.placeholder"
-                class="w-full p-0 text-sm font-light truncate bg-transparent border-0 outline-none grow focus:ring-0 focus:outline-none placeholder:font-normal disabled:text-slate-500 disabled:placeholder:text-slate-500 placeholder:truncate placeholder:text-slate-400 disabled:cursor-not-allowed"
+                class="w-full p-0 text-sm font-light truncate bg-transparent border-0 outline-none grow focus:ring-0 focus:outline-none placeholder:font-light disabled:text-slate-500 disabled:placeholder:text-slate-500 placeholder:truncate placeholder:text-slate-400 disabled:cursor-not-allowed"
                 :class="props.error && 'text-red-500 placeholder:text-red-300'"
             >
 
@@ -123,8 +123,6 @@ const props = defineProps({
         default: null
     }
 });
-
-const classes = "text-left w-full h-8 px-3 py-0 text-sm text-white border rounded-full placeholder:text-slate-500 disabled:bg-slate-800 placeholder:truncate truncate disabled:cursor-not-allowed disabled:text-slate-500 disabled:border-slate-500 font-sans placeholder:font-normal font-light";
 
 const emit = defineEmits(['change', 'input', 'clear']);
 
