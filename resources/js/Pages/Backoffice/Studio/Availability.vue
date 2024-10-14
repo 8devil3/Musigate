@@ -51,6 +51,7 @@
                         <Select
                             v-model="form.open_start"
                             isArray
+                            @change="validations()"
                             :options="props.hours"
                             :disabled="!form.is_open"
                             default="Inizio"
@@ -62,6 +63,7 @@
                         <Select
                             v-model="form.open_end"
                             isArray
+                            @change="validations()"
                             :options="hours.filter(h => h > form.open_start)"
                             default="Fine"
                             :disabled="!form.is_open"
