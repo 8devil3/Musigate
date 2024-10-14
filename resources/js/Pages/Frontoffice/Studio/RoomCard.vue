@@ -34,30 +34,17 @@
             </div>
             <!-- / -->
             
-            <!-- nome sala -->
-            <h3 class="text-[18px] md:text-xl m-0">{{ props.room.name }}</h3>
-            <!-- / -->
-
-            <!-- descrizione -->
-            <p v-if="props.room.description" class="m-0 line-clamp-3">
-                {{ props.room.description }}
-            </p>                
-            <!-- / -->
-            
-            <!-- equipaggiamento -->
-            <div v-if="props.room.equipments.length" class="space-y-2 grow">
-                <h4 class="m-0">Equipaggiamento</h4>
+            <div class="space-y-2">
+                <!-- nome sala -->
+                <h3 class="text-[18px] md:text-xl">{{ props.room.name }}</h3>
+                <!-- / -->
     
-                <ul class="m-0 list-musigate">
-                    <template v-for="eq, index in props.room.equipments">
-                        <li v-if="index <= 2" class="list-musigate">
-                            {{ eq.name }}
-                        </li>
-                    </template>
-                    <li class="list-musigate" v-if="props.room.equipments.length > 3">... altro</li>
-                </ul>
+                <!-- descrizione -->
+                <p v-if="props.room.description" class="line-clamp-3">
+                    {{ props.room.description }}
+                </p>                
+                <!-- / -->
             </div>
-            <!-- / -->
 
             <!-- tariffe -->
             <div v-if="props.room.fixed_price || props.room.has_discounted_fixed_price || props.room.min_price || props.room.min_discounted_price" class="flex flex-col gap-1">
@@ -182,7 +169,6 @@
                         </span>
                     </div>
                 </div>
-
                 <!-- / -->
 
                 <!-- equipaggiamento -->
@@ -190,11 +176,11 @@
                     <h4 class="pb-1 m-0 border-b border-orange-500">Equipaggiamento</h4>
 
                     <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
-                        <template v-for="category, key in props.equipment_categories">
-                            <div v-if="props.room.equipments.filter(equip => equip.equipment_category_id == key).length">
+                        <template v-for="category, id in props.equipment_categories">
+                            <div v-if="props.room.equipments.filter(equip => equip.equipment_category_id == id).length">
                                 <h5 class="mb-1 text-sm font-lemon">{{ category }}</h5>
                                 <ul class="grid grid-cols-1 m-0 gap-x-16 list-musigate">
-                                    <li v-for="eq in props.room.equipments.filter(equip => equip.equipment_category_id == key)" class="w-full list-musigate">
+                                    <li v-for="eq in props.room.equipments.filter(equip => equip.equipment_category_id == id)" class="w-full list-musigate">
                                         <div class="truncate">{{ eq.name }}</div>
                                     </li>
                                 </ul>
