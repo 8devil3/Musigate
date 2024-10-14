@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\BookingSetting;
+use App\Models\Studio\BookingSetting;
 use App\Models\Studio\Studio;
 use Illuminate\Database\Seeder;
 

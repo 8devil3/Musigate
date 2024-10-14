@@ -3,7 +3,7 @@
 namespace App\Models\Studio;
 
 use App\Models\User;
-use App\Models\BookingSetting;
+use App\Models\Studio\BookingSetting;
 use App\Models\Room\Room;
 use App\Models\Studio\Availability;
 use App\Models\Studio\CancelPolicySetting;
