@@ -28,6 +28,8 @@ class WeeklyAvailabilityController extends Controller
             return [$wd => $weekdays[$wd]];
         });
 
+        $current_weekday = intval($current_weekday);
+
         return Inertia::render('Backoffice/Studio/Availability', compact('availability', 'timebands', 'all_timebands', 'current_weekday', 'hours', 'weekdays'));
     }
 
