@@ -29,6 +29,6 @@ class ContactController extends Controller
 
         auth()->user()->studio->contacts->update($request->toArray());
 
-        return redirect()->back();
+        return back()->with('success', 'Contatti salvati');
     }
 }

@@ -26,7 +26,7 @@ class CollaborationController extends Controller
 
         auth()->user()->studio->collaborations()->create($request->toArray());
 
-        return redirect()->back();
+        return back()->with('success', 'Collaborazione salvata');
     }
 
     public function update(Request $request, int $collaboration_id): RedirectResponse
@@ -38,13 +38,13 @@ class CollaborationController extends Controller
 
         auth()->user()->studio->collaborations()->findOrFail($collaboration_id)->update($request->toArray());
 
-        return redirect()->back();
+        return back()->with('success', 'Collaborazione aggiornata');
     }
 
     public function delete(int $collaboration_id): RedirectResponse
     {
         auth()->user()->studio->collaborations()->findOrFail($collaboration_id)->delete();
 
-        return redirect()->back();
+        return back()->with('success', 'Collaborazione eliminata');
     }
 }

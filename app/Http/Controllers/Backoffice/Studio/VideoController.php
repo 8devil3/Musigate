@@ -43,6 +43,6 @@ class VideoController extends Controller
             }
         }
 
-        return redirect()->back();
+        return back()->with('success', 'Video salvati');
     }
 }

@@ -23,6 +23,6 @@ class ComfortController extends Controller
     {
         auth()->user()->studio->comforts()->sync($request->comforts);
 
-        return redirect()->back();
+        return back()->with('success', 'Comfort salvati');
     }
 }

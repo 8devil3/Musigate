@@ -32,6 +32,6 @@ class SocialController extends Controller
 
         auth()->user()->studio->social->update($request->toArray());
 
-        return redirect()->back();
+        return back()->with('success', 'Social salvati');
     }
 }

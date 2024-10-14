@@ -36,6 +36,6 @@ class SuggestionController extends Controller
 
         //TODO: aggiungere notifica email all'amministrazione
 
-        return redirect()->back();
+        return back()->with('success', 'Suggerimento inviato');
     }
 }

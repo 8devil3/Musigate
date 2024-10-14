@@ -35,6 +35,6 @@ class PaymentMethodController extends Controller
 
         auth()->user()->studio->payment_methods()->sync($request->payments);
 
-        return redirect()->back();
+        return back()->with('success', 'Metodi di pagamento salvati');
     }
 }

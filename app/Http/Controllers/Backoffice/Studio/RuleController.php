@@ -21,6 +21,6 @@ class RuleController extends Controller
     {
         auth()->user()->studio->rule->update($request->toArray());
 
-        return redirect()->back();
+        return back()->with('success', 'Regolamento salvato');
     }
 }
