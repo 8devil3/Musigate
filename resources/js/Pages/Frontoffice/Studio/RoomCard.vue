@@ -46,35 +46,37 @@
             </div>
 
             <!-- tariffe -->
-            <div v-if="props.room.fixed_price || props.room.has_discounted_fixed_price || props.room.min_price || props.room.min_discounted_price">
+            <div v-if="props.room.fixed_price || props.room.has_discounted_fixed_price || props.room.min_price || props.room.min_discounted_price" class="space-y-1">
                 <div>
                     Tariffa minima
                 </div>
-                <template v-if="props.room.min_discounted_price">
-                    <span class="text-xs line-through text-slate-400 font-lemon">
+                <div class="flex items-end gap-3">
+                    <template v-if="props.room.min_discounted_price">
+                        <span class="mb-1 text-xs line-through text-slate-400 font-lemon">
+                            {{ props.room.min_price }} €/h
+                        </span>
+                        <span class="text-base font-medium font-lemon">
+                            {{ props.room.min_discounted_price }} €/h
+                        </span>
+                    </template>
+    
+                    <span v-else-if="props.room.min_price" class="text-base font-medium font-lemon">
                         {{ props.room.min_price }} €/h
                     </span>
-                    <span class="text-base font-medium font-lemon">
-                        {{ props.room.min_discounted_price }} €/h
-                    </span>
-                </template>
-
-                <span v-else-if="props.room.min_price" class="text-base font-medium font-lemon">
-                    {{ props.room.min_price }} €/h
-                </span>
-
-                <template v-else-if="props.room.discounted_fixed_price">
-                    <span class="text-xs line-through text-slate-400 font-lemon">
-                        {{ props.room.fixed_price }} €/h
-                    </span>
-                    <span class="text-base font-medium font-lemon">
+    
+                    <template v-else-if="props.room.discounted_fixed_price">
+                        <span class="text-xs line-through text-slate-400 font-lemon">
+                            {{ props.room.fixed_price }} €/h
+                        </span>
+                        <span class="mb-1 text-base font-medium font-lemon">
+                            {{ props.room.discounted_fixed_price }} €/h
+                        </span>
+                    </template>
+    
+                    <span v-else class="text-base font-medium font-lemon">
                         {{ props.room.discounted_fixed_price }} €/h
                     </span>
-                </template>
-
-                <span v-else class="text-base font-medium font-lemon">
-                    {{ props.room.discounted_fixed_price }} €/h
-                </span>
+                </div>
             </div>
             <!-- / -->
 

@@ -25,14 +25,38 @@
                     {{ props.room.area }} mq
                 </li>
 
-                <li title="Capienza massima" class="flex items-center gap-2 text-xs leading-none">
-                    <i class="text-orange-500 fa-solid fa-users" />
-                    {{ props.room.max_capacity }} max
-                </li>
-
-                <li title="Capienza massima" class="flex items-center gap-2 text-xs leading-none">
+                <li title="Prenotazione minima" class="flex items-center gap-2 text-xs leading-none">
                     <i class="text-orange-500 fa-solid fa-hourglass-half" />
                     {{ props.room.min_booking === 1 ? props.room.min_booking + ' min. ora' : props.room.min_booking + ' min. ore' }}
+                </li>
+
+                <li v-if="props.room.fixed_price || props.room.has_discounted_fixed_price || props.room.min_price || props.room.min_discounted_price" title="Tariffa minima" class="flex items-center gap-2 text-xs leading-none">
+                    <i class="text-orange-500 fa-solid fa-euro" />
+                    <template v-if="props.room.min_discounted_price">
+                        <span class="line-through text-slate-400">
+                            {{ props.room.min_price }} €/h
+                        </span>
+                        <span>
+                            {{ props.room.min_discounted_price }} €/h
+                        </span>
+                    </template>
+
+                    <span v-else-if="props.room.min_price">
+                        {{ props.room.min_price }} €/h
+                    </span>
+
+                    <template v-else-if="props.room.discounted_fixed_price">
+                        <span class="line-through text-slate-400">
+                            {{ props.room.fixed_price }} €/h
+                        </span>
+                        <span>
+                            {{ props.room.discounted_fixed_price }} €/h
+                        </span>
+                    </template>
+
+                    <span v-else>
+                        {{ props.room.discounted_fixed_price }} €/h
+                    </span>
                 </li>
             </ul>
 
@@ -48,9 +72,9 @@
             </div>
             <!-- / -->
 
-            <div class="border-t border-orange-500">
+            <div class="flex items-end gap-4 py-3 border-t border-orange-500">
                 <!-- location e tariffa minima -->
-                <address class="py-3 font-sans text-sm not-italic">
+                <address class="font-sans text-sm not-italic grow">
                     <div>
                         <i class="mr-1 text-sm text-orange-500 fa-solid fa-location-dot" />
                         {{ props.room.studio.location.city }}
@@ -60,34 +84,6 @@
                     </div>
                 </address>
                 <!-- / -->
-    
-                <!-- <div v-if="props.room.fixed_price || props.room.has_discounted_fixed_price || props.room.min_price || props.room.min_discounted_price" title="Tariffa oraria" class="text-sm font-lemon shrink-0">
-                    <template v-if="props.room.min_discounted_price">
-                        <div class="text-xs line-through text-slate-400">
-                            {{ props.room.min_price }} €/h
-                        </div>
-                        <div>
-                            {{ props.room.min_discounted_price }} €/h
-                        </div>
-                    </template>
-    
-                    <div v-else-if="props.room.min_price">
-                        {{ props.room.min_price }} €/h
-                    </div>
-    
-                    <template v-else-if="props.room.discounted_fixed_price">
-                        <div class="text-xs line-through text-slate-400">
-                            {{ props.room.fixed_price }} €/h
-                        </div>
-                        <div>
-                            {{ props.room.discounted_fixed_price }} €/h
-                        </div>
-                    </template>
-    
-                    <div v-else>
-                        {{ props.room.discounted_fixed_price }} €/h
-                    </div>
-                </div> -->
             </div>
         </Link>
     </article>
