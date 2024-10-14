@@ -8,6 +8,10 @@
             <slot />
         </main>
     </div>
+
+    <!-- messaggi flash -->
+    <FlashMessage />
+    <!-- / -->
 </template>
 
 <script setup>
@@ -15,6 +19,7 @@ import { ref } from 'vue';
 import { Head } from '@inertiajs/vue3';
 import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
 import AsideMenu from '@/Components/Backoffice/AsideMenu.vue';
+import FlashMessage from '@/Components/FlashMessage.vue';
 
 const props = defineProps({
     title: String,

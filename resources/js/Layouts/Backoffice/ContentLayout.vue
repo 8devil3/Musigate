@@ -49,11 +49,6 @@
     <!-- / -->
 
 
-    <!-- messaggi flash -->
-    <FlashMessage />
-    <!-- / -->
-
-
     <!-- spinner -->
     <teleport to="#spinner">
         <div v-if="isLoading" class="fixed inset-0 z-[5000] flex items-center justify-center backdrop-blur-sm bg-black/30">
@@ -69,7 +64,6 @@ import { Link, usePage, router } from '@inertiajs/vue3';
 import UserMenu from '@/Components/Backoffice/UserMenu.vue';
 import Tabs from '@/Components/Backoffice/Tabs.vue';
 import Spinner from '@/Components/Spinner.vue';
-import FlashMessage from '@/Components/FlashMessage.vue';
 import Drawer from '@/Components/Drawer.vue';
 import AsideMenu from '@/Components/Backoffice/AsideMenu.vue';
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue';
