@@ -46,8 +46,10 @@
             </div>
 
             <!-- tariffe -->
-            <div v-if="props.room.fixed_price || props.room.has_discounted_fixed_price || props.room.min_price || props.room.min_discounted_price" class="flex flex-col gap-1">
-                Tariffe a partire da
+            <div v-if="props.room.fixed_price || props.room.has_discounted_fixed_price || props.room.min_price || props.room.min_discounted_price">
+                <div>
+                    Tariffa minima
+                </div>
                 <template v-if="props.room.min_discounted_price">
                     <span class="text-xs line-through text-slate-400 font-lemon">
                         {{ props.room.min_price }} €/h
