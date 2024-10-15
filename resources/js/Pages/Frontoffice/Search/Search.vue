@@ -20,8 +20,7 @@
 
                 <Input v-model="form.name" @input="submit()" @clear="submit()" placeholder="Nome studio" class="grow" />
                 <Input v-model="form.equip" @input="submit()" @clear="submit()" placeholder="Equipaggiamento" class="grow" />
-                <Button v-if="!showMap" @click="showMap = true" title="Mostra mappa" icon="fa-solid fa-map-location-dot" />
-                <Button v-else @click="showMap = false" title="Nascondi mappa" icon="fa-solid fa-map-location-dot" color="green" />
+                <Button @click="showMap = !showMap" title="Mostra/Nascondi mappa" :color="showMap ? 'green' : 'orange'" icon="fa-solid fa-map-location-dot" />
                 <Button @click="reset()" icon="fa-solid fa-arrow-rotate-left" color="slate" title="Reset filtri" />
             </form>
         </div>
@@ -30,8 +29,7 @@
         <!-- search bar mobile -->
         <div class="sticky top-0 z-50 flex w-full gap-2 p-4 border-b md:hidden bg-slate-950/60 border-slate-700 backdrop-blur-md">
             <Button @click="isOpenModalFilters = true" text="Filtra" icon="fa-solid fa-sliders" :disabled="form.processing" class="grow" />
-            <Button v-if="!showMap" @click="showMap = true; isOpenModalFilters = false" title="Mostra mappa" icon="fa-solid fa-map-location-dot" :disabled="form.processing" class="shrink-0" />
-            <Button v-else @click="showMap = false; isOpenModalFilters = false" title="Nascondi mappa" icon="fa-solid fa-map-location-dot" color="green" :disabled="form.processing" class="shrink-0" />
+            <Button @click="mapFullScreen()" title="Mostra/nascondi mappa" icon="fa-solid fa-map-location-dot" color="orange" :disabled="form.processing" class="shrink-0" />
         </div>
         <!-- / -->
 
@@ -118,12 +116,12 @@ import RoomCard from './RoomCard.vue';
 import GoogleMaps from '@/Components/GoogleMaps.vue';
 import Modal from '@/Components/Modal.vue';
 import Pagination from '@/Components/Pagination.vue';
-import NumberInput from '@/Components/Form/NumberInput.vue';
+// import NumberInput from '@/Components/Form/NumberInput.vue';
 import ComboBox from '@/Components/Form/ComboBox.vue';
 import Button from '@/Components/Form/Button.vue';
 import Input from '@/Components/Form/Input.vue';
 import Spinner from '@/Components/Spinner.vue';
-import RangeSlider from '@/Components/Form/RangeSlider.vue';
+// import RangeSlider from '@/Components/Form/RangeSlider.vue';
 import province from './province.json';
 // import dayjs from 'dayjs';
 
@@ -167,6 +165,11 @@ const studios = computed(()=>{
 
     return studios;
 });
+
+const mapFullScreen = ()=>{
+    isOpenModalFilters.value = false;
+    showMap.value = true;
+};
 
 //pulsante torna su
 const toTop = ()=>{
