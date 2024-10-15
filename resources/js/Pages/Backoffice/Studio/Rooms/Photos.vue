@@ -14,9 +14,9 @@
                     Formati accettati: <strong>jpg, jpeg, png, bmp</strong><br>
                     Dimensione massima di ogni foto: <strong>2 MB</strong>
 
-                    <div class="mt-4 font-normal text-red-500">
+                    <div v-if="usePage().props.errors" class="mt-4 font-normal text-red-500">
                         Errori:
-                        <ul v-if="usePage().props.errors" class="text-xs list-none list-image-none">
+                        <ul class="text-xs list-none list-image-none">
                             <li v-for="error in usePage().props.errors" class="flex items-start gap-1.5 text-xs">
                                 <i class="mt-0.5 fa-solid fa-xmark" />
                                 <div>
