@@ -39,7 +39,7 @@
                                 <div class="relative cursor-move">
                                     <img :src="element.id ? '/storage/' + element.path : element.path " alt="photo" class="object-cover w-full border rounded-xl aspect-video border-slate-800" />
 
-                                    <Checkbox v-if="element.id" v-model="form.selected_photos" :value="element.id" class="absolute z-40 top-2 right-2" />
+                                    <Checkbox v-if="element.id" v-model="form.selected_photos" :value="element.id" :key="element.id" class="absolute z-40 top-2 right-2" />
 
                                     <button v-else type="button" @click="removePhoto(index)" title="Elimina foto" class="absolute z-40 flex items-center justify-center text-xs text-white bg-red-500 border border-white rounded-full shadow size-5 top-1 right-1 lg:top-2 lg:right-2">
                                         <i class="fa-solid fa-xmark" />
