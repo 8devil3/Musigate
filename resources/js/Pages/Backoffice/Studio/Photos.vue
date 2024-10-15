@@ -12,6 +12,18 @@
                     Max <strong>{{ maxPhotos }} foto</strong>.<br>
                     Formati accettati: <strong>jpg, jpeg, png, bmp</strong><br>
                     Dimensione massima di ogni foto: <strong>2 MB</strong>
+                    
+                    <div class="mt-4 font-normal text-red-500">
+                        Errori:
+                        <ul v-if="usePage().props.errors" class="text-xs list-none list-image-none">
+                            <li v-for="error in usePage().props.errors" class="flex items-start gap-1.5 text-xs">
+                                <i class="mt-0.5 fa-solid fa-xmark" />
+                                <div>
+                                    {{ error }}
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </template>
 
                 <template #content>
@@ -24,23 +36,17 @@
                             class="contents"
                         >
                             <template #item="{ element, index }">
-                                <div>
-                                    <div class="relative cursor-move">
-                                        <Checkbox v-if="element.id" v-model="form.selected_photos" :value="element.id" class="absolute top-2 right-2" />
+                                <div class="relative cursor-move">
+                                    <img :src="element.id ? '/storage/' + element.path : element.path " alt="photo" class="object-cover w-full border rounded-xl aspect-video border-slate-800" />
 
-                                        <button v-else type="button" @click="removePhoto(index)" title="Elimina foto" class="absolute flex items-center justify-center text-xs text-white bg-red-500 border border-white rounded-full shadow size-5 top-1 right-1 lg:top-2 lg:right-2">
-                                            <i class="fa-solid fa-xmark" />
-                                        </button>
+                                    <Checkbox v-if="element.id" v-model="form.selected_photos" :value="element.id" class="absolute z-40 top-2 right-2" />
 
-                                        <img :src="element.id ? '/storage/' + element.path : element.path " alt="photo" class="object-cover w-full border rounded-xl aspect-video border-slate-800" />
+                                    <button v-else type="button" @click="removePhoto(index)" title="Elimina foto" class="absolute z-40 flex items-center justify-center text-xs text-white bg-red-500 border border-white rounded-full shadow size-5 top-1 right-1 lg:top-2 lg:right-2">
+                                        <i class="fa-solid fa-xmark" />
+                                    </button>
 
-                                        <div v-if="index === 0" class="absolute bottom-1 right-1 lg:bottom-2 lg:right-2 font-medium py-1 leading-none px-2 shadow-md bg-slate-900/70 border border-orange-500 rounded-full text-[10px] lg:text-xs text-white uppercase">
-                                            principale
-                                        </div>
-                                    </div>
-
-                                    <div v-if="form.errors['photos.' + index + '.file']" class="px-2 mt-1 text-xs font-normal text-red-500">
-                                        {{ form.errors['photos.' + index + '.file'] }}
+                                    <div v-if="index === 0" class="absolute bottom-1 right-1 lg:bottom-2 lg:right-2 font-medium py-1 leading-none px-2 shadow-md bg-slate-900/70 border border-orange-500 rounded-full text-[10px] lg:text-xs text-white uppercase">
+                                        principale
                                     </div>
                                 </div>
                             </template>
@@ -78,7 +84,7 @@
 </template>
 
 <script setup>
-import { useForm } from '@inertiajs/vue3';
+import { useForm, usePage } from '@inertiajs/vue3';
 import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
 import Checkbox from '@/Components/Form/Checkbox.vue';
 import Button from '@/Components/Form/Button.vue';
