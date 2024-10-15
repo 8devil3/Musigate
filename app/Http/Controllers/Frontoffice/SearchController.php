@@ -117,7 +117,7 @@ class SearchController extends Controller
         
         $all_photos = array_merge($studio_photos, ...$room_photos);
         $studio_contacts = $studio->contacts->only('email', 'phone', 'telegram', 'messenger', 'whatsapp');
-        $socials = $studio->socials->only(['facebook', 'instagram', 'youtube', 'linkedin', 'soundcloud', 'spotify', 'itunes', 'website']);
+        $socials = $studio->social->only(['facebook', 'instagram', 'youtube', 'linkedin', 'soundcloud', 'spotify', 'itunes', 'website']);
         $contacts = Inertia::lazy(fn () => $studio_contacts);
         
         return Inertia::render('Frontoffice/Studio/Show', compact('request', 'studio', 'equipment_categories', 'socials', 'contacts', 'weekdays', 'all_photos'));
