@@ -39,13 +39,15 @@ class EquipmentController extends Controller
         ]);
 
         $room->equipments()->where('equipment_category_id', $request->current_category_id)->delete();
-
-        foreach ($request->equipments as $equip) {
-            Equipment::create([
-                'room_id' => $room->id,
-                'equipment_category_id' => $request->current_category_id,
-                'name' => $equip['name'],
-            ]);
+        
+        if(!empty($request->equipments)){
+            foreach ($request->equipments as $equip) {
+                Equipment::create([
+                    'room_id' => $room->id,
+                    'equipment_category_id' => $request->current_category_id,
+                    'name' => $equip['name'],
+                ]);
+            }
         }
 
         return back()->with('success', 'Equipaggiamento salvato');
