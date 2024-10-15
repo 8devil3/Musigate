@@ -37,12 +37,12 @@
                     </div>
                 </form>
 
-                <div class="flex flex-col max-w-[256px] gap-4">
+                <!-- <div class="flex flex-col max-w-[256px] gap-4">
                     <h2 class="pb-2 m-0 uppercase border-b-2 border-b-orange-500">Nuovo su Musigate?</h2>
 
                     <Button type="router" :href="route('register.studio.choose_plan')" text="Registra il tuo Studio" icon="fa-solid fa-microphone-lines" />
                     <Button type="router" :href="route('register')" text="Iscriviti come artista" icon="fa-solid fa-guitar" />
-                </div>
+                </div> -->
             </div>
         </div>
 
