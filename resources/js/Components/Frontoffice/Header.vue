@@ -6,7 +6,7 @@
 
             <!-- logo -->
             <Link :href="route('home')" class="hidden shrink-0 md:block">
-                <img src="/img/logo/logo_horizontal.svg" alt="Musigate logo" class="block h-5 drop-shadow-sm">
+                <img src="/img/logo/logo_horizontal_complete.svg" alt="Musigate logo" class="block h-10 drop-shadow-sm">
             </Link>
             <!-- / -->
 
