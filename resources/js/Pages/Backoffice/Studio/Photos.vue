@@ -7,13 +7,13 @@
         <template #content>
             <FormElement>
                 <template #description>
-                    Carica le foto di presentazione dello Studio, le foto delle Sale potrai caricarle quando inserirai le Sale. Puoi trascinale per riordinarle
+                    Carica le foto di presentazione dello Studio, le foto delle Sale potrai caricarle quando inserirai le Sale. Puoi trascinale per riordinarle.
                     <br><br>
                     Max <strong>{{ maxPhotos }} foto</strong>.<br>
                     Formati accettati: <strong>jpg, jpeg, png, bmp</strong><br>
                     Dimensione massima di ogni foto: <strong>2 MB</strong>
                     
-                    <div v-if="usePage().props.errors" class="mt-4 font-normal text-red-500">
+                    <div v-if="Object.keys(usePage().props.errors).length" class="mt-4 font-normal text-red-500">
                         Errori:
                         <ul class="text-xs list-none list-image-none">
                             <li v-for="error in usePage().props.errors" class="flex items-start gap-1.5 text-xs">
@@ -34,10 +34,11 @@
                             tag="div"
                             item-key="sort_index"
                             class="contents"
-                        >
+                            handle=".photo"
++                        >
                             <template #item="{ element, index }">
                                 <div class="relative cursor-move">
-                                    <img :src="element.id ? '/storage/' + element.path : element.path " alt="photo" class="object-cover w-full border rounded-lg md:rounded-xl aspect-video border-slate-800" />
+                                    <img :src="element.id ? '/storage/' + element.path : element.path " alt="photo" class="object-cover w-full border rounded-lg md:rounded-xl aspect-video border-slate-800 photo" />
 
                                     <Checkbox v-if="element.id" v-model="form.selected_photos" :value="element.id" :key="element.id" class="absolute z-40 top-2 left-2" />
 

@@ -14,7 +14,7 @@
                     Formati accettati: <strong>jpg, jpeg, png, bmp</strong><br>
                     Dimensione massima di ogni foto: <strong>2 MB</strong>
 
-                    <div v-if="usePage().props.errors" class="mt-4 font-normal text-red-500">
+                    <div v-if="Object.keys(usePage().props.errors).length" class="mt-4 font-normal text-red-500">
                         Errori:
                         <ul class="text-xs list-none list-image-none">
                             <li v-for="error in usePage().props.errors" class="flex items-start gap-1.5 text-xs">
@@ -35,6 +35,7 @@
                             tag="div"
                             item-key="sort_index"
                             class="contents"
+                            handle=".photo"
                         >
                             <template #item="{ element, index }">
                                 <div class="relative cursor-move">
@@ -86,7 +87,7 @@
 
 <script setup>
 import { computed } from 'vue';
-import { useForm } from '@inertiajs/vue3';
+import { useForm, usePage } from '@inertiajs/vue3';
 import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
 import Checkbox from '@/Components/Form/Checkbox.vue';
 import Button from '@/Components/Form/Button.vue';
