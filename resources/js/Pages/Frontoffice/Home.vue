@@ -31,10 +31,8 @@
                             <NumberInput v-model="form.guests" :min="1" :max="99" label="Persone" class="grow" />
                         </div>
                     </div> -->
-                    
-                    <div class="w-full pt-4">
-                        <Button type="submit" icon="fa-solid fa-magnifying-glass" text="cerca" class="w-full" />
-                    </div>
+
+                    <Button type="submit" icon="fa-solid fa-magnifying-glass" text="cerca" class="w-full" />
                 </form>
 
                 <!-- <div class="flex flex-col max-w-[256px] gap-4">
