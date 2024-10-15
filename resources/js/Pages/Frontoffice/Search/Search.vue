@@ -36,14 +36,21 @@
         <!-- / -->
 
         <!-- mappa -->
-        <div v-if="!form.processing" v-show="showMap" class="relative h-96">
-            <GoogleMaps
-                :studios="studios"
-                :lat="props.request?.location?.lat"
-                :lon="props.request?.location?.lon"
-                class="h-full"
-            />
-        </div>
+        <Transition name="map">
+            <div v-if="!form.processing" v-show="showMap" class="fixed z-[100] inset-0 md:relative md:h-96">
+                <GoogleMaps
+                    :studios="studios"
+                    :lat="props.request?.location?.lat"
+                    :lon="props.request?.location?.lon"
+                    class="h-full"
+                />
+    
+                <button type="button" @click="showMap = false" class="md:hidden absolute rounded-full z-[120] px-3 py-1.5 font-normal text-xs leading-none bg-slate-950/80 border border-orange-500 top-4 left-4 uppercase">
+                    <i class="mr-1 fa-solid fa-xmark" />
+                    chiudi mappa
+                </button>
+            </div>
+        </Transition>
         <!-- / -->
 
         <!-- risultati ricerca -->

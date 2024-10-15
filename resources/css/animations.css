@@ -28,3 +28,15 @@
 .fade-leave-to {
     opacity: 0;
 }
+
+
+/* mappa */
+.map-enter-active,
+.map-leave-active {
+    transition: all 0.3s ease-out;
+}
+
+.map-enter-from,
+.map-leave-to {
+    @apply -translate-y-full opacity-0;
+}
