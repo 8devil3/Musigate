@@ -102,6 +102,7 @@ const form = useForm({
 
 const submit = ()=>{
     form.post(route('sale-prova.photos.update', props.room.id),{
+        preserveState: false,
         onSuccess: ()=> form.selected_photos = [],
     });
 };
