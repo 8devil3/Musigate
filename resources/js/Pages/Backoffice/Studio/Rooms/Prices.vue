@@ -158,8 +158,6 @@ const setTimebandPrices = ()=>{
                 discounted_price: null,
             });
         });
-    } else if (form.price_type !== 'timebands_price'){
-        form.timeband_prices = [];
     }
 };
 
