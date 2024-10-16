@@ -57,7 +57,7 @@ class RoomPhotoController extends Controller
     {
         $request->validate([
             'selected_photos' => ['required', 'array'],
-            'selected_photos.*' => ['integer', 'exists:studio_photos,id'],
+            'selected_photos.*' => ['integer', 'exists:room_photos,id'],
         ]);
 
         if($request->selected_photos){
