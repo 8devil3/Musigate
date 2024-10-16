@@ -12,7 +12,7 @@
 
             <div class="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-12">
                 <form @submit.prevent="submit()" class="flex flex-col w-full gap-4 max-w-64">
-                    <h2 class="pb-2 m-0 uppercase border-b-2 border-b-orange-500">iniza da qui</h2>
+                    <h2 class="pb-2 m-0 uppercase border-b-2 border-b-orange-500">inizia da qui</h2>
 
                     <ComboBox
                         v-model="form.location"
