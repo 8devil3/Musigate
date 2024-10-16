@@ -27,8 +27,6 @@
 </template>
 
 <script setup>
-import { onActivated, onDeactivated } from 'vue';
-
 const props = defineProps({
     isOpen: Boolean,
     as: {

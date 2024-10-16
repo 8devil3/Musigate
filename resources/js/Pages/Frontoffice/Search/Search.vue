@@ -77,7 +77,7 @@
 
         <div class="pt-8" />
 
-        <!-- search bar mobile -->
+        <!-- filtri mobile -->
         <Modal :isOpen="isOpenModalFilters" @close="isOpenModalFilters = false">
             <template #title>
                 Filtra

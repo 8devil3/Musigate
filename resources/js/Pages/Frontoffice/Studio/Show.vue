@@ -162,8 +162,8 @@
                 </Section>
 
                 <Section title="Orari" id="orari">
-                    <div class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7">
-                        <div v-for="wd, wdKey in props.weekdays" class="space-y-2">
+                    <ul class="grid grid-cols-2 list-none list-image-none gap-x-4 gap-y-8 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7">
+                        <li v-for="wd, wdKey in props.weekdays" class="space-y-2">
                             <div>
                                 <div class="font-normal" :class="props.studio.availability.find(av => av.weekday == wdKey).is_open ? 'text-white' : 'text-slate-400'">
                                     {{ wd }}
@@ -175,16 +175,20 @@
 
                             <div>
                                 <template v-if="props.studio.availability.find(av => av.weekday == wdKey).is_open">
-                                    {{ props.studio.availability.find(av => av.weekday == wdKey).open_start }}
+                                    <time :datetime="props.studio.availability.find(av => av.weekday == wdKey).open_start">
+                                        {{ props.studio.availability.find(av => av.weekday == wdKey).open_start }}
+                                    </time>
                                     -
-                                    {{ props.studio.availability.find(av => av.weekday == wdKey).open_end }}
+                                    <time :datetime="props.studio.availability.find(av => av.weekday == wdKey).open_end">
+                                        {{ props.studio.availability.find(av => av.weekday == wdKey).open_end }}
+                                    </time>
                                 </template>
                                 <template v-else>
                                     -
                                 </template>
                             </div>
-                        </div>
-                    </div>
+                        </li>
+                    </ul>
                 </Section>
 
                 <Section title="Location" id="location">
