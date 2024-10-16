@@ -14,7 +14,7 @@ class ComfortSeeder extends Seeder
     public function run()
     {
         $comforts = [
-            'WiFi free',
+            'free WiFi',
             'parcheggio privato',
             'guardaroba',
             'dist. automatici',
