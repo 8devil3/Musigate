@@ -12,7 +12,7 @@
                 </h2>
 
                 <div class="space-y-4">
-                    <Input v-model="formStep1.first_name" label="Nome" placeholder="Il nome del titolare dello Studio" :error="formStep1.errors.first_name" autofocus required  />
+                    <Input v-model="formStep1.first_name" label="Nome" placeholder="Il nome del titolare dello Studio" :error="formStep1.errors.first_name" required  />
 
                     <Input v-model="formStep1.last_name" label="Cognome" placeholder="Il cognome del titolare dello Studio" :error="formStep1.errors.last_name" required />
 
@@ -32,7 +32,7 @@
                 </h2>
 
                 <div class="space-y-4">
-                    <Input v-model="formStep2.name" label="Nome Studio" placeholder="Il nome dello Studio" :error="formStep2.errors.name" autofocus required />
+                    <Input v-model="formStep2.name" label="Nome Studio" placeholder="Il nome dello Studio" :error="formStep2.errors.name" required />
     
                     <!-- <fieldset class="px-2 py-1 border border-slate-400 rounded-xl">
                         <legend class="px-1 text-xs font-normal text-slate-300">
@@ -93,7 +93,7 @@
                 <div class="space-y-4">
                     <GoogleLogin />
     
-                    <Input v-model="formStep3.email" type="email" label="Email" placeholder="La tua email" :error="formStep3.errors.email" required autofocus />
+                    <Input v-model="formStep3.email" type="email" label="Email" placeholder="La tua email" :error="formStep3.errors.email" required />
     
                     <Input v-model="formStep3.password" type="password" label="Password" placeholder="La tua password" :error="formStep3.errors.password" required />
     

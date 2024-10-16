@@ -7,7 +7,7 @@
         <template #content>
             <GoogleLogin />
 
-            <Input type="email" v-model="form.email" label="Email" placeholder="La tua email" :error="form.errors.email" required autofocus class="w-full" />
+            <Input type="email" v-model="form.email" label="Email" placeholder="La tua email" :error="form.errors.email" required class="w-full" />
             
             <Input type="password" v-model="form.password" label="Password" placeholder="La tua password" :error="form.errors.password" required class="w-full" />
 
