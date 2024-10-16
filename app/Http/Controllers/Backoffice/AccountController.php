@@ -24,14 +24,12 @@ class AccountController extends Controller
     public function edit(Request $request): Response
     {
         $user = auth()->user();
+        $has_password = $user->getAuthPassword() ? true : false;
         $mustVerifyEmail = $request->user() instanceof MustVerifyEmail;
         $status = session('status');
-        $first_name = $user->first_name;
-        $last_name = $user->last_name;
-        $email = $user->email;
-        $avatar = $user->avatar;
+        $user = $user->only(['email', 'first_name', 'last_name', 'google_id', 'google_token']);
 
-        return Inertia::render('Backoffice/Account/Edit', compact('mustVerifyEmail', 'status','email', 'first_name', 'last_name', 'avatar'));
+        return Inertia::render('Backoffice/Account/Edit', compact('mustVerifyEmail', 'status', 'user', 'has_password'));
     }
 
     /**
@@ -70,13 +68,18 @@ class AccountController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-        $request->validate([
-            'password' => ['required', 'current_password'],
-        ]);
+        // $request->validate([
+        //     'password' => ['required', 'current_password'],
+        // ]);
 
         $user = $request->user();
 
         Auth::logout();
+
+        if($user->google_id && $user->google_token){
+            $google_client = new \Google\Client();
+            $google_client->revokeToken($user->google_token);
+        }
 
         if($user->role_id === Role::STUDIO){
             Storage::disk('public')->deleteDirectory('studios/studio-' . $user->id);

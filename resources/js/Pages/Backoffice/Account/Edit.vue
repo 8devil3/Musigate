@@ -3,64 +3,33 @@
         as="div"
         title="Account"
         icon="fa-solid fa-user-gear"
-        :isLoading="formEmail.processing || formName.processing || formPassword.processing || formDeleteUser.processing"
-        :onSuccess="formEmail.recentlySuccessful || formName.recentlySuccessful || formPassword.recentlySuccessful"
-        :onFail="formEmail.hasErrors || formName.hasErrors || formPassword.hasErrors"
     >
         <template #title>
             Account
         </template>
 
         <template #content>
-            <!-- avatar -->
-            <FormElement>
+            <!-- scollegamento Google -->
+            <FormElement >
                 <template #title>
-                    Avatar
+                    Google account
                 </template>
 
                 <template #description>
-                    L'immagine del tuo profilo. Verrà mostrata nella pagina del tuo Studio.<br><br>
-                    Formati accettati: <strong> jpg, jpeg, png</strong><br>
-                    Dimensione max: <strong>1 MB</strong><br>
+                    Puoi scollegare l'account Google<span v-if="!props.has_password"> e utilzzare email e password per accedere</span>.
+                    <template v-if="!props.has_password">
+                        Verrai reindirizzato alla pagina di reset password in cui dovrai inserire la tue email (la stessa dell'account Google) e ti invieremo un link per generare una nuova password.
+                    </template>
                 </template>
 
                 <template #content>
-                    <ImageUploader
-                        v-model="props.avatar"
-                        routeUpload="account.avatar_upload"
-                        routeDelete="account.avatar_delete"
-                        :maxSizeMB="1"
-                        accept="image/jpg, image/jpeg, image/png"
-                    />
-                </template>
-            </FormElement>
-            <!-- / -->
-
-            <!-- nome e cognome -->
-            <FormElement>
-                <template #title>
-                    Nome e cognome
-                </template>
-
-                <template #description>
-                    Il nome e cognome del titolare dello Studio.<br>
-                    Al salvataggio il cognome verrà reso puntato (es: "Mario Rossi" diventa "Mario R.").
-                </template>
-
-                <template #content>
-                    <div class="space-y-4">
-                        <Input id="edit-account-first-name" v-model="formName.first_name" placeholder="Nome del titolare" :error="formName.errors.first_name" class="w-full md:max-w-xs" required/>
-
-                        <Input id="edit-account-last-name" v-model="formName.last_name" placeholder="Cognome del titolare" :error="formName.errors.last_name" class="w-full md:max-w-xs" required/>
-
-                        <SaveButton @click="updateName()" />
-                    </div>
+                    <Button @click="router.get(route('google.revoke'))" text="Rimuovi l'account Google" icon="fa-brands fa-google" color="red" />
                 </template>
             </FormElement>
             <!-- / -->
 
             <!-- email -->
-            <FormElement>
+            <FormElement v-if="props.has_password">
                 <template #title>
                     Email
                 </template>
@@ -100,7 +69,7 @@
             <!-- / -->
 
             <!-- password -->
-            <FormElement>
+            <FormElement v-if="props.has_password">
                 <template #title>
                     Password
                 </template>
@@ -123,6 +92,53 @@
             </FormElement>
             <!-- / -->
 
+            <!-- avatar -->
+            <!-- <FormElement>
+                <template #title>
+                    Avatar
+                </template>
+
+                <template #description>
+                    L'immagine del tuo profilo. Verrà mostrata nella pagina del tuo Studio.<br><br>
+                    Formati accettati: <strong> jpg, jpeg, png</strong><br>
+                    Dimensione max: <strong>1 MB</strong><br>
+                </template>
+
+                <template #content>
+                    <ImageUploader
+                        v-model="props.user.avatar"
+                        routeUpload="account.avatar_upload"
+                        routeDelete="account.avatar_delete"
+                        :maxSizeMB="1"
+                        accept="image/jpg, image/jpeg, image/png"
+                    />
+                </template>
+            </FormElement> -->
+            <!-- / -->
+
+            <!-- nome e cognome -->
+            <FormElement>
+                <template #title>
+                    Nome e cognome
+                </template>
+
+                <template #description>
+                    Il nome e cognome del rappresentante legale dello Studio.<br>
+                    Al salvataggio il cognome verrà reso puntato (es: "Mario Rossi" diventa "Mario R.").
+                </template>
+
+                <template #content>
+                    <div class="space-y-4">
+                        <Input id="edit-account-first-name" v-model="formName.first_name" placeholder="Nome del titolare" :error="formName.errors.first_name" class="w-full md:max-w-xs" required/>
+
+                        <Input id="edit-account-last-name" v-model="formName.last_name" placeholder="Cognome del titolare" :error="formName.errors.last_name" class="w-full md:max-w-xs" required/>
+
+                        <SaveButton @click="updateName()" />
+                    </div>
+                </template>
+            </FormElement>
+            <!-- / -->
+
             <!-- eliminazione account -->
             <FormElement>
                 <template #title>
@@ -139,22 +155,27 @@
         </template>
     </ContentLayout>
 
-    <ModalDanger :isOpen="openModalDeleteUser" @close="closeModalDeleteUser()">
+    <ModalDanger :isOpen="openModalDeleteUser" @close="closeModalDeleteUser()" @submitted="deleteUser()">
         <template #title>
-            Eliminazione del tuo account
+            Eliminazione dell'account
         </template>
         <template #description>
-            <span class="font-semibold text-red-500">Attenzione, stai per eliminare definitivamente il tuo account.</span><br>
-            Questa azione è irreversibile ed eliminerà tutti i dati associati a questa utenza.
-            <form @submit.prevent="deleteUser()" class="flex flex-col gap-2 mt-2">
+            <div class="text-base font-semibold text-red-500 ">
+                Attenzione, stai per eliminare definitivamente il tuo account.
+            </div>
+            Questa azione è irreversibile ed eliminerà tutti i dati associati al tuo account, vuoi davvero procedere?
+
+            <!-- <form @submit.prevent="deleteUser()" class="flex flex-col gap-2 mt-2">
                 Se sei sicuro, inserisci la tua password per procedere.
                 <Input type="password" v-model="formDeleteUser.password" id="password" placeholder="Password" :error="formDeleteUser.errors.password" required />
 
                 <div class="mt-4 space-x-2">
-                    <Button type="submit" text="Elimina l'account" color="red" />
-                    <Button @click="closeModalDeleteUser()" text="Annulla" color="gray" />
                 </div>
-            </form>
+            </form> -->
+        </template>
+        <template #actions>
+            <Button type="submit" text="Sì, elimina l'account" color="red" />
+            <Button @click="closeModalDeleteUser()" text="Annulla" color="gray" />
         </template>
     </ModalDanger>
 </template>
@@ -171,9 +192,8 @@ import ModalDanger from '@/Components/ModalDanger.vue';
 import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
 
 const props = defineProps({
-    email: String,
-    first_name: String,
-    last_name: String,
+    user: Object,
+    has_password: Boolean,
     avatar: String,
     mustVerifyEmail: {
         type: Boolean,
@@ -185,7 +205,7 @@ const props = defineProps({
 
 //email
 const formEmail = useForm({
-    email: props.email,
+    email: props.user.email,
 });
 
 const updateEmail = () => {
@@ -195,8 +215,8 @@ const updateEmail = () => {
 
 //nome e cognome
 const formName = useForm({
-    first_name: props.first_name,
-    last_name: props.last_name,
+    first_name: props.user.first_name,
+    last_name: props.user.last_name,
 });
 
 const updateName = () => {

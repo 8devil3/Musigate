@@ -1,14 +1,14 @@
 <template>
-    <AuthLayout @submitted="submit()" title="Password dimenticata?" :isLoading="form.processing" :status="props.status">
+    <AuthLayout @submitted="submit()" title="Reset password" :isLoading="form.processing" :status="props.status">
         <template #head>
-            <h1 class="text-lg">Password dimenticata?</h1>
+            <h1 class="text-lg">Reset password</h1>
             <p>
-                Nessun problema, inserisci il tuo indirizzo email per reimpostarla.
+                Inserisci il tuo indirizzo email per reimpostare la password.
             </p>
         </template>
 
         <template #content>
-            <Input type="email" id="forgot-email" label="Email" placeholder="La tua email" v-model.trim="form.email" :error="form.errors.email" required />
+            <Input type="email" label="Email" placeholder="La tua email" v-model.trim="form.email" :error="form.errors.email" required />
         </template>
 
         <template #actions>

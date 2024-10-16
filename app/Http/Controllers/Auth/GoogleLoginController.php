@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\User;
 use App\Services\CreateStudioService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Laravel\Facades\Image;
 use Laravel\Socialite\Facades\Socialite;
@@ -33,7 +35,11 @@ class GoogleLoginController extends Controller
     {
         if(!$request->has('code') || $request->has('denied')) return to_route('login');
 
-        $google_user = Socialite::driver('google')->redirectUrl(route('google.login'))->user();
+        try {
+            $google_user = Socialite::driver('google')->redirectUrl(route('google.login'))->user();
+        } catch (\Exception $e) {
+            return to_route('login');
+        }
 
         //TODO: come gestire lo scollegamento dell'utente registrato con social login?
 
@@ -172,5 +178,32 @@ class GoogleLoginController extends Controller
         Auth::login($user);
 
         return to_route('dashboard');
+    }
+
+    public function revoke_token(): RedirectResponse
+    {
+        $user = auth()->user();
+
+        $google_client = new \Google\Client();
+
+        $token = $user->google_token;
+        if(Carbon::parse($user->google_token_expires_at)->isBefore(now())) $token = $user->google_refresh_token;  
+
+        $google_client->revokeToken($token);
+
+        $user->update([
+            'google_id' => null,
+            'google_token' => null,
+            'google_token_expires_at' => null,
+            'google_refresh_token' => null,
+            'google_scopes' => null,
+        ]);
+
+        if(!$user->password){
+            Auth::logout();
+            return to_route('password.request');
+        }
+
+        return back()->with('success', 'Account Google scollegato');
     }
 }
