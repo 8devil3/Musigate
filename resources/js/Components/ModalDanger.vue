@@ -1,7 +1,7 @@
 <template>
     <teleport to="#modal">
         <Transition name="fade">
-            <div v-if="props.isOpen" class="fixed z-40 inset-4 overflow-clip">
+            <div v-if="props.isOpen" role="dialog" class="fixed z-40 inset-4 overflow-clip">
                 <div @click.stop="emit('close')" class="fixed inset-0 bg-black/70 backdrop-blur-md" />
 
                 <form @submit.prevent="emit('submitted')" class="absolute w-full max-w-lg p-4 space-y-4 overflow-hidden text-left -translate-x-1/2 -translate-y-1/2 border border-red-600 shadow-xl top-1/2 left-1/2 md:p-6 md:space-y-6 bg-slate-900 rounded-xl md:rounded-2xl">
