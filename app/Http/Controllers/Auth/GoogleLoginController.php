@@ -9,7 +9,6 @@ use App\Services\CreateStudioService;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Laravel\Facades\Image;
 use Laravel\Socialite\Facades\Socialite;
@@ -17,17 +16,17 @@ use Laravel\Socialite\Facades\Socialite;
 class GoogleLoginController extends Controller
 {
     public function redirect(): RedirectResponse
-    {        
+    {
         $redirect = route('google.register.studio');
         if(url()->previous() === route('login')) $redirect = route('google.login');
-        if(url()->previous() === route('register')) $redirect = route('google.register.artist');
+        // if(url()->previous() === route('register')) $redirect = route('google.register.artist');
 
         return Socialite::driver('google')
             //leggere i calendari, creare-modificare-eliminare gli eventi
-            ->scopes(['https://www.googleapis.com/auth/calendar'])
+            // ->scopes(['https://www.googleapis.com/auth/calendar'])
             ->with(['access_type' => 'offline'])
             ->redirectUrl($redirect)
-            ->redirect(); 
+            ->redirect();
     }
 
     public function login(Request $request): RedirectResponse
@@ -41,7 +40,7 @@ class GoogleLoginController extends Controller
         $user = User::where('email', $google_user->getEmail());
 
         //se l'utente non esiste lo reindirizzo alla pagina di login con l'errore
-        if(!$user->exists()) return to_route('login')->with('error', 'Nessun utente è presente nel nostro database con l\'email utilizzata. Per accedere effettua prima la registrazione.');
+        if(!$user->exists()) return to_route('login')->with('login_fail', 'Nessun utente con l\'email utilizzata. Per accedere effettua prima la registrazione.');
 
         if(!$user->firstOrFail()->google_id) {
             //utente esite ma non ha mai acceduto con Google
