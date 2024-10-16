@@ -1,6 +1,6 @@
 <template>
-    <div class="grid grid-cols-1 pb-8 border-b border-slate-600 lg:border-slate-800 last-of-type:pb-0 lg:gap-12 lg:grid-cols-12 last-of-type:border-b-0">
-        <div class="lg:col-span-5">
+    <div class="flex flex-wrap pb-8 border-b border-slate-600 lg:border-slate-800 last-of-type:pb-0 last-of-type:border-b-0">
+        <div class="w-full md:w-2/5">
             <h3 v-if="$slots.title" class="mb-1 text-sm">
                 <slot name="title" />
                 <span v-show="props.optional">(opzionale)</span>
@@ -12,7 +12,7 @@
             <slot name="subDescription" />
         </div>
 
-        <div v-if="$slots.content" class="self-start mt-4 text-sm text-slate-200 lg:col-span-7 lg:mt-0">
+        <div v-if="$slots.content" class="w-full mt-4 text-sm text-slate-200 md:pl-12 md:w-2/5 grow md:mt-0">
             <slot name="content" />
         </div>
     </div>
