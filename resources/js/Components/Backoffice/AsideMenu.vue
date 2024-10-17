@@ -73,7 +73,8 @@
 
 <script setup>
 import { computed, ref } from 'vue';
-import { usePage, Link, router } from '@inertiajs/vue3';;
+import { usePage, Link, router } from '@inertiajs/vue3';
+import menuItems from './menuItems.json';
 
 const detailState = ref({});
 
@@ -85,154 +86,12 @@ const menu = computed(()=>{
     let menu = [];
     let roleId = usePage().props.auth.user.role_id;
 
-    if(roleId === 2){ //menu studio
-        menu = [
-            {
-                icon: 'fa-solid fa-home',
-                label: 'Dashboard',
-                route: 'dashboard',
-                active: 'dashboard',
-                children: []
-            },
-            {
-                icon: 'fa-solid fa-record-vinyl',
-                label: 'Studio',
-                route: null,
-                active: 'studio.*',
-                children: [
-                    {
-                        icon: 'fa-solid fa-file-lines',
-                        label: 'Descrizione',
-                        route: 'studio.description.edit',
-                        active: 'studio.description.edit'
-                    },
-                    {
-                        icon: 'fa-solid fa-location-dot',
-                        label: 'Location',
-                        route: 'studio.location.edit',
-                        active: 'studio.location.edit'
-                    },
-                    {
-                        icon: 'fa-solid fa-clock',
-                        label: 'Disponibilità',
-                        route: 'studio.availability.edit',
-                        active: 'studio.availability.edit'
-                    },
-                    {
-                        icon: 'fa-solid fa-image',
-                        label: 'Foto',
-                        route: 'studio.photos.edit',
-                        active: 'studio.photos.edit'
-                    },
-                    {
-                        icon: 'fa-brands fa-youtube',
-                        label: 'Video',
-                        route: 'studio.videos.edit',
-                        active: 'studio.videos.edit'
-                    },
-                    {
-                        icon: 'fa-regular fa-credit-card',
-                        label: 'Metodi di pagamento',
-                        route: 'studio.payment_methods.edit',
-                        active: 'studio.payment_methods.edit'
-                    },
-                    {
-                        icon: 'fa-solid fa-handshake',
-                        label: 'Collaborazioni',
-                        route: 'studio.collaborations.index',
-                        active: 'studio.collaborations.index'
-                    },
-                    {
-                        icon: 'fa-solid fa-scroll',
-                        label: 'Regolamento',
-                        route: 'studio.rules.edit',
-                        active: 'studio.rules.edit'
-                    },
-                    {
-                        icon: 'fa solid fa-hand-holding-heart',
-                        label: 'Comforts',
-                        route: 'studio.comforts.edit',
-                        active: 'studio.comforts.edit'
-                    },
-                    {
-                        icon: 'fa-solid fa-share-nodes',
-                        label: 'Social',
-                        route: 'studio.socials.edit',
-                        active: 'studio.socials.edit'
-                    },
-                    {
-                        icon: 'fa-solid fa-envelope',
-                        label: 'Contatti',
-                        route: 'studio.contacts.edit',
-                        active: 'studio.contacts.edit'
-                    },
-                ]
-            },
-            // {
-            //     icon: 'fa-solid fa-calendar-days',
-            //     label: 'Prenotazioni',
-            //     route: null,
-            //     active: 'bookings.*',
-            //     children: [
-            //         {
-            //             icon: 'fa-solid fa-calendar-days',
-            //             label: 'Calendario',
-            //             route: 'bookings.index',
-            //             active: 'bookings.index'
-            //         },
-            //         {
-            //             icon: 'fa-solid fa-gears',
-            //             label: 'Impostazioni prenotazioni',
-            //             route: 'bookings.settings.edit',
-            //             active: 'bookings.settings.edit'
-            //         },
-            //         {
-            //             icon: 'fa-solid fa-calendar-xmark',
-            //             label: 'Policy annullamenti',
-            //             route: 'cancelling.settings.edit',
-            //             active: 'cancelling.settings.edit'
-            //         },
-            //     ]
-            // },
-            {
-                icon: 'fa-solid fa-music',
-                label: 'Sale prova',
-                route: 'sale-prova.index',
-                active: 'sale-prova.*',
-                children: []
-            },
-            {
-                icon: 'fa-solid fa-microphone-lines',
-                label: 'Servizi',
-                route: 'servizi.index',
-                active: 'servizi.*',
-                children: []
-            },
-            {
-                icon: 'fa-solid fa-user-gear',
-                label: 'Account',
-                route: 'account.edit',
-                active: 'account.edit',
-                children: []
-            },
-            {
-                icon: 'fa-solid fa-flag',
-                label: 'Segnalazioni',
-                route: 'suggestions.create',
-                active: 'suggestions.create',
-                children: []
-            }
-        ];
-    } else if(roleId === 3){ //menu artista
-        menu = [
-            {
-                icon: 'fa-solid fa-home',
-                label: 'Dashboard',
-                route: 'dashboard',
-                active: 'dashboard',
-                children: []
-            },
-        ];
+    if(roleId === 2){
+        //menu studio
+        menu = menuItems.studio
+    } else if(roleId === 3){
+        //menu artista
+        menu = []
     }
 
     return menu;
