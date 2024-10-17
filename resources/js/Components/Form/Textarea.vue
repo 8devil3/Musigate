@@ -1,10 +1,10 @@
 <template>
     <div class="flex flex-col text-left rounded-lg">
-        <Label v-if="props.label" :label="props.label" :id="props.id" :required="props.required" />
+        <Label v-if="props.label" :label="props.label" :id="props.id ?? id" :required="props.required" />
 
         <textarea
             v-model.trim="vModel"
-            :id="props.id"
+            :id="props.id ?? id"
             :placeholder="props.placeholder"
             :required="props.required"
             :autofocus="props.autofocus"
@@ -33,6 +33,7 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
 import Label from '@/Components/Form/Label.vue';
 import FieldError from '@/Components/Form/FieldError.vue';
 
@@ -78,6 +79,10 @@ const props = defineProps({
 const classes = "text-left form-textarea w-full px-3 py-2 text-sm font-light leading-normal text-white rounded-xl border placeholder:text-slate-500 disabled:bg-slate-800 disabled:cursor-not-allowed placeholder:truncate disabled:text-slate-600 disabled:border-slate-500 font-sans";
 
 const vModel = defineModel({ default: null });
+
+const id = computed(()=>{
+    return 'textarea-' + Math.random() * 1000000000000;
+});
 
 </script>
 
