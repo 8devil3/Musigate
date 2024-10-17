@@ -10,7 +10,7 @@
         {
             "icon": "fa-solid fa-record-vinyl",
             "label": "Studio",
-            "route": "ul",
+            "route": "studio.links",
             "active": "studio.*",
             "children": [
                 {

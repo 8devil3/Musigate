@@ -28,7 +28,7 @@
             <ul class="space-y-2 list-none list-image-none">
                 <template v-for="item, index in menu" :key="index">
                     <li v-if="item.route && !item.children.length">
-                        <Link :href="route(item.route)" class="flex items-center gap-2 px-4 py-2 text-sm transition-colors hover:text-orange-400" :class="route().current(item.active) ? 'text-white' : 'text-slate-400'">
+                        <Link :href="route(item.route)" class="flex items-center gap-2 px-4 py-3 text-sm transition-colors md:py-2 hover:text-orange-400" :class="route().current(item.active) ? 'text-white' : 'text-slate-400'">
                             <i class="w-5 text-center" :class="item.icon" />
                             {{ item.label }}
                         </Link>
@@ -36,7 +36,7 @@
     
                     <li v-else>
                         <details open @toggle="toggleDetailState(index)">
-                            <summary class="flex items-center justify-between px-4 py-2 text-sm transition-colors cursor-pointer hover:text-orange-400" :class="route().current(item.active) ? 'text-slate-200' : 'text-slate-400'">
+                            <summary class="flex items-center justify-between px-4 py-3 text-sm transition-colors cursor-pointer md:py-2 hover:text-orange-400" :class="route().current(item.active) ? 'text-slate-200' : 'text-slate-400'">
                                 <div class="flex items-center gap-2">
                                     <i class="w-5 text-center" :class="item.icon" />
                                     {{ item.label }}
@@ -47,7 +47,7 @@
                             
                             <ul class="mt-1 ml-6 space-y-1 list-none border-l list-image-none border-slate-600">
                                 <li v-for="child in item.children">
-                                    <Link :href="route(child.route)" class="flex items-center gap-2 px-4 py-1.5 text-xs transition-colors font-normal hover:text-orange-400" :class="route().current(child.active) ? 'text-white' : 'text-slate-400'">
+                                    <Link :href="route(child.route)" class="flex items-center gap-2 px-4 py-2 md:py-1.5 text-xs transition-colors font-normal hover:text-orange-400" :class="route().current(child.active) ? 'text-white' : 'text-slate-400'">
                                         <i class="w-5 text-center" :class="child.icon" />
                                         {{ child.label }}
                                     </Link>
@@ -60,6 +60,7 @@
             <!-- / -->
         </div>
 
+        <!-- logout -->
         <form @submit.prevent="router.post(route('logout'))" class="shadow-md bg-slate-900">
             <div class="shrink-0 block h-0.5 bg-gradient-to-r from-transparent via-orange-500 to-transparent-500" />
 
@@ -68,6 +69,7 @@
                 Logout
             </button>
         </form>
+        <!-- / -->
     </nav>
 </template>
 

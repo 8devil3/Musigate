@@ -1,7 +1,7 @@
 <template>
     <div class="space-y-4">
         <form @submit.prevent="uploadImage()" class="relative flex items-center gap-4">
-            <button type="button" v-if="vModel" @click="deleteImage()" :disabled="form.processing" title="Elimina il logo" class="absolute flex items-center justify-center size-6 text-red-600 border border-red-600 rounded-full -top-2 -left-2 bg-red-600/10">
+            <button type="button" v-if="vModel" @click="deleteImage()" :disabled="form.processing" title="Elimina il logo" class="absolute flex items-center justify-center text-red-600 border border-red-600 rounded-full size-6 -top-2 left-28 bg-red-600/10">
                 <i class="text-sm fa-solid fa-xmark" />
             </button>
 
