@@ -25,11 +25,12 @@ class AccountController extends Controller
     {
         $user = auth()->user();
         $has_password = $user->getAuthPassword() ? true : false;
+        $has_google = $user->google_id && $user->google_token ? true : false;
         $mustVerifyEmail = $request->user() instanceof MustVerifyEmail;
         $status = session('status');
         $user = $user->only(['email', 'first_name', 'last_name', 'google_id', 'google_token']);
 
-        return Inertia::render('Backoffice/Account/Edit', compact('mustVerifyEmail', 'status', 'user', 'has_password'));
+        return Inertia::render('Backoffice/Account/Edit', compact('mustVerifyEmail', 'status', 'user', 'has_password', 'has_google'));
     }
 
     /**

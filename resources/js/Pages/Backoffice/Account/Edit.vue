@@ -10,7 +10,7 @@
 
         <template #content>
             <!-- scollegamento Google -->
-            <FormElement >
+            <FormElement v-if="props.has_google">
                 <template #title>
                     Google account
                 </template>
@@ -194,6 +194,7 @@ import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
 const props = defineProps({
     user: Object,
     has_password: Boolean,
+    has_google: Boolean,
     avatar: String,
     mustVerifyEmail: {
         type: Boolean,
