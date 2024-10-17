@@ -6,7 +6,7 @@
     >
         <template #content>
             <!-- nome studio -->
-            <FormElement required>
+            <FormElement>
                 <template #title>
                     Nome
                 </template>
@@ -115,7 +115,7 @@
             <!-- / -->
                 
             <!-- categoria -->
-            <FormElement required>
+            <!-- <FormElement>
                 <template #title>
                     Categoria
                 </template>
@@ -130,10 +130,11 @@
                         <Radio v-model="form.category" id="studio-category-home" name="studio-category" value="Home">Home</Radio>
                     </div>
                 </template>
-            </FormElement>
+            </FormElement> -->
+            <!-- / -->
 
             <!-- vat -->
-            <FormElement v-if="form.category === 'Professional'" required>
+            <FormElement>
                 <template #title>
                     Partita IVA
                 </template>
@@ -143,7 +144,7 @@
                 </template>
 
                 <template #content>
-                    <Input v-model="form.vat" :error="form.errors.vat" placeholder="Partita IVA" pattern="[0-9]{11}" class="w-full lg:max-w-xs" required />
+                    <Input v-model="form.vat" inputmode="numeric" :error="form.errors.vat" placeholder="Partita IVA" pattern="[0-9]{11}" class="w-full lg:max-w-xs" required />
                 </template>
             </FormElement>
             <!-- / -->
@@ -167,7 +168,7 @@
             <!-- / -->
 
             <!-- descrizione -->
-            <FormElement required>
+            <FormElement>
                 <template #title>
                     Presentazione
                 </template>
@@ -208,7 +209,7 @@ const props = defineProps({
 const form = useForm({
     name: props.studio.name ?? null,
     vat: props.studio.vat ?? null,
-    category: props.studio.category ?? '',
+    // category: props.studio.category ?? '',
     record_label: props.studio.record_label,
     description: props.studio.description ?? null,
     is_visible: props.studio.is_visible

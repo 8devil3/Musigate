@@ -58,6 +58,7 @@
                             @addressData="setFormAddress"
                             required
                             class="col-span-full"
+                            label="Indirizzo completo"
                         />
                         <Input v-model="formStep2.address" label="Indirizzo" placeholder="Indirizzo, senza numero civico" :error="formStep2.errors.address" :disabled="!isManualAddress" required class="col-span-2" />
 

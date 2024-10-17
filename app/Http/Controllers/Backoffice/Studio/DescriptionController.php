@@ -29,8 +29,8 @@ class DescriptionController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'category' => 'required|string|max:255|in:Professional,Home',
-            'vat' => 'nullable|required_if:category,Professional|string|size:11',
+            // 'category' => 'required|string|max:255|in:Professional,Home',
+            'vat' => 'required|string|size:11',
             'record_label' => 'boolean',
             'is_visible' => 'boolean',
             'description' => 'required|string|min:100'
@@ -40,11 +40,11 @@ class DescriptionController extends Controller
 
         $studio->update($request->toArray());
 
-        if($request->category !== 'Professional'){
-            $studio->update(['vat' => null]);
-        }
+        // if($request->category !== 'Professional'){
+        //     $studio->update(['vat' => null]);
+        // }
 
-        return back()->with('success', 'Salvato');
+        return back()->with('success', 'Descrizione salvata');
     }
 
     public function logo_upload(Request $request): RedirectResponse

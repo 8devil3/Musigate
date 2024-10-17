@@ -97,6 +97,7 @@
                         v-model="form.min_booking"
                         :min="1"
                         :max="24"
+                        unit="ore"
                         :error="form.errors.min_booking"
                     />
                 </template>
