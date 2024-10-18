@@ -112,7 +112,7 @@ class GoogleLoginController extends Controller
 
         //creazione nuovo studio
         $studio_data = session()->get('studio_data');
-        CreateStudioService::store($user, $studio_data['step2']['name'], $studio_data['step2']['category'], $studio_data['step2']['vat']);
+        CreateStudioService::store($user);
 
         //salvo l'avatar come png
         $scaled_image = Image::read(file_get_contents($google_user->getAvatar()))->scale(160, 160)->toPng();
