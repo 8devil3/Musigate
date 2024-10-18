@@ -28,15 +28,17 @@
                     </div>
                 </Link>
 
-                <button type="button" @click="isOpenDrawer = true" class="py-1 pr-2 text-2xl leading-none text-white md:hidden">
+                <button v-if="!usePage().props.auth.user" type="button" @click="isOpenDrawer = true" class="py-1 pr-2 text-2xl leading-none text-white md:hidden">
                     <i class="fa-solid fa-bars" />
                 </button>
+
+                <UserMenu v-else />
             </nav>
             <!--  -->
         </div>
 
         <Drawer :isOpen="isOpenDrawer" @close="isOpenDrawer = false">
-            <nav v-if="!usePage().props.auth.user" class="flex flex-col gap-2 py-6">
+            <nav class="flex flex-col gap-2 py-6">
                 <img src="/img/logo/logo_horizontal_complete.svg" alt="Musigate logo" class="h-8 mb-6">
                 <Link :href="route('register.studio.starter.step_1')" class="block px-4 py-2 text-white transition-colors hover:bg-orange-500">
                     <i class="w-5 mr-2 fa-solid fa-record-vinyl" />
@@ -47,8 +49,6 @@
                     Accesso
                 </Link>
             </nav>
-    
-            <AsideMenu v-else />
         </Drawer>
     </header>
 </template>
@@ -59,6 +59,7 @@ import { Link, usePage } from '@inertiajs/vue3';
 import UserMenu from '@/Components/Backoffice/UserMenu.vue';
 import Avatar from '@/Components/Avatar.vue';
 import Drawer from '@/Components/Drawer.vue';
+import AsideMenu from '@/Components/Backoffice/AsideMenu.vue';
 
 const isOpenDrawer = ref(false);
 
