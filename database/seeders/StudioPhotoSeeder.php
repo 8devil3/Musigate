@@ -17,7 +17,7 @@ class StudioPhotoSeeder extends Seeder
     {
         $studios = Studio::all();
 
-        Storage::disk('public')->deleteDirectory('studio');
+        Storage::disk('public')->deleteDirectory('studios');
 
         foreach ($studios as $studio) {
             for ($i=0; $i < 6; $i++) {

@@ -29,10 +29,8 @@ class StudioSeeder extends Seeder
                 'name' => 'Studio ' . fake()->company(),
                 'vat' => $category === 'Professional' ? str_replace('IT', '', fake()->vat()) : null,
                 'logo' => null,
-                'category' => $category,
                 'record_label' => fake()->boolean(),
                 'description' => fake()->text(rand(800, 1600)),
-                'is_visible' => fake()->boolean(),
                 'is_complete' => true,
             ]);
 

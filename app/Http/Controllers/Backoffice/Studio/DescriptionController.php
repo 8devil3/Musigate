@@ -32,7 +32,6 @@ class DescriptionController extends Controller
             // 'category' => 'required|string|max:255|in:Professional,Home',
             'vat' => 'required|string|size:11',
             'record_label' => 'boolean',
-            'is_visible' => 'boolean',
             'description' => 'required|string|min:100'
         ]);
 

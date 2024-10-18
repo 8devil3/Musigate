@@ -23,8 +23,6 @@ return new class extends Migration
             $table->enum('category', ['Home', 'Professional'])->default('Professional');
             $table->text('description')->nullable();
             $table->boolean('record_label')->default(false);
-            $table->boolean('is_visible')->default(false);
-            $table->boolean('is_open_24_7')->default(false);           
             $table->boolean('is_complete')->default(false);
 
             $table->timestamps();

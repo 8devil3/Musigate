@@ -43,76 +43,6 @@
                 </template>
             </FormElement>
             <!-- / -->
-
-            <!-- visibilità studio -->
-            <FormElement>
-                <template #title>
-                    Visibilità
-                </template>
-
-                <template #description>
-                    Modfica la visibilità dello Studio.<br>
-                    Se il controllo viene disabilitato, lo Studio non sarà più ricercabile o visibile.
-                </template>
-
-                <template #content>
-                    <div class="flex items-center gap-2">
-                        <Toggle
-                            v-model="form.is_visible"
-                            :label="form.is_visible ? 'Lo Studio è visibile e ricercabile' : 'Lo Studio non è visibile nè ricercabile'"
-                            :disabled="!props.studio.is_complete"
-                        />
-                    </div>
-                    <div v-if="!props.studio.is_complete" class="mt-4 text-gray-300">
-                        <p>
-                            Non sarà possibile modificare questa impostazione fino a quando non saranno salvate le seguenti informazioni:
-                        </p>
-                        <ul class="mt-2 list-none list-inside">
-                            <li class="flex items-start gap-2">
-                                <i v-if="props.studio.name" class="w-4 mt-1 text-green-500 shrink-0 fa-solid fa-check"></i>
-                                <i v-else class="w-4 mt-1 text-red-500 shrink-0 fa-solid fa-xmark"></i>
-                                il nome dello Studio
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <i v-if="props.studio.category" class="w-4 mt-1 text-green-500 shrink-0 fa-solid fa-check"></i>
-                                <i v-else class="w-4 mt-1 text-red-500 shrink-0 fa-solid fa-xmark"></i>
-                                la categoria
-                            </li>
-                            <li v-if="props.studio.category === 'Professional'" class="flex items-start gap-2">
-                                <i v-if="props.studio.vat" class="w-4 mt-1 text-green-500 shrink-0 fa-solid fa-check"></i>
-                                <i v-else class="w-4 mt-1 text-red-500 shrink-0 fa-solid fa-xmark"></i>
-                                la partita iva
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <i v-if="props.studio.description?.length > 100" class="w-4 mt-1 text-green-500 shrink-0 fa-solid fa-check"></i>
-                                <i v-else class="w-4 mt-1 text-red-500 shrink-0 fa-solid fa-xmark"></i>
-                                la presentazione di almeno 100 caratteri, spazi esclusi
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <i v-if="props.studio.location.complete_address" class="w-4 mt-1 text-green-500 shrink-0 fa-solid fa-check"></i>
-                                <i v-else class="w-4 mt-1 text-red-500 shrink-0 fa-solid fa-xmark"></i>
-                                la <Link :href="route('studio.location.edit')" class="text-orange-500 underline transition-colors hover:text-orange-400">location</Link>
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <i v-if="props.studio.payment_methods?.length" class="w-4 mt-1 text-green-500 shrink-0 fa-solid fa-check"></i>
-                                <i v-else class="w-4 mt-1 text-red-500 shrink-0 fa-solid fa-xmark"></i>
-                                almeno un <Link :href="route('studio.payment_methods.edit')" class="text-orange-500 underline transition-colors hover:text-orange-400">metodo di pagamento</Link>
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <i v-if="props.studio.photos?.length" class="w-4 mt-1 text-green-500 shrink-0 fa-solid fa-check"></i>
-                                <i v-else class="w-4 mt-1 text-red-500 shrink-0 fa-solid fa-xmark"></i>
-                                almeno una <Link :href="route('studio.photos.edit')" class="text-orange-500 underline transition-colors hover:text-orange-400">foto</Link>
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <i v-if="props.studio.contacts?.email || props.studio.contacts?.phone || props.studio.contacts?.telegram || props.studio.contacts?.messenger || props.studio.contacts?.whatsapp" class="w-4 mt-1 text-green-500 shrink-0 fa-solid fa-check"></i>
-                                <i v-else class="w-4 mt-1 text-red-500 shrink-0 fa-solid fa-xmark"></i>
-                                almeno un <Link :href="route('studio.contacts.edit')" class="text-orange-500 underline transition-colors hover:text-orange-400">contatto</Link>
-                            </li>
-                        </ul>
-                    </div>
-                </template>
-            </FormElement>
-            <!-- / -->
                 
             <!-- categoria -->
             <!-- <FormElement>
@@ -191,10 +121,9 @@
 </template>
 
 <script setup>
-import { useForm, Link } from '@inertiajs/vue3';
+import { useForm } from '@inertiajs/vue3';
 import Input from '@/Components/Form/Input.vue';
-import Toggle from '@/Components/Form/Toggle.vue';
-import Radio from '@/Components/Form/Radio.vue';
+// import Radio from '@/Components/Form/Radio.vue';
 import Checkbox from '@/Components/Form/Checkbox.vue';
 import SaveButton from '@/Components/Form/SaveButton.vue';
 import Textarea from '@/Components/Form/Textarea.vue';
@@ -212,7 +141,6 @@ const form = useForm({
     // category: props.studio.category ?? '',
     record_label: props.studio.record_label,
     description: props.studio.description ?? null,
-    is_visible: props.studio.is_visible
 });
 
 const submit = () => {
@@ -223,7 +151,6 @@ const submit = () => {
 
 <script>
 import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
-import { ref } from 'vue';
 
 export default {
     layout: (h, page) => h(BackofficeLayout, {
