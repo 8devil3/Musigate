@@ -79,7 +79,7 @@ class SearchController extends Controller
 
     public function show(Studio $studio): Response
     {
-        if(!$studio->is_visible || !$studio->is_complete) abort(404);
+        if(!$studio->is_complete) abort(404);
 
         $weekdays = Availability::WEEKDAYS;
 
