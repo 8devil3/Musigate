@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
                 'email' => 'admin@admin.com',
                 'email_verified_at' => now()->subDay(),
                 'password' => bcrypt('qwertyuiop'),
-                'avatar' => Storage::disk('public')->putFile('users/user-1/avatar/', FakerImage::image(null, 240, 240)),
+                'avatar' => Storage::disk('public')->putFile('users/user-1/avatar', FakerImage::image(null, 240, 240)),
                 'tos' => true,
                 'privacy' => true,
             ],
