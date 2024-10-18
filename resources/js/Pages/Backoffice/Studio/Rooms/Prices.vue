@@ -24,7 +24,7 @@
                         </Radio>
 
                         <p v-if="!props.timebands.length" class="text-xs">
-                            Per abilitare le tariffe a fasce orarie occorre prima impostare le <Link :href="route('studio.availability.edit')" class="text-orange-500 underline transition-colors hover:text-orange-400">fasce orarie</Link>.
+                            Per abilitare le tariffe a fasce orarie occorre prima impostare le <Link :href="route('studio.availability.index')" class="text-orange-500 underline transition-colors hover:text-orange-400">fasce orarie</Link>.
                         </p>
                     </div>
                 </template>
@@ -59,11 +59,11 @@
             <template v-else-if="form.price_type === 'timebands_price' && props.timebands.length">
                 <FormElement v-for="wd, wdKey in props.open_weekdays">
                     <template #title>
-                        {{ wd }}
+                        {{ wd.label }}
                     </template>
 
                     <template #description>
-                        Inserisci le tariffe della giornata di {{ wd }}.
+                        Inserisci le tariffe della giornata di {{ wd.label }}.
                     </template>
 
                     <template #content>
@@ -73,7 +73,7 @@
                                     <div class="space-y-1">
                                         <div class="text-xs font-normal leading-none uppercase text-slate-400">Fascia oraria</div>
                                         <h4 class="w-full p-0 m-0 text-base truncate">
-                                            {{ wd.slice(0, 3) }} - {{ timeband.name }}
+                                            {{ wd.label.slice(0, 3) }} - {{ timeband.name }}
                                         </h4>
                                         <div class="text-xs font-normal text-slate-300">
                                             {{ timeband.start }} - {{ timeband.end }}
@@ -91,13 +91,13 @@
 
                         <Empty v-else icon="fa-solid fa-clock">
                             <template #title>
-                                Nessuna fascia oraria di {{ wd }}
+                                Nessuna fascia oraria di {{ wd.label }}
                             </template>
                             <template #description>
-                                Non hai impostato le fasce orarie di {{ wd }}. Per inserire le tariffe con fasce orarie è necessario prima impostarle.
+                                Non hai impostato le fasce orarie di {{ wd.label }}. Per inserire le tariffe con fasce orarie è necessario prima impostarle.
                             </template>
                             <template #actions>
-                                <Button type="router" :href="route('studio.availability.edit')" text="Imposta fasce orarie" icon="fa-solid fa-clock" />
+                                <Button type="router" :href="route('studio.availability.edit', wd.availability_id)" text="Imposta fasce orarie" icon="fa-solid fa-clock" />
                             </template>
                         </Empty>
                     </template>
@@ -126,7 +126,7 @@ import NumberInput from '@/Components/Form/NumberInput.vue';
 
 const props = defineProps({
     room: Object,
-    open_weekdays: Array,
+    open_weekdays: Object,
     timebands: Object,
     timeband_prices: Object,
     price_types: Object,

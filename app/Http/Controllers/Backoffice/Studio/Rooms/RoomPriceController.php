@@ -18,9 +18,12 @@ class RoomPriceController extends Controller
         $price_types = RoomPrice::PRICE_TYPES;
         $studio = auth()->user()->studio;
 
-        $open_weekdays = $studio->availability()->where('is_open', true)
-            ->pluck('weekday')->mapWithKeys(function($wd): array {
-                return [$wd => Availability::WEEKDAYS[$wd]];
+        $open_weekdays = $studio->availability()->where('is_open', true)->get()
+            ->mapWithKeys(function($av): array {
+                return [$av->weekday => [
+                    'label' => Availability::WEEKDAYS[$av->weekday],
+                    'availability_id' => $av->id,
+                ]];
             });
 
         $timebands = $studio->timebands;
@@ -63,19 +66,19 @@ class RoomPriceController extends Controller
 
             $room->prices()->delete();
         } else if($price_type === 'timebands_price'){
-            $room->update([
-                'price_type' => $price_type,
-                'fixed_price' => null,
-                'has_discounted_fixed_price' => false,
-                'discounted_fixed_price' => null,
-            ]);
-
             $request->validate([
                 'timeband_prices' => ['nullable', 'required_if:price_type,timebands_price', 'array'],
                 'timeband_prices.*.timeband_id' => ['required', 'integer', 'exists:timebands,id'],
                 'timeband_prices.*.price' => ['required', 'integer', 'min:2'],
                 'timeband_prices.*.has_discounted_price' => ['boolean'],
                 'timeband_prices.*.discounted_price' => ['nullable', 'required_if:timeband_prices.*.has_discounted_price,accepted', 'integer', 'min:1', 'lt:timeband_prices.*.price'],
+            ]);
+
+            $room->update([
+                'price_type' => $price_type,
+                'fixed_price' => null,
+                'has_discounted_fixed_price' => false,
+                'discounted_fixed_price' => null,
             ]);
 
             foreach ($request->timeband_prices as $tbp) {
