@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('studio_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('availability_id')->constrained()->cascadeOnDelete();
             $table->unsignedTinyInteger('weekday');
             $table->string('name');
             $table->time('start');

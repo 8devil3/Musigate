@@ -12,6 +12,7 @@ class Timeband extends Model
 {
     protected $fillable = [
         'studio_id',
+        'availability_id',
         'weekday',
         'name',
         'start',
@@ -35,6 +36,11 @@ class Timeband extends Model
     public function studio(): BelongsTo
     {
         return $this->belongsTo(Studio::class);
+    }
+
+    public function availability(): BelongsTo
+    {
+        return $this->belongsTo(Availability::class);
     }
 
     public function prices(): HasMany

@@ -73,9 +73,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::put('/location', [LocationController::class, 'update'])->name('location.update');
 
             //disponibilità
-            Route::get('/disponibilità', [WeeklyAvailabilityController::class, 'edit'])->name('availability.edit');
-            Route::put('/disponibilità', [WeeklyAvailabilityController::class, 'update'])->name('availability.update');
-            Route::put('/disponibilità/clona', [WeeklyAvailabilityController::class, 'clone'])->name('availability.clone');
+            Route::get('/disponibilità', [WeeklyAvailabilityController::class, 'index'])->name('availability.index');
+            Route::get('/disponibilità/modifica/{availability_id}', [WeeklyAvailabilityController::class, 'edit'])->name('availability.edit');
+            Route::put('/disponibilità/aggiorna/{availability_id}', [WeeklyAvailabilityController::class, 'update'])->name('availability.update');
+            Route::put('/disponibilità/clona/{availability_id}', [WeeklyAvailabilityController::class, 'clone'])->name('availability.clone');
 
             //foto studio
             Route::get('/foto', [StudioPhotoController::class, 'edit'])->name('photos.edit');

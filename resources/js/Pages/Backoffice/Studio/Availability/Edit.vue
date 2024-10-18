@@ -1,28 +1,11 @@
 <template>
     <ContentLayout
         @submitted="submit()"
-        title="Disponibilità settimanale"
+        :title="'Disponibilità: ' + props.weekdays[props.availability.weekday]"
         icon="fa-solid fa-clock"
+        :backRoute="route('studio.availability.index')"
     >
         <template #content>
-            <!-- copia disponibilità -->
-            <FormElement>
-                <template #title>
-                    Copia disponibilità
-                </template>
-                <template #description>
-                    Se hai già impostato almeno un giorno della settimana puoi copiarlo senza dover inserire nuovamente gli stessi dati, comprese le fasce orarie.
-
-                    <div class="mt-2 text-red-500">
-                        <strong>ATTENZIONE:</strong> copiando la disponibiltà verranno eliminate TUTTE le tariffe delle Sale associate, se presenti.
-                    </div>
-                </template>
-                <template #content>
-                    <Select v-model="cloneFromWeekday" @change="cloneAvailability()" :options="props.weekdays" default="Copia dati dal giorno..." class="w-64" />
-                </template>
-            </FormElement>
-            <!-- / -->
-
             <!-- orari di lavoro -->
             <FormElement>
                 <template #title>
@@ -35,7 +18,7 @@
                     <div class="flex flex-wrap items-center gap-2 mb-8">
                         <div>
                             <div class="text-sm font-normal" :class="form.is_open ? 'text-white' : 'text-slate-400'">
-                                {{ props.weekdays[props.current_weekday] }}
+                                {{ props.weekdays[props.availability.weekday] }}
                             </div>
                             <div v-if="form.is_open" class="text-xs font-light text-green-500">
                                 aperto
@@ -54,7 +37,7 @@
                             :options="props.hours"
                             :disabled="!form.is_open"
                             default="Inizio"
-                            :error="form.errors['availability.open_start']"
+                            :error="form.errors.open_start"
                             :required="form.is_open"
                             class="w-24"
                         />
@@ -66,10 +49,31 @@
                             :options="hours.filter(h => h > form.open_start)"
                             default="Fine"
                             :disabled="!form.is_open"
-                            :error="form.errors['availability.open_end']"
+                            :error="form.errors.open_end"
                             :required="form.is_open"
                             class="w-24"
                         />
+                    </div>
+                </template>
+            </FormElement>
+            <!-- / -->
+
+            <!-- copia disponibilità -->
+            <FormElement>
+                <template #title>
+                    Copia disponibilità
+                </template>
+                <template #description>
+                    Se hai già impostato almeno un giorno della settimana da ripetere puoi copiarlo senza dover inserire nuovamente gli stessi dati, comprese le fasce orarie. Per procedere, seleziona il giorno da cui copiare i dati e clicca "Copia".
+
+                    <div class="mt-2 text-red-500">
+                        <strong>ATTENZIONE:</strong> copiando la disponibiltà verranno eliminate TUTTE le tariffe delle Sale associate, se presenti.
+                    </div>
+                </template>
+                <template #content>
+                    <div class="flex gap-2">
+                        <Select v-model="cloneFromWeekday" :options="props.copy_from_weekdays" default="Copia dati dal giorno..." class="w-64" />
+                        <Button @click="cloneAvailability()" text="Copia" icon="fa-solid fa-copy" :disabled="!cloneFromWeekday" />
                     </div>
                 </template>
             </FormElement>
@@ -81,7 +85,7 @@
                     Fasce orarie
                 </template>
                 <template #description>
-                    Imposta le fasce orarie del {{ props.weekdays[form.current_weekday] }}. Ricordati di salvare anche quando elimini delle fasce orarie.<br>
+                    Imposta le fasce orarie del {{ props.weekdays[props.availability.weekday] }}. Ricordati di salvare anche quando elimini delle fasce orarie.<br>
                     Le fasce orarie, se inserite, devono essere almeno due e devono avere nomi univoci nello stesso giorno; possono avere lo stesso nome se in giorni diversi.<br>
                     La fine dell'ultima fascia deve corrispondere all'orario di chiusura dello Studio.
 
@@ -154,7 +158,7 @@
                             Nessuna fascia oraria
                         </template>
                         <template #description>
-                            Non sono presenti fasce orarie per {{ props.weekdays[form.current_weekday] }}.
+                            Non sono presenti fasce orarie per {{ props.weekdays[props.availability.weekday] }}.
                         </template>
                         <template #actions>
                             <Button @click="addTimeband()" text="Aggiungi" icon="fa-solid fa-plus" />
@@ -166,7 +170,6 @@
         </template>
 
         <template #actions>
-            <Select v-model.number="form.current_weekday" @change="selectWeekday()" :options="props.weekdays" default="Seleziona giorno" class="w-40" />
             <SaveButton v-if="form.isDirty && !form.processing && !hasValidationErrors" />
         </template>
     </ContentLayout>
@@ -188,38 +191,31 @@ import Input from '@/Components/Form/Input.vue';
 
 const props = defineProps({
     availability: Object,
-    timebands: Object,
     current_weekday: Number,
     hours: Object,
     weekdays: Object,
+    copy_from_weekdays: Object,
 });
 
 const hasValidationErrors = ref(false);
 const cloneFromWeekday = ref('');
 
 const form = useForm({
-    current_weekday: props.current_weekday,
     is_open: props.availability.is_open,
     open_start: props.availability.open_start,
     open_end: props.availability.open_end,
-    timebands: props.timebands ?? [],
+    timebands: props.availability.timebands ?? [],
 });
 
 const submit = ()=>{
     if(form.processing || hasValidationErrors.value) return;
-    form.put(route('studio.availability.update'), {
+    form.put(route('studio.availability.update', props.availability.id), {
         preserveState: false,
     });
 };
 
-const selectWeekday = ()=>{
-    router.get(route('studio.availability.edit'), {current_weekday: form.current_weekday}, {
-        preserveState: false
-    });
-};
-
 const cloneAvailability = ()=>{
-    router.put(route('studio.availability.clone'), {current_weekday: form.current_weekday, clone_from_weekday: cloneFromWeekday.value}, {
+    router.put(route('studio.availability.clone', props.availability.id), {clone_from_weekday: cloneFromWeekday.value}, {
         preserveState: false
     });
 };
@@ -227,6 +223,7 @@ const cloneAvailability = ()=>{
 const addTimeband = ()=>{
     let timeband = {
         id: null,
+        availability_id: null,
         name: null,
         start: form.open_start,
         end: null,

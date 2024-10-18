@@ -13,7 +13,7 @@ class GeneratePeriodsService
         $periods = [];
 
         foreach ($arr_periods as $key => $period) {
-            if($key === count($arr_periods) -1 && $period === '24:00'){
+            if($key === count($arr_periods) -1){
                 $periods[] = '24:00';
             } else {
                 $periods[] = $period->format($format);

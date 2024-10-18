@@ -28,8 +28,8 @@
                 {
                     "icon": "fa-solid fa-clock",
                     "label": "Disponibilità",
-                    "route": "studio.availability.edit",
-                    "active": "studio.availability.edit"
+                    "route": "studio.availability.index",
+                    "active": "studio.availability.*"
                 },
                 {
                     "icon": "fa-solid fa-image",
