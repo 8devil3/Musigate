@@ -93,17 +93,17 @@
                 </Section>
             
                 <Section v-if="props.studio.rule.before || props.studio.rule.during || props.studio.rule.after" title="Regolamento" id="regolamento">
-                    <div class="mb-6">
+                    <div v-if="props.studio.rule.before" class="mb-6">
                         <h3>Prima della sessione</h3>
                         <p class="whitespace-pre-wrap">{{ props.studio.rule.before.substring(0, 300) }}...</p>
                     </div>
             
-                    <div class="mb-6">
+                    <div v-if="props.studio.rule.during" class="mb-6">
                         <h3>Durante la sessione</h3>
                         <p class="whitespace-pre-wrap">{{ props.studio.rule.during.substring(0, 300) }}...</p>
                     </div>
             
-                    <div>
+                    <div v-if="props.studio.rule.after">
                         <h3>Dopo la sessione</h3>
                         <p class="whitespace-pre-wrap">{{ props.studio.rule.after.substring(0, 300) }}...</p>
                     </div>
@@ -147,16 +147,12 @@
                     
                     <p v-else-if="!computedContacts.length" class="text-sm text-slate-300">Lo Studio non ha inserito alcun contatto.</p>
 
-                    <ul v-else class="grid grid-cols-1 gap-2 p-0 m-0 list-none sm:grid-cols-3 md:flex md:flex-wrap list-image-none">
+                    <ul v-else class="grid grid-cols-1 p-0 m-0 list-none gap-x-8 gap-y-4 sm:grid-cols-3 md:flex md:flex-wrap list-image-none">
                         <li v-for="contact in computedContacts">
-                            <Button
-                                type="link"
-                                :href="contact.href"
-                                :text="contact.label"
-                                :icon="contact.icon"
-                                :color="contact.color"
-                                class="w-full"
-                            />
+                            <a :href="contact.href" class="text-base font-normal transition-colors hover:text-orange-500" :class="contact.color">
+                                <i class="w-5 mr-1 text-lg text-center" :class="contact.icon" />
+                                {{ contact.label }}
+                            </a>
                         </li>
                     </ul>
                 </Section>
@@ -273,25 +269,29 @@ const computedContacts = computed(()=>{
             if(href){    
                 switch (contact[0]) {
                     case 'phone':
-                        label = 'Telefono';
+                        label = contact[1];
                         href = 'tel:' + contact[1];
                         icon = 'fa-solid fa-phone';
                     break;
                     case 'email':
+                        label = contact[1];
                         href = 'mailto:' + contact[1];
                         icon = 'fa-solid fa-envelope';
                     break;
                     case 'messenger':
-                        color = 'messenger';
+                        label = 'Messenger';
+                        color = 'text-messenger';
                         icon = 'fa-brands fa-facebook-messenger';
                     break;
                     case 'whatsapp':
-                        color = 'whatsapp';
+                        label = 'Whatsapp';
+                        color = 'text-whatsapp';
                         icon = 'fa-brands fa-whatsapp';
     
                     break;
                     case 'telegram':
-                        color = 'telegram';
+                        label = 'Telegram';
+                        color = 'text-telegram';
                         icon = 'fa-brands fa-telegram';
                     break;
                 }
@@ -323,7 +323,7 @@ const links = [
     {
         text: 'comfort',
         id: '#comfort',
-        enabled: props.studio.services.length || props.studio.comforts.length ? true : false
+        enabled: props.studio.comforts.length ? true : false
     },
     {
         text: 'sale prova',
