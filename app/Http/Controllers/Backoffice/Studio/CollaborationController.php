@@ -13,21 +13,41 @@ class CollaborationController extends Controller
 {
     public function index(): Response
     {
-        $collaborations = auth()->user()->studio->collaborations;
+        $collaborations = auth()->user()->studio->collaborations()->orderByDesc('year')->orderByDesc('month')->get();
 
-        return Inertia::render('Backoffice/Studio/Collaborations', compact('collaborations'));
+        return Inertia::render('Backoffice/Studio/Collaborations/Index', compact('collaborations'));
+    }
+
+    public function create(): Response
+    {
+        $collaboration = [];
+
+        return Inertia::render('Backoffice/Studio/Collaborations/CreateEdit', compact('collaboration'));
     }
 
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'title' => 'required|string|max:255',
-            'desc' => 'nullable|string',
+            'title' => ['required', 'string', 'max:255'],
+            'month' => ['required', 'integer', 'min:1', 'max:12'],
+            'year' => ['required', 'integer', 'min:1900', 'max:' . now()->year],
+            'description' => ['nullable', 'string'],
+            'spotify' => ['nullable', 'url:https'],
+            'soundcloud' => ['nullable', 'url:https'],
+            'itunes' => ['nullable', 'url:https'],
+            'save_and_new' => ['boolean'],
         ]);
 
-        auth()->user()->studio->collaborations()->create($request->toArray());
+        $collaboration = auth()->user()->studio->collaborations()->create($request->toArray());
 
-        return back()->with('success', 'Collaborazione salvata');
+        if($request->save_and_new) return to_route('studio.collaborazioni.create')->with('success', 'Collaborazione salvata');
+
+        return to_route('studio.collaborazioni.edit', $collaboration->id)->with('success', 'Collaborazione salvata');
+    }
+
+    public function edit(Collaboration $collaboration): Response
+    {
+        return Inertia::render('Backoffice/Studio/Collaborations/CreateEdit', compact('collaboration'));
     }
 
     public function update(Request $request, Collaboration $collaboration): RedirectResponse
@@ -35,8 +55,13 @@ class CollaborationController extends Controller
         if($collaboration->studio->user->id !== auth()->id()) abort(403);
 
         $request->validate([
-            'title' => 'required|string|max:255',
-            'desc' => 'nullable|string',
+            'title' => ['required', 'string', 'max:255'],
+            'month' => ['required', 'integer', 'min:1', 'max:12'],
+            'year' => ['required', 'integer', 'min:1900', 'max:' . now()->year],
+            'description' => ['nullable', 'string'],
+            'spotify' => ['nullable', 'url:https'],
+            'soundcloud' => ['nullable', 'url:https'],
+            'itunes' => ['nullable', 'url:https'],
         ]);
 
         $collaboration->update($request->toArray());
@@ -44,7 +69,7 @@ class CollaborationController extends Controller
         return back()->with('success', 'Collaborazione aggiornata');
     }
 
-    public function delete(Collaboration $collaboration): RedirectResponse
+    public function destroy(Collaboration $collaboration): RedirectResponse
     {
         if($collaboration->studio->user->id !== auth()->id()) abort(403);
 

@@ -20,7 +20,9 @@ class CollaborationSeeder extends Seeder
                 Collaboration::create([
                     'studio_id' => $studio->id,
                     'title' => fake()->words(rand(2,4), true),
-                    'desc' => fake()->paragraph(),
+                    'month' => rand(1,12),
+                    'year' => rand(1980, 2023),
+                    'description' => fake()->paragraph(),
                 ]);
             }
         }

@@ -13,7 +13,12 @@ class Collaboration extends Model
    protected $fillable = [
       'studio_id',
       'title',
-      'desc',
+      'month',
+      'year',
+      'description',
+      'spotify',
+      'soundcloud',
+      'itunes',
    ];
 
    public function studio(): BelongsTo

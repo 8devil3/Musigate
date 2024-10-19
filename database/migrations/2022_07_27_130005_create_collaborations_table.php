@@ -18,8 +18,12 @@ return new class extends Migration
 
             $table->foreignId('studio_id')->constrained()->cascadeOnDelete();
             $table->string('title');
-            $table->text('desc')->nullable();
-            $table->string('img_path')->nullable();
+            $table->unsignedTinyInteger('month');
+            $table->unsignedSmallInteger('year');
+            $table->text('description')->nullable();
+            $table->string('spotify')->nullable();
+            $table->string('soundcloud')->nullable();
+            $table->string('itunes')->nullable();
             
             $table->timestamps();
         });
