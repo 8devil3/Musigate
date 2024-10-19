@@ -5,7 +5,7 @@
             <div v-if="props.isOpen" role="dialog" class="fixed inset-0 z-50 md:inset-4 overflow-clip">
                 <div @click.stop="emit('close')" class="fixed inset-0 bg-black/70 backdrop-blur-md overflow-clip" />
 
-                <component :is="props.as" class="absolute flex flex-col w-full h-full p-4 space-y-4 overflow-hidden -translate-x-1/2 -translate-y-1/2 md:p-6 md:space-y-6 top-1/2 left-1/2 bg-slate-900 md:border md:border-slate-600 md:rounded-2xl" :class="[props.maxWidth, props.maxHeight]">
+                <component :is="props.as" class="absolute flex flex-col w-full h-full p-4 space-y-4 overflow-hidden -translate-x-1/2 -translate-y-1/2 md:p-6 md:space-y-6 top-1/2 left-1/2 bg-slate-950 md:border md:border-slate-600 md:rounded-2xl" :class="[props.maxWidth, props.maxHeight]">
                     <h3 class="flex items-start justify-between gap-4 pb-2 m-0 text-xl border-b border-orange-500">
                         <slot name="title" />
 
@@ -49,8 +49,6 @@ const props = defineProps({
 const emit = defineEmits(['close', 'submitted']);
 
 const setBodyScroll = computed(()=>{
-    console.log(props.isOpen);
-
     if(props.isOpen){
         document.body.classList.add('overflow-hidden');
     } else {
