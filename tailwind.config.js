@@ -17,6 +17,9 @@ export default {
                 'lemon': ['Lemon Milk Regular', 'sans-serif'],
                 'lemonLight': ['Lemon Milk Ultra Light', 'sans-serif'],
             },
+            fontSize: {
+                'xxs': '10px'
+            },
             colors: {
                 orange: {
                     '500': '#f60'
