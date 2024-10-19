@@ -80,7 +80,7 @@
             </div>
             <!-- / -->
 
-            <div class="flex justify-between gap-2">
+            <div class="flex justify-between gap-2 mt-auto">
                 <ShowAll @click="openModalRoom = true" text="Dettagli Sala" />
                 <Button type="router" v-if="props.room.is_bookable" :href="route('reservation.create', props.room.id)" text="Prenota" icon="fa-solid fa-calendar-days" />
             </div>
