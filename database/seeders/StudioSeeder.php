@@ -17,25 +17,25 @@ class StudioSeeder extends Seeder
      */
     public function run()
     {
-        $categories = ['Professional', 'Home'];
-
         $users = User::whereNot('id', 1)->get();
 
-        foreach ($users as $user) {
-            $category = $categories[rand(0, count($categories) -1)];
+        Storage::disk('public')->deleteDirectory('studios');
 
+        foreach ($users as $user) {
             $studio = Studio::create([
                 'user_id' => $user->id,
                 'name' => 'Studio ' . fake()->company(),
-                'vat' => $category === 'Professional' ? str_replace('IT', '', fake()->vat()) : null,
+                'vat' => str_replace('IT', '', fake()->vat()),
                 'logo' => null,
                 'record_label' => fake()->boolean(),
                 'description' => fake()->text(rand(800, 1600)),
                 'is_complete' => true,
             ]);
 
+            $logo_path = Storage::disk('public')->putFile('studios/studio-' . $studio->id . '/logo', FakerImage::image(null, 160, 160));
+
             $studio->update([
-                'logo' => Storage::disk('public')->putFile('studios/studio-' . $studio->id . '/logo', FakerImage::image(null, 240, 240))
+                'logo' => $logo_path,
             ]);
         }
     }

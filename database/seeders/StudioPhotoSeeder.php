@@ -17,8 +17,6 @@ class StudioPhotoSeeder extends Seeder
     {
         $studios = Studio::all();
 
-        Storage::disk('public')->deleteDirectory('studios');
-
         foreach ($studios as $studio) {
             for ($i=0; $i < 6; $i++) {
                 $path = Storage::disk('public')->putFile('studios/studio-' . $studio->id . '/photos', FakerImage::image());

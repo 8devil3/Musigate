@@ -20,6 +20,7 @@ class AvailabilitySeeder extends Seeder
                 Availability::create([
                     'studio_id' => $studio->id,
                     'weekday' => $i,
+                    'open_type' => $i === 7 ? 'open' : 'close',
                     'open_start' => $i === 7 ? null : '10:00',
                     'open_end' => $i === 7 ? null : '23:00',
                 ]);
