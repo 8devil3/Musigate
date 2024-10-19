@@ -52,8 +52,8 @@
                 {
                     "icon": "fa-solid fa-handshake",
                     "label": "Collaborazioni",
-                    "route": "studio.collaborations.index",
-                    "active": "studio.collaborations.inde"
+                    "route": "studio.collaborazioni.index",
+                    "active": "studio.collaborazioni.index"
                 },
                 {
                     "icon": "fa-solid fa-scroll",

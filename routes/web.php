@@ -92,10 +92,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::put('/metodi-pagamento', [PaymentMethodController::class, 'update'])->name('payment_methods.update');
 
             //collaborazioni
-            Route::get('/collaborazioni', [CollaborationController::class, 'index'])->name('collaborations.index');
-            Route::post('/collaborazioni', [CollaborationController::class, 'store'])->name('collaborations.store');
-            Route::put('/collaborazioni/{collaboration}', [CollaborationController::class, 'update'])->name('collaborations.update');
-            Route::delete('/collaborazioni/{collaboration}', [CollaborationController::class, 'delete'])->name('collaborations.delete');
+            Route::resource('/collaborazioni', CollaborationController::class)->parameter('collaborazioni', 'collaboration');
 
             //comfort
             Route::get('/comfort', [ComfortController::class, 'edit'])->name('comforts.edit');
