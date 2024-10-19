@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/it';
 
 import { createApp, h } from 'vue';
-import { createInertiaApp } from '@inertiajs/vue3';
+import { createInertiaApp, router } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 
@@ -27,4 +27,16 @@ createInertiaApp({
     progress: {
         color: '#ff6600',
     },
+});
+
+window.addEventListener('popstate', (event) => {
+    event.stopImmediatePropagation();
+
+    router.reload({
+        replace: true,
+        onSuccess: (page) => router.setPage(page, {
+            preserveScroll : true,
+        }),
+        onError: () => window.location.href = event.state.url,
+    });
 });
