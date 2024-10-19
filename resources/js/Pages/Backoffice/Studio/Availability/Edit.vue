@@ -3,7 +3,7 @@
         @submitted="submit()"
         :title="'Disponibilità: ' + props.weekdays[props.availability.weekday]"
         icon="fa-solid fa-clock"
-        :backRoute="route('studio.availability.index')"
+        backRoute="studio.availability.index"
     >
         <template #content>
             <!-- tipo di apertura/chiusura -->

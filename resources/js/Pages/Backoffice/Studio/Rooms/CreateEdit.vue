@@ -4,7 +4,7 @@
         :title="props.room?.name ?? form.name"
         icon="fa-solid fa-microphone-lines"
         :tabLinks="tabLinks"
-        :backRoute="route('sale-prova.index')"
+        backRoute="sale-prova.index"
     >
         <template #content>
             <!-- nome -->
