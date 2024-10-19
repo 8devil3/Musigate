@@ -13,13 +13,15 @@ class Availability extends Model
     protected $fillable = [
         'studio_id',
         'weekday',
-        'is_open',
+        'open_type',
         'open_start',
         'open_end',
     ];
 
-    protected $casts = [
-        'is_open' => 'boolean',
+    const OPEN_TYPES = [
+        'open',
+        'open_h24',
+        'close',
     ];
 
     const WEEKDAYS = [

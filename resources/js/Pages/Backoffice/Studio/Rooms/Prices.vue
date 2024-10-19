@@ -69,11 +69,11 @@
                     <template #content>
                         <div v-if="props.timebands.filter(tb => tb.weekday == wdKey).length" class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
                             <template v-for="timeband in props.timebands.filter(tb => tb.weekday == wdKey)" >
-                                <div v-for="tbPrice, index in form.timeband_prices.filter(tbp => tbp.timeband_id === timeband.id)" class="flex flex-col gap-6 p-4 border rounded-xl border-slate-400">
+                                <div v-for="tbPrice, index in form.timeband_prices.filter(tbp => tbp.timeband_id === timeband.id)" class="flex flex-col gap-6 p-4 border rounded-2xl border-slate-400">
                                     <div class="space-y-1">
                                         <div class="text-xs font-normal leading-none uppercase text-slate-400">Fascia oraria</div>
                                         <h4 class="w-full p-0 m-0 text-base truncate">
-                                            {{ wd.label.slice(0, 3) }} - {{ timeband.name }}
+                                            {{ timeband.name }}
                                         </h4>
                                         <div class="text-xs font-normal text-slate-300">
                                             {{ timeband.start }} - {{ timeband.end }}

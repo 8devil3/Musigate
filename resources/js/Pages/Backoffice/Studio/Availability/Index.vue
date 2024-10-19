@@ -12,18 +12,27 @@
                 <template #content>
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
                         <Link v-for="av in props.availability" :href="route('studio.availability.edit', av.id)" class="block p-4 space-y-2 font-normal transition-colors border-2 rounded-xl border-slate-600 hover:border-orange-500 hover:bg-slate-900">
-                            <div class="text-base" :class="av.is_open ? 'text-white' : 'text-slate-400'">
+                            <div class="text-base" :class="av.open_type !== 'close' ? 'text-white' : 'text-slate-400'">
                                 {{ props.weekdays[av.weekday] }}
-                                <div class="text-xs" :class="av.is_open ? 'text-green-500' : 'text-red-500'">
-                                    {{ av.is_open ? 'aperto' : 'chiuso' }}
+                                <div v-if="av.open_type === 'open'" class="text-xs text-green-500">
+                                    aperto
+                                </div>
+                                <div v-else-if="av.open_type === 'open_h24'" class="text-xs text-sky-500">
+                                    aperto h24
+                                </div>
+                                <div v-else-if="av.open_type === 'close'" class="text-xs text-red-500">
+                                    chiuso
                                 </div>
                             </div>
                             <div class="space-y-1">
                                 <div v-if="!av.timebands.length" class="text-xs text-slate-400">
                                     nessuna fascia oraria
                                 </div>
-                                <div v-else v-for="timeband in av.timebands" class="text-xs text-white">
-                                   {{ timeband.name }} {{ timeband.start }} - {{ timeband.end }}
+                                <div v-else v-for="timeband in av.timebands" class="flex gap-1 text-xs text-white">
+                                    {{ timeband.start }}
+                                    -
+                                    {{ timeband.end }}
+                                    {{ timeband.name }}
                                 </div>
                             </div>
                         </Link>

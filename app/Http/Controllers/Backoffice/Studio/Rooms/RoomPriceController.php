@@ -18,7 +18,7 @@ class RoomPriceController extends Controller
         $price_types = RoomPrice::PRICE_TYPES;
         $studio = auth()->user()->studio;
 
-        $open_weekdays = $studio->availability()->where('is_open', true)->get()
+        $open_weekdays = $studio->availability()->whereNot('open_type', 'close')->get()
             ->mapWithKeys(function($av): array {
                 return [$av->weekday => [
                     'label' => Availability::WEEKDAYS[$av->weekday],

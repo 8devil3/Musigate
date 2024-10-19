@@ -40,31 +40,48 @@ class WeeklyAvailabilityController extends Controller
     public function update(Request $request, Availability $availability): RedirectResponse
     {
         if($availability->studio->user->id !== auth()->id()) abort(403);
-
-        if(empty($request->timebands)) $request->replace($request->except(['timebands']));
-
-        $hours = GeneratePeriodsService::generate();
+        if(empty($request->timebands) || $request->open_type === 'close') $request->replace($request->except(['timebands']));
 
         $request->validate([
-            'is_open' => ['boolean'],
-            'open_start' => ['nullable', 'string', 'required_if:is_open,accepted', 'date_format:H:i,H:i:s', 'in:' . implode(',', $hours)],
-            'open_end' => ['nullable', 'string', 'required_if:is_open,accepted', 'after:open_start', 'date_format:H:i,H:i:s', 'in:' . implode(',', $hours)],
+            'open_type' => ['required', 'string', 'in:' . implode(',', Availability::OPEN_TYPES)],
             'timebands' => ['sometimes', 'array', 'min:2'],
             'timebands.*.name' => ['required', 'distinct', 'string', 'max:255'],
             'timebands.*.start' => ['required', 'string', 'date_format:H:i,H:i:s'],
-            'timebands.*.end' => ['required', 'string', 'after:timebands.*.start', 'date_format:H:i,H:i:s'],
+            'timebands.*.end' => ['required', 'string', 'after:timebands.*.start'],
         ]);
+
+        //gestisco gli orari dello studio
+        if($request->open_type === 'open'){
+            $hours = implode(',',GeneratePeriodsService::generate());
+
+            $request->validate([
+                'open_start' => ['required', 'string', 'size:5', 'date_format:H:i,H:i:s', 'in:' . $hours],
+                'open_end' => ['required', 'string', 'size:5', 'after:open_start', 'date_format:H:i,H:i:s', 'in:' . $hours],
+            ]);
+
+            $availability->update([
+                'open_type' => $request->open_type,
+                'open_start' => $request->open_start,
+                'open_end' => $request->open_end,
+            ]);
+        } else if($request->open_type === 'open_h24'){
+            $availability->update([
+                'open_type' => $request->open_type,
+                'open_start' => '00:00',
+                'open_end' => '24:00',
+            ]);
+        } else if($request->open_type === 'close'){
+            $availability->update([
+                'open_type' => $request->open_type,
+                'open_start' => null,
+                'open_end' => null,
+            ]);
+        }
 
         $studio = auth()->user()->studio;
-        $is_open = boolval($request->is_open);
 
-        $availability->update([
-            'is_open' => $is_open,
-            'open_start' => $is_open ? $request->open_start : null,
-            'open_end' => $is_open ? $request->open_end : null,
-        ]);
-
-        if(!empty($request->timebands && $is_open)){
+        //gestisco le fasce orarie
+        if($request->open_type !== 'close' && !empty($request->timebands)){
             //elimino le fasce non presenti nella request (quelle che l'utente ha eliminato)
             $timebands_ids = $availability->timebands()->pluck('id');
             $req_timebands_ids = collect($request->timebands)->pluck('id');
@@ -120,7 +137,7 @@ class WeeklyAvailabilityController extends Controller
         //duplico il giorno di apertura/chiusura
         $source_model = $studio->availability()->where('weekday', $request->clone_from_weekday)->firstOrFail();
         $current_availability->update([
-            'is_open' => $source_model->is_open,
+            'open_type' => $source_model->open_type,
             'open_start' => $source_model->open_start,
             'open_end' => $source_model->open_end,
         ]);

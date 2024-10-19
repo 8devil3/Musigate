@@ -22,7 +22,6 @@ class AvailabilitySeeder extends Seeder
                     'weekday' => $i,
                     'open_start' => $i === 7 ? null : '10:00',
                     'open_end' => $i === 7 ? null : '23:00',
-                    'is_open' => $i === 7 ? false : true,
                 ]);
             }
         }

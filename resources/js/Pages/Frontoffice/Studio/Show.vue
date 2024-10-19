@@ -159,24 +159,30 @@
 
                 <Section title="Orari" id="orari">
                     <ul class="grid grid-cols-2 list-none list-image-none gap-x-4 gap-y-8 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7">
-                        <li v-for="wd, wdKey in props.weekdays" class="space-y-2">
+                        <li v-for="av in props.studio.availability" class="space-y-2">
                             <div>
-                                <div class="font-normal" :class="props.studio.availability.find(av => av.weekday == wdKey).is_open ? 'text-white' : 'text-slate-400'">
-                                    {{ wd }}
+                                <div class="font-normal" :class="av.open_type !== 'close' ? 'text-white' : 'text-slate-400'">
+                                    {{ props.weekdays[av.weekday] }}
                                 </div>
-                                <div class="text-xs font-normal" :class="props.studio.availability.find(av => av.weekday == wdKey).is_open ? 'text-green-500' : 'text-red-500'">
-                                    {{ props.studio.availability.find(av => av.weekday == wdKey).is_open ? 'aperto' : 'chiuso' }}
+                                <div v-if="av.open_type === 'open'" class="text-xs font-normal text-green-500">
+                                    aperto
+                                </div>
+                                <div v-else-if="av.open_type === 'open_h24'" class="text-xs font-normal text-sky-500">
+                                    aperto h24
+                                </div>
+                                <div v-else-if="av.open_type === 'close'" class="text-xs font-normal text-red-500">
+                                    chiuso
                                 </div>
                             </div>
 
                             <div>
-                                <template v-if="props.studio.availability.find(av => av.weekday == wdKey).is_open">
-                                    <time :datetime="props.studio.availability.find(av => av.weekday == wdKey).open_start">
-                                        {{ props.studio.availability.find(av => av.weekday == wdKey).open_start }}
+                                <template v-if="av.open_type !== 'close'">
+                                    <time :datetime="av.open_start">
+                                        {{ av.open_start }}
                                     </time>
                                     -
-                                    <time :datetime="props.studio.availability.find(av => av.weekday == wdKey).open_end">
-                                        {{ props.studio.availability.find(av => av.weekday == wdKey).open_end }}
+                                    <time :datetime="av.open_end">
+                                        {{ av.open_end }}
                                     </time>
                                 </template>
                                 <template v-else>
@@ -234,7 +240,6 @@ import TitleBar from './TitleBar.vue';
 import Menu from './Menu.vue';
 import Section from './Section.vue';
 import RoomCard from './RoomCard.vue';
-import dayjs from 'dayjs';
 
 const props = defineProps({
     studio: Object,
