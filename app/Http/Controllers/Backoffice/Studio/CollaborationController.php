@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backoffice\Studio;
 
 use App\Http\Controllers\Controller;
+use App\Models\Studio\Collaboration;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
@@ -29,21 +30,25 @@ class CollaborationController extends Controller
         return back()->with('success', 'Collaborazione salvata');
     }
 
-    public function update(Request $request, int $collaboration_id): RedirectResponse
+    public function update(Request $request, Collaboration $collaboration): RedirectResponse
     {
+        if($collaboration->studio->user->id !== auth()->id()) abort(403);
+
         $request->validate([
             'title' => 'required|string|max:255',
             'desc' => 'nullable|string',
         ]);
 
-        auth()->user()->studio->collaborations()->findOrFail($collaboration_id)->update($request->toArray());
+        $collaboration->update($request->toArray());
 
         return back()->with('success', 'Collaborazione aggiornata');
     }
 
-    public function delete(int $collaboration_id): RedirectResponse
+    public function delete(Collaboration $collaboration): RedirectResponse
     {
-        auth()->user()->studio->collaborations()->findOrFail($collaboration_id)->delete();
+        if($collaboration->studio->user->id !== auth()->id()) abort(403);
+
+        $collaboration->delete();
 
         return back()->with('success', 'Collaborazione eliminata');
     }

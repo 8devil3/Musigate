@@ -74,9 +74,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
             //disponibilità
             Route::get('/disponibilità', [WeeklyAvailabilityController::class, 'index'])->name('availability.index');
-            Route::get('/disponibilità/modifica/{availability_id}', [WeeklyAvailabilityController::class, 'edit'])->name('availability.edit');
-            Route::put('/disponibilità/aggiorna/{availability_id}', [WeeklyAvailabilityController::class, 'update'])->name('availability.update');
-            Route::put('/disponibilità/clona/{availability_id}', [WeeklyAvailabilityController::class, 'clone'])->name('availability.clone');
+            Route::get('/disponibilità/modifica/{availability}', [WeeklyAvailabilityController::class, 'edit'])->name('availability.edit');
+            Route::put('/disponibilità/aggiorna/{availability}', [WeeklyAvailabilityController::class, 'update'])->name('availability.update');
+            Route::put('/disponibilità/clona/{availability}', [WeeklyAvailabilityController::class, 'clone'])->name('availability.clone');
 
             //foto studio
             Route::get('/foto', [StudioPhotoController::class, 'edit'])->name('photos.edit');
@@ -94,8 +94,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
             //collaborazioni
             Route::get('/collaborazioni', [CollaborationController::class, 'index'])->name('collaborations.index');
             Route::post('/collaborazioni', [CollaborationController::class, 'store'])->name('collaborations.store');
-            Route::put('/collaborazioni/{collaboration_id}', [CollaborationController::class, 'update'])->name('collaborations.update');
-            Route::delete('/collaborazioni/{collaboration_id}', [CollaborationController::class, 'delete'])->name('collaborations.delete');
+            Route::put('/collaborazioni/{collaboration}', [CollaborationController::class, 'update'])->name('collaborations.update');
+            Route::delete('/collaborazioni/{collaboration}', [CollaborationController::class, 'delete'])->name('collaborations.delete');
 
             //comfort
             Route::get('/comfort', [ComfortController::class, 'edit'])->name('comforts.edit');
@@ -112,36 +112,39 @@ Route::middleware(['auth', 'verified'])->group(function () {
             //contatti
             Route::get('/contatti', [ContactController::class, 'edit'])->name('contacts.edit');
             Route::put('/contatti', [ContactController::class, 'update'])->name('contacts.update');
+
+            // //impostazioni prenotazioni
+            // Route::get('/impostazioni-prenotazioni', [BookingSettingController::class, 'edit'])->name('bookings.settings.edit')->middleware('google_refresh_token');
+            // Route::put('/impostazioni-prenotazioni', [BookingSettingController::class, 'update'])->name('bookings.settings.update');
+    
+            // //impostazioni annullamenti
+            // Route::get('/impostazioni-annullamenti', [CancelPolicySettingController::class, 'edit'])->name('cancelling.settings.edit');
+            // Route::put('/impostazioni-annullamenti', [CancelPolicySettingController::class, 'update'])->name('cancelling.settings.update');
+    
+            // //prenotazioni
+            // Route::get('/prenotazioni', [BookingController::class, 'index'])->name('bookings.index');
+            // Route::get('/prenotazioni/modifica/{booking_id}', [BookingController::class, 'edit'])->name('bookings.edit');
+            // Route::put('/prenotazioni/update/{booking_id}', [BookingController::class, 'update'])->name('bookings.update');
         });
 
-        // //impostazioni prenotazioni
-        // Route::get('/impostazioni-prenotazioni', [BookingSettingController::class, 'edit'])->name('bookings.settings.edit')->middleware('google_refresh_token');
-        // Route::put('/impostazioni-prenotazioni', [BookingSettingController::class, 'update'])->name('bookings.settings.update');
-
-        // //impostazioni annullamenti
-        // Route::get('/impostazioni-annullamenti', [CancelPolicySettingController::class, 'edit'])->name('cancelling.settings.edit');
-        // Route::put('/impostazioni-annullamenti', [CancelPolicySettingController::class, 'update'])->name('cancelling.settings.update');
-
-        // //prenotazioni
-        // Route::get('/prenotazioni', [BookingController::class, 'index'])->name('bookings.index');
-        // Route::get('/prenotazioni/modifica/{booking_id}', [BookingController::class, 'edit'])->name('bookings.edit');
-        // Route::put('/prenotazioni/update/{booking_id}', [BookingController::class, 'update'])->name('bookings.update');
-
         //gestione sale prova
-        Route::resource('/sale-prova', RoomController::class)->parameter('sale-prova', 'room_id');
+        Route::middleware('check_room_owner')->group(function(){
+            Route::resource('/sale-prova', RoomController::class)->parameter('sale-prova', 'room')->withoutMiddleware('check_room_owner');
 
-        //tariffe sale prova
-        Route::get('/sale/tariffe/{room}', [RoomPriceController::class, 'edit'])->name('sale-prova.prices.edit');
-        Route::put('/sale/tariffe/{room}', [RoomPriceController::class, 'update'])->name('sale-prova.prices.update');
+            //tariffe sale prova
+            Route::get('/sale/{room}/tariffe', [RoomPriceController::class, 'edit'])->name('sale-prova.prices.edit');
+            Route::put('/sale/{room}/tariffe', [RoomPriceController::class, 'update'])->name('sale-prova.prices.update');
 
-        //equipaggiamento sale prova
-        Route::get('/sale/equipaggiamento/{room}', [EquipmentController::class, 'edit'])->name('sale-prova.equipment.edit');
-        Route::put('/sale/equipaggiamento/{room}', [EquipmentController::class, 'update'])->name('sale-prova.equipment.update');
+            //equipaggiamento sale prova
+            Route::get('/sale/{room}/equipaggiamento', [EquipmentController::class, 'index'])->name('sale-prova.equipment.index');
+            Route::get('/sale/{room}/equipaggiamento/modifica/{category}', [EquipmentController::class, 'edit'])->name('sale-prova.equipment.edit');
+            Route::put('/sale/{room}/equipaggiamento/aggiorna/{category}', [EquipmentController::class, 'update'])->name('sale-prova.equipment.update');
 
-        //foto sale prova
-        Route::get('/sale/foto/{room}', [RoomPhotoController::class, 'edit'])->name('sale-prova.photos.edit');
-        Route::post('/sale/foto/{room}', [RoomPhotoController::class, 'update'])->name('sale-prova.photos.update');
-        Route::delete('/sale/foto/{room}', [RoomPhotoController::class, 'destroy'])->name('sale-prova.photos.destroy');
+            //foto sale prova
+            Route::get('/sale/{room}/foto', [RoomPhotoController::class, 'edit'])->name('sale-prova.photos.edit');
+            Route::post('/sale/{room}/foto', [RoomPhotoController::class, 'update'])->name('sale-prova.photos.update');
+            Route::delete('/sale/{room}/foto', [RoomPhotoController::class, 'destroy'])->name('sale-prova.photos.destroy');
+        });
 
         //gestione servizi
         Route::resource('/servizi', ServiceController::class)->parameter('servizi', 'service_id');

@@ -20,13 +20,15 @@ class WeeklyAvailabilityController extends Controller
         return Inertia::render('Backoffice/Studio/Availability/Index', compact('availability', 'weekdays'));
     }
 
-    public function edit(int $availability_id): Response
+    public function edit(Availability $availability): Response
     {
+        if($availability->studio->user->id !== auth()->id()) abort(403);
+
         $hours = GeneratePeriodsService::generate();
         $weekdays = Availability::WEEKDAYS;
 
         $studio = auth()->user()->studio;
-        $availability = $studio->availability()->with('timebands')->findOrFail($availability_id);
+        $availability->load('timebands');
 
         $copy_from_weekdays = array_filter($weekdays, function($wd) use($availability){
             return $wd !== $availability->weekday;
@@ -35,8 +37,10 @@ class WeeklyAvailabilityController extends Controller
         return Inertia::render('Backoffice/Studio/Availability/Edit', compact('availability', 'hours', 'weekdays', 'copy_from_weekdays'));
     }
 
-    public function update(Request $request, int $availability_id): RedirectResponse
+    public function update(Request $request, Availability $availability): RedirectResponse
     {
+        if($availability->studio->user->id !== auth()->id()) abort(403);
+
         if(empty($request->timebands)) $request->replace($request->except(['timebands']));
 
         $hours = GeneratePeriodsService::generate();
@@ -52,7 +56,6 @@ class WeeklyAvailabilityController extends Controller
         ]);
 
         $studio = auth()->user()->studio;
-        $availability = $studio->availability()->findOrFail($availability_id);
         $is_open = boolval($request->is_open);
 
         $availability->update([
@@ -63,9 +66,9 @@ class WeeklyAvailabilityController extends Controller
 
         if(!empty($request->timebands && $is_open)){
             //elimino le fasce non presenti nella request (quelle che l'utente ha eliminato)
-            $studio_timebands_ids = $studio->timebands()->where('availability_id', $availability_id)->pluck('id');
+            $timebands_ids = $availability->timebands()->pluck('id');
             $req_timebands_ids = collect($request->timebands)->pluck('id');
-            $deleted_timebands = $studio_timebands_ids->diff($req_timebands_ids);
+            $deleted_timebands = $timebands_ids->diff($req_timebands_ids);
             $studio->timebands()->whereIn('id', $deleted_timebands)->delete();
 
             //aggiorno o creo le fasce orarie
@@ -82,7 +85,7 @@ class WeeklyAvailabilityController extends Controller
             }
         } else {
             //elimino tutte le fasce del availability_id se l'utente le ha rimosse tutte
-            $studio->timebands()->where('availability_id', $availability_id)->delete();
+            $availability->timebands()->delete();
 
             //aggiorno le tariffe su "nessuna tariffa" ed elimino le eventuali tariffe con fasce orarie
             $rooms = $studio->rooms;
@@ -103,14 +106,16 @@ class WeeklyAvailabilityController extends Controller
         return back()->with('success', 'Disponibilità aggiornata');
     }
 
-    public function clone(Request $request, int $availability_id): RedirectResponse
+    public function clone(Request $request, Availability $availability): RedirectResponse
     {
+        if($availability->studio->user->id !== auth()->id()) abort(403);
+
         $request->validate([
             'clone_from_weekday' => ['nullable', 'integer', 'min:1', 'max:7'],
         ]);
 
         $studio = auth()->user()->studio;
-        $current_availability = $studio->availability()->findOrFail($availability_id);
+        $current_availability = $availability;
 
         //duplico il giorno di apertura/chiusura
         $source_model = $studio->availability()->where('weekday', $request->clone_from_weekday)->firstOrFail();
@@ -122,14 +127,14 @@ class WeeklyAvailabilityController extends Controller
 
         //duplico le fasce orarie
         $source_timebands = $studio->timebands()->where('weekday', $request->clone_from_weekday)->get();
-        $studio->timebands()->where('availability_id', $availability_id)->delete();
+        $availability->timebands()->delete();
 
         foreach ($source_timebands as $stb) {
-            $cloned_tb = $stb->replicate();
-            $cloned_tb->availability_id = $availability_id;
-            $cloned_tb->weekday = $current_availability->weekday;
-            $cloned_tb->created_at = now();
-            $cloned_tb->save();
+            $cloned_timeband = $stb->replicate();
+            $cloned_timeband->availability_id = $availability->id;
+            $cloned_timeband->weekday = $current_availability->weekday;
+            $cloned_timeband->created_at = now();
+            $cloned_timeband->save();
         }
 
         //aggiorno le tariffe su "nessuna tariffa" ed elimino le eventuali tariffe con fasce orarie

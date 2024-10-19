@@ -18,7 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ->alias([
             'check_role' => \App\Http\Middleware\CheckRole::class,
             'check_studio_info' => \App\Http\Middleware\CheckStudioInfo::class,
-            'check_room_user_id' => \App\Http\Middleware\CheckRoomUserId::class,
+            'check_room_owner' => \App\Http\Middleware\CheckRoomOwner::class,
             'google_refresh_token' => \App\Http\Middleware\GoogleRefreshToken::class,
         ]);
 

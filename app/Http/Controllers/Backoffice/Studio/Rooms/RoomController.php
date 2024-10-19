@@ -11,16 +11,9 @@ use Inertia\Response;
 
 class RoomController extends Controller
 {
-    private $rooms;
-
-    public function __construct()
-    {
-        $this->rooms = Room::where('studio_id', auth()->user()->studio->id);
-    }
-
     public function index(): Response
     {
-        $rooms = $this->rooms->with('photos:id,room_id,path')->get();
+        $rooms = auth()->user()->studio->rooms->load('photos:id,room_id,path');
 
         return Inertia::render('Backoffice/Studio/Rooms/Index', compact('rooms'));
     }
@@ -50,14 +43,12 @@ class RoomController extends Controller
         return to_route('rooms.description.edit', $room->id);
     }
 
-    public function edit(int $room_id): Response
+    public function edit(Room $room): Response
     {
-        $room = $this->rooms->findOrFail($room_id);
-
         return Inertia::render('Backoffice/Studio/Rooms/CreateEdit', compact('room'));
     }
 
-    public function update(Request $request, int $room_id): RedirectResponse
+    public function update(Request $request, Room $room): RedirectResponse
     {
         $request->validate([
             'name' => 'required|string|max:255',
@@ -70,14 +61,14 @@ class RoomController extends Controller
             'description' => 'nullable|string|min:100',
         ]);
 
-        $this->rooms->findOrFail($room_id)->update($request->toArray());
+        $room->update($request->toArray());
 
         return back()->with('success', 'Sala aggiornata');
     }
 
-    public function destroy(int $room_id): RedirectResponse
+    public function destroy(Room $room): RedirectResponse
     {
-        $this->rooms->findOrFail($room_id)->delete();
+        $room->delete();
 
         return back()->with('success', 'Sala eliminata');
     }

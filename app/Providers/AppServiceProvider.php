@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Room\Room;
+use App\Models\Studio\Studio;
 use App\Models\User;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
@@ -28,6 +29,10 @@ class AppServiceProvider extends ServiceProvider
 
         Gate::define('create-update-room', function(User $user, Room $room){
             return $user->id === $room->studio->user_id;
+        });
+
+        Gate::define('create-update-studio', function(User $user, Studio $studio){
+            return $user->id === $studio->user_id;
         });
     }
 }
