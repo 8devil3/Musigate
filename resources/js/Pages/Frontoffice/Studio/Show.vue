@@ -29,17 +29,47 @@
                 </Section>
 
                 <Section v-if="props.studio.collaborations.length" title="Collaborazioni" id="collaborazioni">
-                    <div class="space-y-2">
-                        <ul class="grid grid-cols-1 list-musigate sm:grid-cols-none sm:grid-rows-4 md:grid-rows-3 sm:grid-flow-col sm:auto-cols-max sm:gap-x-12">
-                            <template v-for="collab, id in props.studio.collaborations">
-                                <li v-if="id <= 15" class="list-musigate">
-                                    {{ collab.title }}
-                                </li>
-                            </template>
+                    <div class="pb-4 mb-6 overflow-x-auto">
+                        <ul class="flex list-none list-image-none">
+                            <div class="grid grid-cols-1 grid-rows-2 shrink-0">
+                                <div class="w-6 border-b-2 border-b-slate-500" />
+                            </div>
+                            <div v-for="collab, index in props.studio.collaborations" class="grid grid-cols-1 grid-rows-2 max-w-64 shrink-0">
+                                <template v-if="index %2 === 0">
+                                    <li class="relative pb-6 pl-2 pr-12 leading-normal border-b-2 border-l border-l-slate-500 border-b-slate-500">
+                                        <div class="text-xs font-normal uppercase shrink-0 text-slate-400">
+                                            {{ months[collab.month] }}
+                                            {{ collab.year }}
+                                        </div>
+    
+                                        <h3 class="w-full text-sm leading-normal truncate">{{ collab.title }}</h3>
+    
+                                        <div class="absolute border-2 border-orange-500 rounded-full -bottom-2 size-4 bg-slate-800 -left-2" />
+                                    </li>
+                                    <div />
+                                </template>
+                                <template v-else>
+                                    <div />
+                                    <li class="relative flex flex-col justify-end pt-6 pl-2 -mt-0.5 pr-12 border-t-2 border-l border-l-slate-500 border-t-slate-500 leading-normal">
+                                        <div class="text-xs font-normal uppercase shrink-0 text-slate-400">
+                                            {{ months[collab.month] }}
+                                            {{ collab.year }}
+                                        </div>
+    
+                                        <h3 class="w-full text-sm leading-normal truncate">{{ collab.title }}</h3>
+    
+                                        <div class="absolute border-2 border-orange-500 rounded-full -top-2 size-4 bg-slate-800 -left-2" />
+                                    </li>
+                                </template>
+                            </div>
+
+                            <div class="grid grid-cols-1 grid-rows-2 shrink-0 grow">
+                                <div class="w-full border-b-2 border-b-slate-500" />
+                            </div>
                         </ul>
-                
-                        <ShowAll v-if="props.studio.collaborations.length > 15" @click="openCollabModal = true" />
                     </div>
+
+                    <ShowAll @click="openCollabModal = true" />
 
                     <Modal :isOpen="openCollabModal" @close="openCollabModal = false">
                         <template #title>
@@ -48,42 +78,43 @@
 
                         <template #description>
                             <ul class="relative ml-1.5 border-l-2 border-orange-500">                  
-                                <li v-for="collab, id in props.studio.collaborations" class="ml-4" :class="id == props.studio.collaborations.length -1 ? '' : ' mb-8'">
-                                    <div class="absolute w-3.5 h-3.5 bg-zinc-900 rounded-full mt-1 -left-2 border-2 border-orange-500"></div>
-                                    <h4 class="my-1">{{ collab.title }}</h4>
-                                    <p v-if="collab.desc" class="text-sm text-white">{{ collab.desc }}</p>
+                                <li v-for="collab in props.studio.collaborations" class="mb-12 ml-4 last-of-type:mb-0">
+                                    <div class="absolute w-3.5 h-3.5 bg-zinc-900 rounded-full mt-2 -left-2 border-2 border-orange-500" />
+
+                                    <div class="pt-1.5 space-y-2">
+                                        <div>
+                                            <div class="text-xs font-normal uppercase text-slate-400">{{ months[collab.month] }} {{ collab.year }}</div>
+                                            <h3 class="leading-normal">{{ collab.title }}</h3>
+                                        </div>
+
+                                        <p v-if="collab.description" class="text-sm text-white">{{ collab.description }}</p>
+
+                                        <ul v-if="collab.spotify || collab.soundcloud || collab.itunes" class="flex gap-2">
+                                            <li v-if="collab.spotify"><a :href="collab.spotify" class="transition-colors hover:text-[#25D865]">
+                                                <i class="text-lg fa-brands fa-spotify" />
+                                            </a></li>
+                                            <li v-if="collab.soundcloud"><a :href="collab.soundcloud" class="transition-colors hover:text-[#FF3300]">
+                                                <i class="text-lg fa-brands fa-soundcloud" />
+                                            </a></li>
+                                            <li v-if="collab.itunes"><a :href="collab.itunes" class="transition-colors hover:text-[#8F60FF]">
+                                                <i class="text-lg fa-brands fa-itunes" />
+                                            </a></li>
+                                        </ul>
+                                    </div>
                                 </li>
                             </ul>
                         </template>
                     </Modal>
                 </Section>
-            
+
                 <Section v-if="props.studio.comforts.length" title="Comfort" id="comfort">
-                    <div class="space-y-2">
-                        <ul class="grid grid-cols-1 list-musigate sm:grid-cols-none sm:grid-rows-4 md:grid-rows-3 sm:grid-flow-col sm:auto-cols-max sm:gap-x-12">
-                            <template v-for="comfort, id in props.studio.comforts">
-                                <li v-if="id <= 15" class="list-musigate">
-                                    {{ comfort.name }}
-                                </li>
-                            </template>
-                        </ul>
-        
-                        <ShowAll v-if="props.studio.comforts.length > 15" @click="openComfortsModal = true" />
-
-                        <Modal :isOpen="openComfortsModal" @close="openComfortsModal = false">
-                            <template #title>
-                                Comfort
-                            </template>
-
-                            <template #description>
-                                <ul class="grid grid-cols-1 list-musigate sm:grid-cols-none sm:grid-rows-4 sm:grid-flow-col sm:auto-cols-max sm:gap-x-16">
-                                    <li v-for="comfort in props.studio.comforts" class="list-musigate whitespace-nowrap">
-                                        {{ comfort.name }}
-                                    </li>
-                                </ul>
-                            </template>
-                        </Modal>
-                    </div>
+                    <ul class="grid grid-cols-1 list-musigate md:grid-cols-none md:grid-rows-6 md:grid-flow-col md:auto-cols-max gap-x-20">
+                        <template v-for="comfort, index in props.studio.comforts">
+                            <li class="list-musigate">
+                                {{ comfort.name }}
+                            </li>
+                        </template>
+                    </ul>
                 </Section>
 
                 <Section v-if="props.studio.rooms.length" title="Sale prova" id="sale-prova">
@@ -94,17 +125,17 @@
             
                 <Section v-if="props.studio.rule.before || props.studio.rule.during || props.studio.rule.after" title="Regolamento" id="regolamento">
                     <div v-if="props.studio.rule.before" class="mb-6">
-                        <h3>Prima della sessione</h3>
+                        <h3 class="mb-1 text-sm">Prima della sessione</h3>
                         <p class="whitespace-pre-wrap">{{ props.studio.rule.before.substring(0, 300) }}...</p>
                     </div>
             
                     <div v-if="props.studio.rule.during" class="mb-6">
-                        <h3>Durante la sessione</h3>
+                        <h3 class="mb-1 text-sm">Durante la sessione</h3>
                         <p class="whitespace-pre-wrap">{{ props.studio.rule.during.substring(0, 300) }}...</p>
                     </div>
             
                     <div v-if="props.studio.rule.after">
-                        <h3>Dopo la sessione</h3>
+                        <h3 class="mb-1 text-sm">Dopo la sessione</h3>
                         <p class="whitespace-pre-wrap">{{ props.studio.rule.after.substring(0, 300) }}...</p>
                     </div>
                     
@@ -197,8 +228,8 @@
                     <div class="space-y-6">
                         <div class="flex flex-wrap items-start sm:flex-nowrap gap-x-10 gap-y-4">
                             <div class="sm:shrink-0">
-                                <h3>Indirizzo</h3>
-                                <address class="capitalize">
+                                <h3 class="mb-1 text-sm">Indirizzo</h3>
+                                <address class="text-sm capitalize">
                                     <div>
                                         {{ props.studio.location.address }}
                                         {{ props.studio.location.number ? ', ' + props.studio.location.number : '' }}
@@ -212,7 +243,7 @@
                                 </address>
                             </div>
                             <div v-if="props.studio.location.notes">
-                                <h3>Come arrivare</h3>
+                                <h3 class="mb-1 text-sm">Come arrivare</h3>
                                 <p>{{ props.studio.location.notes }}</p>
                             </div>
                         </div>
@@ -259,6 +290,21 @@ const openComfortsModal = ref(false);
 
 router.on('start', ()=> isLoading.value = true);
 router.on('finish', ()=> isLoading.value = false);
+
+const months = {
+    1: 'Gennaio',
+    2: 'Febbraio',
+    3: 'Marzo',
+    4: 'Aprile',
+    5: 'Maggio',
+    6: 'Giugno',
+    7: 'Luglio',
+    8: 'Agosto',
+    9: 'Settembre',
+    10: 'Ottobre',
+    11: 'Novembre',
+    12: 'Dicembre',
+};
 
 const computedContacts = computed(()=>{
     let arrContacts = Object.entries(props.contacts);
