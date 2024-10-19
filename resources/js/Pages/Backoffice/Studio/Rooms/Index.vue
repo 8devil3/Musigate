@@ -6,10 +6,10 @@
     >
         <template #content>
             <div v-if="props.rooms.length" class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 lg:gap-6">
-                <article v-for="room in props.rooms" class="flex flex-col transition-colors border hover:shadow-xl border-slate-700 hover:border-orange-500 bg-slate-900 hover:bg-slate-800/50 rounded-2xl overflow-clip min-h-80">
-                    <Link :href="route('sale-prova.edit', room.id)" class="block">
-                        <img v-if="room.photos[0]" :src="'/storage/' + room.photos[0].path" class="object-cover w-full border aspect-video border-slate-800" />
-                        <img v-else src="/img/logo/logo_placeholder.svg" class="object-contain w-full p-6 lg:p-12 aspect-square">
+                <article v-for="room in props.rooms" class="flex flex-col transition-colors border hover:shadow-xl border-slate-700 hover:border-orange-500 bg-slate-900 hover:bg-slate-800/50 rounded-2xl overflow-clip">
+                    <Link :href="route('sale-prova.edit', room.id)" class="block h-64">
+                        <img v-if="room.photos[0]" :src="'/storage/' + room.photos[0].path" class="object-cover w-full h-full border border-slate-800" />
+                        <img v-else src="/img/logo/logo_placeholder.svg" class="object-contain w-full h-full p-6 lg:p-12 aspect-square">
                     </Link>
                     
                     <div class="p-4 space-y-4">

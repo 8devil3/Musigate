@@ -29,8 +29,8 @@ class RoomController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'color' => 'required|string|starts_with:#|size:7',
-            'is_bookable' => 'boolean',
+            // 'color' => 'required|string|starts_with:#|size:7',
+            // 'is_bookable' => 'boolean',
             'is_visible' => 'boolean',
             'min_booking' => 'required|integer|min:1|max:24',
             'area' => 'required|int|min:1|max:999',
@@ -38,9 +38,9 @@ class RoomController extends Controller
             'description' => 'nullable|string|min:100',
         ]);
 
-        $room = auth()->user()->studio->rooms->create($request->toArray());
+        $room = auth()->user()->studio->rooms()->create($request->toArray());
 
-        return to_route('rooms.description.edit', $room->id);
+        return to_route('sale-prova.edit', $room->id);
     }
 
     public function edit(Room $room): Response
