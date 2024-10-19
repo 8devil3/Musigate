@@ -30,11 +30,12 @@
                 :autofocus="props.autofocus"
                 :aria-label="props.label"
                 :aria-placeholder="props.placeholder"
+                ref="inputElement"
                 class="w-full p-0 text-sm font-light truncate bg-transparent border-0 outline-none grow focus:ring-0 focus:outline-none placeholder:font-light disabled:text-slate-500 disabled:placeholder:text-slate-500 placeholder:truncate placeholder:text-slate-500 disabled:cursor-not-allowed"
                 :class="props.error && 'text-red-500 placeholder:text-red-300'"
             >
 
-            <button v-if="!props.disabled && vModel" @click="clear()" type="button" tabindex="-1" class="flex items-center justify-center w-4 pl-1 shrink-0">
+            <button v-if="!props.disabled && props.clearable && vModel" @click="clear()" type="button" tabindex="-1" class="flex items-center justify-center w-4 pl-1 shrink-0">
                 <i class="text-xs fa-solid fa-circle-xmark text-slate-400" />
             </button>
 
@@ -48,7 +49,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import Label from '@/Components/Form/Label.vue';
 import FieldError from '@/Components/Form/FieldError.vue';
 
@@ -76,7 +77,7 @@ const props = defineProps({
     accept: String,
     clearable: {
         type: Boolean,
-        default: false,
+        default: true,
     },
     min: {
         type: [Number, String],
@@ -125,7 +126,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['change', 'input', 'clear']);
-
+const inputElement = ref(null);
 const vModel = defineModel({ default: null });
 
 const id = computed(()=>{
@@ -135,6 +136,7 @@ const id = computed(()=>{
 const clear = ()=>{
     vModel.value = null;
     emit('clear');
-}
+    inputElement.value.focus();
+};
 
 </script>
