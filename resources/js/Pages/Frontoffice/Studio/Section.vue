@@ -1,6 +1,6 @@
 <template>
     <section :id="props.id">
-        <h2 class="pb-1.5 mb-6 border-b-2 border-orange-500">
+        <h2 class="pb-1.5 mb-6 text-base md:text-lg border-b-2 border-orange-500">
             {{ props.title }}
         </h2>
         <div class="space-y-4">
