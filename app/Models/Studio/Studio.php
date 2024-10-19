@@ -87,7 +87,7 @@ class Studio extends Model
 
     public function collaborations(): HasMany
     {
-        return $this->hasMany(Collaboration::class)->orderByDesc('created_at');
+        return $this->hasMany(Collaboration::class)->orderByDesc('year')->orderByDesc('month');
     }
 
     public function payment_methods(): BelongsToMany
