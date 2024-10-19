@@ -5,6 +5,7 @@ namespace App\Models\Room;
 use App\Models\Booking;
 use App\Models\TempBooking;
 use App\Models\Studio\Studio;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -38,6 +39,22 @@ class Room extends Model
         'is_visible' => 'boolean',
         'has_discounted_fixed_price' => 'boolean',
     ];
+
+    public function fixedPrice(): Attribute
+    {
+        return Attribute::make(
+            get: fn(int|null $value) => $value ? $value / 100 : null,
+            set: fn(int|null $value) => $value ? $value * 100 : null
+        );
+    }
+
+    public function discountedFixedPrice(): Attribute
+    {
+        return Attribute::make(
+            get: fn(int|null $value) => $value ? $value / 100 : null,
+            set: fn(int|null $value) => $value ? $value * 100 : null
+        );
+    }
 
     public function studio(): BelongsTo
     {

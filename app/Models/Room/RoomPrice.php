@@ -3,6 +3,7 @@
 namespace App\Models\Room;
 
 use App\Models\Studio\Timeband;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -25,6 +26,22 @@ class RoomPrice extends Model
     protected $casts = [
         'has_discounted_price' => 'boolean',
     ];
+
+    public function price(): Attribute
+    {
+        return Attribute::make(
+            get: fn(int|null $value) => $value ? $value / 100 : null,
+            set: fn(int|null $value) => $value ? $value * 100 : null
+        );
+    }
+
+    public function discountedPrice(): Attribute
+    {
+        return Attribute::make(
+            get: fn(int|null $value) => $value ? $value / 100 : null,
+            set: fn(int|null $value) => $value ? $value * 100 : null
+        );
+    }
 
     public function room(): BelongsTo
     {
