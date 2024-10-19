@@ -13,38 +13,38 @@ use Inertia\Response;
 
 class EquipmentController extends Controller
 {
-    public function edit(Request $request, Room $room): Response
+    public function index(Room $room): Response
     {
-        $current_category_id = request('current_category_id', 1);
         $categories = EquipmentCategory::pluck('name', 'id');
-        if(!is_int($current_category_id) && !in_array($current_category_id, array_keys($categories->toArray()))) $current_category_id = 1;
 
-        $category = EquipmentCategory::with(['equipments' => function($query) use($room){
-            $query->where('room_id', $room->id);
-        }])->findOrFail($current_category_id);
-
-        $current_category_id = intval($current_category_id);
-
-        return Inertia::render('Backoffice/Studio/Rooms/Equipment', compact('room', 'category', 'categories', 'current_category_id'));
+        return Inertia::render('Backoffice/Studio/Rooms/Equipment/Index', compact( 'room', 'categories'));
     }
 
-    public function update(Request $request, Room $room): RedirectResponse
+    public function edit(Room $room, EquipmentCategory $category): Response
+    {
+        $category->load(['equipments' => function($query) use($room){
+            $query->where('room_id', $room->id);
+        }]);
+
+        return Inertia::render('Backoffice/Studio/Rooms/Equipment/Edit', compact('room', 'category'));
+    }
+
+    public function update(Request $request, Room $room, EquipmentCategory $category): RedirectResponse
     {
         if(empty($request->equipments)) $request->replace($request->except(['equipments']));
 
         $request->validate([
-            'current_category_id' => ['required', 'integer', 'exists:equipment_categories,id'],
             'equipments' => ['sometimes', 'array'],
             'equipments.*.name' => ['required', 'string', 'max:255'],
         ]);
 
-        $room->equipments()->where('equipment_category_id', $request->current_category_id)->delete();
-        
+        $room->equipments()->where('equipment_category_id', $category->id)->delete();
+
         if(!empty($request->equipments)){
             foreach ($request->equipments as $equip) {
                 Equipment::create([
                     'room_id' => $room->id,
-                    'equipment_category_id' => $request->current_category_id,
+                    'equipment_category_id' => $category->id,
                     'name' => $equip['name'],
                 ]);
             }

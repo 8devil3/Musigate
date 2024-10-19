@@ -159,7 +159,7 @@ const tabLinks = computed(()=>{
             },
             {
                 label: 'Equipaggiamento',
-                route: 'sale-prova.equipment.edit',
+                route: 'sale-prova.equipment.index',
                 params: props.room.id,
             },
             {
