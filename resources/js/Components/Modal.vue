@@ -1,4 +1,5 @@
 <template>
+    {{ setBodyScroll }}
     <teleport to="#modal">
         <Transition name="fade">
             <div v-if="props.isOpen" role="dialog" class="fixed inset-0 z-50 md:inset-4 overflow-clip">
@@ -27,6 +28,8 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
+
 const props = defineProps({
     isOpen: Boolean,
     as: {
@@ -44,5 +47,15 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['close', 'submitted']);
+
+const setBodyScroll = computed(()=>{
+    console.log(props.isOpen);
+
+    if(props.isOpen){
+        document.body.classList.add('overflow-hidden');
+    } else {
+        document.body.classList.remove('overflow-hidden');
+    }
+});
 
 </script>
