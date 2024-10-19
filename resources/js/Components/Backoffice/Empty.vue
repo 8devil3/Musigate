@@ -1,10 +1,10 @@
 <template>
-    <div class="w-full max-w-md py-8 mx-auto space-y-2 text-center lg:mt-0">
+    <div class="w-full max-w-sm py-8 mx-auto space-y-2 text-center lg:mt-0">
         <i :class="'text-2xl text-slate-500 ' + props.icon"></i>
-        <h4 class="text-base font-normal text-slate-500">
+        <h4 class="text-base font-normal text-slate-400">
             <slot name="title"/>
         </h4>
-        <p class="text-sm font-normal text-slate-500">
+        <p class="text-sm font-light text-slate-500">
             <slot name="description"/>
         </p>
         <div class="pt-4">
