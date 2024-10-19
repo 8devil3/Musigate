@@ -15,7 +15,16 @@ class EquipmentController extends Controller
 {
     public function index(Room $room): Response
     {
-        $categories = EquipmentCategory::pluck('name', 'id');
+        $categories = EquipmentCategory::withCount(['equipments as equip_count' => function($query) use($room){
+            $query->where('room_id', $room->id);
+        }])->get()->mapWithKeys(function($cat){
+            return [
+                $cat->id => [
+                    'name' => $cat->name,
+                    'equip_count' => $cat->equip_count,
+                ]
+            ];
+        });
 
         return Inertia::render('Backoffice/Studio/Rooms/Equipment/Index', compact( 'room', 'categories'));
     }

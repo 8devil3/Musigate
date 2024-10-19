@@ -4,7 +4,8 @@
         :title="props.room.name"
         icon="fa-solid fa-sliders"
         :tabLinks="tabLinks"
-        :backRoute="route('sale-prova.equipment.index', props.room.id)"
+        backRoute="sale-prova.equipment.index"
+        :backRouteParams="props.room.id"
     >
         <template #content>
             <FormElement>
@@ -33,7 +34,7 @@
 
                     <Empty v-else icon="fa-solid fa-sliders">
                         <template #title>
-                            Nessun equipaggiamento presente
+                            Nessun equipaggiamento
                         </template>
 
                         <template #description>

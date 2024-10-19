@@ -4,7 +4,7 @@
         :title="props.room.name"
         icon="fa-solid fa-sliders"
         :tabLinks="tabLinks"
-        :backRoute="route('sale-prova.index')"
+        backRoute="sale-prova.index"
     >
         <template #content>
             <FormElement>
@@ -14,8 +14,11 @@
 
                 <template #content>
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                        <Link v-for="cat, catId in props.categories" :href="route('sale-prova.equipment.edit', [props.room.id, catId])" class="flex items-center justify-center p-4 text-base font-normal text-center transition-colors border-2 rounded-xl border-slate-600 hover:border-orange-500 hover:bg-slate-900">
-                            {{ cat }}
+                        <Link v-for="cat, catId in props.categories" :href="route('sale-prova.equipment.edit', [props.room.id, catId])" class="flex flex-col items-center justify-center p-4 text-base font-normal text-center transition-colors border-2 rounded-full border-slate-600 hover:border-orange-500 hover:bg-slate-900">
+                            {{ cat.name }}
+                            <div class="text-xs font-light text-slate-400">
+                                {{ cat.equip_count === 1 ? cat.equip_count + ' elemento' : cat.equip_count === 0 ? 'nessun elemento' : cat.equip_count + ' elementi' }}
+                            </div>
                         </Link>
                     </div>
                 </template>
