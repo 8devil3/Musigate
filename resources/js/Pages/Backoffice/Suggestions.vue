@@ -4,7 +4,6 @@
     :isLoading="form.processing"
     title="Segnalazioni"
     icon="fa-solid fa-flag"
-    :backRoute="route('studio.links')"
     >
         <template #content>
             <FormElement>

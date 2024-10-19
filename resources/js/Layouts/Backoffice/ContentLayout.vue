@@ -3,7 +3,7 @@
         <fieldset :disabled="props.isLoading" class="h-full overflow-y-auto">
             <h1 v-if="props.title" class="sticky top-0 z-10 flex items-center justify-between w-full gap-6 px-4 m-0 text-base border-b h-14 lg:h-16 lg:px-6 bg-slate-900 lg:bg-slate-950/50 backdrop-blur-sm md:text-xl border-slate-800">
                 <div class="flex items-center w-full gap-2 leading-tight md:gap-3">
-                    <Link v-if="props.backRoute" :href="props.backRoute">
+                    <Link v-if="props.backRoute" :href="route(props.backRoute, props.backRouteParams)">
                         <i class="mr-1 text-base text-orange-500 lg:text-lg fa-solid fa-chevron-left"></i>
                     </Link>
 
@@ -72,6 +72,7 @@ const props = defineProps({
     isSucess: Boolean,
     hasErrors: Boolean,
     backRoute: String,
+    backRouteParams: [Array, Number, Object],
     tabLinks: Object,
     as: {
         type: String,

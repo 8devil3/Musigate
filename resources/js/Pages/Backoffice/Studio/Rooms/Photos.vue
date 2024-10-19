@@ -3,7 +3,7 @@
         @submitted="submit()"
         :title="props.room.name"
         icon="fa-solid fa-image"
-        :backRoute="route('sale-prova.index')"
+        backRoute="sale-prova.index"
         :tabLinks="tabLinks"
     >
         <template #content>
