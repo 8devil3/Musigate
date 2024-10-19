@@ -43,6 +43,6 @@ class LocationController extends Controller
             'lat' => $geocode['lat']
         ]));
 
-        return back()->with('success', 'Salvato');
+        return back()->with('success', 'Location salvata');
     }
 }
