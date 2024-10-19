@@ -1,5 +1,5 @@
 <template>
-    <Carousel v-if="props.imgs" :items-to-show="1" wrap-around class="w-full h-full">
+    <Carousel v-if="props.imgs.length" :items-to-show="1" wrap-around class="w-full h-full">
         <Slide v-for="img in props.imgs" :key="img.id" class="w-full h-full">
             <div class="w-full h-full">
                 <img :src="'/storage/' + img.path" :alt="'Foto-' + img.id" class="object-cover w-full h-full">
@@ -10,7 +10,7 @@
         </template>
     </Carousel>
 
-    <div v-else class="flex items-center justify-center w-full h-80 bg-slate-800/40">
+    <div v-else class="flex items-center justify-center w-full h-full bg-slate-800/40">
         <img src="/img/logo/logo_placeholder.svg" class="object-contain h-1/2 aspect-square">
     </div>
 </template>
