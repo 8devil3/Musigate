@@ -8,21 +8,21 @@
             <div v-if="props.rooms.length" class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 lg:gap-6">
                 <article v-for="room in props.rooms" class="flex flex-col transition-colors border hover:shadow-xl border-slate-700 hover:border-orange-500 bg-slate-900 hover:bg-slate-800/50 rounded-2xl overflow-clip">
                     <Link :href="route('sale-prova.edit', room.id)" class="block h-64">
-                        <img v-if="room.photos[0]" :src="'/storage/' + room.photos[0].path" class="object-cover w-full h-full border border-slate-800" />
-                        <img v-else src="/img/logo/logo_placeholder.svg" class="object-contain w-full h-full p-6 lg:p-12 aspect-square">
+                        <img v-if="room.photos[0]" :src="'/storage/' + room.photos[0].path" class="object-cover w-full h-full" />
+                        <img v-else src="/img/logo/logo_placeholder.svg" class="object-contain w-full h-full p-6 lg:p-12 aspect-square bg-slate-950/50">
                     </Link>
                     
-                    <div class="p-4 space-y-4">
+                    <div class="flex flex-col gap-4 p-4 grow">
                         <h2 class="flex items-center gap-2">
                             <!-- <span class="inline-block rounded-full shadow-inner size-5" :style="'background-color: ' + room.color" /> -->
                             {{ room.name }}
                         </h2>
     
-                        <p class="text-sm line-clamp-3">
+                        <p v-if="room.description" class="text-sm line-clamp-3">
                             {{ room.description }}
                         </p>
     
-                        <div class="flex justify-end gap-2">
+                        <div class="flex justify-end gap-2 mt-auto">
                             <ActionButton type="router" :href="route('sale-prova.edit', room.id)" icon="fa-solid fa-pen-to-square" title="Modifica sala" color="orange" />
                             <ActionButton @click="openModalDanger(room.id)" icon="fa-solid fa-trash-can" title="Elimina sala" color="red" />
                         </div>
