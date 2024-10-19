@@ -28,15 +28,3 @@ createInertiaApp({
         color: '#ff6600',
     },
 });
-
-window.addEventListener('popstate', (event) => {
-    event.stopImmediatePropagation();
-
-    router.reload({
-        replace: true,
-        onSuccess: (page) => router.setPage(page, {
-            preserveScroll : true,
-        }),
-        onError: () => window.location.href = event.state.url,
-    });
-});

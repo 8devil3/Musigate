@@ -23,4 +23,16 @@ const props = defineProps({
     title: String,
 });
 
+window.addEventListener('popstate', (event) => {
+    event.stopImmediatePropagation();
+
+    router.reload({
+        replace: true,
+        onSuccess: (page) => router.setPage(page, {
+            preserveScroll : true,
+        }),
+        onError: () => window.location.href = event.state.url,
+    });
+});
+
 </script>
