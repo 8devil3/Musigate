@@ -147,7 +147,7 @@
                 </template>
 
                 <template #content>
-                    <Textarea v-model="form.description" title="Presentazione" placeholder="Presentazione della Sala" :minlength="100" :error="form.errors.desc" />
+                    <Textarea v-model="form.description" title="Presentazione" placeholder="Presentazione della Sala" :minlength="100" :error="form.errors.description" />
                 </template>
             </FormElement>
             <!-- / -->
