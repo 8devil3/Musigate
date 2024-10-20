@@ -90,7 +90,7 @@
                 </template>
 
                 <template #content>
-                    <Checkbox id="studio-record-label" v-model="form.record_label">
+                    <Checkbox id="studio-record-label" v-model="form.is_record_label">
                         Etichetta discografica
                     </Checkbox>
                 </template>
@@ -139,7 +139,7 @@ const form = useForm({
     name: props.studio.name ?? null,
     vat: props.studio.vat ?? null,
     // category: props.studio.category ?? '',
-    record_label: props.studio.record_label,
+    is_record_label: props.studio.is_record_label,
     description: props.studio.description ?? null,
 });
 

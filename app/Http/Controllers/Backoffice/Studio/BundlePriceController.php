@@ -1,21 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\Backoffice\Studio\Rooms;
+namespace App\Http\Controllers\Backoffice\Studio;
 
 use App\Http\Controllers\Controller;
-use App\Models\Room\Room;
-use App\Models\Room\RoomPrice;
+use App\Models\Studio\Bundle;
+use App\Models\Studio\BundlePrice;
 use App\Models\Studio\Availability;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class RoomPriceController extends Controller
+class BundlePriceController extends Controller
 {
-    public function edit(Room $room): Response
+    public function edit(Bundle $bundle): Response
     {
-        $price_types = RoomPrice::PRICE_TYPES;
+        $price_types = BundlePrice::PRICE_TYPES;
         $studio = auth()->user()->studio;
 
         $open_weekdays = $studio->availability()->whereNot('open_type', 'close')->get()
@@ -27,21 +27,21 @@ class RoomPriceController extends Controller
             });
 
         $timebands = $studio->timebands;
-        $timeband_prices = $room->prices;
+        $timeband_prices = $bundle->prices;
 
-        return Inertia::render('Backoffice/Studio/Rooms/Prices', compact('room', 'timeband_prices', 'open_weekdays', 'timebands', 'price_types'));
+        return Inertia::render('Backoffice/Studio/Bundles/Prices', compact('bundle', 'timeband_prices', 'open_weekdays', 'timebands', 'price_types'));
     }
 
-    public function update(Request $request, Room $room): RedirectResponse
+    public function update(Request $request, Bundle $bundle): RedirectResponse
     {
         $request->validate([
-            'price_type' => ['required', 'string', 'in:' . implode(',', array_keys(RoomPrice::PRICE_TYPES))],
+            'price_type' => ['required', 'string', 'in:' . implode(',', array_keys(BundlePrice::PRICE_TYPES))],
         ]);
 
         $price_type = $request->price_type;
 
         if($price_type === 'no_price'){
-            $room->update([
+            $bundle->update([
                 'price_type' => $price_type,
                 'fixed_price' => null,
                 'has_discounted_fixed_price' => false,
@@ -49,7 +49,7 @@ class RoomPriceController extends Controller
                 'is_bookable' => false,
             ]);
 
-            $room->prices()->delete();
+            $bundle->prices()->delete();
         } else if($price_type === 'fixed_price'){
             $request->validate([
                 'fixed_price' => ['required', 'integer', 'min:2'],
@@ -57,14 +57,14 @@ class RoomPriceController extends Controller
                 'discounted_fixed_price' => ['nullable', 'required_if:has_discounted_fixed_price,accepted', 'integer', 'min:1', 'lt:fixed_price'],
             ]);
 
-            $room->update([
+            $bundle->update([
                 'price_type' => $price_type,
                 'fixed_price' => $request->fixed_price,
                 'has_discounted_fixed_price' => boolval($request->has_discounted_fixed_price),
                 'discounted_fixed_price' => boolval($request->has_discounted_fixed_price) ? $request->discounted_fixed_price : null,
             ]);
 
-            $room->prices()->delete();
+            $bundle->prices()->delete();
         } else if($price_type === 'timebands_price'){
             $request->validate([
                 'timeband_prices' => ['nullable', 'required_if:price_type,timebands_price', 'array'],
@@ -74,7 +74,7 @@ class RoomPriceController extends Controller
                 'timeband_prices.*.discounted_price' => ['nullable', 'required_if:timeband_prices.*.has_discounted_price,accepted', 'integer', 'min:1', 'lt:timeband_prices.*.price'],
             ]);
 
-            $room->update([
+            $bundle->update([
                 'price_type' => $price_type,
                 'fixed_price' => null,
                 'has_discounted_fixed_price' => false,
@@ -82,7 +82,7 @@ class RoomPriceController extends Controller
             ]);
 
             foreach ($request->timeband_prices as $tbp) {
-                $room->prices()->updateOrCreate([
+                $bundle->prices()->updateOrCreate([
                     'id' => $tbp['id'],
                 ], [
                     'timeband_id' => $tbp['timeband_id'],

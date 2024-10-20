@@ -43,8 +43,13 @@ class Timeband extends Model
         return $this->belongsTo(Availability::class);
     }
 
-    public function prices(): HasMany
+    public function room_prices(): HasMany
     {
         return $this->hasMany(RoomPrice::class);
+    }
+
+    public function bundle_prices(): HasMany
+    {
+        return $this->hasMany(BundlePrice::class);
     }
 }

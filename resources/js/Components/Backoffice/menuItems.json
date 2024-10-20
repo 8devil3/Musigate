@@ -89,6 +89,13 @@
             "children": []
         },
         {
+            "icon": "fa-solid fa-box-archive",
+            "label": "Pacchetti",
+            "route": "pacchetti.index",
+            "active": "pacchetti.*",
+            "children": []
+        },
+        {
             "icon": "fa-solid fa-user-gear",
             "label": "Account",
             "route": "account.edit",

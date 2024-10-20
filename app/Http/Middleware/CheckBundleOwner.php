@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
-class CheckRoomOwner
+class CheckBundleOwner
 {
     /**
      * Handle an incoming request.
@@ -16,7 +16,7 @@ class CheckRoomOwner
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if($request->route('room') && !Gate::allows('crud-room', $request->route('room'))){
+        if($request->route('bundle') && !Gate::allows('crud-bundle', $request->route('bundle'))){
             abort(403);
         }
 

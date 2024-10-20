@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Backoffice\Studio\BundleController;
+use App\Http\Controllers\Backoffice\Studio\BundlePriceController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontoffice\ReservationController;
 use App\Http\Controllers\Frontoffice\LegalTextController;
@@ -130,7 +132,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         //gestione sale prova
         Route::middleware('check_room_owner')->group(function(){
-            Route::resource('/sale', RoomController::class)->parameter('sale', 'room')->withoutMiddleware('check_room_owner');
+            Route::resource('/sale', RoomController::class)->parameter('sale', 'room');
 
             //tariffe sale prova
             Route::get('/sale/{room}/tariffe', [RoomPriceController::class, 'edit'])->name('sale.prices.edit');
@@ -147,8 +149,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::delete('/sale/{room}/foto', [RoomPhotoController::class, 'destroy'])->name('sale.photos.destroy');
         });
 
-        //gestione servizi
-        Route::resource('/servizi', ServiceController::class)->parameter('servizi', 'service_id');
+        //gestione pacchetti
+        Route::middleware('check_bundle_owner')->group(function(){
+            Route::resource('/pacchetti', BundleController::class)->parameter('pacchetti', 'bundle');
+
+            //tariffe pacchetti
+            Route::get('/pacchetti/{bundle}/tariffe', [BundlePriceController::class, 'edit'])->name('pacchetti.prices.edit');
+            Route::put('/pacchetti/{bundle}/tariffe', [BundlePriceController::class, 'update'])->name('pacchetti.prices.update');
+        });
 
         //suggerimenti
         Route::get('/suggerimenti-segnalazioni', [SuggestionController::class, 'create'])->name('suggestions.create');

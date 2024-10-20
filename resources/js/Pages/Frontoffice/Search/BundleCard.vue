@@ -1,16 +1,8 @@
 <template>
     <article class="flex flex-col overflow-hidden border border-slate-500 min-h-40 bg-slate-900/75 rounded-xl">
         <div class="relative h-56">
-            <!-- badge sconto -->
-            <!-- <div v-if="props.room.has_discounted_fixed_price || props.room.min_discounted_price" class="absolute z-50 w-40 py-1.5 text-xs font-medium text-center text-white origin-top rotate-45 translate-x-1/2  bg-orange-900/80 backdrop-blur-sm border-orange-500 shadow-sm border-y-2 top-2 right-2">
-                <div>
-                    Tariffe<br>
-                    scontate
-                </div>
-            </div> -->
-            <!-- / -->
-
-            <Carosello :imgs="props.room.photos" class="h-full" />
+            <img v-if="props.bundle.cover_path" :src="props.bundle.cover_path" :alt="props.bundle.name" class="object-cover w-full h-full" />
+            <img v-else src="/img/logo/logo_placeholder.svg" class="object-contain w-full h-full p-14 bg-slate-800/40">
 
             <div class="absolute flex items-center justify-center text-center border-2 border-orange-500 rounded-full shadow-sm size-12 bottom-2 left-3 bg-slate-900 shrink-0">
                 <img v-if="props.studio.logo" :src="'/storage/' + props.studio.logo" :alt="props.studio.name" class="object-contain w-full h-full rounded-full">
@@ -18,44 +10,39 @@
             </div>
         </div>
 
-        <Link :href="route('studio.show', props.studio.id)" class="block px-4 space-y-6 grow">
-            <ul class="flex gap-6 py-3 font-normal list-none border-b list-image-none border-b-orange-500">
-                <li title="Area" class="flex items-center gap-2 text-xs leading-none">
-                    <i class="text-orange-500 fa-solid fa-ruler-combined" />
-                    {{ props.room.area }} mq
-                </li>
-
-                <li v-if="props.room.min_booking" title="Prenotazione minima" class="flex items-center gap-2 text-xs leading-none">
+        <Link :href="route('studio.show', props.studio.id)" class="flex flex-col gap-6 px-4 py-3 grow">
+            <ul v-if="props.bundle.duration || props.bundle.fixed_price || props.bundle.has_discounted_fixed_price || props.bundle.min_price || props.bundle.min_discounted_price" class="flex gap-6 font-normal list-none border-b list-image-none border-b-orange-500">
+                <li v-if="props.bundle.duration" title="Durata" class="flex items-center gap-2 text-xs leading-none">
                     <i class="text-orange-500 fa-solid fa-hourglass-half" />
-                    {{ props.room.min_booking === 1 ? 'min. ' + props.room.min_booking + ' ora' : 'min. ' + props.room.min_booking + ' ore' }}
+                    {{ props.bundle.duration === 1 ? props.bundle.duration + ' ora' : props.bundle.duration + ' ore' }}
                 </li>
 
-                <li v-if="props.room.fixed_price || props.room.has_discounted_fixed_price || props.room.min_price || props.room.min_discounted_price" title="Tariffa minima" class="flex items-center gap-2 text-xs leading-none">
+                <li v-if="props.bundle.fixed_price || props.bundle.has_discounted_fixed_price || props.bundle.min_price || props.bundle.min_discounted_price" title="Tariffa minima" class="flex items-center gap-2 text-xs leading-none">
                     <i class="text-orange-500 fa-solid fa-euro" />
-                    <template v-if="props.room.min_discounted_price">
+                    <template v-if="props.bundle.min_discounted_price">
                         <span class="line-through text-slate-400">
-                            {{ props.room.min_price }} €/h
+                            {{ props.bundle.min_price }} €/h
                         </span>
                         <span>
-                            {{ props.room.min_discounted_price }} €/h
+                            {{ props.bundle.min_discounted_price }} €/h
                         </span>
                     </template>
 
-                    <span v-else-if="props.room.min_price">
-                        {{ props.room.min_price }} €/h
+                    <span v-else-if="props.bundle.min_price">
+                        {{ props.bundle.min_price }} €/h
                     </span>
 
-                    <template v-else-if="props.room.discounted_fixed_price">
+                    <template v-else-if="props.bundle.discounted_fixed_price">
                         <span class="line-through text-slate-400">
-                            {{ props.room.fixed_price }} €/h
+                            {{ props.bundle.fixed_price }} €/h
                         </span>
                         <span>
-                            {{ props.room.discounted_fixed_price }} €/h
+                            {{ props.bundle.discounted_fixed_price }} €/h
                         </span>
                     </template>
 
                     <span v-else>
-                        {{ props.room.discounted_fixed_price }} €/h
+                        {{ props.bundle.discounted_fixed_price }} €/h
                     </span>
                 </li>
             </ul>
@@ -67,12 +54,12 @@
                     {{ props.studio.name }}
                 </h2>
                 <h3 class="text-sm text-slate-300">
-                    {{ props.room.name }}
+                    {{ props.bundle.name }}
                 </h3>
             </div>
             <!-- / -->
 
-            <div class="flex items-end gap-4 py-3 border-t border-orange-500">
+            <div class="flex items-end gap-4 pt-3 mt-auto border-t border-orange-500">
                 <!-- location e tariffa minima -->
                 <address class="font-sans text-sm not-italic grow">
                     <div>
@@ -91,10 +78,9 @@
 
 <script setup>
 import { Link } from '@inertiajs/vue3';
-import Carosello from '@/Components/Carosello.vue';
 
 const props = defineProps({
-    room: Object,
+    bundle: Object,
     studio: Object,
 });
 

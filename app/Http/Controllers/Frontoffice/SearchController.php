@@ -5,10 +5,8 @@ namespace App\Http\Controllers\Frontoffice;
 use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\Room\EquipmentCategory;
-use App\Models\Room\Room;
 use App\Models\Studio\Availability;
 use App\Models\Studio\Studio;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -17,56 +15,26 @@ class SearchController extends Controller
 {
     public function index(Request $request): Response
     {
-        // $radius = request('radius', null);
-        // $lon = request('location.lon', null);
-        // $lat = request('location.lat', null);
-        // $point = $lon && $lat ? "POINT($lon $lat)" : null;
-
-        // $start = request('start', null) ? Carbon::parse(request('start')) : null;
-        // $duration = request('duration', null);
-        // $end = $start && $duration ? $start->clone()->addHours(intval($duration)) : null;
-
-        // $guests = request('guests', null);
         $equip = request('equip', null);
         $user = auth()->user();
 
-        $rooms = Room::with(['photos', 'studio.location'])
+        $studios = Studio::with(['location', 'photos'])
+            ->where('is_complete', true)
+            ->where('is_visible', true)
             ->when($equip, function($query) use($equip){
-                $query->whereRelation('equipments', 'name', 'LIKE', '%' . strtolower($equip) . '%');
+                $query->whereRelation('rooms.equipments', 'name', 'LIKE', '%' . strtolower($equip) . '%');
             })
-            // ->when($guests, function($query) use($guests){
-            //     $query->where('max_capacity', '>=', intval($guests));
-            // })
-            // ->when($start && $start->isAfter(now()->addDay()->startOfDay()) && $duration , function($query) use($start, $end){
-            //     $query->whereHas('bookings', function($query) use($start, $end){
-            //         $query->whereNotBetween('start', [$start->toDateTimeString(), $end->toDateTimeString()])
-            //             ->orWhereNotBetween('end', [$start->toDateTimeString(), $end->toDateTimeString()]);
-            //     });
-            // })
-            ->whereHas('studio', function($query) use($user){
-                $query->when($user && $user->role_id === Role::STUDIO , function($query) use($user){
-                    $query->whereNot('id', $user->studio->id);
-                })
-                // ->whereIn('category', request('category', ['Professional', 'Home']))
-                ->when(request('name', null), function ($query){
-                    $query->whereLike('name', '%' . request('name') . '%');
-                })
-                ->where('is_visible', true)
-                ->where('is_complete', true)
-                ->when(request('location', 'all') !== 'all', function($query){
-                    $query->whereHas('location', function($query){
-                        $query->whereLike('province', '%' . request('location'));
-                    });
+            ->when($user && $user->role_id === Role::STUDIO , function($query) use($user){
+                $query->whereNot('id', $user->studio->id);
+            })
+            ->when(request('name', null), function ($query){
+                $query->whereLike('name', '%' . request('name') . '%');
+            })
+            ->when(request('location', 'all') !== 'all', function($query){
+                $query->whereHas('location', function($query){
+                    $query->whereLike('province', '%' . request('location'));
                 });
-                // ->when(request('location', 'all') !== 'all' && $point && $radius, function($query) use($point, $radius){
-                //     $query->whereHas('location', function($query) use($point, $radius){
-                //         $query->whereRaw('ST_DISTANCE(ST_GeomFromText(CONCAT("POINT(", lon, " ", lat, ")"), 4326), ST_GeomFromText(?, 4326)) <= ?', [$point, $radius * 1000]);
-                //     });
-                // });
             })
-            ->withMin('prices as min_price', 'price')
-            ->withMin('prices as min_discounted_price', 'discounted_price')
-            ->withCount('studio')
             ->paginate(20)
             ->withQueryString();
 
@@ -74,7 +42,7 @@ class SearchController extends Controller
 
         session()->put('request', $request);
 
-        return Inertia::render('Frontoffice/Search/Search', compact('rooms', 'request'));
+        return Inertia::render('Frontoffice/Search/Search', compact('studios', 'request'));
     }
 
     public function show(Studio $studio): Response
@@ -99,6 +67,12 @@ class SearchController extends Controller
         ])->load(['rooms' => function($query){
             //mostro solo le sale pubblicate
             $query->with(['equipments', 'photos', 'prices.timeband:id,weekday,name,start,end'])
+                ->withMin('prices as min_price', 'price')
+                ->withMin('prices as min_discounted_price', 'discounted_price')
+                ->where('is_visible', true);
+        }])->load(['bundles' => function($query){
+            //mostro solo i bundle pubblicati
+            $query->with('prices.timeband:id,weekday,name,start,end')
                 ->withMin('prices as min_price', 'price')
                 ->withMin('prices as min_discounted_price', 'discounted_price')
                 ->where('is_visible', true);

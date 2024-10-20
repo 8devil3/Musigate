@@ -41,7 +41,7 @@
                 <!-- / -->
 
                 <!-- etichetta discografica -->
-                <div v-if="props.studio.record_label" class="flex items-start gap-1 text-sm md:text-base">
+                <div v-if="props.studio.is_record_label" class="flex items-start gap-1 text-sm md:text-base">
                     <svg class="-ml-1 size-6" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="12" cy="12" r="9.5" fill="#000000" stroke="#FF6600"/>
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16ZM12 12.8C12.4418 12.8 12.8 12.4418 12.8 12C12.8 11.5582 12.4418 11.2 12 11.2C11.5582 11.2 11.2 11.5582 11.2 12C11.2 12.4418 11.5582 12.8 12 12.8Z" fill="#FF6600"/>

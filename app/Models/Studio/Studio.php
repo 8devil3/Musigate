@@ -22,16 +22,14 @@ class Studio extends Model
         'logo',
         'category',
         'description',
-        'record_label',
+        'is_record_label',
         'is_visible',
-        'is_open_24_7',
         'is_complete',
     ];
 
     protected $casts = [
-        'record_label' => 'boolean',
+        'is_record_label' => 'boolean',
         'is_visible' => 'boolean',
-        'is_open_24_7' => 'boolean',
         'is_complete' => 'boolean',
     ];
 
@@ -43,6 +41,11 @@ class Studio extends Model
     public function rooms(): HasMany
     {
         return $this->hasMany(Room::class);
+    }
+
+    public function bundles(): HasMany
+    {
+        return $this->hasMany(Bundle::class);
     }
 
     public function photos(): HasMany

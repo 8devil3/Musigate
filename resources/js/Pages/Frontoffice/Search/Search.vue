@@ -37,12 +37,12 @@
         <Transition name="map">
             <div v-if="!form.processing" v-show="showMap" class="fixed z-[100] inset-0 md:relative md:h-96">
                 <GoogleMaps
-                    :studios="studios"
+                    :studios="props.studios.data"
                     :lat="props.request?.location?.lat"
                     :lon="props.request?.location?.lon"
                     class="h-full"
                 />
-    
+
                 <button type="button" @click="showMap = false" class="md:hidden absolute rounded-full z-[120] px-3 py-1.5 font-normal text-xs leading-none bg-slate-950/80 border border-orange-500 top-4 left-4 uppercase">
                     <i class="mr-1 fa-solid fa-xmark" />
                     chiudi mappa
@@ -51,9 +51,15 @@
         </Transition>
         <!-- / -->
 
+        <div class="px-4 mt-4 text-sm md:px-6">
+            Studio trovati: <span class="font-normal text-orange-500">{{ props.studios.total }}</span>
+        </div>
+
         <!-- risultati ricerca -->
         <div v-if="!form.processing" class="grid grid-cols-1 gap-4 p-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 md:gap-6 md:p-6">
-            <RoomCard v-if="props.rooms.data.length" v-for="room in props.rooms.data" :room="room"/>
+            <template v-if="props.studios.data.length">
+                <StudioCard v-for="studio in props.studios.data" :studio="studio" />
+            </template>
 
             <p v-else class="p-12 text-xl font-semibold text-center md:text-2xl col-span-full text-slate-500">
                 Nessun risultato :(
@@ -66,7 +72,7 @@
         <!-- / -->
 
         <!-- paginazione -->
-        <Pagination v-if="!form.processing" :data="props.rooms.data" :links="props.rooms.links" />
+        <Pagination v-if="!form.processing" :data="props.studios.data" :links="props.studios.links" />
         <!-- / -->
 
         <!-- to top -->
@@ -112,7 +118,7 @@
 import { ref, onMounted, onUnmounted, computed } from 'vue';
 import { router, useForm } from '@inertiajs/vue3';
 import FrontofficeLayout from '@/Layouts/FrontofficeLayout.vue';
-import RoomCard from './RoomCard.vue';
+import StudioCard from './StudioCard.vue';
 import GoogleMaps from '@/Components/GoogleMaps.vue';
 import Modal from '@/Components/Modal.vue';
 import Pagination from '@/Components/Pagination.vue';
@@ -126,7 +132,7 @@ import province from './province.json';
 // import dayjs from 'dayjs';
 
 const props = defineProps({
-    rooms: Object,
+    studios: Object,
     request: Object,
 });
 
@@ -156,15 +162,6 @@ const reset = ()=>{
     router.get(route('rooms.index'));
     isOpenModalFilters.value = false;
 };
-
-const studios = computed(()=>{
-    let studios = [];
-    props.rooms.data.forEach(room => {
-        studios.push(room.studio);
-    })
-
-    return studios;
-});
 
 const mapFullScreen = ()=>{
     isOpenModalFilters.value = false;

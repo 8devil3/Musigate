@@ -40,6 +40,9 @@ class DatabaseSeeder extends Seeder
             VideoSeeder::class,
             RoomPhotoSeeder::class,
 
+            BundleSeeder::class,
+            BundlePriceSeeder::class,
+
             // BookingSettingSeeder::class,
             // CancelPolicySettingSeeder::class,
             // BookingSeeder::class,
