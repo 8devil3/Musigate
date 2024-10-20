@@ -49,11 +49,11 @@
                 </template>
 
                 <template #description>
-                    Scegli se rendere il pacchetto visibile e ricercabile.
+                    Scegli se rendere il pacchetto visibile.
                 </template>
 
                 <template #content>
-                    <Toggle v-model="form.is_visible" :label="form.is_visible ? 'Pacchetto visibile e ricercabile' : 'Pacchetto non visibile e non ricercabile'" />
+                    <Toggle v-model="form.is_visible" :label="form.is_visible ? 'Pacchetto visibile' : 'Pacchetto non visibile'" />
                 </template>
             </FormElement>
             <!-- / -->
