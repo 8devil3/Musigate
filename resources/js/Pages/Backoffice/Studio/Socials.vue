@@ -77,7 +77,7 @@ const socials = {
         name: 'SoundCloud',
         placeholder: 'https://soundcloud.com',
         icon: 'fa-brands fa-soundcloud',
-        color: 'text-[#FF3300]'
+        color: 'text-[#e56431]'
     },
     spotify: {
         name: 'Spotify',

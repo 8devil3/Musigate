@@ -28,7 +28,7 @@
                                     <a v-if="collab.spotify" :href="collab.spotify" class="transition-colors hover:text-orange-500 text-[#25D865]">
                                         <i class="text-xl fa-brands fa-spotify" />
                                     </a>
-                                    <a v-if="collab.soundcloud" :href="collab.soundcloud" class="transition-colors hover:text-orange-500 text-[#FF3300]">
+                                    <a v-if="collab.soundcloud" :href="collab.soundcloud" class="transition-colors hover:text-orange-500 text-[#e56431]">
                                         <i class="text-xl fa-brands fa-soundcloud" />
                                     </a>
                                     <a v-if="collab.itunes" :href="collab.itunes" class="transition-colors hover:text-orange-500 text-[#8F60FF]">

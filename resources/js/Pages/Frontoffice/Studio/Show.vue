@@ -93,7 +93,7 @@
                                             <li v-if="collab.spotify"><a :href="collab.spotify" class="transition-colors hover:text-orange-500 text-[#25D865]">
                                                 <i class="text-xl fa-brands fa-spotify" />
                                             </a></li>
-                                            <li v-if="collab.soundcloud"><a :href="collab.soundcloud" class="transition-colors hover:text-orange-500 text-[#FF3300]">
+                                            <li v-if="collab.soundcloud"><a :href="collab.soundcloud" class="transition-colors hover:text-orange-500 text-[#e56431]">
                                                 <i class="text-xl fa-brands fa-soundcloud" />
                                             </a></li>
                                             <li v-if="collab.itunes"><a :href="collab.itunes" class="transition-colors hover:text-orange-500 text-[#8F60FF]">

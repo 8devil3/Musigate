@@ -57,8 +57,8 @@
             <!-- social -->
             <ul v-if="props.socials && computedSocials.length" class="flex flex-wrap gap-1 p-0 m-0 list-none sm:grid sm:grid-cols-4 sm:ml-auto list-image-none">
                 <li v-for="social in computedSocials">
-                    <a :href="social.href" :title="social.label" class="flex items-center justify-center w-8 text-center text-white transition-colors hover:text-orange-500">
-                        <i :class="'text-2xl ' + social.icon" />
+                    <a :href="social.href" :title="social.label" class="flex items-center justify-center w-8 text-center text-white">
+                        <i :class="'text-2xl transition-colors hover:text-orange-500 ' + social.icon" />
                     </a>
                 </li>
             </ul>
@@ -91,25 +91,25 @@ const computedSocials = computed(()=>{
             if(href){
                 switch (label) {
                     case 'linkedin':
-                        icon = 'fa-brands fa-linkedin';
+                        icon = 'fa-brands fa-linkedin text-[#0A66C2]';
                     break;
                     case 'soundcloud':
-                        icon = 'fa-brands fa-soundcloud';
+                        icon = 'fa-brands fa-soundcloud text-[#e56431]';
                     break;
                     case 'facebook':
-                        icon = 'fa-brands fa-facebook';
+                        icon = 'fa-brands fa-facebook text-[#1877F2]';
                     break;
                     case 'itunes':
-                        icon = 'fa-brands fa-itunes';
+                        icon = 'fa-brands fa-itunes text-[#8F60FF]';
                     break;
                     case 'spotify':
-                        icon = 'fa-brands fa-spotify';
+                        icon = 'fa-brands fa-spotify text-[#25D865]';
                     break;
                     case 'youtube':
-                        icon = 'fa-brands fa-youtube';
+                        icon = 'fa-brands fa-youtube text-[#CD201F]';
                     break;
                     case 'instagram':
-                        icon = 'fa-brands fa-instagram';
+                        icon = 'fa-brands fa-instagram text-[#E4405F]';
                     break;
                     case 'website':
                         icon = 'fa-solid fa-globe';
