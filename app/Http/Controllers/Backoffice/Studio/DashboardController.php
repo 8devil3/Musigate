@@ -12,6 +12,7 @@ class DashboardController extends Controller
     {
         $studio = auth()->user()->studio->load([
             'rooms:id,studio_id,is_visible',
+            'bundles:id,studio_id,is_visible',
             'location:id,studio_id,complete_address',
             'payment_methods',
             'photos:id,studio_id',

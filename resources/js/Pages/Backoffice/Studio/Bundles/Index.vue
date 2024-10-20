@@ -2,7 +2,7 @@
     <ContentLayout
         as="div"
         title="Pacchetti"
-        icon="fa-solid fa-box-archive"
+        icon="fa-solid fa-store"
     >
         <template #content>
             <div v-if="props.bundles.length" class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 lg:gap-6">
@@ -30,7 +30,7 @@
                 </article>
             </div>
 
-            <Empty v-else icon="fa-solid fa-box-archive">
+            <Empty v-else icon="fa-solid fa-store">
                 <template #title>
                     Non sono presenti pacchetti
                 </template>

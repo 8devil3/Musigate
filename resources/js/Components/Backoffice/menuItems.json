@@ -89,7 +89,7 @@
             "children": []
         },
         {
-            "icon": "fa-solid fa-box-archive",
+            "icon": "fa-solid fa-store",
             "label": "Pacchetti",
             "route": "pacchetti.index",
             "active": "pacchetti.*",

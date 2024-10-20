@@ -2,7 +2,7 @@
     <ContentLayout
         @submitted="submit()"
         :title="props.bundle?.name ?? form.name"
-        icon="fa-solid fa-box-archive"
+        icon="fa-solid fa-store"
         :tabLinks="tabLinks"
         backRoute="pacchetti.index"
     >

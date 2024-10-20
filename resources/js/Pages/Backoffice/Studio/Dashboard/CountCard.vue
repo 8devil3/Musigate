@@ -1,8 +1,10 @@
 <template>
-    <div class="p-4 border-2 border-orange-600 bg-slate-900 rounded-xl">
-        <h3 class="flex items-start w-full gap-3 text-lg leading-tight truncate">
+    <div class="p-4 border-2 border-orange-600 overflow-clip bg-slate-900 rounded-2xl">
+        <h3 class="flex items-start w-full gap-3 text-lg leading-tight">
             <i class="mt-0.5" :class="[props.icon, props.iconColor]" />
-            {{ props.title }}
+            <div class="truncate">
+                {{ props.title }}
+            </div>
         </h3>
 
         <div v-if="props.count !== null" class="mt-4 text-4xl leading-tight font-lemon">
