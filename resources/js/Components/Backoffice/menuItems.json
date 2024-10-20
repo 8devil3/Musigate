@@ -64,8 +64,8 @@
                 {
                     "icon": "fa solid fa-hand-holding-heart",
                     "label": "Comfort e servizi",
-                    "route": "studio.comforts.edit",
-                    "active": "studio.comforts.edit"
+                    "route": "studio.comforts_services.edit",
+                    "active": "studio.comforts_services.edit"
                 },
                 {
                     "icon": "fa-solid fa-share-nodes",

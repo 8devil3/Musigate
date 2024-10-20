@@ -33,7 +33,7 @@ class DatabaseSeeder extends Seeder
             ServiceSeeder::class,
             ComfortSeeder::class,
             PaymentMethodStudioSeeder::class,
-            StudioComfortSeeder::class,
+            StudioComfortServiceSeeder::class,
             
             RoomSeeder::class,
             EquipmentSeeder::class,

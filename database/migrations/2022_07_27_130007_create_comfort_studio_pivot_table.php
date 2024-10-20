@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('comfort_studio', function (Blueprint $table) {
             $table->id();
             $table->foreignId('studio_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('comfort_id')->constrained();
+            $table->foreignId('comfort_id')->constrained()->cascadeOnDelete();
         });
     }
 

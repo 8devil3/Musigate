@@ -10,12 +10,13 @@ return new class extends Migration
      * Run the migrations.
      *
      * @return void
-     */    public function up()
+     */
+    public function up()
     {
-        Schema::create('services', function (Blueprint $table) {
+        Schema::create('service_studio', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->timestamps();
+            $table->foreignId('studio_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('service_id')->constrained()->cascadeOnDelete();
         });
     }
 
@@ -26,7 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('services');
+        Schema::dropIfExists('service_studio');
     }
-    
 };

@@ -18,7 +18,7 @@ use App\Http\Controllers\Backoffice\Studio\WeeklyAvailabilityController;
 use App\Http\Controllers\Backoffice\Studio\VideoController;
 use App\Http\Controllers\Backoffice\Studio\ContactController;
 use App\Http\Controllers\Backoffice\Studio\CollaborationController;
-use App\Http\Controllers\Backoffice\Studio\ComfortController;
+use App\Http\Controllers\Backoffice\Studio\ComfortServiceController;
 use App\Http\Controllers\Backoffice\Studio\PaymentMethodController;
 use App\Http\Controllers\Backoffice\Studio\DescriptionController;
 use App\Http\Controllers\Backoffice\Studio\LocationController;
@@ -96,13 +96,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
             //collaborazioni
             Route::resource('/collaborazioni', CollaborationController::class)->parameter('collaborazioni', 'collaboration');
 
-            //comfort
-            Route::get('/comfort', [ComfortController::class, 'edit'])->name('comforts.edit');
-            Route::put('/comfort', [ComfortController::class, 'update'])->name('comforts.update');
-
-            //servizi
-            Route::get('/servizi', [ServiceController::class, 'edit'])->name('services.edit');
-            Route::put('/servizi', [ServiceController::class, 'update'])->name('services.update');
+            //comfort e servizi
+            Route::get('/comfort-servizi', [ComfortServiceController::class, 'edit'])->name('comforts_services.edit');
+            Route::put('/comfort-servizi', [ComfortServiceController::class, 'update'])->name('comforts_services.update');
 
             //social
             Route::get('/socials', [SocialController::class, 'edit'])->name('socials.edit');

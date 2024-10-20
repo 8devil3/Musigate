@@ -68,9 +68,9 @@ class Studio extends Model
         return $this->hasOne(Social::class);
     }
 
-    public function services(): HasMany
+    public function services(): BelongsToMany
     {
-        return $this->hasMany(Service::class);
+        return $this->belongsToMany(Service::class);
     }
 
     public function comforts(): BelongsToMany

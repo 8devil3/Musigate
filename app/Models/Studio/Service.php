@@ -3,22 +3,20 @@
 namespace App\Models\Studio;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Service extends Model
 {
     protected $fillable = [
-        'studio_id',
-        'name',
-        'description',
-        'price',
-        'discounted_price',
-        'thumbnail_filename',
-        'thumbnail_path',
+        'service'
     ];
 
-    public function studios(): BelongsTo
+    protected $hidden = [
+        'pivot'
+    ];
+
+    public function studios(): BelongsToMany
     {
-        return $this->belongsTo(Studio::class);
+        return $this->belongsToMany(Studio::class);
     }
 }
