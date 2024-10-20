@@ -25,9 +25,9 @@
                     {{ props.room.area }} mq
                 </li>
 
-                <li title="Prenotazione minima" class="flex items-center gap-2 text-xs leading-none">
+                <li v-if="props.room.min_booking" title="Prenotazione minima" class="flex items-center gap-2 text-xs leading-none">
                     <i class="text-orange-500 fa-solid fa-hourglass-half" />
-                    {{ props.room.min_booking === 1 ? props.room.min_booking + ' min. ora' : props.room.min_booking + ' min. ore' }}
+                    {{ props.room.min_booking === 1 ? 'min. ' + props.room.min_booking + ' ora' : 'min. ' + props.room.min_booking + ' ore' }}
                 </li>
 
                 <li v-if="props.room.fixed_price || props.room.has_discounted_fixed_price || props.room.min_price || props.room.min_discounted_price" title="Tariffa minima" class="flex items-center gap-2 text-xs leading-none">
