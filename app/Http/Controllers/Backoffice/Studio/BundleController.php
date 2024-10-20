@@ -32,7 +32,7 @@ class BundleController extends Controller
             // 'color' => 'required|string|starts_with:#|size:7',
             // 'is_bookable' => 'boolean',
             'is_visible' => 'boolean',
-            'description' => 'nullable|string|min:100',
+            'description' => 'nullable|string',
         ]);
 
         $bundle = auth()->user()->studio->bundles()->create($request->toArray());
@@ -52,7 +52,7 @@ class BundleController extends Controller
             // 'color' => 'required|string|starts_with:#|size:7',
             // 'is_bookable' => 'boolean',
             'is_visible' => 'boolean',
-            'description' => 'nullable|string|min:100',
+            'description' => 'nullable|string',
         ]);
 
         $bundle->update($request->toArray());
