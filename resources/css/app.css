@@ -147,7 +147,9 @@ input:-internal-autofill-selected {
     color-scheme: dark;
     appearance: none !important;
     border: none !important;
-    background-color:  rgb(31 41 55 / 0.8) !important;
+    box-shadow: inset 1000px 100px rgb(15 23 42) !important;
+    background-color: rgb(15 23 42) !important;
+    font-family: 'Poppins', sans-serif;
     background-image: none !important;
     color: #fff !important;
     -webkit-text-fill-color: #fff !important;
