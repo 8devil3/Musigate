@@ -4,7 +4,7 @@
         :title="props.room?.name ?? form.name"
         icon="fa-solid fa-microphone-lines"
         :tabLinks="tabLinks"
-        backRoute="sale-prova.index"
+        backRoute="sale.index"
     >
         <template #content>
             <!-- nome -->
@@ -191,9 +191,9 @@ const submit = ()=>{
     if(form.processing) return;
 
     if(props.room.id){
-        form.put(route('sale-prova.update', props.room.id));
+        form.put(route('sale.update', props.room.id));
     } else {
-        form.post(route('sale-prova.store'));
+        form.post(route('sale.store'));
     }
 }
 
@@ -202,22 +202,22 @@ const tabLinks = computed(()=>{
         return [
             {
                 label: 'Descrizione',
-                route: 'sale-prova.edit',
+                route: 'sale.edit',
                 params: props.room.id,
             },
             {
                 label: 'Tariffe',
-                route: 'sale-prova.prices.edit',
+                route: 'sale.prices.edit',
                 params: props.room.id,
             },
             {
                 label: 'Equipaggiamento',
-                route: 'sale-prova.equipment.index',
+                route: 'sale.equipment.index',
                 params: props.room.id,
             },
             {
                 label: 'Foto',
-                route: 'sale-prova.photos.edit',
+                route: 'sale.photos.edit',
                 params: props.room.id,
             },
         ];

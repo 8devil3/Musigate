@@ -63,7 +63,7 @@
                 },
                 {
                     "icon": "fa solid fa-hand-holding-heart",
-                    "label": "Comforts",
+                    "label": "Comfort e servizi",
                     "route": "studio.comforts.edit",
                     "active": "studio.comforts.edit"
                 },
@@ -82,17 +82,10 @@
             ]
         },
         {
-            "icon": "fa-solid fa-music",
-            "label": "Sale prova",
-            "route": "sale-prova.index",
-            "active": "sale-prova.*",
-            "children": []
-        },
-        {
             "icon": "fa-solid fa-microphone-lines",
-            "label": "Servizi",
-            "route": "servizi.index",
-            "active": "servizi.*",
+            "label": "Sale",
+            "route": "sale.index",
+            "active": "sale.*",
             "children": []
         },
         {

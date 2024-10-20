@@ -20,7 +20,7 @@
                         </h3>
     
                         <div class="text-4xl font-medium">{{ props.studio.rooms?.filter(room => room.status === 'pubblicata').length ?? 0 }}</div>
-                        <Link :href="route('sale-prova.index')" class="font-medium text-orange-500 transition-colors hover:text-orange-400">Vai alle Sale Studio <i class="ml-1 fa-solid fa-arrow-right" /></Link>
+                        <Link :href="route('sale.index')" class="font-medium text-orange-500 transition-colors hover:text-orange-400">Vai alle Sale Studio <i class="ml-1 fa-solid fa-arrow-right" /></Link>
                     </div>
     
                     <div class="p-4 space-y-4 bg-gray-900 border-2 border-orange-600 rounded-xl">
@@ -30,7 +30,7 @@
                         </h3>
     
                         <div class="text-4xl font-medium">{{ props.studio.rooms?.filter(room => room.status === 'sospesa').length ?? 0 }}</div>
-                        <Link :href="route('sale-prova.index')" class="font-medium text-orange-500 transition-colors hover:text-orange-400">Vai alle Sale Studio <i class="ml-1 fa-solid fa-arrow-right" /></Link>
+                        <Link :href="route('sale.index')" class="font-medium text-orange-500 transition-colors hover:text-orange-400">Vai alle Sale Studio <i class="ml-1 fa-solid fa-arrow-right" /></Link>
                     </div>
     
                     <div class="p-4 space-y-4 bg-gray-900 border-2 border-orange-600 rounded-xl">

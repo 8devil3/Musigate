@@ -98,6 +98,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/comfort', [ComfortController::class, 'edit'])->name('comforts.edit');
             Route::put('/comfort', [ComfortController::class, 'update'])->name('comforts.update');
 
+            //servizi
+            Route::get('/servizi', [ServiceController::class, 'edit'])->name('services.edit');
+            Route::put('/servizi', [ServiceController::class, 'update'])->name('services.update');
+
             //social
             Route::get('/socials', [SocialController::class, 'edit'])->name('socials.edit');
             Route::put('/socials', [SocialController::class, 'update'])->name('socials.update');
@@ -126,21 +130,21 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         //gestione sale prova
         Route::middleware('check_room_owner')->group(function(){
-            Route::resource('/sale-prova', RoomController::class)->parameter('sale-prova', 'room')->withoutMiddleware('check_room_owner');
+            Route::resource('/sale', RoomController::class)->parameter('sale', 'room')->withoutMiddleware('check_room_owner');
 
             //tariffe sale prova
-            Route::get('/sale/{room}/tariffe', [RoomPriceController::class, 'edit'])->name('sale-prova.prices.edit');
-            Route::put('/sale/{room}/tariffe', [RoomPriceController::class, 'update'])->name('sale-prova.prices.update');
+            Route::get('/sale/{room}/tariffe', [RoomPriceController::class, 'edit'])->name('sale.prices.edit');
+            Route::put('/sale/{room}/tariffe', [RoomPriceController::class, 'update'])->name('sale.prices.update');
 
             //equipaggiamento sale prova
-            Route::get('/sale/{room}/equipaggiamento', [EquipmentController::class, 'index'])->name('sale-prova.equipment.index');
-            Route::get('/sale/{room}/equipaggiamento/modifica/{category}', [EquipmentController::class, 'edit'])->name('sale-prova.equipment.edit');
-            Route::put('/sale/{room}/equipaggiamento/aggiorna/{category}', [EquipmentController::class, 'update'])->name('sale-prova.equipment.update');
+            Route::get('/sale/{room}/equipaggiamento', [EquipmentController::class, 'index'])->name('sale.equipment.index');
+            Route::get('/sale/{room}/equipaggiamento/modifica/{category}', [EquipmentController::class, 'edit'])->name('sale.equipment.edit');
+            Route::put('/sale/{room}/equipaggiamento/aggiorna/{category}', [EquipmentController::class, 'update'])->name('sale.equipment.update');
 
             //foto sale prova
-            Route::get('/sale/{room}/foto', [RoomPhotoController::class, 'edit'])->name('sale-prova.photos.edit');
-            Route::post('/sale/{room}/foto', [RoomPhotoController::class, 'update'])->name('sale-prova.photos.update');
-            Route::delete('/sale/{room}/foto', [RoomPhotoController::class, 'destroy'])->name('sale-prova.photos.destroy');
+            Route::get('/sale/{room}/foto', [RoomPhotoController::class, 'edit'])->name('sale.photos.edit');
+            Route::post('/sale/{room}/foto', [RoomPhotoController::class, 'update'])->name('sale.photos.update');
+            Route::delete('/sale/{room}/foto', [RoomPhotoController::class, 'destroy'])->name('sale.photos.destroy');
         });
 
         //gestione servizi

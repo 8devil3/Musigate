@@ -40,7 +40,7 @@ class RoomController extends Controller
 
         $room = auth()->user()->studio->rooms()->create($request->toArray());
 
-        return to_route('sale-prova.edit', $room->id);
+        return to_route('sale.edit', $room->id);
     }
 
     public function edit(Room $room): Response

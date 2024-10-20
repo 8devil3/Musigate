@@ -117,7 +117,7 @@
                     </ul>
                 </Section>
 
-                <Section v-if="props.studio.rooms.length" title="Sale prova" id="sale-prova">
+                <Section v-if="props.studio.rooms.length" title="Sale prova" id="sale">
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                         <RoomCard v-for="room in props.studio.rooms" :room="room" :equipment_categories="props.equipment_categories" :weekdays="props.weekdays" />
                     </div>
@@ -377,8 +377,8 @@ const links = [
         enabled: props.studio.comforts.length ? true : false
     },
     {
-        text: 'sale prova',
-        id: '#sale-prova',
+        text: 'sale',
+        id: '#sale',
         enabled: props.studio.rooms.length ? true : false
     },
     {

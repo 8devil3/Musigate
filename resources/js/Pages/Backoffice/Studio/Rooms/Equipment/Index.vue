@@ -4,7 +4,7 @@
         :title="props.room.name"
         icon="fa-solid fa-sliders"
         :tabLinks="tabLinks"
-        backRoute="sale-prova.index"
+        backRoute="sale.index"
     >
         <template #content>
             <FormElement>
@@ -14,7 +14,7 @@
 
                 <template #content>
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                        <Link v-for="cat, catId in props.categories" :href="route('sale-prova.equipment.edit', [props.room.id, catId])" class="flex flex-col items-center justify-center p-4 text-base font-normal text-center transition-colors border-2 rounded-full border-slate-600 hover:border-orange-500 hover:bg-slate-900">
+                        <Link v-for="cat, catId in props.categories" :href="route('sale.equipment.edit', [props.room.id, catId])" class="flex flex-col items-center justify-center p-4 text-base font-normal text-center transition-colors border-2 rounded-full border-slate-600 hover:border-orange-500 hover:bg-slate-900">
                             {{ cat.name }}
                             <div class="text-xs font-light text-slate-400">
                                 {{ cat.equip_count === 1 ? cat.equip_count + ' elemento' : cat.equip_count === 0 ? 'nessun elemento' : cat.equip_count + ' elementi' }}
@@ -43,22 +43,22 @@ const tabLinks = computed(()=>{
         return [
             {
                 label: 'Descrizione',
-                route: 'sale-prova.edit',
+                route: 'sale.edit',
                 params: props.room.id,
             },
             {
                 label: 'Tariffe',
-                route: 'sale-prova.prices.edit',
+                route: 'sale.prices.edit',
                 params: props.room.id,
             },
             {
                 label: 'Equipaggiamento',
-                route: 'sale-prova.equipment.index',
+                route: 'sale.equipment.index',
                 params: props.room.id,
             },
             {
                 label: 'Foto',
-                route: 'sale-prova.photos.edit',
+                route: 'sale.photos.edit',
                 params: props.room.id,
             },
         ];

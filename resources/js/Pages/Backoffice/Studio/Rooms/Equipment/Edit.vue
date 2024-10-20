@@ -4,7 +4,7 @@
         :title="props.room.name"
         icon="fa-solid fa-sliders"
         :tabLinks="tabLinks"
-        backRoute="sale-prova.equipment.index"
+        backRoute="sale.equipment.index"
         :backRouteParams="props.room.id"
     >
         <template #content>
@@ -99,7 +99,7 @@ const form = useForm({
 });
 
 const submit = ()=>{
-    form.put(route('sale-prova.equipment.update', [props.room.id, props.category.id]), {
+    form.put(route('sale.equipment.update', [props.room.id, props.category.id]), {
         preserveState: false,
     });
 };
@@ -146,22 +146,22 @@ const tabLinks = computed(()=>{
         return [
             {
                 label: 'Descrizione',
-                route: 'sale-prova.edit',
+                route: 'sale.edit',
                 params: props.room.id,
             },
             {
                 label: 'Tariffe',
-                route: 'sale-prova.prices.edit',
+                route: 'sale.prices.edit',
                 params: props.room.id,
             },
             {
                 label: 'Equipaggiamento',
-                route: 'sale-prova.equipment.edit',
+                route: 'sale.equipment.edit',
                 params: props.room.id,
             },
             {
                 label: 'Foto',
-                route: 'sale-prova.photos.edit',
+                route: 'sale.photos.edit',
                 params: props.room.id,
             },
         ];

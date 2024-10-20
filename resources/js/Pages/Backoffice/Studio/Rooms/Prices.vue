@@ -3,7 +3,7 @@
         @submitted="submit()"
         :title="props.room.name"
         icon="fa-solid fa-euro"
-        backRoute="sale-prova.index"
+        backRoute="sale.index"
         :tabLinks="tabLinks"
     >
         <template #content>
@@ -141,7 +141,7 @@ const form = useForm({
 });
 
 const submit = ()=>{
-    form.put(route('sale-prova.prices.update', props.room.id), {
+    form.put(route('sale.prices.update', props.room.id), {
         preserveState: false
     });
 };
@@ -166,22 +166,22 @@ const tabLinks = computed(()=>{
         return [
             {
                 label: 'Descrizione',
-                route: 'sale-prova.edit',
+                route: 'sale.edit',
                 params: props.room.id,
             },
             {
                 label: 'Tariffe',
-                route: 'sale-prova.prices.edit',
+                route: 'sale.prices.edit',
                 params: props.room.id,
             },
             {
                 label: 'Equipaggiamento',
-                route: 'sale-prova.equipment.index',
+                route: 'sale.equipment.index',
                 params: props.room.id,
             },
             {
                 label: 'Foto',
-                route: 'sale-prova.photos.edit',
+                route: 'sale.photos.edit',
                 params: props.room.id,
             },
         ];

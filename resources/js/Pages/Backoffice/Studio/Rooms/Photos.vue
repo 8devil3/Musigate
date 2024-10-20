@@ -3,7 +3,7 @@
         @submitted="submit()"
         :title="props.room.name"
         icon="fa-solid fa-image"
-        backRoute="sale-prova.index"
+        backRoute="sale.index"
         :tabLinks="tabLinks"
     >
         <template #content>
@@ -108,7 +108,7 @@ const form = useForm({
 });
 
 const submit = ()=>{
-    form.post(route('sale-prova.photos.update', props.room.id),{
+    form.post(route('sale.photos.update', props.room.id),{
         preserveState: false,
         onSuccess: ()=> form.selected_photos = [],
     });
@@ -137,7 +137,7 @@ const removePhoto = (index)=>{
 
 const deleteSelectedPhotos = ()=>{
     if(form.selected_photos.length){
-        form.delete(route('sale-prova.photos.destroy', props.room.id), {
+        form.delete(route('sale.photos.destroy', props.room.id), {
             preserveState: false,
             onSuccess: ()=> form.selected_photos = [],
         });
@@ -149,22 +149,22 @@ const tabLinks = computed(()=>{
         return [
             {
                 label: 'Descrizione',
-                route: 'sale-prova.edit',
+                route: 'sale.edit',
                 params: props.room.id,
             },
             {
                 label: 'Tariffe',
-                route: 'sale-prova.prices.edit',
+                route: 'sale.prices.edit',
                 params: props.room.id,
             },
             {
                 label: 'Equipaggiamento',
-                route: 'sale-prova.equipment.index',
+                route: 'sale.equipment.index',
                 params: props.room.id,
             },
             {
                 label: 'Foto',
-                route: 'sale-prova.photos.edit',
+                route: 'sale.photos.edit',
                 params: props.room.id,
             },
         ];
