@@ -20,7 +20,7 @@
             <div class="flex items-center gap-6 font-normal">
                 <div class="flex items-center whitespace-nowrap" title="Area in metri quadri">
                     <i class="mr-2 text-orange-500 fa-solid fa-ruler-combined"></i>
-                    <span class="text-xs whitespace-nowrap">{{ props.room.area }} m²</span>
+                    <span class="text-xs whitespace-nowrap">{{ props.room.area }} mq</span>
                 </div>
                 <div class="flex items-center" :title="'Massimo ' + (props.room.max_capacity > 1 ? props.room.max_capacity + ' ospiti' : props.room.max_capacity + ' ospite')">
                     <i class="mr-2 text-orange-500 fa-solid fa-users"></i>
@@ -53,15 +53,15 @@
                 <div class="flex items-end gap-3">
                     <template v-if="props.room.min_discounted_price">
                         <span class="mb-1 text-xs line-through text-slate-400 font-lemon">
-                            {{ props.room.min_price }} €/h
+                            {{ props.room.min_price /100 }} €/h
                         </span>
                         <span class="text-base font-medium font-lemon">
-                            {{ props.room.min_discounted_price }} €/h
+                            {{ props.room.min_discounted_price /100 }} €/h
                         </span>
                     </template>
     
                     <span v-else-if="props.room.min_price" class="text-base font-medium font-lemon">
-                        {{ props.room.min_price }} €/h
+                        {{ props.room.min_price /100 }} €/h
                     </span>
     
                     <template v-else-if="props.room.has_discounted_fixed_price">
