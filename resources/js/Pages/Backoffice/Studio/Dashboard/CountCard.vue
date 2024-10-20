@@ -1,6 +1,6 @@
 <template>
     <div class="p-4 border-2 border-orange-600 bg-slate-900 rounded-xl">
-        <h3 class="flex items-start gap-3 text-lg leading-tight">
+        <h3 class="flex items-start w-full gap-3 text-lg leading-tight truncate">
             <i class="mt-0.5" :class="[props.icon, props.iconColor]" />
             {{ props.title }}
         </h3>

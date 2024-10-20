@@ -5,7 +5,7 @@
         icon="fa-solid fa-home"
     >
         <template #content>
-            <div class="max-w-4xl p-4 mx-auto space-y-6 md:p-6 md:space-y-8">
+            <div class="max-w-4xl mx-auto space-y-6 md:space-y-8">
                 <h1 class="py-4 m-0 text-4xl font-bold text-center">
                     Ciao
                     {{ usePage().props.auth.user.first_name }}
