@@ -35,7 +35,7 @@
         </fieldset>
 
         <!-- actions mobile -->
-        <div v-if="$slots.actions" class="fixed flex justify-end gap-2 inset-x-4 bottom-4 lg:hidden">
+        <div v-if="$slots.actions" class="fixed inset-x-0 bottom-0 flex justify-end gap-2 px-4 py-2 border-t bg-slate-900/70 backdrop-blur-sm border-t-slate-800 lg:hidden">
             <slot name="actions"/>
         </div>
         <!-- / -->
