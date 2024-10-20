@@ -11,7 +11,7 @@
                 </template>
                 <template #content>
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
-                        <Link v-for="av in props.availability" :href="route('studio.availability.edit', av.id)" class="block p-4 space-y-2 font-normal transition-colors border-2 rounded-xl border-slate-600 hover:border-orange-500 hover:bg-slate-900">
+                        <Link v-for="av in props.availability" :href="route('studio.availability.edit', av.id)" class="block p-4 space-y-2 font-normal transition-colors border-2 rounded-2xl border-slate-600 hover:border-orange-500 hover:bg-slate-900">
                             <div class="text-base" :class="av.open_type !== 'close' ? 'text-white' : 'text-slate-400'">
                                 {{ props.weekdays[av.weekday] }}
                                 <div v-if="av.open_type === 'open'" class="text-xs text-green-500">
