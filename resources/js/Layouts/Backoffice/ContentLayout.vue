@@ -1,15 +1,15 @@
 <template>
     <component :is="props.as" @submit.prevent="props.as === 'form' ? emit('submitted') : null" class="h-full overflow-clip">
         <fieldset :disabled="props.isLoading" class="h-full overflow-y-auto">
-            <h1 v-if="props.title" class="sticky top-0 z-10 flex items-center justify-between w-full gap-6 px-4 m-0 text-base border-b h-14 lg:h-16 lg:px-6 bg-slate-900 lg:bg-slate-950/50 backdrop-blur-sm md:text-xl border-slate-800">
-                <div class="flex items-center w-full gap-2 leading-tight md:gap-3">
-                    <Link v-if="props.backRoute" :href="route(props.backRoute, props.backRouteParams)">
-                        <i class="mr-1 text-base text-orange-500 lg:text-lg fa-solid fa-chevron-left"></i>
+            <h1 v-if="props.title" class="sticky top-0 z-10 flex items-center justify-between w-full gap-2 px-4 m-0 text-base border-b h-14 lg:h-16 lg:px-6 bg-slate-900 lg:bg-slate-950/50 backdrop-blur-sm md:text-xl border-slate-800">
+                <div class="flex items-center gap-2 overflow-hidden leading-tight grow md:gap-3">
+                    <Link v-if="props.backRoute" :href="route(props.backRoute, props.backRouteParams)" class="shrink-0">
+                        <i class="mr-1 text-base text-orange-500 lg:text-lg fa-solid fa-chevron-left" />
                     </Link>
 
-                    <i v-if="props.icon" :class="props.icon"></i>
+                    <i v-if="props.icon" :class="props.icon" class="shrink-0" />
 
-                    <div class="truncate grow">
+                    <div class="truncate">
                         {{ props.title }}
                     </div>
                 </div>
@@ -18,7 +18,7 @@
                     <slot name="actions"/>
                 </div>
 
-                <button type="button" @click="isOpenDrawer = true" class="lg:hidden">
+                <button type="button" @click="isOpenDrawer = true" class="shrink-0 lg:hidden">
                     <i class="py-1 pr-1 text-lg fa-solid fa-bars" />
                 </button>
             </h1>
