@@ -11,13 +11,13 @@ class DashboardController extends Controller
     public function index(): Response
     {
         $studio = auth()->user()->studio->load([
-            'rooms:id,studio_id',
+            'rooms:id,studio_id,is_visible',
             'location:id,studio_id,complete_address',
             'payment_methods',
             'photos:id,studio_id',
             'contacts'
         ]);
 
-        return Inertia::render('Backoffice/Studio/Dashboard', compact('studio'));
+        return Inertia::render('Backoffice/Studio/Dashboard/Dashboard', compact('studio'));
     }
 }
