@@ -63,6 +63,22 @@
             </FormElement> -->
             <!-- / -->
 
+            <!-- visibile? -->
+            <FormElement>
+                <template #title>
+                    Visibilità
+                </template>
+
+                <template #description>
+                    Scegli se rendere lo Studio visibile e ricercabile.
+                </template>
+
+                <template #content>
+                    <Toggle v-model="form.is_visible" :label="form.is_visible ? 'Studio visibile e ricercabile' : 'Studio non visibile e non ricercabile'" />
+                </template>
+            </FormElement>
+            <!-- / -->
+
             <!-- vat -->
             <FormElement>
                 <template #title>
@@ -114,8 +130,8 @@
             <!-- / -->
         </template>
         
-        <template #actions>
-            <SaveButton v-if="form.isDirty && !form.processing" />
+        <template v-if="form.isDirty && !form.processing" #actions>
+            <SaveButton />
         </template>
     </ContentLayout>
 </template>
@@ -126,6 +142,7 @@ import Input from '@/Components/Form/Input.vue';
 // import Radio from '@/Components/Form/Radio.vue';
 import Checkbox from '@/Components/Form/Checkbox.vue';
 import SaveButton from '@/Components/Form/SaveButton.vue';
+import Toggle from '@/Components/Form/Toggle.vue';
 import Textarea from '@/Components/Form/Textarea.vue';
 import ImageUploader from '@/Components/Backoffice/ImageUploader.vue';
 import FormElement from '@/Components/Backoffice/FormElement.vue';
@@ -140,6 +157,7 @@ const form = useForm({
     vat: props.studio.vat ?? null,
     // category: props.studio.category ?? '',
     is_record_label: props.studio.is_record_label,
+    is_visible: props.studio.is_record_label,
     description: props.studio.description ?? null,
 });
 

@@ -49,11 +49,11 @@
                 </template>
 
                 <template #description>
-                    Scegli se rendere la sala visibile e ricercabile.
+                    Scegli se rendere la sala visibile.
                 </template>
 
                 <template #content>
-                    <Toggle v-model="form.is_visible" :label="form.is_visible ? 'Sala visibile e ricercabile' : 'Sala non visibile e non ricercabile'" />
+                    <Toggle v-model="form.is_visible" :label="form.is_visible ? 'Sala visibile' : 'Sala non visibile'" />
                 </template>
             </FormElement>
             <!-- / -->
