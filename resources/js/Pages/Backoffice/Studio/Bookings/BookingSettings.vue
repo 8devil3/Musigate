@@ -108,7 +108,7 @@
             <!-- / -->
         </template>
 
-        <template #actions>
+        <template v-if="form.isDirty && !form.processing" #actions>
             <SaveButton />
         </template>
     </ContentLayout>

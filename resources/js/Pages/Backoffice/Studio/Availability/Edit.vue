@@ -179,8 +179,8 @@
             <!-- / -->
         </template>
 
-        <template #actions>
-            <SaveButton v-if="form.isDirty && !form.processing && !hasValidationErrors" />
+        <template v-if="form.isDirty && !form.processing && !hasValidationErrors" #actions>
+            <SaveButton />
         </template>
     </ContentLayout>
 </template>

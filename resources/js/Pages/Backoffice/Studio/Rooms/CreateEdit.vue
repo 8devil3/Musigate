@@ -153,8 +153,8 @@
             <!-- / -->
         </template>
 
-        <template #actions>
-            <SaveButton v-if="form.isDirty && !form.processing" />
+        <template v-if="form.isDirty && !form.processing" #actions>
+            <SaveButton />
         </template>
     </ContentLayout>
 </template>
