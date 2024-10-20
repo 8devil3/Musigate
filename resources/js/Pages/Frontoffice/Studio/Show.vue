@@ -90,14 +90,14 @@
                                         <p v-if="collab.description" class="text-sm text-white">{{ collab.description }}</p>
 
                                         <ul v-if="collab.spotify || collab.soundcloud || collab.itunes" class="flex gap-2">
-                                            <li v-if="collab.spotify"><a :href="collab.spotify" class="transition-colors hover:text-[#25D865]">
-                                                <i class="text-lg fa-brands fa-spotify" />
+                                            <li v-if="collab.spotify"><a :href="collab.spotify" class="transition-colors hover:text-orange-500 text-[#25D865]">
+                                                <i class="text-xl fa-brands fa-spotify" />
                                             </a></li>
-                                            <li v-if="collab.soundcloud"><a :href="collab.soundcloud" class="transition-colors hover:text-[#FF3300]">
-                                                <i class="text-lg fa-brands fa-soundcloud" />
+                                            <li v-if="collab.soundcloud"><a :href="collab.soundcloud" class="transition-colors hover:text-orange-500 text-[#FF3300]">
+                                                <i class="text-xl fa-brands fa-soundcloud" />
                                             </a></li>
-                                            <li v-if="collab.itunes"><a :href="collab.itunes" class="transition-colors hover:text-[#8F60FF]">
-                                                <i class="text-lg fa-brands fa-itunes" />
+                                            <li v-if="collab.itunes"><a :href="collab.itunes" class="transition-colors hover:text-orange-500 text-[#8F60FF]">
+                                                <i class="text-xl fa-brands fa-itunes" />
                                             </a></li>
                                         </ul>
                                     </div>
@@ -117,9 +117,25 @@
                     </ul>
                 </Section>
 
-                <Section v-if="props.studio.rooms.length" title="Sale prova" id="sale">
+                <Section v-if="props.studio.services.length" title="Servizi" id="servizi">
+                    <ul class="grid grid-cols-1 list-musigate md:grid-cols-none md:grid-rows-6 md:grid-flow-col md:auto-cols-max gap-x-20">
+                        <template v-for="service, index in props.studio.services">
+                            <li class="list-musigate">
+                                {{ service.name }}
+                            </li>
+                        </template>
+                    </ul>
+                </Section>
+
+                <Section v-if="props.studio.rooms.length" title="Sale" id="sale">
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                         <RoomCard v-for="room in props.studio.rooms" :room="room" :equipment_categories="props.equipment_categories" :weekdays="props.weekdays" />
+                    </div>
+                </Section>
+
+                <Section v-if="props.studio.bundles.length" title="Pacchetti" id="pacchetti">
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                        <BundleCard v-for="bundle in props.studio.bundles" :bundle="bundle" :weekdays="weekdays" />
                     </div>
                 </Section>
             
@@ -271,6 +287,7 @@ import TitleBar from './TitleBar.vue';
 import Menu from './Menu.vue';
 import Section from './Section.vue';
 import RoomCard from './RoomCard.vue';
+import BundleCard from './BundleCard.vue';
 
 const props = defineProps({
     studio: Object,
@@ -377,9 +394,19 @@ const links = [
         enabled: props.studio.comforts.length ? true : false
     },
     {
+        text: 'servizi',
+        id: '#servizi',
+        enabled: props.studio.services.length ? true : false
+    },
+    {
         text: 'sale',
         id: '#sale',
         enabled: props.studio.rooms.length ? true : false
+    },
+    {
+        text: 'pacchetti',
+        id: '#pacchetti',
+        enabled: props.studio.bundles.length ? true : false
     },
     {
         text: 'regolamento',

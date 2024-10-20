@@ -22,19 +22,19 @@
                                     <h2 class="leading-normal text-slate-200">{{ collab.title }}</h2>
                                 </div>
 
+                                <p class="text-sm text-slate-300">{{ collab.description }}</p>
+
                                 <div class="space-x-2">
-                                    <a v-if="collab.spotify" :href="collab.spotify" class="transition-colors hover:text-[#25D865]">
-                                        <i class="text-lg fa-brands fa-spotify" />
+                                    <a v-if="collab.spotify" :href="collab.spotify" class="transition-colors hover:text-orange-500 text-[#25D865]">
+                                        <i class="text-xl fa-brands fa-spotify" />
                                     </a>
-                                    <a v-if="collab.soundcloud" :href="collab.soundcloud" class="transition-colors hover:text-[#FF3300]">
-                                        <i class="text-lg fa-brands fa-soundcloud" />
+                                    <a v-if="collab.soundcloud" :href="collab.soundcloud" class="transition-colors hover:text-orange-500 text-[#FF3300]">
+                                        <i class="text-xl fa-brands fa-soundcloud" />
                                     </a>
-                                    <a v-if="collab.itunes" :href="collab.itunes" class="transition-colors hover:text-[#8F60FF]">
-                                        <i class="text-lg fa-brands fa-itunes" />
+                                    <a v-if="collab.itunes" :href="collab.itunes" class="transition-colors hover:text-orange-500 text-[#8F60FF]">
+                                        <i class="text-xl fa-brands fa-itunes" />
                                     </a>
                                 </div>
-
-                                <p class="text-sm text-slate-300">{{ collab.description }}</p>
 
                                 <div class="space-x-2 text-right">
                                     <ActionButton @click="router.get(route('studio.collaborazioni.edit', collab.id))" icon="fa-solid fa-pen-to-square" title="Modifica collaborazione" />
