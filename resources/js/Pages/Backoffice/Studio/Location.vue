@@ -16,21 +16,25 @@
                 </template>
 
                 <template #content>
-                    <div class="grid max-w-md grid-cols-3 gap-x-2 gap-y-4">
+                    <div>
                         <GooglePlacesAutocomplete
+                            v-if="!form.is_manual_address"
                             v-model="form.complete_address"
-                            @addressData="setFormAddress"
-                            class="col-span-full"
+                            label="Indirizzo completo"
+                            required
                         />
-                        <Input v-model="form.address" placeholder="Indirizzo, senza numero civico" label="Indirizzo" :error="form.errors.address" :disabled="!form.is_manual_address" required class="col-span-2" />
 
-                        <Input v-model="form.number" placeholder="Civico" label="Numero" :error="form.errors.number" :disabled="!form.is_manual_address" class="col-span-1" />
-
-                        <Input v-model="form.city" placeholder="Città" label="Città" :error="form.errors.city" :disabled="!form.is_manual_address" required class="col-span-2" />
-
-                        <Input v-model="form.cap" placeholder="CAP" label="CAP" pattern="[0-9]{5}" :error="form.errors.cap" :disabled="!form.is_manual_address" :required="form.is_manual_address" class="col-span-1" />
-
-                        <Input v-model="form.province" placeholder="Provincia" label="Provincia" :error="form.errors.province" :disabled="!form.is_manual_address" required class="col-span-full" />
+                        <div v-else class="grid max-w-md grid-cols-3 gap-x-2 gap-y-4">
+                            <Input v-model="form.address" placeholder="Indirizzo, senza numero civico" label="Indirizzo" :error="form.errors.address" :disabled="!form.is_manual_address" required class="col-span-2" />
+    
+                            <Input v-model="form.number" placeholder="Civico" label="Numero" :error="form.errors.number" :disabled="!form.is_manual_address" class="col-span-1" />
+    
+                            <Input v-model="form.city" placeholder="Città" label="Città" :error="form.errors.city" :disabled="!form.is_manual_address" required class="col-span-2" />
+    
+                            <Input v-model="form.cap" placeholder="CAP" label="CAP" pattern="[0-9]{5}" :error="form.errors.cap" :disabled="!form.is_manual_address" :required="form.is_manual_address" class="col-span-1" />
+    
+                            <Input v-model="form.province" placeholder="Provincia" label="Provincia" :error="form.errors.province" :disabled="!form.is_manual_address" required class="col-span-full" />
+                        </div>
                     </div>
                     
                     <div class="px-4 mt-4">
@@ -62,7 +66,6 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 import Input from '@/Components/Form/Input.vue';
 import SaveButton from '@/Components/Form/SaveButton.vue';
@@ -89,16 +92,8 @@ const form = useForm({
 
 const submit = () => {
     form.put(route('studio.location.update'), {
-        // onSuccess: ()=> form.reset(),
+        preserveState: false,
     });
-};
-
-const setFormAddress = (e)=>{
-    form.address = e.address;
-    form.number = e.number;
-    form.cap = e.cap;
-    form.city = e.city;
-    form.province = e.province;
 };
 
 </script>

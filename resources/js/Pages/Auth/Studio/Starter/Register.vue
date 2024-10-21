@@ -1,9 +1,5 @@
 <template>
     <RegisterStudioLayout @submitted="submit()" title="Registrazione Studio" :isLoading="isLoading">
-        <template #title>
-            1/3 - Rappresentante legale
-        </template>
-
         <template #content>
             <!-- titolare -->
             <div v-if="props.step === 1" class="w-full max-w-xs mx-auto space-y-6">
@@ -12,9 +8,9 @@
                 </h2>
 
                 <div class="space-y-4">
-                    <Input v-model="formStep1.first_name" label="Nome" placeholder="Il nome del titolare dello Studio" :error="formStep1.errors.first_name" required  />
+                    <Input v-model="formStep1.first_name" label="Nome" placeholder="Il nome del rappresentante legale" :error="formStep1.errors.first_name" required  />
 
-                    <Input v-model="formStep1.last_name" label="Cognome" placeholder="Il cognome del titolare dello Studio" :error="formStep1.errors.last_name" required />
+                    <Input v-model="formStep1.last_name" label="Cognome" placeholder="Il cognome del rappresentante legale" :error="formStep1.errors.last_name" required />
 
                     <!-- <Input type="date" v-model="formStep1.dob" label="Data di nascita" placeholder="La data di nascita" :error="formStep1.errors.dob" required />
 
@@ -52,27 +48,29 @@
                     <Input inputmode="numeric" v-model="formStep2.vat" pattern="[0-9]{11}" label="Partita IVA" placeholder="La partita IVA della tua attività" :error="formStep2.errors.vat" required />
 
                     <!-- location -->                    
-                    <div class="grid grid-cols-3 gap-x-2 gap-y-4">
+                    <div>
                         <GooglePlacesAutocomplete
+                            v-if="!formStep2.is_manual_address"
                             v-model="formStep2.complete_address"
-                            @addressData="setFormAddress"
-                            required
-                            class="col-span-full"
                             label="Indirizzo completo"
+                            required
                         />
-                        <Input v-model="formStep2.address" label="Indirizzo" placeholder="Indirizzo, senza numero civico" :error="formStep2.errors.address" :disabled="!isManualAddress" required class="col-span-2" />
 
-                        <Input v-model="formStep2.number" label="Civico" placeholder="Civico" :error="formStep2.errors.number" :disabled="!isManualAddress" class="col-span-1" />
-
-                        <Input v-model="formStep2.city" label="Città" placeholder="Città" :error="formStep2.errors.city" :disabled="!isManualAddress" required class="col-span-2" />
-
-                        <Input v-model="formStep2.cap" label="CAP" placeholder="CAP" pattern="[0-9]{5}" :error="formStep2.errors.cap" :disabled="!isManualAddress" :required="isManualAddress" class="col-span-1" />
-
-                        <Input v-model="formStep2.province" label="Provincia" placeholder="Provincia" :error="formStep2.errors.province" :disabled="!isManualAddress" required class="col-span-full" />
+                        <div v-else class="grid grid-cols-3 gap-x-2 gap-y-4">
+                            <Input v-model="formStep2.address" label="Indirizzo" placeholder="Indirizzo, senza numero civico" :error="formStep2.errors.address" :disabled="!formStep2.is_manual_address" required class="col-span-2" />
+    
+                            <Input v-model="formStep2.number" label="Civico" placeholder="Civico" :error="formStep2.errors.number" :disabled="!formStep2.is_manual_address" class="col-span-1" />
+    
+                            <Input v-model="formStep2.city" label="Città" placeholder="Città" :error="formStep2.errors.city" :disabled="!formStep2.is_manual_address" required class="col-span-2" />
+    
+                            <Input v-model="formStep2.cap" label="CAP" placeholder="CAP" pattern="[0-9]{5}" :error="formStep2.errors.cap" :disabled="!formStep2.is_manual_address" :required="formStep2.is_manual_address" class="col-span-1" />
+    
+                            <Input v-model="formStep2.province" label="Provincia" placeholder="Provincia" :error="formStep2.errors.province" :disabled="!formStep2.is_manual_address" required class="col-span-full" />
+                        </div>
                     </div>
-                    
+
                     <div class="px-4 mt-4">
-                        <Checkbox v-model="isManualAddress">Inserimento manuale indirizzo</Checkbox>
+                        <Checkbox v-model="formStep2.is_manual_address">Inserimento manuale indirizzo</Checkbox>
                     </div>
                     <!-- / -->
                 </div>
@@ -125,11 +123,11 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 import { Link, router, useForm } from '@inertiajs/vue3';
 import RegisterStudioLayout from '@/Layouts/Register/RegisterStudioLayout.vue';
 import Button from '@/Components/Form/Button.vue';
-import Radio from '@/Components/Form/Radio.vue';
+// import Radio from '@/Components/Form/Radio.vue';
 import Input from '@/Components/Form/Input.vue';
 import GoogleLogin from '../../GoogleLogin.vue';
 import Checkbox from '@/Components/Form/Checkbox.vue';
@@ -143,7 +141,6 @@ const props = defineProps({
 
 const privacyLink = import.meta.env.VITE_PRIVACY_LINK ?? '#';
 const tosLink = import.meta.env.VITE_TOS_LINK ?? '#';
-const isManualAddress = ref(false);
 
 const formStep1 = useForm({
     step: 1,
@@ -163,6 +160,7 @@ const formStep2 = useForm({
     cap: props.data_step2?.cap ?? null,
     city: props.data_step2?.city ?? null,
     province: props.data_step2?.province ?? null,
+    is_manual_address: props.data_step2?.is_manual_address ?? false,
 });
 
 const formStep3 = useForm({
@@ -187,14 +185,6 @@ const submit = () => {
     else if(props.step === 3) formStep3.post(route('register.studio.starter.store'), {
         onFinish: () => formStep3.reset('password', 'password_confirmation'),
     });
-};
-
-const setFormAddress = (e)=>{
-    formStep2.address = e.address;
-    formStep2.number = e.number;
-    formStep2.cap = e.cap;
-    formStep2.city = e.city;
-    formStep2.province = e.province;
 };
 
 </script>

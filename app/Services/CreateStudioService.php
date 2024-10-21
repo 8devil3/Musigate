@@ -30,7 +30,7 @@ class CreateStudioService
             $end = null;
             $is_open = false;
 
-            if($i <= 5){
+            if($i < 7){
                 $start = '10:00';
                 $end = '23:00';
                 $is_open = true;
@@ -47,12 +47,12 @@ class CreateStudioService
 
         Location::create([
             'studio_id' => $studio->id,
+            'complete_address' => $data_step2['complete_address'],
             'address' => $data_step2['address'],
             'number' => $data_step2['number'],
             'city' => $data_step2['city'],
             'province' => $data_step2['province'],
             'cap' => $data_step2['cap'],
-            'complete_address' => $data_step2['complete_address'],
             'lon' => $data_step2['lon'],
             'lat' => $data_step2['lat']
         ]);

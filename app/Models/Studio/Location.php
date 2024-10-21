@@ -16,6 +16,8 @@ class Location extends Model
         'cap',
         'province',
         'notes',
+        'lon',
+        'lat',
     ];
 
     protected $casts = [
