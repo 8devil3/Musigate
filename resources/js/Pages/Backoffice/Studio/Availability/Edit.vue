@@ -12,7 +12,7 @@
                     Tipo di apertura
                 </template>
                 <template #description>
-                    Schegli se di {{ props.weekdays[props.availability.weekday] }} lo Studio è aperto con orari, aperto tutto il giorno (H24) o chiuso.
+                    Scegli se di {{ props.weekdays[props.availability.weekday] }} lo Studio è aperto con orari, aperto tutto il giorno (H24) o chiuso.
 
                     <div v-if="Object.keys(usePage().props.errors).length" class="mt-4 font-normal text-red-500">
                         Errori
