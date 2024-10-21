@@ -4,6 +4,11 @@ import '../css/animations.css';
 import dayjs from 'dayjs';
 import 'dayjs/locale/it';
 
+import '../fa/css/fontawesome.min.css';
+import '../fa/css/solid.min.css';
+import '../fa/css/regular.min.css';
+import '../fa/css/brands.min.css';
+
 import { createApp, h } from 'vue';
 import { createInertiaApp, router } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
