@@ -7,7 +7,7 @@
             </div>
         </h3>
 
-        <div v-if="props.count !== null" class="mt-4 text-4xl leading-tight font-lemon">
+        <div v-if="props.count !== null" class="mt-4 text-3xl leading-tight font-lemon" :class="props.count > 0 ? 'text-orange-400' : 'text-slate-400'">
             {{ props.count }}
         </div>
 
