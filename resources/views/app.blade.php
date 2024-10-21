@@ -14,9 +14,9 @@
         <link rel="apple-touch-icon" href="/img/pwa/apple-touch-icon.png" sizes="180x180">
         <meta name="theme-color" content="#020617">
 
-        <!-- PWA 
+        <!-- PWA  -->
         <link rel="manifest" href="/build/manifest.webmanifest" type="application/manifest+json">
-        <script src="/build/registerSW.js"></script> -->
+        <script src="/build/registerSW.js"></script>
 
         <title inertia>{{ config('app.name', 'Musigate') }}</title>
 

@@ -70,22 +70,22 @@ export default defineConfig({
                         purpose: 'maskable'
                     },
                 ],
-                // screenshots: [
-                //     {
-                //         src: '/img/pwa/screenshot_desktop.png',
-                //         sizes: '1280x714',
-                //         type: 'image/png',
-                //         form_factor: 'wide',
-                //         label: 'RemoteCareers'
-                //     },
-                //     {
-                //         src: '/img/pwa/screenshot_mobile.png',
-                //         sizes: '320x570',
-                //         type: 'image/png',
-                //         form_factor: 'narrow',
-                //         label: 'RemoteCareers'
-                //     },
-                // ],
+                screenshots: [
+                    {
+                        src: '/img/pwa/screenshot_desktop.png',
+                        sizes: '1920x891',
+                        type: 'image/png',
+                        form_factor: 'wide',
+                        label: 'Musigate'
+                    },
+                    {
+                        src: '/img/pwa/screenshot_mobile.png',
+                        sizes: '375x667',
+                        type: 'image/png',
+                        form_factor: 'narrow',
+                        label: 'Musigate'
+                    },
+                ],
             }
         }),
     ],
