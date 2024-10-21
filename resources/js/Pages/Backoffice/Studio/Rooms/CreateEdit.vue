@@ -1,7 +1,7 @@
 <template>
     <ContentLayout
         @submitted="submit()"
-        :title="props.room?.name ?? form.name"
+        :title="form.name ?? 'Nuova sala'"
         icon="fa-solid fa-microphone-lines"
         :tabLinks="tabLinks"
         backRoute="sale.index"
@@ -166,8 +166,8 @@ import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
 import Toggle from '@/Components/Form/Toggle.vue';
 import SaveButton from '@/Components/Form/SaveButton.vue';
 import Input from '@/Components/Form/Input.vue'
-import InfoBlock from '@/Components/InfoBlock.vue'
-import ColorPicker from '@/Components/Form/ColorPicker.vue';
+// import InfoBlock from '@/Components/InfoBlock.vue'
+// import ColorPicker from '@/Components/Form/ColorPicker.vue';
 import Textarea from '@/Components/Form/Textarea.vue';
 import FormElement from '@/Components/Backoffice/FormElement.vue';
 import NumberInput from '@/Components/Form/NumberInput.vue';

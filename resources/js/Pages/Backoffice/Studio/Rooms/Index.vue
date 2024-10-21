@@ -7,7 +7,10 @@
         <template #content>
             <div v-if="props.rooms.length" class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 lg:gap-6">
                 <article v-for="room in props.rooms" class="flex flex-col transition-colors border hover:shadow-xl border-slate-700 hover:border-orange-500 bg-slate-900 hover:bg-slate-800/50 rounded-2xl overflow-clip">
-                    <Link :href="route('sale.edit', room.id)" class="block h-64">
+                    <Link :href="route('sale.edit', room.id)" class="relative block h-64">
+                        <i v-if="!room.is_visible" title="Sala non visibile" class="absolute flex items-center justify-center text-xl text-white bg-red-500 rounded-full shadow-md size-10 top-4 right-4 fa-solid fa-eye-low-vision" />
+                        <i v-else title="Sala visibile" class="absolute flex items-center justify-center text-xl text-white bg-green-500 rounded-full shadow-md size-10 top-4 right-4 fa-solid fa-eye" />
+
                         <img v-if="room.photos[0]" :src="'/storage/' + room.photos[0].path" class="object-cover w-full h-full" />
                         <img v-else src="/img/logo/logo_placeholder.svg" class="object-contain w-full h-full p-6 lg:p-12 aspect-square bg-slate-950/50">
                     </Link>

@@ -1,7 +1,7 @@
 <template>
     <ContentLayout
         @submitted="submit()"
-        :title="props.bundle?.name ?? form.name"
+        :title="form.name ?? 'Nuovo pacchetto'"
         icon="fa-solid fa-store"
         :tabLinks="tabLinks"
         backRoute="pacchetti.index"

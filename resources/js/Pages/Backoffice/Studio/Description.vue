@@ -81,7 +81,7 @@
                         class="mb-4"
                     />
 
-                    <CheckStudioData :studio="props.studio" />
+                    <CheckStudioData v-if="!props.studio.is_complete" :studio="props.studio" />
                 </template>
             </FormElement>
             <!-- / -->

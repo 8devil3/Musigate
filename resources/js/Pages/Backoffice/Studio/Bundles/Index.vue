@@ -7,7 +7,10 @@
         <template #content>
             <div v-if="props.bundles.length" class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 lg:gap-6">
                 <article v-for="bundle in props.bundles" class="flex flex-col transition-colors border hover:shadow-xl border-slate-700 hover:border-orange-500 bg-slate-900 hover:bg-slate-800/50 rounded-2xl overflow-clip">
-                    <Link :href="route('pacchetti.edit', bundle.id)" class="block h-64">
+                    <Link :href="route('pacchetti.edit', bundle.id)" class="relative block h-64">
+                        <i v-if="!bundle.is_visible" title="Pacchetto non visibile" class="absolute flex items-center justify-center text-xl text-white bg-red-500 rounded-full shadow-md size-10 top-4 right-4 fa-solid fa-eye-low-vision" />
+                        <i v-else title="Pacchetto visibile" class="absolute flex items-center justify-center text-xl text-white bg-green-500 rounded-full shadow-md size-10 top-4 right-4 fa-solid fa-eye" />
+
                         <img v-if="bundle.cover_path" :src="'/storage/' + bundle.cover_path" class="object-cover w-full h-full" />
                         <img v-else src="/img/logo/logo_placeholder.svg" class="object-contain w-full h-full p-6 lg:p-12 aspect-square bg-slate-950/50">
                     </Link>

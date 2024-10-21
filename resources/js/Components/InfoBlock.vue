@@ -1,7 +1,7 @@
 <template>
     <div class="inline-flex items-start gap-2 p-2 border-2 rounded-xl" :class="colorClasses.border">
-        <i class="flex items-center justify-center text-xs border-2 rounded-full shrink-0 size-5" :class="[props.icon, colorClasses.text, colorClasses.border]" />
-        <div class="space-y-1">
+        <i class="text-base shrink-0" :class="[props.icon, colorClasses.text, colorClasses.border]" />
+        <div class="mt-0.5 space-y-1">
             <div class="text-sm font-medium text-left border-0" :class="colorClasses.text">
                 {{ props.title }}
             </div>
@@ -35,22 +35,22 @@ const colorClasses = computed(()=>{
 
     switch (props.color) {
         case 'info':
-            color.border = 'border-blue-500';
+            color.border = 'border-blue-800';
             color.text = 'text-blue-500';
         break;
 
         case 'warning':
-            color.border = 'border-amber-500';
+            color.border = 'border-amber-800';
             color.text = 'text-amber-500';
         break;
 
         case 'danger':
-            color.border = 'border-red-500';
+            color.border = 'border-red-800';
             color.text = 'text-red-500';
         break;
 
         case 'success':
-            color.border = 'border-green-500';
+            color.border = 'border-green-800';
             color.text = 'text-green-500';
         break;
     }

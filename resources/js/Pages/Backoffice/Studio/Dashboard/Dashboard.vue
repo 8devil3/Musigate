@@ -12,12 +12,33 @@
                 </h1>
     
                 <!-- count box -->
-                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-rows-2 xl:grid-cols-4">
+                <div class="grid max-w-xl grid-cols-1 gap-4 mx-auto sm:grid-cols-2">
+                    <InfoBlock
+                        v-if="props.studio.is_visible"
+                        title="Lo Studio è visibile"
+                        color="success"
+                        icon="fa-solid fa-check"
+                        class="col-span-full"
+                    >
+                        Lo Studio attualmente è visibile e ricercabile pubblicamente dagli utenti
+                    </InfoBlock>
+
+                    <InfoBlock
+                        v-else
+                        title="Lo Studio non è visibile"
+                        color="danger"
+                        icon="fa-solid fa-xmark"
+                        class="col-span-full"
+                    >
+                        Lo Studio attualmente non è visibile nè ricercabile pubblicamente dagli utenti
+                    </InfoBlock>
+
                     <CountCard
+                        v-if="!props.studio.is_complete"
                         title="Completamento dati Studio"
                         :icon="props.studio.is_complete ? 'fa-regular fa-circle-check' : 'fa-regular fa-circle-xmark'"
                         :iconColor="props.studio.is_complete ? 'text-green-500' : 'text-red-500'"
-                        class="xl:col-span-2 xl:row-span-2 col-span-full"
+                        class="col-span-full"
                     >
                         <template #content>
                             <CheckStudioData :studio="props.studio" />
@@ -65,7 +86,7 @@
 </template>
 
 <script setup>
-import { usePage } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
 import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
 import CountCard from './CountCard.vue';
 import CheckStudioData from './CheckStudioData.vue';
@@ -78,6 +99,7 @@ const props = defineProps({
 
 <script>
 import BackofficeLayout from '@/Layouts/Backoffice/BackofficeLayout.vue';
+import InfoBlock from '@/Components/InfoBlock.vue';
 
 export default {
     layout: (h, page) => h(BackofficeLayout, {
