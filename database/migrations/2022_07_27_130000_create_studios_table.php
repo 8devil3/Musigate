@@ -18,6 +18,7 @@ return new class extends Migration
             
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('name');
+            $table->string('slug');
             $table->string('vat', 13)->nullable();
             $table->string('logo')->nullable();
             $table->enum('category', ['Home', 'Professional'])->default('Professional');

@@ -40,8 +40,8 @@ Route::get('/offline', function () {
 
 Route::get('/cerca', [SearchController::class, 'index'])->name('rooms.index');
 Route::get('/studio/{studio}', [SearchController::class, 'show'])->name('studio.show');
-Route::get('/prenota/{room}', [ReservationController::class, 'create'])->name('reservation.create');
-Route::post('/prenota/store', [ReservationController::class, 'store'])->name('reservation.store');
+// Route::get('/prenota/sala/{room}', [ReservationController::class, 'create'])->name('reservation.create');
+// Route::post('/prenota/sala/store', [ReservationController::class, 'store'])->name('reservation.store');
 
 //testi legali
 Route::get('/privacy', [LegalTextController::class, 'privacy'])->name('privacy');

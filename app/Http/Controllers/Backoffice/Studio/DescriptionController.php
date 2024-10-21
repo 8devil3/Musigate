@@ -29,7 +29,7 @@ class DescriptionController extends Controller
     public function update(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:240',
             // 'category' => 'required|string|max:255|in:Professional,Home',
             'vat' => 'required|string|size:11',
             'is_record_label' => 'boolean',

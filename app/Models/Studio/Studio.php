@@ -3,10 +3,12 @@
 namespace App\Models\Studio;
 
 use App\Models\User;
-use App\Models\Studio\BookingSetting;
 use App\Models\Room\Room;
+use App\Models\Studio\BookingSetting;
 use App\Models\Studio\Availability;
 use App\Models\Studio\CancelPolicySetting;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -15,9 +17,12 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Studio extends Model
 {
+    use HasSlug;
+
     protected $fillable = [
         'user_id',
         'name',
+        'slug',
         'vat',
         'logo',
         'category',
@@ -32,6 +37,26 @@ class Studio extends Model
         'is_visible' => 'boolean',
         'is_complete' => 'boolean',
     ];
+
+    /**
+     * Get the options for generating the slug.
+     */
+
+    public function getSlugOptions() : SlugOptions
+    {
+        return SlugOptions::create()->generateSlugsFrom('name')->saveSlugsTo('slug');
+    }
+
+    
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 
     public function user(): BelongsTo
     {

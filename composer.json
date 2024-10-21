@@ -15,6 +15,7 @@
         "laravel/tinker": "^2.9",
         "spatie/geocoder": "^3.15",
         "spatie/laravel-google-calendar": "^3.8",
+        "spatie/laravel-sluggable": "^3.6",
         "tightenco/ziggy": "^2.0"
     },
     "require-dev": {

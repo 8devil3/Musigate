@@ -9,11 +9,11 @@
             </div>
         </div>
 
-        <Link :href="route('studio.show', props.studio.id)" class="flex flex-col gap-4 p-4 grow">
+        <Link :href="route('studio.show', props.studio.slug)" class="flex flex-col gap-4 p-4 grow">
             <!-- nome -->
             <div>
                 <div class="text-xs font-medium uppercase text-slate-400">{{ props.studio.category }} studio</div>
-                <h2 class="text-lg text-white md:text-xl font-lemon">
+                <h2 class="text-base text-white md:text-lg font-lemon">
                     {{ props.studio.name }}
                 </h2>
             </div>
