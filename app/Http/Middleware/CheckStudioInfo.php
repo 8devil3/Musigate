@@ -20,14 +20,14 @@ class CheckStudioInfo
             $studio = auth()->user()->studio;
 
             if(
-                $studio->name &&
-                $studio->category &&
-                $studio->location->complete_address &&
-                count($studio->payment_methods) > 0 &&
-                count($studio->photos) > 0 &&
-                strlen($studio->description) > 100 &&
-                ($studio->category === 'Professional' ? $studio->vat : true) &&
-                ($studio->contacts->email || $studio->contacts->phone || $studio->contacts->telegram || $studio->contacts->messenger || $studio->contacts->whatsapp)
+                $studio->name
+                && (count($studio->rooms) > 0 || count($studio->bundles) > 0)
+                && $studio->vat
+                && $studio->location->complete_address
+                && count($studio->payment_methods) > 0
+                && count($studio->photos) > 0
+                && strlen($studio->description) > 100
+                && ($studio->contacts->email || $studio->contacts->phone || $studio->contacts->telegram || $studio->contacts->messenger || $studio->contacts->whatsapp)
             ){
                 $studio->update([
                     'is_complete' => true,
@@ -35,6 +35,7 @@ class CheckStudioInfo
             } else {
                 $studio->update([
                     'is_complete' => false,
+                    'is_visible' => false,
                 ]);
             }
         }

@@ -74,7 +74,14 @@
                 </template>
 
                 <template #content>
-                    <Toggle v-model="form.is_visible" :label="form.is_visible ? 'Studio visibile e ricercabile' : 'Studio non visibile e non ricercabile'" />
+                    <Toggle
+                        v-model="form.is_visible"
+                        :label="form.is_visible ? 'Studio visibile e ricercabile' : 'Studio non visibile e non ricercabile'"
+                        :disabled="!props.studio.is_complete"
+                        class="mb-4"
+                    />
+
+                    <CheckStudioData :studio="props.studio" />
                 </template>
             </FormElement>
             <!-- / -->
@@ -138,6 +145,7 @@
 
 <script setup>
 import { useForm } from '@inertiajs/vue3';
+import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
 import Input from '@/Components/Form/Input.vue';
 // import Radio from '@/Components/Form/Radio.vue';
 import Checkbox from '@/Components/Form/Checkbox.vue';
@@ -146,7 +154,7 @@ import Toggle from '@/Components/Form/Toggle.vue';
 import Textarea from '@/Components/Form/Textarea.vue';
 import ImageUploader from '@/Components/Backoffice/ImageUploader.vue';
 import FormElement from '@/Components/Backoffice/FormElement.vue';
-import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
+import CheckStudioData from './Dashboard/CheckStudioData.vue';
 
 const props = defineProps({
     studio: Object,
@@ -157,7 +165,7 @@ const form = useForm({
     vat: props.studio.vat ?? null,
     // category: props.studio.category ?? '',
     is_record_label: props.studio.is_record_label,
-    is_visible: props.studio.is_record_label,
+    is_visible: props.studio.is_visible,
     description: props.studio.description ?? null,
 });
 

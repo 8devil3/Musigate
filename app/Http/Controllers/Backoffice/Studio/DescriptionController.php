@@ -15,6 +15,8 @@ class DescriptionController extends Controller
     public function edit(): Response
     {
         $studio = auth()->user()->studio->load([
+            'rooms:id,studio_id',
+            'bundles:id,studio_id',
             'location:id,studio_id,complete_address',
             'payment_methods',
             'photos:id,studio_id',
