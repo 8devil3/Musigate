@@ -1,7 +1,7 @@
 <template>
     <component :is="props.as" @submit.prevent="props.as === 'form' ? emit('submitted') : null" class="h-full overflow-clip">
         <fieldset :disabled="props.isLoading" class="h-full overflow-y-auto">
-            <h1 v-if="props.title" class="sticky top-0 z-10 flex items-center justify-between w-full gap-2 px-4 m-0 text-base border-b h-14 lg:h-16 lg:px-6 bg-slate-900 lg:bg-slate-950/50 backdrop-blur-sm md:text-xl border-slate-800">
+            <h1 v-if="props.title" class="sticky top-0 z-10 flex items-center justify-between w-full gap-2 px-4 m-0 text-base border-b md:border-b-0 h-14 lg:h-16 lg:px-6 bg-slate-900 lg:bg-slate-950/50 backdrop-blur-sm md:text-xl border-b-slate-800">
                 <div class="flex items-center gap-2 overflow-hidden leading-tight grow md:gap-3">
                     <Link v-if="props.backRoute" :href="route(props.backRoute, props.backRouteParams)" class="shrink-0">
                         <i class="mr-1 text-base text-orange-500 lg:text-lg fa-solid fa-chevron-left" />
