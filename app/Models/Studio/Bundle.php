@@ -2,8 +2,8 @@
 
 namespace App\Models\Studio;
 
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -50,8 +50,8 @@ class Bundle extends Model
         return $this->belongsTo(Studio::class);
     }
 
-    public function prices(): HasMany
+    public function timeband_prices(): HasMany
     {
-        return $this->hasMany(BundlePrice::class);
+        return $this->hasMany(BundleTimebandPrice::class);
     }
 }

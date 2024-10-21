@@ -21,27 +21,36 @@ class LocationController extends Controller
     public function update(Request $request): RedirectResponse
     {
         $request->validate([
+            'complete_address' => 'required|string|max:255',
             'address' => 'required|string|max:255',
             'number' => 'nullable|string|max:8',
             'city' => 'required|string|max:255',
             'province' => 'required|string|max:255',
             'cap' => 'required|string|max:5',
-            'notes' => 'nullable|string|max:255'
+            'notes' => 'nullable|string|max:255',
+            'is_manual_address' => 'boolean',
         ]);
 
-        $address = [
-            $request->address,
-            $request->number,
-            $request->city
-        ];
+        $complete_address = $request->complete_address;
 
-        $geocode = Geocoder::getCoordinatesForAddress(implode(' ', $address));
+        if($request->is_manual_address){
+            unset($request->toArray()['complete_address']);
+            $complete_address = implode($request->toArray());
+        }
 
-        auth()->user()->studio->location->update(array_merge($request->toArray(), [
-            'complete_address' => $geocode['formatted_address'],
+        $geocode = Geocoder::getCoordinatesForAddress($complete_address);
+
+        auth()->user()->studio->location->update([
+            'complete_address' => $complete_address,
+            'address' => $request->address,
+            'number' => $request->number,
+            'city' => $request->city,
+            'province' => $request->province,
+            'cap' => $request->cap,
+            'notes' => $request->notes,
             'lon' => $geocode['lng'],
             'lat' => $geocode['lat']
-        ]));
+        ]); 
 
         return back()->with('success', 'Location salvata');
     }

@@ -46,36 +46,52 @@
             </div>
 
             <!-- tariffe -->
-            <div v-if="props.room.fixed_price || props.room.has_discounted_fixed_price || props.room.min_price || props.room.min_discounted_price" class="space-y-1">
+            <div v-if="props.room.price_type !== 'no_price'" class="space-y-1">
                 <div>
-                    Tariffa minima
+                    A partire da
                 </div>
                 <div class="flex items-end gap-3">
-                    <template v-if="props.room.min_discounted_price">
-                        <span class="mb-1 text-xs line-through text-slate-400 font-lemon">
+                    <template v-if="props.room.price_type === 'timebands_price'">
+                        <template v-if="props.room.min_discounted_price">
+                            <span class="mb-1 text-xs line-through text-slate-400 font-lemon">
+                                {{ props.room.min_price /100 }} €/h
+                            </span>
+                            <span class="text-base font-medium font-lemon">
+                                {{ props.room.min_discounted_price /100 }} €/h
+                            </span>
+                        </template>
+                        <span v-else="props.room.min_price" class="text-base font-medium font-lemon">
                             {{ props.room.min_price /100 }} €/h
                         </span>
-                        <span class="text-base font-medium font-lemon">
-                            {{ props.room.min_discounted_price /100 }} €/h
+                    </template>
+
+                    <template v-else-if="props.room.price_type === 'hourly_price'">
+                        <template v-if="props.room.has_discounted_hourly_price">
+                            <span class="mb-1 text-xs line-through text-slate-400 font-lemon">
+                                {{ props.room.hourly_price }} €/h
+                            </span>
+                            <span class="text-base font-medium font-lemon">
+                                {{ props.room.discounted_hourly_price }} €/h
+                            </span>
+                        </template>
+                        <span v-else="props.room.hourly_price" class="text-base font-medium font-lemon">
+                            {{ props.room.hourly_price }} €/h
                         </span>
                     </template>
-    
-                    <span v-else-if="props.room.min_price" class="text-base font-medium font-lemon">
-                        {{ props.room.min_price /100 }} €/h
-                    </span>
-    
-                    <template v-else-if="props.room.has_discounted_fixed_price">
-                        <span class="mb-1 text-xs line-through text-slate-400 font-lemon">
-                            {{ props.room.fixed_price }} €/h
-                        </span>
-                        <span class="text-base font-medium font-lemon">
-                            {{ props.room.discounted_fixed_price }} €/h
+
+                    <template v-else-if="props.room.price_type === 'monthly_price'">
+                        <template v-if="props.room.has_discounted_monthly_price">
+                            <span class="mb-1 text-xs line-through text-slate-400 font-lemon">
+                                {{ props.room.monthly_price }} €/mese
+                            </span>
+                            <span class="text-base font-medium font-lemon">
+                                {{ props.room.discounted_monthly_price }} €/mese
+                            </span>
+                        </template>
+                        <span v-else class="text-base font-medium font-lemon">
+                            {{ props.room.monthly_price }} €/mese
                         </span>
                     </template>
-    
-                    <span v-else class="text-base font-medium font-lemon">
-                        {{ props.room.fixed_price }} €/h
-                    </span>
                 </div>
             </div>
             <!-- / -->
@@ -129,10 +145,10 @@
 
                     <div v-if="props.room.price_type === 'timebands_price'" class="grid grid-cols-1 gap-6 pt-4 sm:grid-cols-2">
                         <template v-for="wd, wdKey in props.weekdays">
-                            <div v-if="props.room.prices.filter(price => price.timeband.weekday == wdKey).length" class="pb-4 space-y-4 border-b border-slate-700 last-of-type:border-0 sm:[&:nth-last-of-type(-n+2)]:border-0">
-                                <h4 class="text-base text-white">
+                            <article v-if="props.room.prices.filter(price => price.timeband.weekday == wdKey).length" class="pb-4 space-y-4 border-b border-slate-700 last-of-type:border-0 sm:[&:nth-last-of-type(-n+2)]:border-0">
+                                <h5 class="text-base text-white">
                                     {{ wd }}
-                                </h4>
+                                </h5>
                                 <div v-for="price in props.room.prices.filter(price => price.timeband.weekday == wdKey)" class="space-y-1 font-normal">
                                     <div>
                                         <div class="text-sm text-slate-100">
@@ -153,22 +169,37 @@
                                         {{ price.price }} €/h
                                     </div>
                                 </div>
-                            </div>
+                            </article>
                         </template>
                     </div>
 
-                    <div v-else-if="props.room.price_type === 'fixed_price'">
-                        <template v-if="props.room.discounted_fixed_price">
+                    <div v-else-if="props.room.price_type === 'hourly_price'">
+                        <template v-if="props.room.has_discounted_hourly_price">
                             <span class="text-xs line-through text-slate-400 font-lemon">
-                                {{ props.room.fixed_price }} €/h
+                                {{ props.room.hourly_price }} €/h
                             </span>
-                            <span class="text-base font-medium font-lemon">
-                                {{ props.room.discounted_fixed_price }} €/h
+                            <span class="ml-2 text-base font-medium font-lemon">
+                                {{ props.room.discounted_hourly_price }} €/h
                             </span>
                         </template>
     
                         <span v-else class="text-base font-medium font-lemon">
-                            {{ props.room.discounted_fixed_price }} €/h
+                            {{ props.room.hourly_price }} €/h
+                        </span>
+                    </div>
+
+                    <div v-else-if="props.room.price_type === 'monthly_price'">
+                        <template v-if="props.room.discounted_monthly_price">
+                            <span class="text-xs line-through text-slate-400 font-lemon">
+                                {{ props.room.monthly_price }} €/mese
+                            </span>
+                            <span class="ml-2 text-base font-medium font-lemon">
+                                {{ props.room.discounted_monthly_price }} €/mese
+                            </span>
+                        </template>
+    
+                        <span v-else class="text-base font-medium font-lemon">
+                            {{ props.room.discounted_monthly_price }} €/mese
                         </span>
                     </div>
                 </div>
@@ -181,7 +212,7 @@
                     <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
                         <template v-for="category, id in props.equipment_categories">
                             <div v-if="props.room.equipments.filter(equip => equip.equipment_category_id == id).length">
-                                <h5 class="mb-1 text-sm font-lemon">{{ category }}</h5>
+                                <h5>{{ category }}</h5>
                                 <ul class="grid grid-cols-1 m-0 gap-x-16 list-musigate">
                                     <li v-for="eq in props.room.equipments.filter(equip => equip.equipment_category_id == id)" class="w-full list-musigate">
                                         <div class="truncate">{{ eq.name }}</div>

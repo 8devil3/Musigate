@@ -25,11 +25,15 @@
     }
 
     h3 {
-        @apply font-lemon text-[16px] md:text-lg tracking-wide mb-1 md:mb-2;
+        @apply mb-1 text-base tracking-wide font-lemon md:text-lg md:mb-2;
     }
 
     h4 {
-        @apply font-lemon text-[14px] md:text-base tracking-wide mb-1;
+        @apply mb-1 text-base tracking-wide font-lemon;
+    }
+
+    h5 {
+        @apply mb-1 text-sm tracking-wide font-lemon;
     }
 
     p,

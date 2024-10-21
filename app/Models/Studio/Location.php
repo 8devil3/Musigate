@@ -3,13 +3,10 @@
 namespace App\Models\Studio;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Location extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
         'studio_id',
         'complete_address',
@@ -18,8 +15,6 @@ class Location extends Model
         'city',
         'cap',
         'province',
-        'lon',
-        'lat',
         'notes',
     ];
 

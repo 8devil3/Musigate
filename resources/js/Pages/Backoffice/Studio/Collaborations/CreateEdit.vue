@@ -32,7 +32,7 @@
 
                 <template #content>
                     <div class="space-x-2">
-                        <Select v-model="form.month" :options="months" default="Mese" :error="form.errors.month" required class="w-32" />
+                        <Select v-model="form.month" :options="props.months" default="Mese" :error="form.errors.month" required class="w-32" />
                         <Select v-model="form.year" isArray :options="years" default="Anno" :error="form.errors.year" required class="w-24" />
                     </div>
                 </template>
@@ -95,6 +95,7 @@ import FormElement from '@/Components/Backoffice/FormElement.vue';
 
 const props = defineProps({
     collaboration: Object,
+    months: Object,
 });
 
 const form = useForm({
@@ -120,21 +121,6 @@ const submit = ()=>{
             }
         });
     }
-};
-
-const months = {
-    1: 'Gennaio',
-    2: 'Febbraio',
-    3: 'Marzo',
-    4: 'Aprile',
-    5: 'Maggio',
-    6: 'Giugno',
-    7: 'Luglio',
-    8: 'Agosto',
-    9: 'Settembre',
-    10: 'Ottobre',
-    11: 'Novembre',
-    12: 'Dicembre',
 };
 
 const years = computed(()=>{

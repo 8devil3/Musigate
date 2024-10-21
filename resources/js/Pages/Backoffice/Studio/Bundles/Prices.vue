@@ -19,7 +19,7 @@
 
                 <template #content>
                     <div class="space-y-2">
-                        <Radio v-for="type, key in props.price_types" @change="setTimebandPrices()" v-model="form.price_type" :value="key" name="price-type" :disabled="key === 'timebands_price' && !props.timebands.length">
+                        <Radio v-for="type, key in props.price_types" @change="setTimebandPrices()" v-model="form.price_type" :value="key" name="bundle-price-type" :disabled="key === 'timebands_price' && !props.timebands.length">
                             {{ type }}
                         </Radio>
 

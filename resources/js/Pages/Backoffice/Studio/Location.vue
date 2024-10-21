@@ -22,19 +22,19 @@
                             @addressData="setFormAddress"
                             class="col-span-full"
                         />
-                        <Input v-model="form.address" placeholder="Indirizzo, senza numero civico" label="Indirizzo" :error="form.errors.address" :disabled="!isManualAddress" required class="col-span-2" />
+                        <Input v-model="form.address" placeholder="Indirizzo, senza numero civico" label="Indirizzo" :error="form.errors.address" :disabled="!form.is_manual_address" required class="col-span-2" />
 
-                        <Input v-model="form.number" placeholder="Civico" label="Numero" :error="form.errors.number" :disabled="!isManualAddress" class="col-span-1" />
+                        <Input v-model="form.number" placeholder="Civico" label="Numero" :error="form.errors.number" :disabled="!form.is_manual_address" class="col-span-1" />
 
-                        <Input v-model="form.city" placeholder="Città" label="Città" :error="form.errors.city" :disabled="!isManualAddress" required class="col-span-2" />
+                        <Input v-model="form.city" placeholder="Città" label="Città" :error="form.errors.city" :disabled="!form.is_manual_address" required class="col-span-2" />
 
-                        <Input v-model="form.cap" placeholder="CAP" label="CAP" pattern="[0-9]{5}" :error="form.errors.cap" :disabled="!isManualAddress" :required="isManualAddress" class="col-span-1" />
+                        <Input v-model="form.cap" placeholder="CAP" label="CAP" pattern="[0-9]{5}" :error="form.errors.cap" :disabled="!form.is_manual_address" :required="form.is_manual_address" class="col-span-1" />
 
-                        <Input v-model="form.province" placeholder="Provincia" label="Provincia" :error="form.errors.province" :disabled="!isManualAddress" required class="col-span-full" />
+                        <Input v-model="form.province" placeholder="Provincia" label="Provincia" :error="form.errors.province" :disabled="!form.is_manual_address" required class="col-span-full" />
                     </div>
                     
                     <div class="px-4 mt-4">
-                        <Checkbox v-model="isManualAddress">Inserimento manuale indirizzo</Checkbox>
+                        <Checkbox v-model="form.is_manual_address">Inserimento manuale indirizzo</Checkbox>
                     </div>
                 </template>
             </FormElement>
@@ -83,13 +83,14 @@ const form = useForm({
     cap: props.location.cap,
     city: props.location.city,
     province: props.location.province,
-    notes: props.location.notes
+    notes: props.location.notes,
+    is_manual_address: false,
 });
 
-const isManualAddress = ref(false);
-
 const submit = () => {
-    form.put(route('studio.location.update'));
+    form.put(route('studio.location.update'), {
+        // onSuccess: ()=> form.reset(),
+    });
 };
 
 const setFormAddress = (e)=>{

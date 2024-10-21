@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Frontoffice;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Picklists;
 use App\Models\Role;
 use App\Models\Room\EquipmentCategory;
-use App\Models\Studio\Availability;
 use App\Models\Studio\Studio;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -47,9 +47,10 @@ class SearchController extends Controller
 
     public function show(Studio $studio): Response
     {
-        if(!$studio->is_complete) abort(404);
+        if(!$studio->is_complete || !$studio->is_visible) abort(404);
 
-        $weekdays = Availability::WEEKDAYS;
+        $weekdays = Picklists::WEEKDAYS;
+        $months = Picklists::MONTHS;
 
         $request = session()->get('request');
 
@@ -66,15 +67,15 @@ class SearchController extends Controller
             'availability',
         ])->load(['rooms' => function($query){
             //mostro solo le sale pubblicate
-            $query->with(['equipments', 'photos', 'prices.timeband:id,weekday,name,start,end'])
-                ->withMin('prices as min_price', 'price')
-                ->withMin('prices as min_discounted_price', 'discounted_price')
+            $query->with(['equipments', 'photos', 'timeband_prices.timeband:id,weekday,name,start,end'])
+                ->withMin('timeband_prices as min_price', 'price')
+                ->withMin('timeband_prices as min_discounted_price', 'discounted_price')
                 ->where('is_visible', true);
         }])->load(['bundles' => function($query){
             //mostro solo i bundle pubblicati
-            $query->with('prices.timeband:id,weekday,name,start,end')
-                ->withMin('prices as min_price', 'price')
-                ->withMin('prices as min_discounted_price', 'discounted_price')
+            $query->with('timeband_prices.timeband:id,weekday,name,start,end')
+                ->withMin('timeband_prices as min_price', 'price')
+                ->withMin('timeband_prices as min_discounted_price', 'discounted_price')
                 ->where('is_visible', true);
         }]);
 
@@ -94,6 +95,6 @@ class SearchController extends Controller
         $socials = $studio->social->only(['facebook', 'instagram', 'youtube', 'linkedin', 'soundcloud', 'spotify', 'itunes', 'website']);
         $contacts = Inertia::lazy(fn () => $studio_contacts);
         
-        return Inertia::render('Frontoffice/Studio/Show', compact('request', 'studio', 'equipment_categories', 'socials', 'contacts', 'weekdays', 'all_photos'));
+        return Inertia::render('Frontoffice/Studio/Show', compact('request', 'studio', 'equipment_categories', 'socials', 'contacts', 'weekdays', 'months', 'all_photos'));
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backoffice\Studio;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Picklists;
 use App\Models\Studio\Availability;
 use App\Services\GeneratePeriodsService;
 use Illuminate\Http\RedirectResponse;
@@ -14,7 +15,7 @@ class WeeklyAvailabilityController extends Controller
 {
     public function index(): Response
     {
-        $weekdays = Availability::WEEKDAYS;
+        $weekdays = Picklists::WEEKDAYS;
         $availability = auth()->user()->studio->availability()->with('timebands')->get();
 
         return Inertia::render('Backoffice/Studio/Availability/Index', compact('availability', 'weekdays'));
@@ -25,7 +26,8 @@ class WeeklyAvailabilityController extends Controller
         if($availability->studio->user->id !== auth()->id()) abort(403);
 
         $hours = GeneratePeriodsService::generate();
-        $weekdays = Availability::WEEKDAYS;
+        $weekdays = Picklists::WEEKDAYS;
+        $open_types = Picklists::OPEN_TYPES;
 
         $studio = auth()->user()->studio;
         $availability->load('timebands');
@@ -34,7 +36,7 @@ class WeeklyAvailabilityController extends Controller
             return $wd !== $availability->weekday;
         }, ARRAY_FILTER_USE_KEY);
 
-        return Inertia::render('Backoffice/Studio/Availability/Edit', compact('availability', 'hours', 'weekdays', 'copy_from_weekdays'));
+        return Inertia::render('Backoffice/Studio/Availability/Edit', compact('availability', 'hours', 'weekdays', 'open_types', 'copy_from_weekdays'));
     }
 
     public function update(Request $request, Availability $availability): RedirectResponse
@@ -43,7 +45,7 @@ class WeeklyAvailabilityController extends Controller
         if(empty($request->timebands) || $request->open_type === 'close') $request->replace($request->except(['timebands']));
 
         $request->validate([
-            'open_type' => ['required', 'string', 'in:' . implode(',', Availability::OPEN_TYPES)],
+            'open_type' => ['required', 'string', 'in:' . implode(',', Picklists::OPEN_TYPES)],
             'timebands' => ['sometimes', 'array', 'min:2'],
             'timebands.*.name' => ['required', 'distinct', 'string', 'max:255'],
             'timebands.*.start' => ['required', 'string', 'date_format:H:i,H:i:s'],
@@ -115,7 +117,7 @@ class WeeklyAvailabilityController extends Controller
                         'dicounted_fixed_price' => null,
                     ]);
 
-                    $room->prices()->delete();
+                    $room->timeband_prices()->delete();
                 }
             }
         }
@@ -165,7 +167,7 @@ class WeeklyAvailabilityController extends Controller
                     'dicounted_fixed_price' => null,
                 ]);
 
-                $room->prices()->delete();
+                $room->timeband_prices()->delete();
             }
         }
 

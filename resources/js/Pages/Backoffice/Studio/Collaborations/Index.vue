@@ -18,8 +18,8 @@
                             <div class="absolute size-3.5 bg-slate-900 rounded-full mt-2 -left-2 border-2 border-orange-500" />
                             <div class="space-y-2">
                                 <div>
-                                    <h3 class="font-sans text-xs font-normal text-slate-400">{{ months[collab.month] }} {{ collab.year }}</h3>
-                                    <h2 class="leading-normal text-slate-200">{{ collab.title }}</h2>
+                                    <h3 class="m-0 font-sans text-xs font-normal uppercase text-slate-400">{{ props.months[collab.month] }} {{ collab.year }}</h3>
+                                    <h2 class="text-base leading-normal text-slate-200">{{ collab.title }}</h2>
                                 </div>
 
                                 <p class="text-sm text-slate-300">{{ collab.description }}</p>
@@ -92,6 +92,7 @@ import ModalDanger from '@/Components/ModalDanger.vue';
 
 const props = defineProps({
     collaborations: Object,
+    months: Object,
 });
 
 const openModalDanger = ref(false);
@@ -112,21 +113,6 @@ const deleteCollaboration = ()=>{
         preserveScroll: true,
         onSuccess: ()=> closeModalDelete(),
     });
-};
-
-const months = {
-    1: 'Gennaio',
-    2: 'Febbraio',
-    3: 'Marzo',
-    4: 'Aprile',
-    5: 'Maggio',
-    6: 'Giugno',
-    7: 'Luglio',
-    8: 'Agosto',
-    9: 'Settembre',
-    10: 'Ottobre',
-    11: 'Novembre',
-    12: 'Dicembre',
 };
 
 </script>

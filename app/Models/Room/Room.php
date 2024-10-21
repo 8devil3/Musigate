@@ -22,22 +22,26 @@ class Room extends Model
         'studio_id',
         'name',
         'color',
-        'is_bookable',
-        'is_visible',
-        'price_type',
-        'fixed_price',
-        'has_discounted_fixed_price',
-        'discounted_fixed_price',
         'min_booking',
         'area',
         'description',
         'max_capacity',
+        'price_type',
+        'hourly_price',
+        'has_discounted_hourly_price',
+        'discounted_hourly_price',
+        'monthly_price',
+        'has_discounted_monthly_price',
+        'discounted_monthly_price',
+        'is_bookable',
+        'is_visible',
     ];
 
     protected $casts = [
         'is_bookable' => 'boolean',
         'is_visible' => 'boolean',
-        'has_discounted_fixed_price' => 'boolean',
+        'has_discounted_hourly_price' => 'boolean',
+        'has_discounted_monthly_price' => 'boolean',
     ];
 
     public function fixedPrice(): Attribute
@@ -81,8 +85,8 @@ class Room extends Model
         return $this->hasMany(TempBooking::class);
     }
 
-    public function prices(): HasMany
+    public function timeband_prices(): HasMany
     {
-        return $this->hasMany(RoomPrice::class);
+        return $this->hasMany(RoomTimebandPrice::class);
     }
 }

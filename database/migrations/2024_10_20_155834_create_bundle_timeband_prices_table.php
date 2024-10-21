@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bundle_prices', function (Blueprint $table) {
+        Schema::create('bundle_timeband_prices', function (Blueprint $table) {
             $table->id();
 
             $table->foreignId('bundle_id')->constrained()->cascadeOnDelete();
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('bundle_prices');
+        Schema::dropIfExists('bundle_timeband_prices');
     }
 };

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backoffice\Studio;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Picklists;
 use App\Models\Studio\Collaboration;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
@@ -13,16 +14,18 @@ class CollaborationController extends Controller
 {
     public function index(): Response
     {
+        $months = Picklists::MONTHS;
         $collaborations = auth()->user()->studio->collaborations()->orderByDesc('year')->orderByDesc('month')->get();
 
-        return Inertia::render('Backoffice/Studio/Collaborations/Index', compact('collaborations'));
+        return Inertia::render('Backoffice/Studio/Collaborations/Index', compact('collaborations', 'months'));
     }
 
     public function create(): Response
     {
+        $months = Picklists::MONTHS;
         $collaboration = [];
 
-        return Inertia::render('Backoffice/Studio/Collaborations/CreateEdit', compact('collaboration'));
+        return Inertia::render('Backoffice/Studio/Collaborations/CreateEdit', compact('collaboration', 'months'));
     }
 
     public function store(Request $request): RedirectResponse
@@ -47,7 +50,9 @@ class CollaborationController extends Controller
 
     public function edit(Collaboration $collaboration): Response
     {
-        return Inertia::render('Backoffice/Studio/Collaborations/CreateEdit', compact('collaboration'));
+        $months = Picklists::MONTHS;
+
+        return Inertia::render('Backoffice/Studio/Collaborations/CreateEdit', compact('collaboration', 'months'));
     }
 
     public function update(Request $request, Collaboration $collaboration): RedirectResponse

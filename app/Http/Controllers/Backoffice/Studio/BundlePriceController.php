@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\Backoffice\Studio;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Picklists;
 use App\Models\Studio\Bundle;
-use App\Models\Studio\BundlePrice;
-use App\Models\Studio\Availability;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -15,19 +14,19 @@ class BundlePriceController extends Controller
 {
     public function edit(Bundle $bundle): Response
     {
-        $price_types = BundlePrice::PRICE_TYPES;
+        $price_types = Picklists::BUNDLE_PRICE_TYPES;
         $studio = auth()->user()->studio;
 
         $open_weekdays = $studio->availability()->whereNot('open_type', 'close')->get()
             ->mapWithKeys(function($av): array {
                 return [$av->weekday => [
-                    'label' => Availability::WEEKDAYS[$av->weekday],
+                    'label' => Picklists::WEEKDAYS[$av->weekday],
                     'availability_id' => $av->id,
                 ]];
             });
 
         $timebands = $studio->timebands;
-        $timeband_prices = $bundle->prices;
+        $timeband_prices = $bundle->timeband_prices;
 
         return Inertia::render('Backoffice/Studio/Bundles/Prices', compact('bundle', 'timeband_prices', 'open_weekdays', 'timebands', 'price_types'));
     }
@@ -35,7 +34,7 @@ class BundlePriceController extends Controller
     public function update(Request $request, Bundle $bundle): RedirectResponse
     {
         $request->validate([
-            'price_type' => ['required', 'string', 'in:' . implode(',', array_keys(BundlePrice::PRICE_TYPES))],
+            'price_type' => ['required', 'string', 'in:' . implode(',', array_keys(Picklists::BUNDLE_PRICE_TYPES))],
         ]);
 
         $price_type = $request->price_type;
@@ -49,7 +48,7 @@ class BundlePriceController extends Controller
                 'is_bookable' => false,
             ]);
 
-            $bundle->prices()->delete();
+            $bundle->timeband_prices()->delete();
         } else if($price_type === 'fixed_price'){
             $request->validate([
                 'fixed_price' => ['required', 'integer', 'min:2'],
@@ -64,7 +63,7 @@ class BundlePriceController extends Controller
                 'discounted_fixed_price' => boolval($request->has_discounted_fixed_price) ? $request->discounted_fixed_price : null,
             ]);
 
-            $bundle->prices()->delete();
+            $bundle->timeband_prices()->delete();
         } else if($price_type === 'timebands_price'){
             $request->validate([
                 'timeband_prices' => ['nullable', 'required_if:price_type,timebands_price', 'array'],
@@ -82,7 +81,7 @@ class BundlePriceController extends Controller
             ]);
 
             foreach ($request->timeband_prices as $tbp) {
-                $bundle->prices()->updateOrCreate([
+                $bundle->timeband_prices()->updateOrCreate([
                     'id' => $tbp['id'],
                 ], [
                     'timeband_id' => $tbp['timeband_id'],

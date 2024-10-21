@@ -2,9 +2,9 @@
 
 namespace App\Models\Studio;
 
-use App\Models\Room\RoomPrice;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use App\Models\Room\RoomTimebandPrice;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -45,11 +45,11 @@ class Timeband extends Model
 
     public function room_prices(): HasMany
     {
-        return $this->hasMany(RoomPrice::class);
+        return $this->hasMany(RoomTimebandPrice::class);
     }
 
     public function bundle_prices(): HasMany
     {
-        return $this->hasMany(BundlePrice::class);
+        return $this->hasMany(BundleTimebandPrice::class);
     }
 }

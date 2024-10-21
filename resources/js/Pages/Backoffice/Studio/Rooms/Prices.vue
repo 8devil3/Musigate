@@ -19,7 +19,7 @@
 
                 <template #content>
                     <div class="space-y-2">
-                        <Radio v-for="type, key in props.price_types" @change="setTimebandPrices()" v-model="form.price_type" :value="key" name="price-type" :disabled="key === 'timebands_price' && !props.timebands.length">
+                        <Radio v-for="type, key in props.price_types" @change="setTimebandPrices()" v-model="form.price_type" :value="key" name="room-price-type" :disabled="key === 'timebands_price' && !props.timebands.length">
                             {{ type }}
                         </Radio>
 
@@ -31,25 +31,47 @@
             </FormElement>
             <!-- / -->
 
-            <!-- tariffa fissa -->
-            <FormElement v-if="form.price_type === 'fixed_price'">
+            <!-- tariffa oraria -->
+            <FormElement v-if="form.price_type === 'hourly_price'">
                 <template #title>
-                    Tariffa fissa
+                    Tariffa oraria
                 </template>
 
                 <template #description>
-                    Inserisci il valore della tariffa fissa ed eventualmente anche un valore scontato.<br>
-                    La tariffa fissa rimane costante per l'intero ciclo settimanale.
+                    Inserisci il valore della tariffa oraria ed eventualmente anche un valore scontato.<br>
                 </template>
 
                 <template #content>
                     <div class="space-y-4">
-                        <NumberInput v-model="form.fixed_price" label="Tariffa base" :min="2" unit="€/h" :error="form.errors.fixed_price" required />
+                        <NumberInput v-model="form.hourly_price" label="Tariffa base" :min="2" unit="€/h" :error="form.errors.hourly_price" required />
                         <Toggle
-                            v-model="form.has_discounted_fixed_price"
+                            v-model="form.has_discounted_hourly_price"
                             label="Abilita sconto"
                         />
-                        <NumberInput v-if="form.has_discounted_fixed_price" label="Tariffa scontata" v-model="form.discounted_fixed_price" :min="1" :max="form.fixed_price -1" unit="€/h" :error="form.errors.discounted_fixed_price" required />
+                        <NumberInput v-if="form.has_discounted_hourly_price" label="Tariffa scontata" v-model="form.discounted_hourly_price" :min="1" :max="form.hourly_price -1" unit="€/h" :error="form.errors.discounted_hourly_price" required />
+                    </div>
+                </template>
+            </FormElement>
+            <!-- / -->
+
+            <!-- tariffa mensile -->
+            <FormElement v-else-if="form.price_type === 'monthly_price'">
+                <template #title>
+                    Tariffa mensile
+                </template>
+
+                <template #description>
+                    Inserisci il valore della tariffa mensile ed eventualmente anche un valore scontato.<br>
+                </template>
+
+                <template #content>
+                    <div class="space-y-4">
+                        <NumberInput v-model="form.monthly_price" label="Tariffa base" :min="2" unit="€/mese" :error="form.errors.monthly_price" required />
+                        <Toggle
+                            v-model="form.has_discounted_monthly_price"
+                            label="Abilita sconto"
+                        />
+                        <NumberInput v-if="form.has_discounted_monthly_price" label="Tariffa scontata" v-model="form.discounted_monthly_price" :min="1" :max="form.monthly_price -1" unit="€/mese" :error="form.errors.discounted_monthly_price" required />
                     </div>
                 </template>
             </FormElement>
@@ -134,9 +156,12 @@ const props = defineProps({
 
 const form = useForm({
     price_type: props.room.price_type,
-    fixed_price: props.room.fixed_price,
-    has_discounted_fixed_price: props.room.has_discounted_fixed_price,
-    discounted_fixed_price: props.room.discounted_fixed_price,
+    hourly_price: props.room.hourly_price,
+    has_discounted_hourly_price: props.room.has_discounted_hourly_price,
+    discounted_hourly_price: props.room.discounted_hourly_price,
+    monthly_price: props.room.monthly_price,
+    has_discounted_monthly_price: props.room.has_discounted_monthly_price,
+    discounted_monthly_price: props.room.discounted_monthly_price,
     timeband_prices: props.timeband_prices ?? [],
 });
 

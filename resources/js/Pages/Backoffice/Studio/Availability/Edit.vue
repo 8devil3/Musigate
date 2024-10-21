@@ -23,9 +23,7 @@
                 </template>
                 <template #content>
                     <div class="space-y-2">
-                        <Radio v-model="form.open_type" @change="setOpenHours()" name="studio-open-type" value="open">Aperto con orari</Radio>
-                        <Radio v-model="form.open_type" @change="setOpenHours()" name="studio-open-type" value="open_h24">Aperto tutto il giorno (H24)</Radio>
-                        <Radio v-model="form.open_type" @change="setOpenHours()" name="studio-open-type" value="close">Chiuso</Radio>
+                        <Radio v-for="openType, key in props.open_types" v-model="form.open_type" @change="setOpenHours()" name="studio-open-type" :value="key">{{ openType }}</Radio>
                     </div>
                 </template>
             </FormElement>
@@ -205,6 +203,7 @@ const props = defineProps({
     current_weekday: Number,
     hours: Object,
     weekdays: Object,
+    open_types: Object,
     copy_from_weekdays: Object,
 });
 

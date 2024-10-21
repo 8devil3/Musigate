@@ -7,14 +7,8 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class RoomPrice extends Model
+class RoomTimebandPrice extends Model
 {
-    const PRICE_TYPES = [
-        'no_price' => 'Nessuna tariffa',
-        'fixed_price' => 'Tariffa fissa',
-        'timebands_price' => 'Tariffe a fasce orarie',
-    ];
-
     protected $fillable = [
         'room_id',
         'timeband_id',

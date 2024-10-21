@@ -38,7 +38,7 @@
                                 <template v-if="index %2 === 0">
                                     <li class="relative pb-6 pl-2 pr-12 leading-normal border-b-2 border-l border-l-slate-500 border-b-slate-500">
                                         <div class="text-xs font-normal uppercase shrink-0 text-slate-400">
-                                            {{ months[collab.month] }}
+                                            {{ props.months[collab.month] }}
                                             {{ collab.year }}
                                         </div>
     
@@ -52,7 +52,7 @@
                                     <div />
                                     <li class="relative flex flex-col justify-end pt-6 pl-2 -mt-0.5 pr-12 border-t-2 border-l border-l-slate-500 border-t-slate-500 leading-normal">
                                         <div class="text-xs font-normal uppercase shrink-0 text-slate-400">
-                                            {{ months[collab.month] }}
+                                            {{ props.months[collab.month] }}
                                             {{ collab.year }}
                                         </div>
     
@@ -83,7 +83,7 @@
 
                                     <div class="pt-1.5 space-y-2">
                                         <div>
-                                            <div class="text-xs font-normal uppercase text-slate-400">{{ months[collab.month] }} {{ collab.year }}</div>
+                                            <div class="text-xs font-normal uppercase text-slate-400">{{ props.months[collab.month] }} {{ collab.year }}</div>
                                             <h3 class="leading-normal">{{ collab.title }}</h3>
                                         </div>
 
@@ -296,6 +296,7 @@ const props = defineProps({
     contacts: Object,
     socials: Object,
     weekdays: Object,
+    months: Object,
     request: Object,
 });
 
@@ -307,21 +308,6 @@ const openComfortsModal = ref(false);
 
 router.on('start', ()=> isLoading.value = true);
 router.on('finish', ()=> isLoading.value = false);
-
-const months = {
-    1: 'Gennaio',
-    2: 'Febbraio',
-    3: 'Marzo',
-    4: 'Aprile',
-    5: 'Maggio',
-    6: 'Giugno',
-    7: 'Luglio',
-    8: 'Agosto',
-    9: 'Settembre',
-    10: 'Ottobre',
-    11: 'Novembre',
-    12: 'Dicembre',
-};
 
 const computedContacts = computed(()=>{
     let arrContacts = Object.entries(props.contacts);
