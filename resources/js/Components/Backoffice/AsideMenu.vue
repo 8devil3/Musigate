@@ -2,7 +2,7 @@
     <nav class="flex flex-col h-full font-sans font-medium max-w-64 bg-slate-900 shrink-0 noscrollbar">
         <div class="sticky top-0 flex flex-col h-16 shadow-md shrink-0">
             <Link :href="route('dashboard')" class="flex items-center justify-center w-64 grow">
-                <img src="/img/logo/logo_horizontal.svg" alt="Musigate logo" class="h-6">
+                <img src="/img/logo/logo_horizontal_complete.svg" alt="Musigate logo" class="h-8">
             </Link>
             <div class="shrink-0 block h-0.5 bg-gradient-to-r from-transparent via-orange-500 to-transparent-500" />
         </div>
