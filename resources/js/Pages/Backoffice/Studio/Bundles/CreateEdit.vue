@@ -154,6 +154,11 @@ const tabLinks = computed(()=>{
                 route: 'pacchetti.prices.edit',
                 params: props.bundle.id,
             },
+            {
+                label: 'Foto',
+                route: 'pacchetti.photo.edit',
+                params: props.bundle.id,
+            },
         ];
     } else {
         return null;

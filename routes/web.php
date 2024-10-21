@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\Backoffice\Studio\BundleController;
-use App\Http\Controllers\Backoffice\Studio\BundlePriceController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontoffice\ReservationController;
 use App\Http\Controllers\Frontoffice\LegalTextController;
@@ -10,8 +8,10 @@ use App\Http\Controllers\Backoffice\SuggestionController;
 use App\Http\Controllers\Backoffice\AccountController;
 // use App\Http\Controllers\Backoffice\Studio\BookingSettingController;
 // use App\Http\Controllers\Backoffice\Studio\CancelPolicySettingController;
-use App\Http\Controllers\Backoffice\Studio\ServiceController;
 // use App\Http\Controllers\Backoffice\Studio\BookingController;
+use App\Http\Controllers\Backoffice\Studio\BundleController;
+use App\Http\Controllers\Backoffice\Studio\BundlePhotoController;
+use App\Http\Controllers\Backoffice\Studio\BundlePriceController;
 use App\Http\Controllers\Backoffice\Studio\DashboardController;
 use App\Http\Controllers\Backoffice\Studio\StudioPhotoController;
 use App\Http\Controllers\Backoffice\Studio\WeeklyAvailabilityController;
@@ -152,6 +152,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
             //tariffe pacchetti
             Route::get('/pacchetti/{bundle}/tariffe', [BundlePriceController::class, 'edit'])->name('pacchetti.prices.edit');
             Route::put('/pacchetti/{bundle}/tariffe', [BundlePriceController::class, 'update'])->name('pacchetti.prices.update');
+
+            //foto pacchetti
+            Route::get('/pacchetti/{bundle}/foto', [BundlePhotoController::class, 'edit'])->name('pacchetti.photo.edit');
+            Route::post('/pacchetti/{bundle}/foto', [BundlePhotoController::class, 'update'])->name('pacchetti.photo.update');
+            Route::delete('/pacchetti/{bundle}/foto', [BundlePhotoController::class, 'destroy'])->name('pacchetti.photo.destroy');
         });
 
         //suggerimenti
