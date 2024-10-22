@@ -20,36 +20,47 @@ class LocationController extends Controller
     public function update(Request $request): RedirectResponse
     {
         $request->validate([
-            'complete_address' => 'required_without_all:address,city,province,cap|string|max:255',
-            'address' => 'required_without:complete_address|string|max:255',
-            'number' => 'nullable|string|max:8',
-            'city' => 'required_without:complete_address|string|max:255',
-            'province' => 'required_without:complete_address|string|max:255',
-            'cap' => 'required_without:complete_address|string|max:5',
+            'name' => 'required|string|max:255',
+            'category' => 'required|string|in:Home,Professional',
+            'vat' => 'nullable|required_if:category,Professional|string|size:11',
             'notes' => 'nullable|string|max:255',
-            'is_manual_address' => 'boolean',
+            'is_manual_address' => 'string|in:true,false'
         ]);
 
-        $complete_address = $request->complete_address;
+        $is_manual_address = $request->is_manual_address === 'true' ? true : false;
 
-        if($request->is_manual_address){
+        if($is_manual_address){
+            $request->validate([
+                'address' => 'required|string|max:255',
+                'number' => 'nullable|string|max:8',
+                'city' => 'required|string|max:255',
+                'province' => 'required|string|max:255',
+                'cap' => 'required|string|max:5',
+            ]);
+
             $arr_complete_address = [];
             foreach ($request->except(['complete_address', 'notes', 'is_manual_address']) as $value) {
                 if($value) $arr_complete_address[] = $value;
             }
 
             $complete_address = implode(', ', $arr_complete_address);
+        } else {
+            $request->validate([
+                'complete_address' => 'required|string|max:255',
+            ]);
+
+            $complete_address = $request->complete_address;
         }
 
         $geocode = Geocoder::getCoordinatesForAddress($complete_address);
 
         $geocode_address = [];
         foreach ($geocode['address_components'] as $value) {
-            if($value->types[0] === 'route') $geocode_address['address'] = $value->long_name;
-            if($value->types[0] === 'street_number') $geocode_address['number'] = $value->long_name;
-            if($value->types[0] === 'locality') $geocode_address['city'] = $value->long_name;
-            if($value->types[0] === 'administrative_area_level_2') $geocode_address['province'] = $value->long_name;
-            if($value->types[0] === 'postal_code') $geocode_address['cap'] = $value->long_name;
+            if($value->types[0] === 'route') $geocode_address['address'] = $value->long_name ?? null;
+            if($value->types[0] === 'street_number') $geocode_address['number'] = $value->long_name ?? null;
+            if($value->types[0] === 'locality') $geocode_address['city'] = $value->long_name ?? null;
+            if($value->types[0] === 'administrative_area_level_2') $geocode_address['province'] = $value->long_name ?? null;
+            if($value->types[0] === 'postal_code') $geocode_address['cap'] = $value->long_name ?? null;
         }
 
         auth()->user()->studio->location->update([

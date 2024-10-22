@@ -19,8 +19,8 @@ class CreateStudioService
 
         $studio = Studio::create([
             'user_id' => $user->id,
-            'name' => ucwords(strtolower($data_step2['studio_name'])),
-            // 'category' => $category,
+            'name' => ucwords(strtolower($data_step2['name'])),
+            'category' => $data_step2['category'],
             'vat' => $data_step2['vat'],
         ]);
 

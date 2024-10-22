@@ -20,7 +20,8 @@
                         <GooglePlacesAutocomplete
                             v-if="!form.is_manual_address"
                             v-model="form.complete_address"
-                            label="Indirizzo completo"
+                            @error="form.complete_address = null"
+                            label="Autocompletamento Google"
                             required
                         />
 

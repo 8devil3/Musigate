@@ -1,6 +1,10 @@
 <template>
     <RegisterStudioLayout @submitted="submit()" title="Registrazione Studio" :isLoading="isLoading">
         <template #content>
+            <ul class="font-normal text-red-300">
+                <li v-for="error in usePage().props.errors">{{ error }}</li>
+            </ul>
+
             <!-- titolare -->
             <div v-if="props.step === 1" class="w-full max-w-xs mx-auto space-y-6">
                 <h2 class="pb-1 m-0 text-base text-center border-b border-orange-500">
@@ -30,7 +34,7 @@
                 <div class="space-y-4">
                     <Input v-model="formStep2.name" label="Nome Studio" placeholder="Il nome dello Studio" :error="formStep2.errors.name" required />
     
-                    <!-- <fieldset class="px-2 py-1 border border-slate-400 rounded-xl">
+                    <fieldset class="px-2 py-1 border border-slate-400 rounded-xl">
                         <legend class="px-1 text-xs font-normal text-slate-300">
                             Seleziona la categoria dello Studio
                         </legend>
@@ -43,15 +47,16 @@
                                 Home
                             </Radio>
                         </div>
-                    </fieldset> -->
+                    </fieldset>
 
-                    <Input inputmode="numeric" v-model="formStep2.vat" pattern="[0-9]{11}" label="Partita IVA" placeholder="La partita IVA della tua attività" :error="formStep2.errors.vat" required />
+                    <Input v-if="formStep2.category === 'Professional'" inputmode="numeric" v-model="formStep2.vat" pattern="[0-9]{11}" label="Partita IVA" placeholder="La partita IVA della tua attività" :error="formStep2.errors.vat" required />
 
                     <!-- location -->                    
                     <div>
                         <GooglePlacesAutocomplete
                             v-if="!formStep2.is_manual_address"
                             v-model="formStep2.complete_address"
+                            @error="formStep2.complete_address = null"
                             label="Indirizzo completo"
                             required
                         />
@@ -124,10 +129,10 @@
 
 <script setup>
 import { ref } from 'vue';
-import { Link, router, useForm } from '@inertiajs/vue3';
+import { Link, router, useForm, usePage } from '@inertiajs/vue3';
 import RegisterStudioLayout from '@/Layouts/Register/RegisterStudioLayout.vue';
 import Button from '@/Components/Form/Button.vue';
-// import Radio from '@/Components/Form/Radio.vue';
+import Radio from '@/Components/Form/Radio.vue';
 import Input from '@/Components/Form/Input.vue';
 import GoogleLogin from '../../GoogleLogin.vue';
 import Checkbox from '@/Components/Form/Checkbox.vue';
@@ -150,8 +155,8 @@ const formStep1 = useForm({
 
 const formStep2 = useForm({
     step: 2,
-    name: props.data_step2?.studio_name ?? null,
-    // category: props.data_step2?.category ?? null,
+    name: props.data_step2?.name ?? null,
+    category: props.data_step2?.category ?? null,
     vat: props.data_step2?.vat ?? null,
 
     complete_address: props.data_step2?.complete_address ?? null,
@@ -160,7 +165,7 @@ const formStep2 = useForm({
     cap: props.data_step2?.cap ?? null,
     city: props.data_step2?.city ?? null,
     province: props.data_step2?.province ?? null,
-    is_manual_address: props.data_step2?.is_manual_address ?? false,
+    is_manual_address: props.data_step2?.is_manual_address === 'true' ? true : false,
 });
 
 const formStep3 = useForm({
