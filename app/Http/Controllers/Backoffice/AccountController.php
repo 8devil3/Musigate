@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backoffice;
 use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\User;
+use App\Notifications\DeleteAccountNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -75,8 +76,6 @@ class AccountController extends Controller
 
         $user = $request->user();
 
-        Auth::logout();
-
         if($user->google_id && $user->google_token){
             $google_client = new \Google\Client();
             $google_client->revokeToken($user->google_token);
@@ -92,12 +91,15 @@ class AccountController extends Controller
 
         Storage::disk('public')->deleteDirectory('users/user-' . $user->id);
 
+        $user->notify(new DeleteAccountNotification());
+
+        Auth::logout();
+
         $user->delete();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        //TODO: aggiungere notifica email di eliminazione account
 
         return Redirect::to('/');
     }
