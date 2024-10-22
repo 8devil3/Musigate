@@ -105,7 +105,9 @@ const handleEscapeKey = (e) => {
 
 const showItemsList = ()=>{
     showList.value = true;
-    listElement.value.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setTimeout(() => {
+        listElement.value.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 300);
 
     document.addEventListener('click', handleClickOutside);
     document.addEventListener('keyup', handleEscapeKey);
