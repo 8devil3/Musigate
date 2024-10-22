@@ -15,6 +15,7 @@
                 v-model.trim="vModel"
                 @change="emit('change')"
                 @input="emit('input')"
+                @focus="emit('focus', $event.target)"
                 @keypress="emit('keypress')"
                 :type="props.type"
                 :id="props.id ?? id"
@@ -126,7 +127,7 @@ const props = defineProps({
     }
 });
 
-const emit = defineEmits(['change', 'input', 'keypress', 'clear']);
+const emit = defineEmits(['change', 'input', 'focus', 'keypress', 'clear']);
 const inputElement = ref(null);
 const vModel = defineModel({ default: null });
 
