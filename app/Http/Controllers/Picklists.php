@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 class Picklists
 {
     const OPEN_TYPES = [
-        'open',
-        'open_h24',
-        'close',
+        'open' => 'Aperto con orari',
+        'open_h24' => 'Aperto tutto il giorno (24h)',
+        'close' => 'Chiuso',
     ];
 
     const WEEKDAYS = [
