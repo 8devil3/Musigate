@@ -1,5 +1,5 @@
 <template>
-    <ul class="flex w-full mb-4 overflow-x-scroll">
+    <ul class="flex w-full mb-4 overflow-x-auto">
         <template v-for="tabLink, index in props.tabLinks">
             <li v-if="index" class="w-4 border-b-[3px] shrink-0 border-slate-700" />
 
