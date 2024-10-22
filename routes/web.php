@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Frontoffice\ReservationController;
+// use App\Http\Controllers\Frontoffice\ReservationController;
 use App\Http\Controllers\Frontoffice\LegalTextController;
 use App\Http\Controllers\Frontoffice\SearchController;
 use App\Http\Controllers\Backoffice\SuggestionController;
@@ -14,7 +14,7 @@ use App\Http\Controllers\Backoffice\Studio\BundlePhotoController;
 use App\Http\Controllers\Backoffice\Studio\BundlePriceController;
 use App\Http\Controllers\Backoffice\Studio\DashboardController;
 use App\Http\Controllers\Backoffice\Studio\StudioPhotoController;
-use App\Http\Controllers\Backoffice\Studio\WeeklyAvailabilityController;
+use App\Http\Controllers\Backoffice\Studio\AvailabilityController;
 use App\Http\Controllers\Backoffice\Studio\VideoController;
 use App\Http\Controllers\Backoffice\Studio\ContactController;
 use App\Http\Controllers\Backoffice\Studio\CollaborationController;
@@ -75,10 +75,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::put('/location', [LocationController::class, 'update'])->name('location.update');
 
             //disponibilità
-            Route::get('/disponibilità', [WeeklyAvailabilityController::class, 'index'])->name('availability.index');
-            Route::get('/disponibilità/modifica/{availability}', [WeeklyAvailabilityController::class, 'edit'])->name('availability.edit');
-            Route::put('/disponibilità/aggiorna/{availability}', [WeeklyAvailabilityController::class, 'update'])->name('availability.update');
-            Route::put('/disponibilità/clona/{availability}', [WeeklyAvailabilityController::class, 'clone'])->name('availability.clone');
+            Route::get('/disponibilità', [AvailabilityController::class, 'index'])->name('availability.index');
+            Route::get('/disponibilità/modifica/{availability}', [AvailabilityController::class, 'edit'])->name('availability.edit');
+            Route::put('/disponibilità/aggiorna/{availability}', [AvailabilityController::class, 'update'])->name('availability.update');
+            Route::put('/disponibilità/clona/{availability}', [AvailabilityController::class, 'clone'])->name('availability.clone');
 
             //foto studio
             Route::get('/foto', [StudioPhotoController::class, 'edit'])->name('photos.edit');
@@ -158,11 +158,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('/pacchetti/{bundle}/foto', [BundlePhotoController::class, 'update'])->name('pacchetti.photo.update');
             Route::delete('/pacchetti/{bundle}/foto', [BundlePhotoController::class, 'destroy'])->name('pacchetti.photo.destroy');
         });
-
-        //suggerimenti
-        Route::get('/suggerimenti-segnalazioni', [SuggestionController::class, 'create'])->name('suggestions.create');
-        Route::post('/suggerimenti-segnalazioni', [SuggestionController::class, 'store'])->name('suggestions.store');
     });
+    
+    //suggerimenti
+    Route::get('/suggerimenti-segnalazioni', [SuggestionController::class, 'create'])->name('suggestions.create');
+    Route::post('/suggerimenti-segnalazioni', [SuggestionController::class, 'store'])->name('suggestions.store');
 
     //gestione account
     Route::get('/account', [AccountController::class, 'edit'])->name('account.edit');

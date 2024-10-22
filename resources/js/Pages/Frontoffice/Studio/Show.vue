@@ -217,6 +217,9 @@
                                 <div v-else-if="av.open_type === 'open_h24'" class="text-xs font-normal text-sky-500">
                                     aperto h24
                                 </div>
+                                <div v-else-if="av.open_type === 'open_overnight'" class="text-xs font-normal text-blue-500">
+                                    aperto overnight
+                                </div>
                                 <div v-else-if="av.open_type === 'close'" class="text-xs font-normal text-red-500">
                                     chiuso
                                 </div>

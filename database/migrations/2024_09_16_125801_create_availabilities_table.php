@@ -16,7 +16,7 @@ return new class extends Migration
 
             $table->foreignId('studio_id')->constrained()->cascadeOnDelete();
             $table->unsignedTinyInteger('weekday'); // 1 = lunedì
-            $table->enum('open_type', ['open', 'open_h24', 'close'])->default('open');
+            $table->string('open_type')->default('open');
             $table->time('open_start')->nullable();
             $table->time('open_end')->nullable();
 

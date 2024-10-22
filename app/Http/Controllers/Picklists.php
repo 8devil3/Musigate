@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 class Picklists
 {
     const OPEN_TYPES = [
-        'open' => 'Aperto con orari',
+        'open' => 'Aperto con orari tradizionali',
+        'open_overnight' => 'Aperto con orari overnight',
         'open_h24' => 'Aperto tutto il giorno (24h)',
         'close' => 'Chiuso',
     ];

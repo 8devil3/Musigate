@@ -1,7 +1,7 @@
 <template>
     <ContentLayout
         @submitted="submit()"
-        :title="'Disponibilità: ' + props.weekdays[props.availability.weekday]"
+        :title="'Disponibilità di ' + props.weekdays[props.availability.weekday]"
         icon="fa-solid fa-clock"
         backRoute="studio.availability.index"
     >
@@ -12,7 +12,7 @@
                     Tipo di apertura
                 </template>
                 <template #description>
-                    Scegli se di {{ props.weekdays[props.availability.weekday] }} lo Studio è aperto con orari, aperto tutto il giorno (H24) o chiuso.
+                    Scegli se di {{ props.weekdays[props.availability.weekday] }} lo Studio è aperto con orari tradizionali, con orari overnight (es: dalle 18:00 alle 02:00 del giorno successivo), tutto il giorno (24h) o chiuso.
 
                     <div v-if="Object.keys(usePage().props.errors).length" class="mt-4 font-normal text-red-500">
                         Errori
@@ -30,7 +30,7 @@
             <!-- / -->
 
             <!-- orari di lavoro -->
-            <FormElement v-if="form.open_type === 'open'">
+            <FormElement v-if="form.open_type === 'open' || form.open_type === 'open_overnight'">
                 <template #title>
                     Orari di apertura
                 </template>
@@ -54,7 +54,7 @@
                             v-model="form.open_end"
                             isArray
                             @change="validations()"
-                            :options="hours.filter(h => h > form.open_start)"
+                            :options="form.open_type === 'open_overnight' ? hours : hours.filter(h => h > form.open_start)"
                             default="Fine"
                             :error="form.errors.open_end"
                             :disabled="!form.open_start"
@@ -72,12 +72,14 @@
                     Fasce orarie
                 </template>
                 <template #description>
-                    Imposta le fasce orarie del {{ props.weekdays[props.availability.weekday] }}. Ricordati di salvare anche quando elimini delle fasce orarie.<br>
+                    Imposta le fasce orarie del {{ props.weekdays[props.availability.weekday] }}.<br>
+                    Le fasce orarie sono necessarie quando vuoi impostare le tariffe basate sulle fasce orarie.<br>
+                    Ricordati di salvare anche quando elimini delle fasce orarie.<br>
                     Le fasce orarie, se inserite, devono essere almeno due e devono avere nomi univoci nello stesso giorno; possono avere lo stesso nome se in giorni diversi.<br>
                     La fine dell'ultima fascia deve corrispondere all'orario di chiusura dello Studio.
 
-                    <div class="mt-2 text-red-500">
-                        <strong>ATTENZIONE:</strong> eliminando le fasce orarie verranno eliminate TUTTE le tariffe delle Sale associate, se presenti.
+                    <div class="mt-2 font-light text-red-500">
+                        <strong>ATTENZIONE:</strong> eliminando le fasce orarie verranno eliminate le tariffe delle Sale associate, se presenti.
                     </div>
                 </template>
                 <template #content>
@@ -118,7 +120,8 @@
                                             v-model="timeband.end"
                                             @change="validations()"
                                             isArray
-                                            :options="add24toHours.filter(h => h <= form.open_end && h > timeband.start)"
+                                            default="Fine"
+                                            :options="form.open_type === 'open_overnight' ? hours : hours.filter(h => h <= form.open_end && h > timeband.start)"
                                             :disabled="!timeband.start"
                                             required
                                             class="w-24"
@@ -162,8 +165,8 @@
                 <template #description>
                     Se hai già impostato almeno un giorno della settimana da ripetere puoi copiarlo senza dover inserire nuovamente gli stessi dati, comprese le fasce orarie. Per procedere, seleziona il giorno da cui copiare i dati e clicca "Copia".
 
-                    <div class="mt-2 text-red-500">
-                        <strong>ATTENZIONE:</strong> copiando la disponibiltà verranno eliminate TUTTE le tariffe delle Sale associate, se presenti.
+                    <div class="mt-2 font-light text-red-500">
+                        <strong>ATTENZIONE:</strong> copiando la disponibiltà verranno eliminate le tariffe delle Sale associate, se presenti.
                     </div>
                 </template>
                 <template #content>
@@ -285,8 +288,8 @@ const validations = ()=>{
             form.timebands[form.timebands.length -1].end !== form.open_end)
         ){
             hasValidationErrors.value = {
-                title: 'Orario inizio/fine non coerente con apertura/chiusura',
-                message: 'Gli orari di inizio e fine della prima e ultima fascia oraria devono coincidere con quelle di apertura e chiusura dello Studio.'
+                title: 'Orario di fine non coerente con chiusura',
+                message: 'L\'orario di fine dell\'ultima fascia oraria deve coincidere con quella di chiusura dello Studio.'
             };
         }
     
@@ -311,7 +314,7 @@ const validations = ()=>{
     }
 };
 
-const add24toHours = computed(()=>{
+const hours = computed(()=>{
     let hours = props.hours;
     if(form.open_type === 'open_h24' && !hours.includes('24:00')) hours.push('24:00');
     if(form.open_type === 'open' && hours.includes('24:00')) hours.splice(hours.indexOf(h => h === '24:00'), 1);

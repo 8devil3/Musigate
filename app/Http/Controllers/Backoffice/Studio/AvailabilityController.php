@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class WeeklyAvailabilityController extends Controller
+class AvailabilityController extends Controller
 {
     public function index(): Response
     {
@@ -42,23 +42,38 @@ class WeeklyAvailabilityController extends Controller
     public function update(Request $request, Availability $availability): RedirectResponse
     {
         if($availability->studio->user->id !== auth()->id()) abort(403);
+
         if(empty($request->timebands) || $request->open_type === 'close') $request->replace($request->except(['timebands']));
+        else if(!empty($request->timebands) && $request->timebands[count($request->timebands) -1]['end'] !== $request->open_end) return back()->withErrors('L\'orario di fine dell\'ultima fascia oraria deve coincidere con quella di chiusura dello Studio.');
 
         $request->validate([
-            'open_type' => ['required', 'string', 'in:' . implode(',', Picklists::OPEN_TYPES)],
+            'open_type' => ['required', 'string', 'in:' . implode(',', array_keys(Picklists::OPEN_TYPES))],
             'timebands' => ['sometimes', 'array', 'min:2'],
             'timebands.*.name' => ['required', 'distinct', 'string', 'max:255'],
-            'timebands.*.start' => ['required', 'string', 'date_format:H:i,H:i:s'],
-            'timebands.*.end' => ['required', 'string', 'after:timebands.*.start'],
         ]);
+
+        $hours = implode(',',GeneratePeriodsService::generate());
 
         //gestisco gli orari dello studio
         if($request->open_type === 'open'){
-            $hours = implode(',',GeneratePeriodsService::generate());
-
             $request->validate([
                 'open_start' => ['required', 'string', 'size:5', 'date_format:H:i,H:i:s', 'in:' . $hours],
                 'open_end' => ['required', 'string', 'size:5', 'after:open_start', 'date_format:H:i,H:i:s', 'in:' . $hours],
+                'timebands.*.start' => ['required', 'string', 'size:5', 'date_format:H:i,H:i:s'],
+                'timebands.*.end' => ['required', 'string', 'size:5', 'after:timebands.*.start', 'date_format:H:i,H:i:s'],
+            ]);
+
+            $availability->update([
+                'open_type' => $request->open_type,
+                'open_start' => $request->open_start,
+                'open_end' => $request->open_end,
+            ]);
+        } else if($request->open_type === 'open_overnight'){
+            $request->validate([
+                'open_start' => ['required', 'string', 'size:5', 'date_format:H:i,H:i:s', 'in:' . $hours],
+                'open_end' => ['required', 'string', 'size:5', 'date_format:H:i,H:i:s', 'in:' . $hours],
+                'timebands.*.start' => ['required', 'string', 'size:5', 'date_format:H:i,H:i:s'],
+                'timebands.*.end' => ['required', 'string', 'size:5', 'date_format:H:i,H:i:s'],
             ]);
 
             $availability->update([
@@ -67,6 +82,13 @@ class WeeklyAvailabilityController extends Controller
                 'open_end' => $request->open_end,
             ]);
         } else if($request->open_type === 'open_h24'){
+            $request->validate([
+                'open_start' => ['required', 'string', 'size:5', 'date_format:H:i,H:i:s', 'in:' . $hours],
+                'open_end' => ['required', 'string', 'size:5', 'after:open_start', 'date_format:H:i,H:i:s', 'in:' . $hours],
+                'timebands.*.start' => ['required', 'string', 'size:5', 'date_format:H:i,H:i:s'],
+                'timebands.*.end' => ['required', 'string', 'size:5', 'after:timebands.*.start', 'date_format:H:i,H:i:s'],
+            ]);
+
             $availability->update([
                 'open_type' => $request->open_type,
                 'open_start' => '00:00',
@@ -85,10 +107,8 @@ class WeeklyAvailabilityController extends Controller
         //gestisco le fasce orarie
         if($request->open_type !== 'close' && !empty($request->timebands)){
             //elimino le fasce non presenti nella request (quelle che l'utente ha eliminato)
-            $timebands_ids = $availability->timebands()->pluck('id');
-            $req_timebands_ids = collect($request->timebands)->pluck('id');
-            $deleted_timebands = $timebands_ids->diff($req_timebands_ids);
-            $studio->timebands()->whereIn('id', $deleted_timebands)->delete();
+            $req_timebands_ids = collect($request->timebands)->pluck('id')->toArray();
+            $studio->timebands()->where('weekday', $availability->weekday)->whereNotIn('id', $req_timebands_ids)->delete();
 
             //aggiorno o creo le fasce orarie
             foreach ($request->timebands as $timeband) {
@@ -112,9 +132,12 @@ class WeeklyAvailabilityController extends Controller
                 foreach($rooms as $room){
                     $room->update([
                         'price_type' => 'no_price',
-                        'fixed_price' => null,
-                        'has_dicounted_fixed_price' => false,
-                        'dicounted_fixed_price' => null,
+                        'hourly_price' => null,
+                        'has_dicounted_hourly_price' => false,
+                        'dicounted_hourly_price' => null,
+                        'monthly_price' => null,
+                        'has_dicounted_monthly_price' => false,
+                        'dicounted_monthly_price' => null,
                     ]);
 
                     $room->timeband_prices()->delete();

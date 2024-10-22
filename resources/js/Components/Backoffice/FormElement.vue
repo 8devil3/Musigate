@@ -5,7 +5,7 @@
                 <slot name="title" />
                 <span v-show="props.optional">(opzionale)</span>
             </h3>
-            <div v-if="$slots.description" class="text-sm text-slate-300/80">
+            <div v-if="$slots.description" class="text-sm text-slate-300">
                 <slot name="description" />
             </div>
 
