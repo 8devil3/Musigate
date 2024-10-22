@@ -28,6 +28,7 @@ use App\Http\Controllers\Backoffice\Studio\Rooms\RoomController;
 use App\Http\Controllers\Backoffice\Studio\Rooms\RoomPriceController;
 use App\Http\Controllers\Backoffice\Studio\Rooms\EquipmentController;
 use App\Http\Controllers\Backoffice\Studio\Rooms\RoomPhotoController;
+use Illuminate\Notifications\Messages\MailMessage;
 use Inertia\Inertia;
 
 Route::get('/', function () {
@@ -47,6 +48,44 @@ Route::get('/studio/{studio}', [SearchController::class, 'show'])->name('studio.
 Route::get('/privacy', [LegalTextController::class, 'privacy'])->name('privacy');
 Route::get('/termini-e-condizioni', [LegalTextController::class, 'tos'])->name('tos');
 Route::get('/cookie', [LegalTextController::class, 'cookie'])->name('cookie');
+
+//test layout email
+Route::get('/test-email', function(){
+    if (config('app.env') !== 'production') {
+        $email = (new MailMessage)
+            ->subject("Ti diamo il benvenuto a bordo di Musigate!")
+            ->markdown("email.template", [
+                'greeting' => "Ti diamo il benvenuto a bordo! 🎉",
+                'intro_lines' => [
+                    "Siamo super felici di averti con noi e non vediamo l'ora di aiutarti a gestire al meglio il tuo Studio. Con Musigate, potrai mostrare le tue Sale, pacchetti e servizi a chi cerca spazi creativi come il tuo.",
+                    "Ecco cosa puoi fare subito:",
+                ],
+                'ul_list' => [
+                    "Personalizza la tua pagina con foto, descrizione e dettagli importanti",
+                    "Imposta i giorni e gli orari di disponibilità",
+                    "Crea le Sale e i pacchetti impostando descrizione, tariffe, equipaggiamento e foto",
+                ],
+                // 'ol_list' => [
+                //     'option 1',
+                //     'option 2',
+                //     'option 3',
+                //     'option 4',
+                // ],
+                'action_lines' => [
+                    "Clicca sul pulsante in basso per confermare la tua iscrizione"
+                ],
+                'action_label' => "Conferma email",
+                'action_url' => '#',
+                'outro_lines' => [
+                    "Sei pronto? Iniziamo questo viaggio insieme! 🚀"
+                ]
+            ]);
+    
+        return $email->render();
+    }
+
+    abort(404);
+});
 
 
 //utenti registrati
