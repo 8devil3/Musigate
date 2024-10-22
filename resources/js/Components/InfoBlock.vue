@@ -1,13 +1,14 @@
 <template>
-    <div class="inline-flex items-start gap-2 p-2 border-2 rounded-xl" :class="colorClasses.border">
-        <i class="text-base shrink-0" :class="[props.icon, colorClasses.text, colorClasses.border]" />
-        <div class="mt-0.5 space-y-1">
-            <div class="text-sm font-medium text-left border-0" :class="colorClasses.text">
+    <div class="p-2 space-y-1 border-2 rounded-xl" :class="classes.border">
+        <div class="flex items-center">
+            <i class="w-6 text-base shrink-0" :class="[classes.icon, classes.text]" />
+            <div class="text-sm font-medium text-left border-0" :class="classes.text">
                 {{ props.title }}
             </div>
-            <div class="text-xs font-light text-slate-300">
-                <slot />
-            </div>
+        </div>
+
+        <div class="ml-6 text-xs font-light text-slate-300">
+            <slot />
         </div>
     </div>
 </template>
@@ -16,10 +17,6 @@
 import { computed } from 'vue';
 
 const props = defineProps({
-    icon: {
-        type: String,
-        default: 'fa-solid fa-info'
-    },
     title: String,
     color: {
         type: String,
@@ -27,35 +24,40 @@ const props = defineProps({
     },
 });
 
-const colorClasses = computed(()=>{
-    let color = {
+const classes = computed(()=>{
+    let classes = {
         border: null,
         text: null,
+        icon: null,
     };
 
     switch (props.color) {
         case 'info':
-            color.border = 'border-blue-800';
-            color.text = 'text-blue-500';
+            classes.border = 'border-blue-800';
+            classes.text = 'text-blue-500';
+            classes.icon = 'fa-solid fa-circle-info';
         break;
 
         case 'warning':
-            color.border = 'border-amber-800';
-            color.text = 'text-amber-500';
+            classes.border = 'border-amber-800';
+            classes.text = 'text-amber-500';
+            classes.icon = 'fa-solid fa-circle-exclamation';
         break;
 
         case 'danger':
-            color.border = 'border-red-800';
-            color.text = 'text-red-500';
+            classes.border = 'border-red-800';
+            classes.text = 'text-red-500';
+            classes.icon = 'fa-solid fa-circle-exclamation';
         break;
 
         case 'success':
-            color.border = 'border-green-800';
-            color.text = 'text-green-500';
+            classes.border = 'border-green-800';
+            classes.text = 'text-green-500';
+            classes.icon = 'fa-solid fa-circle-check';
         break;
     }
 
-    return color;
+    return classes;
 })
 
 </script>

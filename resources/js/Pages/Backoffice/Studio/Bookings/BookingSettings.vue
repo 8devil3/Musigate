@@ -73,11 +73,11 @@
                         <div class="space-y-4">
                             <Toggle v-model="form.has_sync" :disabled="!props.has_google_calendar_scope" :label="form.has_sync ? 'Sincronizzazione abilitata' : 'Sincronizzazione disabilitata'" />
 
-                            <InfoBlock v-if="props.has_google_id && !props.has_google_calendar_scope" title="Sincronizzazione non disponibile" icon="fa-solid fa-exclamation" color="warning">
+                            <InfoBlock v-if="props.has_google_id && !props.has_google_calendar_scope" title="Sincronizzazione non disponibile" color="warning">
                                 Hai effettuato l'acesso con Google ma non hai autorizzato l'utilizzo dei calendari per abilitare la sincronizzazione. Effettua il log out e accedi con Google autorizzando l'utilizzo dei calendari.
                             </InfoBlock>
 
-                            <InfoBlock v-else-if="!props.has_google_id && !props.has_google_calendar_scope" title="Sincronizzazione non disponibile" icon="fa-solid fa-exclamation" color="danger">
+                            <InfoBlock v-else-if="!props.has_google_id && !props.has_google_calendar_scope" title="Sincronizzazione non disponibile" color="danger">
                                 Devi accedere con Google e autorizzare l'utilizzo dei calendari per abilitare la sincronizzazione. Effettua il log out e accedi con Google autorizzando l'utilizzo dei calendari.
                             </InfoBlock>
                         </div>

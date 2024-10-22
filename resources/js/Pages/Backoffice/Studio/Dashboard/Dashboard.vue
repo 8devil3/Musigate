@@ -17,7 +17,6 @@
                         v-if="props.studio.is_visible"
                         title="Lo Studio è visibile"
                         color="success"
-                        icon="fa-solid fa-check"
                         class="col-span-full"
                     >
                         Lo Studio attualmente è visibile e ricercabile pubblicamente dagli utenti
@@ -27,7 +26,6 @@
                         v-else
                         title="Lo Studio non è visibile"
                         color="danger"
-                        icon="fa-solid fa-xmark"
                         class="col-span-full"
                     >
                         Lo Studio attualmente non è visibile nè ricercabile pubblicamente dagli utenti

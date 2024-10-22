@@ -85,7 +85,6 @@
                         <InfoBlock
                             v-show="hasValidationErrors"
                             color="danger"
-                            icon="fa-solid fa-exclamation"
                             :title="hasValidationErrors.title"
                             class="mb-4"
                         >

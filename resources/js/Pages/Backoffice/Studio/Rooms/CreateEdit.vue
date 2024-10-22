@@ -74,7 +74,7 @@
                     <div class="space-y-4">
                         <Toggle v-model="form.is_bookable" :label="form.is_bookable ? 'Sala prenotabile' : 'Sala non prenotabile'" :disabled="props.room.price_type === 'no_price'" />
     
-                        <InfoBlock v-if="props.room.price_type === 'no_price'" icon="fa-solid fa-exclamation" color="warning" title="Non disponiile">
+                        <InfoBlock v-if="props.room.price_type === 'no_price'" color="warning" title="Non disponiile">
                             Non è possibile rendere prenotabile la Sala perché non ha alcuna tariffa impostata.
                         </InfoBlock>
                     </div>
