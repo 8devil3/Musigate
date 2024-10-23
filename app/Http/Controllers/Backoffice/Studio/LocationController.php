@@ -20,11 +20,8 @@ class LocationController extends Controller
     public function update(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'category' => 'required|string|in:Home,Professional',
-            'vat' => 'nullable|required_if:category,Professional|string|size:11',
             'notes' => 'nullable|string|max:255',
-            'is_manual_address' => 'string|in:true,false'
+            'is_manual_address' => 'boolean'
         ]);
 
         $is_manual_address = $request->is_manual_address === 'true' ? true : false;

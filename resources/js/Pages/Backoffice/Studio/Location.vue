@@ -67,7 +67,7 @@
 </template>
 
 <script setup>
-import { useForm } from '@inertiajs/vue3';
+import { useForm, usePage } from '@inertiajs/vue3';
 import Input from '@/Components/Form/Input.vue';
 import SaveButton from '@/Components/Form/SaveButton.vue';
 import Textarea from '@/Components/Form/Textarea.vue';
@@ -92,9 +92,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.put(route('studio.location.update'), {
-        preserveState: false,
-    });
+    form.put(route('studio.location.update'));
 };
 
 </script>
