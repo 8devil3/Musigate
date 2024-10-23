@@ -24,7 +24,7 @@
             la partita iva
         </li>
         <li class="flex items-start gap-2">
-            <i v-if="props.studio.description.length > 100" class="w-4 mt-1 text-green-500 shrink-0 fa-solid fa-check" />
+            <i v-if=" props.studio.description && props.studio.description.length > 100" class="w-4 mt-1 text-green-500 shrink-0 fa-solid fa-check" />
             <i v-else class="w-4 mt-1 text-red-500 shrink-0 fa-solid fa-xmark" />
             la presentazione di almeno 100 caratteri, spazi esclusi
         </li>
@@ -44,7 +44,7 @@
             almeno una foto
         </li>
         <li class="flex items-start gap-2">
-            <i v-if="props.studio.contacts?.email || props.studio.contacts?.phone || props.studio.contacts?.telegram || props.studio.contacts?.messenger || props.studio.contacts?.whatsapp" class="w-4 mt-1 text-green-500 shrink-0 fa-solid fa-check" />
+            <i v-if="props.studio.contacts.email || props.studio.contacts.phone || props.studio.contacts.telegram || props.studio.contacts.messenger || props.studio.contacts.whatsapp" class="w-4 mt-1 text-green-500 shrink-0 fa-solid fa-check" />
             <i v-else class="w-4 mt-1 text-red-500 shrink-0 fa-solid fa-xmark" />
             almeno un contatto
         </li>

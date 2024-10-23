@@ -32,6 +32,8 @@ class StarterController extends Controller
                 'first_name' => 'required|string|max:255',
                 'last_name' => 'required|string|max:255',
             ]);
+
+            session()->forget('data_step1');
     
             session()->put('data_step1', [
                 'first_name' => ucwords($request->first_name),
@@ -95,13 +97,11 @@ class StarterController extends Controller
         ]);
 
         CreateStudioService::store($user);
-        
-        session()->forget(['data_step1', 'data_step2']);
-
-        session()->regenerate();
 
         event(new Registered($user));
 
+        session()->forget(['data_step1', 'data_step2']);
+        
         Auth::login($user);
 
         return to_route('dashboard');

@@ -1,10 +1,6 @@
 <template>
     <RegisterStudioLayout @submitted="submit()" title="Registrazione Studio" :isLoading="isLoading">
         <template #content>
-            <ul class="font-normal text-red-300">
-                <li v-for="error in usePage().props.errors">{{ error }}</li>
-            </ul>
-
             <!-- titolare -->
             <div v-if="props.step === 1" class="w-full max-w-xs mx-auto space-y-6">
                 <h2 class="pb-1 m-0 text-base text-center border-b border-orange-500">

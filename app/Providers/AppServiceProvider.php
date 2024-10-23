@@ -51,7 +51,7 @@ class AppServiceProvider extends ServiceProvider
                         "Crea le Sale e i pacchetti impostando descrizione, tariffe, equipaggiamento e foto",
                     ],
                     'action_lines' => [
-                        "Clicca sul pulsante in basso per confermare la tua iscrizione"
+                        "Clicca sul pulsante in basso per confermare la tua email"
                     ],
                     'action_label' => "Conferma email",
                     'action_url' => $url,

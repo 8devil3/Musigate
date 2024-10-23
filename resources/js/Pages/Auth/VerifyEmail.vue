@@ -1,15 +1,16 @@
 <template>
     <AuthLayout @submitted="submit()" title="Verfica email" :isLoading="form.processing" :status="verificationLinkSent">
         <template #head>
-            <h1 class="text-lg">Verifica email</h1>
+            <h1 class="text-lg uppercase">Verifica email</h1>
+            <h2 class="text-base font-normal text-center text-green-500">Grandioso!</h2>
             <p>
-                Grandioso! Grazie di esserti registrato!<br>
+                Grazie di esserti registrato!<br>
                 Per procedere verifica il tuo indirizzo email.
             </p>
         </template>
 
         <template #content>
-            <Button type="submit" text="Reinvia il link di verifica" :disabled="form.processing" :isLoading="form.processing" class="w-full" />
+            <Button type="submit" text="Reinvia il link di verifica email" :disabled="form.processing" :isLoading="form.processing" class="w-full" />
         </template>
 
         <template #actions>
