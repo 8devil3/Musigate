@@ -30,6 +30,13 @@ export default {
                 telegram: '#30A3E6',
                 whatsapp: '#25D366',
                 messenger: '#037DFF',
+                facebook: '#1877F2',
+                instagram: '#E4405F',
+                youtube: '#CD201F',
+                soundcloud: '#e56431',
+                spotify: '#25D865',
+                itunes: '#8F60FF',
+                linkedIn: '#0A66C2',
                 "vtd-primary": colors.orange, // Light mode Datepicker color
                 "vtd-secondary": colors.orange, // Dark mode Datepicker color
             },

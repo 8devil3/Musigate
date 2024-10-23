@@ -2,7 +2,7 @@
     <div class="space-y-6">
         <!-- link per tonare alla ricerca -->
         <div class="pb-4">
-            <BackLink label="Torna alla ricerca" :href="route('rooms.index', props.request)" />
+            <BackLink label="Torna alla ricerca" :href="route('studio.index', props.request)" />
         </div>
         <!-- / -->
 
@@ -91,28 +91,28 @@ const computedSocials = computed(()=>{
             if(href){
                 switch (label) {
                     case 'linkedin':
-                        icon = 'fa-brands fa-linkedin text-[#0A66C2]';
+                        icon = 'fa-brands fa-linkedin text-linkedin';
                     break;
                     case 'soundcloud':
-                        icon = 'fa-brands fa-soundcloud text-[#e56431]';
+                        icon = 'fa-brands fa-soundcloud text-soundcloud';
                     break;
                     case 'facebook':
-                        icon = 'fa-brands fa-facebook text-[#1877F2]';
+                        icon = 'fa-brands fa-facebook text-facebook';
                     break;
                     case 'itunes':
-                        icon = 'fa-brands fa-itunes text-[#8F60FF]';
+                        icon = 'fa-brands fa-itunes text-itunes';
                     break;
                     case 'spotify':
-                        icon = 'fa-brands fa-spotify text-[#25D865]';
+                        icon = 'fa-brands fa-spotify text-spotify';
                     break;
                     case 'youtube':
-                        icon = 'fa-brands fa-youtube text-[#CD201F]';
+                        icon = 'fa-brands fa-youtube text-youtube';
                     break;
                     case 'instagram':
-                        icon = 'fa-brands fa-instagram text-[#E4405F]';
+                        icon = 'fa-brands fa-instagram text-instagram';
                     break;
                     case 'website':
-                        icon = 'fa-solid fa-globe';
+                        icon = 'fa-solid fa-globe text-white';
                     break;
                 }
 

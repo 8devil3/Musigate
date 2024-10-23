@@ -139,19 +139,19 @@ const socials = {
         name: 'Spotify',
         placeholder: 'https://open.spotify.com',
         icon: 'fa-brands fa-spotify',
-        color: 'text-[#25D865]'
+        color: 'text-spotify'
     },
     soundcloud: {
         name: 'SoundCloud',
         placeholder: 'https://soundcloud.com',
         icon: 'fa-brands fa-soundcloud',
-        color: 'text-[#e56431]'
+        color: 'text-soundcloud'
     },
     itunes: {
         name: 'iTunes',
         placeholder: 'https://itunes.apple.com',
         icon: 'fa-brands fa-itunes',
-        color: 'text-[#8F60FF]'
+        color: 'text-itunes'
     },
 };
 

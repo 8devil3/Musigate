@@ -59,43 +59,43 @@ const socials = {
         name: 'Facebook',
         placeholder: 'https://it.facebook.com',
         icon: 'fa-brands fa-facebook',
-        color: 'text-[#1877F2]'
+        color: 'text-facebook'
     },
     instagram: { 
         name: 'Instagram',
         placeholder: 'https://www.instagram.com',
         icon: 'fa-brands fa-instagram',
-        color: 'text-[#E4405F]'
+        color: 'text-instagram'
     },
     youtube: {
         name: 'YouTube',
         placeholder: 'https://www.youtube.com',
         icon: 'fa-brands fa-youtube',
-        color: 'text-[#CD201F]'
+        color: 'text-youtube'
     },
     soundcloud: {
         name: 'SoundCloud',
         placeholder: 'https://soundcloud.com',
         icon: 'fa-brands fa-soundcloud',
-        color: 'text-[#e56431]'
+        color: 'text-soundcloud'
     },
     spotify: {
         name: 'Spotify',
         placeholder: 'https://open.spotify.com',
         icon: 'fa-brands fa-spotify',
-        color: 'text-[#25D865]'
+        color: 'text-spotify'
     },
     itunes: {
         name: 'iTunes',
         placeholder: 'https://itunes.apple.com',
         icon: 'fa-brands fa-itunes',
-        color: 'text-[#8F60FF]'
+        color: 'text-itunes'
     },
     linkedin: {
         name: 'LinkedIn',
         placeholder: 'https://www.linkedin.com',
         icon: 'fa-brands fa-linkedin',
-        color: 'text-[#0A66C2]'
+        color: 'text-linkedin'
     },
     website: {
         name: 'Sito web',

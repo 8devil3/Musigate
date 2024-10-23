@@ -91,13 +91,13 @@
                                             <p v-if="collab.description" class="text-sm text-white">{{ collab.description }}</p>
     
                                             <ul v-if="collab.spotify || collab.soundcloud || collab.itunes" class="flex gap-2">
-                                                <li v-if="collab.spotify"><a :href="collab.spotify" class="transition-colors hover:text-orange-500 text-[#25D865]">
+                                                <li v-if="collab.spotify"><a :href="collab.spotify" class="transition-colors hover:text-orange-500 text-spotify">
                                                     <i class="text-xl fa-brands fa-spotify" />
                                                 </a></li>
-                                                <li v-if="collab.soundcloud"><a :href="collab.soundcloud" class="transition-colors hover:text-orange-500 text-[#e56431]">
+                                                <li v-if="collab.soundcloud"><a :href="collab.soundcloud" class="transition-colors hover:text-orange-500 text-soundcloud">
                                                     <i class="text-xl fa-brands fa-soundcloud" />
                                                 </a></li>
-                                                <li v-if="collab.itunes"><a :href="collab.itunes" class="transition-colors hover:text-orange-500 text-[#8F60FF]">
+                                                <li v-if="collab.itunes"><a :href="collab.itunes" class="transition-colors hover:text-orange-500 text-itunes">
                                                     <i class="text-xl fa-brands fa-itunes" />
                                                 </a></li>
                                             </ul>

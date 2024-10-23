@@ -25,13 +25,13 @@
                                 <p class="text-sm text-slate-300">{{ collab.description }}</p>
 
                                 <div class="space-x-2">
-                                    <a v-if="collab.spotify" :href="collab.spotify" class="transition-colors hover:text-orange-500 text-[#25D865]">
+                                    <a v-if="collab.spotify" :href="collab.spotify" class="transition-colors hover:text-orange-500 text-spotify">
                                         <i class="text-xl fa-brands fa-spotify" />
                                     </a>
-                                    <a v-if="collab.soundcloud" :href="collab.soundcloud" class="transition-colors hover:text-orange-500 text-[#e56431]">
+                                    <a v-if="collab.soundcloud" :href="collab.soundcloud" class="transition-colors hover:text-orange-500 text-soundcloud">
                                         <i class="text-xl fa-brands fa-soundcloud" />
                                     </a>
-                                    <a v-if="collab.itunes" :href="collab.itunes" class="transition-colors hover:text-orange-500 text-[#8F60FF]">
+                                    <a v-if="collab.itunes" :href="collab.itunes" class="transition-colors hover:text-orange-500 text-itunes">
                                         <i class="text-xl fa-brands fa-itunes" />
                                     </a>
                                 </div>
