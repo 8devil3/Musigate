@@ -1,22 +1,23 @@
 <template>
-    <div class="hidden lg:block lg:h-[600px] max-w-[1650px] mx-auto">
+    <div class="hidden lg:block lg:h-[640px] max-w-7xl mx-auto">
         <img v-if="!props.photos.length" src="/img/logo/logo_placeholder.svg" class="object-contain w-full h-full p-48 bg-slate-900">
 
         <div v-else class="flex w-full h-full gap-1">
-            <div class="relative lg:w-2/3 2xl:w-3/5">
-                <img :src="'/storage/' + props.photos[0].path" :alt="props.photos[0].filename" class="object-cover w-full h-full">
+            <div class="relative grid grid-cols-5 grid-rows-3 gap-1">
+                <img :src="'/storage/' + props.photos[0].path" :alt="props.photos[0].filename" class="object-cover w-full h-full row-span-full" :class="props.photos.length === 1 ? 'col-span-full' : 'col-span-4'">
 
-                <button v-if="props.photos.length > 1" type="button" @click="openModalGallery = true" title="Galleria foto" class="absolute px-4 py-1 border border-orange-500 rounded-full shadow-md bottom-4 right-6 bg-black/80">
+                <template v-if="props.photos.length >= 2">
+                    <img v-for="photo in otherPhotos" :src="'/storage/' + photo.path" :alt="photo.filename" class="object-cover w-full h-full col-span-1">
+                    <img v-for="i in 3 - otherPhotos.length" src="/img/logo/logo_placeholder.svg" class="object-contain w-full h-full col-span-1 p-12 bg-slate-900">
+                </template>
+
+                <button v-if="props.photos.length > 1" type="button" @click="openModalGallery = true" title="Galleria foto" class="absolute px-4 py-1 border border-orange-500 rounded-full shadow-md bottom-4 left-4 bg-black/80">
                     <i class="mr-2 text-lg fa-solid fa-images"></i>
                     Galleria
                     ({{ props.photos.length }})
                 </button>
             </div>
 
-            <div v-if="otherPhotos.length" class="grid grid-cols-2 grid-rows-3 gap-1 lg:w-1/3 2xl:w-2/5">
-                <img v-for="photo in otherPhotos" :src="'/storage/' + photo.path" :alt="photo.filename" class="object-cover w-full h-full">
-                <img v-for="i in 6 - otherPhotos.length" src="/img/logo/logo_placeholder.svg" class="object-contain w-full h-full p-6 bg-slate-900">
-            </div>
         </div>
     </div>
 
@@ -51,7 +52,7 @@
                         leave-to="opacity-0 scale-95"
                     >
                         <DialogPanel as="div" class="w-full h-full">
-                            <button type="button" @click="openModalGallery = false" title="Chiudi" class="absolute z-50 flex items-center justify-center size-10 text-2xl text-white border border-orange-500 rounded-full right-4 top-4 bg-slate-950/50">
+                            <button type="button" @click="openModalGallery = false" title="Chiudi" class="absolute z-50 flex items-center justify-center text-2xl text-white border border-orange-500 rounded-full size-10 right-4 top-4 bg-slate-950/50">
                                 <i class="fa-solid fa-xmark" />
                             </button>
 
@@ -106,7 +107,7 @@ const otherPhotos = computed(()=>{
         let photos = [...props.photos];    
     
         photos.splice(0,1);
-        photos.splice(6)
+        photos.splice(3)
     
         return photos;
     }
