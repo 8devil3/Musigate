@@ -26,7 +26,7 @@
                         />
     
                         <fieldset class="flex flex-wrap gap-6 px-3 py-2 border border-slate-400 bg-slate-900/30 rounded-2xl">
-                            <legend class="px-1 text-xs font-semibold text-white">Categoria</legend>
+                            <legend class="px-1 text-xs font-medium text-white">Categoria</legend>
                             <Radio v-model="form.category" name="search-studio-category" value="Professional">
                                 Professional
                             </Radio>
