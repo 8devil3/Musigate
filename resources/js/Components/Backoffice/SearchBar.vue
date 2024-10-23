@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="search()" class="flex flex-col gap-1 pb-6 mb-6 border-b border-gray-200 md:flex-row md:items-center">
+    <form @submit.prevent="search()" class="flex flex-col gap-1 pb-6 mb-6 border-b border-slate-200 md:flex-row md:items-center">
         <div class="grid w-full grid-cols-1 gap-2 mb-4 md:mb-0 md:grid-cols-3 md:mr-4">
             <!-- name -->
             <Input type="search" id="filter-company-name" v-model.trim="form.name" @input="search()" :placeholder="lang.searchbar['Search by company name']" :error="form.errors.name"/>
@@ -48,7 +48,7 @@
                         <!-- / -->
 
                         <!-- investor -->
-                        <fieldset class="p-1 border border-gray-300 rounded-md">
+                        <fieldset class="p-1 border border-slate-300 rounded-md">
                             <legend class="text-xs font-semibold px-1 mb-0.5">{{ lang.searchbar['Investor'] }}</legend>
                             
                             <div class="flex items-center gap-2">
@@ -71,7 +71,7 @@
                         <!-- / -->
 
                         <!-- distributor -->
-                        <fieldset class="p-1 border border-gray-300 rounded-md">
+                        <fieldset class="p-1 border border-slate-300 rounded-md">
                             <legend class="text-xs font-semibold px-1 mb-0.5">{{ lang.searchbar['Distributor'] }}</legend>
                             
                             <div class="flex items-center gap-2">
@@ -106,7 +106,7 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-6">
                         <!-- products tags -->
-                        <fieldset class="p-2 border border-gray-200 rounded-md">
+                        <fieldset class="p-2 border border-slate-200 rounded-md">
                             <legend class="px-1 text-sm font-semibold">{{ lang.searchbar['Products'] }}</legend>
                             <div class="space-y-2">
                                 <div>
@@ -141,7 +141,7 @@
                         <!-- / -->
     
                         <!-- services tag -->
-                        <fieldset class="p-2 border border-gray-200 rounded-md">
+                        <fieldset class="p-2 border border-slate-200 rounded-md">
                             <legend class="px-1 text-sm font-semibold">{{ lang.searchbar['Services'] }}</legend>
                             <div class="space-y-2">
                                 <div>
@@ -176,7 +176,7 @@
                         <!-- / -->
     
                         <!-- technologies tag -->
-                        <fieldset class="p-2 border border-gray-200 rounded-md">
+                        <fieldset class="p-2 border border-slate-200 rounded-md">
                             <legend class="px-1 text-sm font-semibold">{{ lang.searchbar['Technologies'] }}</legend>
                             <div class="space-y-2">
                                 <div>
@@ -211,7 +211,7 @@
                         <!-- / -->
     
                         <!-- certification tag -->
-                        <fieldset class="p-2 border border-gray-200 rounded-md">
+                        <fieldset class="p-2 border border-slate-200 rounded-md">
                             <legend class="px-1 text-sm font-semibold">{{ lang.searchbar['Certification'] }}</legend>
                             <div>
                                 <label for="filter-technology-offered-tags" class="px-1 text-xs font-medium leading-none text-black whitespace-nowrap">
@@ -230,7 +230,7 @@
                         <!-- / -->
                     </div>
 
-                    <div class="flex flex-col gap-2 pt-6 mt-6 border-t border-gray-200">
+                    <div class="flex flex-col gap-2 pt-6 mt-6 border-t border-slate-200">
                         <!-- applica filtri -->
                         <Button :text="lang.searchbar['Apply filters']" icon="fa-solid fa-filter" @click="search(), data.openModal = false" />
                         <!-- / -->

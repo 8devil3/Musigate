@@ -127,7 +127,7 @@ li.list-musigate::before {
 
 /* Google Maps Place list */
 .pac-container {
-    @apply mt-1 bg-gray-700 border border-gray-400;
+    @apply mt-1 bg-slate-700 border border-slate-400;
 }
 
 .pac-item {

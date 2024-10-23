@@ -3,7 +3,7 @@
         <Switch
             v-model="vModel"
             :disabled="props.disabled"
-            :class="[vModel ? 'bg-orange-600' : 'bg-gray-400', {'cursor-not-allowed' : props.disabled}]"
+            :class="[vModel ? 'bg-orange-600' : 'bg-slate-400', {'cursor-not-allowed' : props.disabled}]"
             class="relative inline-flex w-8 h-4 mt-0.5 transition-colors duration-200 ease-in-out rounded-full shadow-inner cursor-pointer shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 disabled:cursor-not-allowed"
         >
             <span
@@ -17,7 +17,7 @@
             <SwitchLabel v-if="props.label" class="text-sm leading-tight text-white cursor-pointer disabled:cursor-not-allowed" :class="{'cursor-not-allowed' : props.disabled}">
                 {{ props.label }}
             </SwitchLabel>
-            <SwitchDescription v-if="props.description" class="text-xs leading-tight text-gray-300 cursor-pointer disabled:cursor-not-allowed" :class="{'cursor-not-allowed' : props.disabled}">
+            <SwitchDescription v-if="props.description" class="text-xs leading-tight text-slate-300 cursor-pointer disabled:cursor-not-allowed" :class="{'cursor-not-allowed' : props.disabled}">
                 {{ props.description }}
             </SwitchDescription>
         </div>

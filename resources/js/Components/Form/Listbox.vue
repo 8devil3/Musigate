@@ -9,17 +9,17 @@
             <button
                 @click.stop="isOpen = !isOpen"
                 type="button"
-                class="flex items-center justify-between w-full h-8 py-0 pl-2 pr-3 text-sm leading-tight text-left bg-gray-900 border border-gray-400 rounded-md text-ellipsis placeholder:text-gray-400 disabled:text-gray-300 focus:ring-emerald-600/50 focus:border-orange-500 focus:shadow-md"
-                :class="{'text-gray-400' : !selected.length, 'text-red-500 border-red-600' : props.error}"
+                class="flex items-center justify-between w-full h-8 py-0 pl-2 pr-3 text-sm leading-tight text-left bg-slate-900 border border-slate-400 rounded-md text-ellipsis placeholder:text-slate-400 disabled:text-slate-300 focus:ring-emerald-600/50 focus:border-orange-500 focus:shadow-md"
+                :class="{'text-slate-400' : !selected.length, 'text-red-500 border-red-600' : props.error}"
             >
                 {{ selected.length ? selected.length + ' selected option(s)' : '--Select option(s)--' }}
 
                 <input type="text" :required="props.required" class="absolute inset-0 p-0 m-0 border-0 opacity-0 -z-40" :value="selected"/>
                 
-                <i class="text-[11px] text-gray-500 fa-solid fa-chevron-down"></i>
+                <i class="text-[11px] text-slate-500 fa-solid fa-chevron-down"></i>
             </button>
             
-            <ul v-if="isOpen" class="absolute z-40 flex flex-col w-full gap-4 p-4 mt-1 overflow-x-hidden overflow-y-auto bg-white border border-gray-400 rounded-lg shadow-lg max-h-60 focus:outline-none">
+            <ul v-if="isOpen" class="absolute z-40 flex flex-col w-full gap-4 p-4 mt-1 overflow-x-hidden overflow-y-auto bg-white border border-slate-400 rounded-lg shadow-lg max-h-60 focus:outline-none">
                 <li v-for="option, key in props.options" class="flex items-center gap-1.5">
                     <input
                         :id="props.id + '-' + option"

@@ -52,7 +52,7 @@ const setColorClasses = () => {
             data.colorClasses = 'border border-yellow-400 bg-yellow-500/30';
             break;
         case 'gray':
-            data.colorClasses = 'border border-gray-400 bg-gray-500/30';
+            data.colorClasses = 'border border-slate-400 bg-slate-500/30';
             break;
         case 'red':
             data.colorClasses = 'border border-red-400 bg-red-500/30';

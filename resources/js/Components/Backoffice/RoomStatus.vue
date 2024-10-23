@@ -1,6 +1,6 @@
 <template>
     <div class="inline-flex items-stretch overflow-hidden border rounded-full w-fit" :class="classes.style" :title="props.statusName">
-        <div class="flex items-center justify-center size-5 bg-gray-800 rounded-full shadow-inner shrink-0">
+        <div class="flex items-center justify-center size-5 bg-slate-800 rounded-full shadow-inner shrink-0">
             <i class="text-xs leading-none" :class="classes.icon"></i>
         </div>
 

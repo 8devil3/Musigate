@@ -1,5 +1,5 @@
 <template>
-    <article class="relative flex flex-col w-full border border-gray-600 overflow-clip bg-gray-950 bg-opacity-60 rounded-2xl">
+    <article class="relative flex flex-col w-full border border-slate-600 overflow-clip bg-slate-950 bg-opacity-60 rounded-2xl">
         <!-- badge sconto -->
         <!-- <div v-if="props.room.has_discounted_fixed_price || props.room.min_discounted_price" class="absolute z-10 w-40 py-1.5 text-xs font-medium text-center text-white origin-top rotate-45 translate-x-1/2 bg-orange-900/80 backdrop-blur-sm border-orange-500 shadow-sm border-y-2 top-2 right-2">
             <div>

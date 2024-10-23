@@ -67,7 +67,7 @@ const buttonColor = computed(()=>{
         break;
 
         case 'gray':
-            bc = 'text-gray-400 bg-gray-400/20 hover:bg-gray-400/30';
+            bc = 'text-slate-400 bg-slate-400/20 hover:bg-slate-400/30';
         break;
 
         case 'red':

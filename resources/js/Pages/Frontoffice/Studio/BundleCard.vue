@@ -1,5 +1,5 @@
 <template>
-    <article class="relative flex flex-col w-full border border-gray-600 overflow-clip bg-gray-950 bg-opacity-60 rounded-2xl">
+    <article class="relative flex flex-col w-full border border-slate-600 overflow-clip bg-slate-950 bg-opacity-60 rounded-2xl">
         <!-- copertina -->
          <div class="h-60">
              <img v-if="props.bundle.cover_path" :src="'/storage/' + props.bundle.cover_path" :alt="props.bundle.name" class="object-cover w-full h-full" />

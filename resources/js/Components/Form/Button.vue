@@ -98,7 +98,7 @@ const colorClasses = computed(() => {
             classes = 'bg-yellow-600 hover:bg-yellow-500 active:bg-yellow-500 focus:ring-yellow-500/50 shadow-yellow-500/30';
         break;
         case 'gray':
-            classes = 'bg-gray-600 hover:bg-gray-500 active:bg-gray-500 focus:ring-gray-500/50 shadow-gray-500/30';
+            classes = 'bg-slate-600 hover:bg-slate-500 active:bg-slate-500 focus:ring-slate-500/50 shadow-slate-500/30';
         break;
         case 'slate':
             classes = 'bg-slate-600 hover:bg-slate-500 active:bg-slate-500 focus:ring-slate-500/50 shadow-slate-500/30';

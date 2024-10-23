@@ -15,9 +15,9 @@
             leave-from-class="transform scale-100 opacity-100"
             leave-to-class="transform scale-95 opacity-0"
         >
-            <ComboboxOptions as="ul" v-if="locations.length" class="absolute inset-x-0 z-40 max-h-[256px] rounded-xl mt-2 overflow-y-auto text-sm bg-gray-800 border border-gray-600 shadow-lg overforigin-top-right ring-1 ring-orange-500 ring-opacity-5 focus:outline-none">
+            <ComboboxOptions as="ul" v-if="locations.length" class="absolute inset-x-0 z-40 max-h-[256px] rounded-xl mt-2 overflow-y-auto text-sm bg-slate-800 border border-slate-600 shadow-lg overforigin-top-right ring-1 ring-orange-500 ring-opacity-5 focus:outline-none">
                 <ComboboxOption as="li" v-for="location in locations" :value="location">
-                    <button type="button" @click="selectLocation()" class="flex items-center w-full gap-2 px-4 py-2 text-gray-300 truncate transition-colors hover:bg-orange-500 hover:text-white">
+                    <button type="button" @click="selectLocation()" class="flex items-center w-full gap-2 px-4 py-2 text-slate-300 truncate transition-colors hover:bg-orange-500 hover:text-white">
                         <i class="text-xs fa-solid fa-location-dot"></i>
                         {{ location.place_name }}
                     </button>
