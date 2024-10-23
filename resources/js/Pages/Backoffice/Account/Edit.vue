@@ -24,6 +24,10 @@
 
                 <template #content>
                     <Button @click="router.get(route('google.revoke'))" text="Rimuovi l'account Google" icon="fa-brands fa-google" color="red" />
+                    <div class="mt-4 leading-relaxed">
+                        Account Google attualmente collegato<br>
+                        <strong>{{ props.user.email }}</strong>
+                    </div>
                 </template>
             </FormElement>
             <!-- / -->
