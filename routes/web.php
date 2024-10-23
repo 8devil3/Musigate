@@ -125,27 +125,27 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::delete('/foto/elimina', [StudioPhotoController::class, 'destroy'])->name('photos.delete');
 
             //video
-            Route::get('/video', [VideoController::class, 'edit'])->name('videos.edit');
-            Route::put('/video', [VideoController::class, 'update'])->name('videos.update');
+            Route::get('/video', [VideoController::class, 'edit'])->name('videos.edit')->withoutMiddleware('check_studio_info');
+            Route::put('/video', [VideoController::class, 'update'])->name('videos.update')->withoutMiddleware('check_studio_info');
 
             //metodi di pagamento
             Route::get('/metodi-pagamento', [PaymentMethodController::class, 'edit'])->name('payment_methods.edit');
             Route::put('/metodi-pagamento', [PaymentMethodController::class, 'update'])->name('payment_methods.update');
 
             //collaborazioni
-            Route::resource('/collaborazioni', CollaborationController::class)->parameter('collaborazioni', 'collaboration');
+            Route::resource('/collaborazioni', CollaborationController::class)->parameter('collaborazioni', 'collaboration')->withoutMiddleware('check_studio_info');
 
             //comfort e servizi
-            Route::get('/comfort-servizi', [ComfortServiceController::class, 'edit'])->name('comforts_services.edit');
-            Route::put('/comfort-servizi', [ComfortServiceController::class, 'update'])->name('comforts_services.update');
+            Route::get('/comfort-servizi', [ComfortServiceController::class, 'edit'])->name('comforts_services.edit')->withoutMiddleware('check_studio_info');
+            Route::put('/comfort-servizi', [ComfortServiceController::class, 'update'])->name('comforts_services.update')->withoutMiddleware('check_studio_info');
 
             //social
-            Route::get('/socials', [SocialController::class, 'edit'])->name('socials.edit');
-            Route::put('/socials', [SocialController::class, 'update'])->name('socials.update');
+            Route::get('/socials', [SocialController::class, 'edit'])->name('socials.edit')->withoutMiddleware('check_studio_info');
+            Route::put('/socials', [SocialController::class, 'update'])->name('socials.update')->withoutMiddleware('check_studio_info');
 
             //regolamento
-            Route::get('/regolamento', [RuleController::class, 'edit'])->name('rules.edit');
-            Route::put('/regolamento', [RuleController::class, 'update'])->name('rules.update');
+            Route::get('/regolamento', [RuleController::class, 'edit'])->name('rules.edit')->withoutMiddleware('check_studio_info');
+            Route::put('/regolamento', [RuleController::class, 'update'])->name('rules.update')->withoutMiddleware('check_studio_info');
 
             //contatti
             Route::get('/contatti', [ContactController::class, 'edit'])->name('contacts.edit');

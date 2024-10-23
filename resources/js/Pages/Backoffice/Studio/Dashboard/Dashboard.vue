@@ -28,7 +28,10 @@
                         color="danger"
                         class="col-span-full"
                     >
-                        Lo Studio attualmente non è visibile nè ricercabile pubblicamente dagli utenti
+                        Lo Studio attualmente non è visibile nè ricercabile pubblicamente dagli utenti<br>
+                        <template v-if="props.studio.is_complete">
+                            Vai alla <Link :href="route('studio.description.edit')" class="font-medium text-orange-500 underline transition-colors hover:text-orange-400">descrizione</Link> per modifcare la visibilità.
+                        </template>
                     </InfoBlock>
 
                     <CountCard

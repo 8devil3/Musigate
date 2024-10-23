@@ -22,7 +22,8 @@ class CheckStudioInfo
             if(
                 $studio->name
                 && (count($studio->rooms) > 0 || count($studio->bundles) > 0)
-                && $studio->vat
+                && ($studio->category === 'Professional' ? $studio->vat : true)
+                && $studio->availability()->where('open_type', 'close')->count() < 7
                 && $studio->location->complete_address
                 && count($studio->payment_methods) > 0
                 && count($studio->photos) > 0

@@ -19,6 +19,8 @@ class DashboardController extends Controller
             'contacts'
         ]);
 
-        return Inertia::render('Backoffice/Studio/Dashboard/Dashboard', compact('studio'));
+        $is_weekly_open = $studio->availability()->where('open_type', 'close')->count() < 7;
+
+        return Inertia::render('Backoffice/Studio/Dashboard/Dashboard', compact('studio', 'is_weekly_open'));
     }
 }

@@ -13,6 +13,11 @@
             <i v-else class="w-4 mt-1 text-red-500 shrink-0 fa-solid fa-xmark" />
             almeno una Sala o un pacchetto
         </li>
+        <li class="flex items-start gap-2">
+            <i v-if="props.studio.is_weekly_open" class="w-4 mt-1 text-green-500 shrink-0 fa-solid fa-check" />
+            <i v-else class="w-4 mt-1 text-red-500 shrink-0 fa-solid fa-xmark" />
+            aperto almeno un giorno della settimana
+        </li>
         <li v-if="props.studio.category === 'Professional'" class="flex items-start gap-2">
             <i v-if="props.studio.vat" class="w-4 mt-1 text-green-500 shrink-0 fa-solid fa-check" />
             <i v-else class="w-4 mt-1 text-red-500 shrink-0 fa-solid fa-xmark" />
@@ -49,6 +54,7 @@
 <script setup>
 const props = defineProps({
     studio: Object,
+    is_weekly_open: Boolean,
 });
 
 </script>

@@ -44,23 +44,25 @@
             </FormElement>
             <!-- / -->
                 
-            <!-- categoria -->
-            <!-- <FormElement>
+            <!-- categoria e p.iva -->
+            <FormElement>
                 <template #title>
                     Categoria
                 </template>
 
                 <template #description>
-                    Seleziona la categoria dello Studio.
+                    Seleziona la categoria dello Studio. Se "Professional" è obbligatoria la partita IVA.
                 </template>
 
                 <template #content>
-                    <div class="flex items-center gap-8">
+                    <div class="flex items-center gap-8 mb-4">
                         <Radio v-model="form.category" id="studio-category-professional" name="studio-category" value="Professional">Professional</Radio>
                         <Radio v-model="form.category" id="studio-category-home" name="studio-category" value="Home">Home</Radio>
                     </div>
+
+                    <Input v-if="form.category === 'Professional'" v-model="form.vat" inputmode="numeric" :error="form.errors.vat" placeholder="Partita IVA" pattern="[0-9]{11}" class="w-full lg:max-w-xs" required />
                 </template>
-            </FormElement> -->
+            </FormElement>
             <!-- / -->
 
             <!-- visibile? -->
@@ -82,22 +84,6 @@
                     />
 
                     <CheckStudioData v-if="!props.studio.is_complete" :studio="props.studio" />
-                </template>
-            </FormElement>
-            <!-- / -->
-
-            <!-- vat -->
-            <FormElement>
-                <template #title>
-                    Partita IVA
-                </template>
-
-                <template #description>
-                    La partita IVA dello Studio.
-                </template>
-
-                <template #content>
-                    <Input v-model="form.vat" inputmode="numeric" :error="form.errors.vat" placeholder="Partita IVA" pattern="[0-9]{11}" class="w-full lg:max-w-xs" required />
                 </template>
             </FormElement>
             <!-- / -->
@@ -147,7 +133,7 @@
 import { useForm } from '@inertiajs/vue3';
 import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
 import Input from '@/Components/Form/Input.vue';
-// import Radio from '@/Components/Form/Radio.vue';
+import Radio from '@/Components/Form/Radio.vue';
 import Checkbox from '@/Components/Form/Checkbox.vue';
 import SaveButton from '@/Components/Form/SaveButton.vue';
 import Toggle from '@/Components/Form/Toggle.vue';
@@ -163,7 +149,7 @@ const props = defineProps({
 const form = useForm({
     name: props.studio.name ?? null,
     vat: props.studio.vat ?? null,
-    // category: props.studio.category ?? '',
+    category: props.studio.category ?? '',
     is_record_label: props.studio.is_record_label,
     is_visible: props.studio.is_visible,
     description: props.studio.description ?? null,
