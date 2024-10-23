@@ -62,15 +62,15 @@
                         />
 
                         <div v-else class="grid grid-cols-3 gap-x-2 gap-y-4">
-                            <Input v-model="formStep2.address" label="Indirizzo" placeholder="Indirizzo, senza numero civico" :error="formStep2.errors.address" :disabled="!formStep2.is_manual_address" required class="col-span-2" />
-    
-                            <Input v-model="formStep2.number" label="Civico" placeholder="Civico" :error="formStep2.errors.number" :disabled="!formStep2.is_manual_address" class="col-span-1" />
-    
-                            <Input v-model="formStep2.city" label="Città" placeholder="Città" :error="formStep2.errors.city" :disabled="!formStep2.is_manual_address" required class="col-span-2" />
-    
-                            <Input v-model="formStep2.cap" label="CAP" placeholder="CAP" pattern="[0-9]{5}" :error="formStep2.errors.cap" :disabled="!formStep2.is_manual_address" :required="formStep2.is_manual_address" class="col-span-1" />
-    
-                            <Input v-model="formStep2.province" label="Provincia" placeholder="Provincia" :error="formStep2.errors.province" :disabled="!formStep2.is_manual_address" required class="col-span-full" />
+                            <Input v-model="formStep2.address" label="Indirizzo" placeholder="Indirizzo, senza numero civico" :error="formStep2.errors.address" required class="col-span-2" />
+
+                            <Input v-model="formStep2.number" label="Civico" placeholder="Civico" :error="formStep2.errors.number" class="col-span-1" />
+
+                            <Input v-model="formStep2.city" label="Città" placeholder="Città" :error="formStep2.errors.city" required class="col-span-2" />
+
+                            <Input v-model="formStep2.cap" label="CAP" placeholder="CAP" pattern="[0-9]{5}" :error="formStep2.errors.cap" :required="formStep2.is_manual_address" class="col-span-1" />
+
+                            <Input v-model="formStep2.province" label="Provincia" placeholder="Provincia" :error="formStep2.errors.province" required class="col-span-full" />
                         </div>
                     </div>
 
@@ -165,7 +165,7 @@ const formStep2 = useForm({
     cap: props.data_step2?.cap ?? null,
     city: props.data_step2?.city ?? null,
     province: props.data_step2?.province ?? null,
-    is_manual_address: props.data_step2?.is_manual_address === 'true' ? true : false,
+    is_manual_address: props.data_step2?.is_manual_address ?? false,
 });
 
 const formStep3 = useForm({

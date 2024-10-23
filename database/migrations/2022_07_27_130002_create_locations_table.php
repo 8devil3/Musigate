@@ -16,6 +16,7 @@ return new class extends Migration
             
             $table->foreignId('studio_id')->constrained()->cascadeOnDelete();
             $table->text('complete_address')->nullable();
+            $table->boolean('is_manual_address')->default(false);
             $table->string('address')->nullable();;
             $table->string('number', 8)->nullable();
             $table->string('city')->nullable();;

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth\RegisterStudio;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Services\CreateStudioService;
+use App\Services\LocationGeocodeService;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -55,56 +56,13 @@ class StarterController extends Controller
             'is_manual_address' => 'string|in:true,false'
         ]);
 
-        $is_manual_address = $request->is_manual_address === 'true' ? true : false;
-
-        if($is_manual_address){
-            $request->validate([
-                'address' => 'required|string|max:255',
-                'number' => 'nullable|string|max:8',
-                'city' => 'required|string|max:255',
-                'province' => 'required|string|max:255',
-                'cap' => 'required|string|max:5',
-            ]);
-
-            $arr_complete_address = [];
-            foreach ($request->except(['complete_address', 'notes', 'is_manual_address']) as $value) {
-                if($value) $arr_complete_address[] = $value;
-            }
-
-            $complete_address = implode(', ', $arr_complete_address);
-        } else {
-            $request->validate([
-                'complete_address' => 'required|string|max:255',
-            ]);
-
-            $complete_address = $request->complete_address;
-        }
-
-        $geocode = Geocoder::getCoordinatesForAddress($complete_address);
-
-        $geocode_address = [];
-        foreach ($geocode['address_components'] as $value) {
-            if($value->types[0] === 'route') $geocode_address['address'] = $value->long_name ?? null;
-            if($value->types[0] === 'street_number') $geocode_address['number'] = $value->long_name ?? null;
-            if($value->types[0] === 'locality') $geocode_address['city'] = $value->long_name ?? null;
-            if($value->types[0] === 'administrative_area_level_2') $geocode_address['province'] = $value->long_name ?? null;
-            if($value->types[0] === 'postal_code') $geocode_address['cap'] = $value->long_name ?? null;
-        }
+        session()->forget('data_step2');
 
         session()->put('data_step2', [
-            'name' => ucwords($request->name),
+            'name' => ucwords(strtolower($request->name)),
             'category' => $request->category,
             'vat' => $request->vat,
-            'complete_address' => $geocode['formatted_address'],
-            'address' => $geocode_address['address'],
-            'number' => $geocode_address['number'] ?? null,
-            'city' => $geocode_address['city'],
-            'province' => $geocode_address['province'],
-            'cap' => $geocode_address['cap'],
-            'lon' => $geocode['lng'],
-            'lat' => $geocode['lat'],
-            'is_manual_address' => $request->is_manual_address,
-        ]);
+        ] + LocationGeocodeService::address_data($request));
 
         $step = 3;
 

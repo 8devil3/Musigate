@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Backoffice\Studio;
 use App\Http\Controllers\Controller;
+use App\Services\CheckStudioInfo;
+use App\Services\LocationGeocodeService;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
@@ -24,53 +26,11 @@ class LocationController extends Controller
             'is_manual_address' => 'boolean'
         ]);
 
-        $is_manual_address = $request->is_manual_address === 'true' ? true : false;
+        $studio = auth()->user()->studio;
 
-        if($is_manual_address){
-            $request->validate([
-                'address' => 'required|string|max:255',
-                'number' => 'nullable|string|max:8',
-                'city' => 'required|string|max:255',
-                'province' => 'required|string|max:255',
-                'cap' => 'required|string|max:5',
-            ]);
+        $studio->location->update(LocationGeocodeService::address_data($request));
 
-            $arr_complete_address = [];
-            foreach ($request->except(['complete_address', 'notes', 'is_manual_address']) as $value) {
-                if($value) $arr_complete_address[] = $value;
-            }
-
-            $complete_address = implode(', ', $arr_complete_address);
-        } else {
-            $request->validate([
-                'complete_address' => 'required|string|max:255',
-            ]);
-
-            $complete_address = $request->complete_address;
-        }
-
-        $geocode = Geocoder::getCoordinatesForAddress($complete_address);
-
-        $geocode_address = [];
-        foreach ($geocode['address_components'] as $value) {
-            if($value->types[0] === 'route') $geocode_address['address'] = $value->long_name ?? null;
-            if($value->types[0] === 'street_number') $geocode_address['number'] = $value->long_name ?? null;
-            if($value->types[0] === 'locality') $geocode_address['city'] = $value->long_name ?? null;
-            if($value->types[0] === 'administrative_area_level_2') $geocode_address['province'] = $value->long_name ?? null;
-            if($value->types[0] === 'postal_code') $geocode_address['cap'] = $value->long_name ?? null;
-        }
-
-        auth()->user()->studio->location->update([
-            'complete_address' => $geocode['formatted_address'],
-            'address' => $geocode_address['address'],
-            'number' => $geocode_address['number'],
-            'city' => $geocode_address['city'],
-            'province' => $geocode_address['province'],
-            'cap' => $geocode_address['cap'],
-            'notes' => $request->notes,
-            'lon' => $geocode['lng'],
-            'lat' => $geocode['lat']
-        ]); 
+        CheckStudioInfo::update_studio($studio);
 
         return back()->with('success', 'Location salvata');
     }

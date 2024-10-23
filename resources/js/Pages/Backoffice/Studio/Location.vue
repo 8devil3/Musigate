@@ -13,6 +13,10 @@
                 <template #description>
                     Inizia a digitare per abilitare l'autocompletamento di Google.<br>
                     Se l'autocompletamento non fosse accurato puoi inserire l'indirizzo manualmente spuntando la casella di inserimento manuale.
+
+                    <ul v-if="form.errors" class="text-sm font-normal text-red-500">
+                        <li v-for="error in form.errors">{{ error }}</li>
+                    </ul>
                 </template>
 
                 <template #content>
@@ -44,7 +48,7 @@
                 </template>
             </FormElement>
 
-            <FormElement>
+            <FormElement optional>
                 <template #title>
                     Indicazioni per arrivare
                 </template>
@@ -88,7 +92,7 @@ const form = useForm({
     city: props.location.city,
     province: props.location.province,
     notes: props.location.notes,
-    is_manual_address: false,
+    is_manual_address: props.location.is_manual_address,
 });
 
 const submit = () => {

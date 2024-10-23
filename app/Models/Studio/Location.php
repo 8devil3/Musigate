@@ -10,6 +10,7 @@ class Location extends Model
     protected $fillable = [
         'studio_id',
         'complete_address',
+        'is_manual_address',
         'address',
         'number',
         'city',
@@ -21,6 +22,7 @@ class Location extends Model
     ];
 
     protected $casts = [
+        'is_manual_address' => 'boolean',
         'lon' => 'float',
         'lat' => 'float',
     ];
