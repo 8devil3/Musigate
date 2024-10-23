@@ -21,12 +21,15 @@ class StudioSeeder extends Seeder
 
         Storage::disk('public')->deleteDirectory('studios');
 
+        $categories = ['Professional', 'Home'];
+
         foreach ($users as $user) {
             $name = 'Studio ' . fake()->company();
 
             $studio = Studio::create([
                 'user_id' => $user->id,
                 'name' => 'Studio ' . fake()->company(),
+                'category' => $categories[rand(0,1)],
                 'slug' => \Str::slug($name),
                 'vat' => str_replace('IT', '', fake()->vat()),
                 'logo' => null,

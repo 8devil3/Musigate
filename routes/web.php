@@ -39,7 +39,7 @@ Route::get('/offline', function () {
     return view('offline');
 })->name('offline');
 
-Route::get('/cerca', [SearchController::class, 'index'])->name('rooms.index');
+Route::get('/cerca', [SearchController::class, 'index'])->name('studio.index');
 Route::get('/studio/{studio}', [SearchController::class, 'show'])->name('studio.show');
 // Route::get('/prenota/sala/{room}', [ReservationController::class, 'create'])->name('reservation.create');
 // Route::post('/prenota/sala/store', [ReservationController::class, 'store'])->name('reservation.store');

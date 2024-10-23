@@ -15,8 +15,14 @@ class SearchController extends Controller
 {
     public function index(Request $request): Response
     {
-        $equip = request('equip', null);
         $user = auth()->user();
+        $equip = request('equip', null);
+        $name = request('name', null);
+        $location = request('location', null);
+
+        if($request->category && $request->category !== 'Professional' & $request->category !== 'Home'){
+            $request->merge(['category' => null]);
+        }
 
         $studios = Studio::with(['location', 'photos'])
             ->where('is_complete', true)
@@ -27,12 +33,15 @@ class SearchController extends Controller
             ->when($user && $user->role_id === Role::STUDIO , function($query) use($user){
                 $query->whereNot('id', $user->studio->id);
             })
-            ->when(request('name', null), function ($query){
-                $query->whereLike('name', '%' . request('name') . '%');
+            ->when($name, function ($query) use($name){
+                $query->whereLike('name', '%' . $name . '%');
             })
-            ->when(request('location', 'all') !== 'all', function($query){
-                $query->whereHas('location', function($query){
-                    $query->whereLike('province', '%' . request('location'));
+            ->when($request->category, function ($query) use($request){
+                $query->where('category', $request->category);
+            })
+            ->when($location, function($query) use($location){
+                $query->whereHas('location', function($query) use($location){
+                    $query->whereLike('province', '%' . $location);
                 });
             })
             ->paginate(20)
@@ -47,7 +56,7 @@ class SearchController extends Controller
 
     public function show(Studio $studio): Response
     {
-        if(!$studio->is_complete || !$studio->is_visible) abort(404);
+        if(!$studio->is_complete || !$studio->is_published) abort(404);
 
         $weekdays = Picklists::WEEKDAYS;
         $months = Picklists::MONTHS;

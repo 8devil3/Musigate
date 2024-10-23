@@ -2,7 +2,7 @@
     <FrontofficeLayout title="Cerca">
         <!-- search bar desktop-->
         <div class="sticky top-0 z-50 border-b bg-slate-950/60 border-slate-700 backdrop-blur-md">
-            <form @submit.prevent="submit()" class="items-end justify-center hidden max-w-4xl px-6 py-4 mx-auto md:flex gap-x-2 gap-y-4">
+            <form @submit.prevent="submit()" class="items-end justify-center hidden max-w-5xl px-6 py-4 mx-auto md:flex gap-x-2 gap-y-4">
                 <ComboBox
                     v-model="form.location"
                     @selected="submit()"
@@ -18,6 +18,7 @@
                 <NumberInput v-model="form.duration" @input="submit()" @change="submit()" :min="1" :max="24" label="Durata" unit="ore" />
                 <NumberInput v-model="form.guests" @input="submit()" @change="submit()" :min="1" :max="99" label="Persone" /> -->
 
+                <Select v-model="form.category" @change="submit()" isArray :options="['Home', 'Professional']" default="Seleziona categoria" class="min-w-48" />
                 <Input v-model="form.name" @input="submit()" @clear="submit()" placeholder="Nome studio" class="grow" />
                 <Input v-model="form.equip" @input="submit()" @clear="submit()" placeholder="Equipaggiamento" class="grow" />
                 <Button @click="showMap = !showMap" title="Mostra/Nascondi mappa" :color="showMap ? 'green' : 'orange'" icon="fa-solid fa-map-location-dot" />
@@ -30,6 +31,7 @@
         <div class="sticky top-0 z-50 flex w-full gap-2 p-4 border-b md:hidden bg-slate-950/60 border-slate-700 backdrop-blur-md">
             <Button @click="isOpenModalFilters = true" text="Filtra" icon="fa-solid fa-sliders" :disabled="form.processing" class="grow" />
             <Button @click="mapFullScreen()" title="Mostra/nascondi mappa" icon="fa-solid fa-map-location-dot" color="orange" :disabled="form.processing" class="shrink-0" />
+            <Button @click="reset()" icon="fa-solid fa-arrow-rotate-left" color="slate" title="Reset filtri" />
         </div>
         <!-- / -->
 
@@ -103,6 +105,7 @@
                         <NumberInput v-model="form.duration" :min="1" :max="24" label="Durata" unit="ore" class="grow" />
                         <NumberInput v-model="form.guests" :min="1" :max="99" label="Persone" class="grow" />
                     </div> -->
+                    <Select v-model="form.category" isArray :options="['Home', 'Professional']" default="Seleziona categoria" />
                     <Input v-model="form.name" placeholder="Nome studio" />
                     <Input v-model="form.equip" placeholder="Equipaggiamento" />
                     <Button type="submit" text="Cerca" icon="fa-solid fa-magnifying-glass" class="w-full" />
@@ -124,6 +127,7 @@ import Modal from '@/Components/Modal.vue';
 import Pagination from '@/Components/Pagination.vue';
 // import NumberInput from '@/Components/Form/NumberInput.vue';
 import ComboBox from '@/Components/Form/ComboBox.vue';
+import Select from '@/Components/Form/Select.vue';
 import Button from '@/Components/Form/Button.vue';
 import Input from '@/Components/Form/Input.vue';
 import Spinner from '@/Components/Spinner.vue';
@@ -144,6 +148,7 @@ const form = useForm({
     // start: props.request?.start ?? null,
     // duration: props.request?.duration ?? 2,
     // guests: props.request?.guests ?? 1,
+    category: props.request?.category ?? '',
     location: props.request?.location ?? null,
     name: props.request?.name ?? null,
     equip: props.request?.equip ?? null,
@@ -151,7 +156,7 @@ const form = useForm({
 
 const submit = ()=>{
     isOpenModalFilters.value = false;
-    form.get(route('rooms.index'), {
+    form.get(route('studio.index'), {
         preserveScroll: true,
         preserveState: true,
     });
@@ -159,7 +164,7 @@ const submit = ()=>{
 
 const reset = ()=>{
     form.reset();
-    router.get(route('rooms.index'));
+    router.get(route('studio.index'));
     isOpenModalFilters.value = false;
 };
 

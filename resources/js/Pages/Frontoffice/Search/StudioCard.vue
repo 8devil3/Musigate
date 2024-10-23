@@ -1,5 +1,5 @@
 <template>
-    <article class="flex flex-col overflow-hidden border border-slate-500 min-h-40 bg-slate-900/75 rounded-xl">
+    <article class="flex flex-col overflow-hidden border border-slate-500 min-h-40 bg-slate-900/75 rounded-2xl">
         <div class="relative h-56">
             <Carosello :imgs="props.studio.photos" class="h-full" />
 
