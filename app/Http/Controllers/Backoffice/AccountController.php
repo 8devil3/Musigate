@@ -70,9 +70,9 @@ class AccountController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-        // $request->validate([
-        //     'password' => ['required', 'current_password'],
-        // ]);
+        $request->validate([
+            'conferma' => ['required', 'string', 'in:elimina'],
+        ]);
 
         $user = $request->user();
 

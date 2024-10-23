@@ -160,18 +160,15 @@
             Eliminazione dell'account
         </template>
         <template #description>
-            <div class="text-base font-semibold text-red-500 ">
+            <div class="mb-2 text-base font-semibold text-red-500">
                 Attenzione, stai per eliminare definitivamente il tuo account.
             </div>
-            Questa azione è irreversibile ed eliminerà tutti i dati associati al tuo account, vuoi davvero procedere?
-
-            <!-- <form @submit.prevent="deleteUser()" class="flex flex-col gap-2 mt-2">
-                Se sei sicuro, inserisci la tua password per procedere.
-                <Input type="password" v-model="formDeleteUser.password" id="password" placeholder="Password" :error="formDeleteUser.errors.password" required />
-
-                <div class="mt-4 space-x-2">
-                </div>
-            </form> -->
+            Questa azione è irreversibile ed eliminerà TUTTI i dati associati al tuo account, vuoi davvero procedere?
+            <br>
+            Per sicurezza, inserisci la parola <strong>"elimina"</strong> senza virgolette.
+            <div class="mt-4 space-x-2">
+                <Input v-model="formDeleteUser.conferma" placeholder="Digita &quot;elimina&quot; per confermare" :error="formDeleteUser.errors.conferma" required />
+            </div>
         </template>
         <template #actions>
             <Button type="submit" text="Sì, elimina l'account" color="red" />
@@ -257,11 +254,14 @@ const openModalDeleteUser = ref(false);
 
 const formDeleteUser = useForm({
     password: null,
+    conferma: null,
 });
 
 const closeModalDeleteUser = ()=>{
-    openModalDeleteUser.value = false
+    openModalDeleteUser.value = false;
     formDeleteUser.reset();
+    formDeleteUser.clearErrors();
+    router.reload();
 }
 
 const deleteUser = () => {
