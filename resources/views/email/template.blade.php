@@ -97,12 +97,18 @@
             text-align: center;
             font-size: 14px;
             border-bottom: 1px #ff6600 solid;
+            padding: 16px
+        }
+
+        .main-content {
+            padding: 24px 0 24px 24px !important;
         }
 
         .footer {
             text-align: center;
             font-size: 12px;
             border-top: 1px #ff6600 solid;
+            padding: 24px
         }
 
         table,
@@ -145,24 +151,6 @@
             .button {
                 display: block !important;
                 width: auto !important;
-            }
-
-            .main-content {
-                padding: 0 16px !important;
-            }
-
-            .header, .footer {
-                padding: 16px !important;
-            }
-        }
-
-        @media only screen and (min-width:601px) {
-            .main-content {
-                padding: 0 24px !important;
-            }
-
-            .header, .footer {
-                padding: 24px !important;
             }
         }
     </style>
