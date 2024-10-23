@@ -24,7 +24,7 @@ class RoomSeeder extends Seeder
                     'name' => 'Sala ' . fake()->word(),
                     'color' => fake()->hexColor(),
                     'is_bookable' => false,
-                    'is_visible' => true,
+                    'is_published' => true,
                     'area' => rand(10, 50),
                     'description' => fake()->paragraphs(2, true),
                     'max_capacity' => rand(2, 6),

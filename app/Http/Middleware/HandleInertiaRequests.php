@@ -35,7 +35,7 @@ class HandleInertiaRequests extends Middleware
 
         if(auth()->check() && auth()->user()->role_id === Role::STUDIO){
             $user = auth()->user();
-            $studio = $user->studio->only('name', 'vat', 'logo', 'category');
+            $studio = $user->studio->only('name', 'vat', 'logo', 'category', 'is_published', 'is_complete');
         }
 
         return [

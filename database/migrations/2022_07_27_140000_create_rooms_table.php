@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('studio_id')->constrained()->cascadeOnDelete();
             $table->string('name')->default('Nuova Sala');
             $table->string('color', 7)->default('#f97316');
-            $table->boolean('is_visible')->default(false);
+            $table->boolean('is_published')->default(false);
             $table->boolean('is_bookable')->default(false);
             $table->unsignedTinyInteger('min_booking')->default(2); // prenotazione minima, espressa in ore
             $table->unsignedTinyInteger('max_capacity')->default(4);

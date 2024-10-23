@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backoffice\Studio;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Picklists;
 use App\Models\Studio\Availability;
+use App\Services\CheckStudioInfo;
 use App\Services\GeneratePeriodsService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -145,6 +146,8 @@ class AvailabilityController extends Controller
             }
         }
 
+        CheckStudioInfo::update_studio($studio);
+
         return back()->with('success', 'Disponibilità aggiornata');
     }
 
@@ -193,6 +196,8 @@ class AvailabilityController extends Controller
                 $room->timeband_prices()->delete();
             }
         }
+
+        CheckStudioInfo::update_studio($studio);
 
         return back()->with('success', 'Disponibilità copiata');
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backoffice\Studio;
 
 use App\Http\Controllers\Controller;
 use App\Models\Studio\PaymentMethod;
+use App\Services\CheckStudioInfo;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
@@ -33,7 +34,11 @@ class PaymentMethodController extends Controller
             'payments' => 'nullable|exists:payment_methods,id',
         ]);
 
-        auth()->user()->studio->payment_methods()->sync($request->payments);
+        $studio = auth()->user()->studio;
+
+        $studio->payment_methods()->sync($request->payments);
+
+        CheckStudioInfo::update_studio($studio);
 
         return back()->with('success', 'Metodi di pagamento salvati');
     }

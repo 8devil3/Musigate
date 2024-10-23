@@ -1,5 +1,5 @@
 <template>
-    <div class="p-4 border-2 border-orange-600 overflow-clip bg-slate-900 rounded-2xl">
+    <div class="p-4 border-2 border-slate-500 overflow-clip bg-slate-900 rounded-2xl">
         <h3 class="flex items-start w-full gap-3 text-lg leading-tight">
             <i class="mt-0.5" :class="[props.icon, props.iconColor]" />
             <div class="truncate">

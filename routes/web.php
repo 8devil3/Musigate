@@ -97,7 +97,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         
         //gestione studio
-        Route::group(['middleware' => 'check_studio_info', 'as' => 'studio.'], function(){
+        Route::group(['as' => 'studio.'], function(){
             //raccolta di links per sola vista mobile
             Route::get('/', function(){
                 return Inertia::render('Backoffice/Studio/AppStudioLinks');
@@ -125,31 +125,31 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::delete('/foto/elimina', [StudioPhotoController::class, 'destroy'])->name('photos.delete');
 
             //video
-            Route::get('/video', [VideoController::class, 'edit'])->name('videos.edit')->withoutMiddleware('check_studio_info');
-            Route::put('/video', [VideoController::class, 'update'])->name('videos.update')->withoutMiddleware('check_studio_info');
+            Route::get('/video', [VideoController::class, 'edit'])->name('videos.edit');
+            Route::put('/video', [VideoController::class, 'update'])->name('videos.update');
 
             //metodi di pagamento
             Route::get('/metodi-pagamento', [PaymentMethodController::class, 'edit'])->name('payment_methods.edit');
             Route::put('/metodi-pagamento', [PaymentMethodController::class, 'update'])->name('payment_methods.update');
 
             //collaborazioni
-            Route::resource('/collaborazioni', CollaborationController::class)->parameter('collaborazioni', 'collaboration')->withoutMiddleware('check_studio_info');
+            Route::resource('/collaborazioni', CollaborationController::class)->parameter('collaborazioni', 'collaboration');
 
             //comfort e servizi
-            Route::get('/comfort-servizi', [ComfortServiceController::class, 'edit'])->name('comforts_services.edit')->withoutMiddleware('check_studio_info');
-            Route::put('/comfort-servizi', [ComfortServiceController::class, 'update'])->name('comforts_services.update')->withoutMiddleware('check_studio_info');
+            Route::get('/comfort-servizi', [ComfortServiceController::class, 'edit'])->name('comforts_services.edit');
+            Route::put('/comfort-servizi', [ComfortServiceController::class, 'update'])->name('comforts_services.update');
 
             //social
-            Route::get('/socials', [SocialController::class, 'edit'])->name('socials.edit')->withoutMiddleware('check_studio_info');
-            Route::put('/socials', [SocialController::class, 'update'])->name('socials.update')->withoutMiddleware('check_studio_info');
+            Route::get('/socials', [SocialController::class, 'edit'])->name('socials.edit');
+            Route::put('/socials', [SocialController::class, 'update'])->name('socials.update');
 
             //regolamento
-            Route::get('/regolamento', [RuleController::class, 'edit'])->name('rules.edit')->withoutMiddleware('check_studio_info');
-            Route::put('/regolamento', [RuleController::class, 'update'])->name('rules.update')->withoutMiddleware('check_studio_info');
+            Route::get('/regolamento', [RuleController::class, 'edit'])->name('rules.edit');
+            Route::put('/regolamento', [RuleController::class, 'update'])->name('rules.update');
 
             //contatti
             Route::get('/contatti', [ContactController::class, 'edit'])->name('contacts.edit');
-            Route::put('/contatti', [ContactController::class, 'update'])->name('contacts.update');
+            Route::put('/contatti', [ContactController::class, 'update'])->name('contacts.update')->middleware('check_studio_info');
 
             // //impostazioni prenotazioni
             // Route::get('/impostazioni-prenotazioni', [BookingSettingController::class, 'edit'])->name('bookings.settings.edit')->middleware('google_refresh_token');

@@ -42,18 +42,18 @@
             </FormElement> -->
             <!-- / -->
 
-            <!-- visibile? -->
+            <!-- Pubblicazione -->
             <FormElement>
                 <template #title>
-                    Visibilità
+                    Pubblicazione
                 </template>
 
                 <template #description>
-                    Scegli se rendere il pacchetto visibile.
+                    Scegli se rendere il pubblicare pacchetto.
                 </template>
 
                 <template #content>
-                    <Toggle v-model="form.is_visible" :label="form.is_visible ? 'Pacchetto visibile' : 'Pacchetto non visibile'" />
+                    <Toggle v-model="form.is_published" :label="form.is_published ? 'Pacchetto pubblicato' : 'Pacchetto non pubblicato'" />
                 </template>
             </FormElement>
             <!-- / -->
@@ -127,7 +127,7 @@ const form = useForm({
     name: props.bundle?.name ?? 'Nuovo pacchetto',
     // color: props.bundle?.color ?? '#ff6600',
     // is_bookable: props.bundle?.is_bookable ?? false,
-    is_visible: props.bundle?.is_visible ?? false,
+    is_published: props.bundle?.is_published ?? false,
     description: props.bundle?.description ?? null,
 });
 

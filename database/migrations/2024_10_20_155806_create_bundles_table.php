@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name')->default('Nuovo pacchetto');
             $table->string('cover_path')->nullable();
             $table->string('color', 7)->default('#f97316');
-            $table->boolean('is_visible')->default(false);
+            $table->boolean('is_published')->default(false);
             $table->boolean('is_bookable')->default(false);
             $table->unsignedTinyInteger('duration')->nullable();
             $table->text('description')->nullable();

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backoffice\Studio;
 
 use App\Http\Controllers\Controller;
+use App\Services\CheckStudioInfo;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -15,13 +16,15 @@ class DescriptionController extends Controller
     public function edit(): Response
     {
         $studio = auth()->user()->studio->load([
-            'rooms:id,studio_id',
-            'bundles:id,studio_id',
             'location:id,studio_id,complete_address',
-            'payment_methods',
-            'photos:id,studio_id',
             'contacts'
-        ]);
+        ])->loadCount(['availability as count_close_days' => function($query){
+            $query->where('open_type', 'close');
+        }])->loadCount(['rooms as room_count' => function($query){
+            $query->where('is_published', true);
+        }])->loadCount(['bundles as bundle_count' => function($query){
+            $query->where('is_published', true);
+        }])->loadCount(['payment_methods as payment_methods_count', 'photos as photos_count']);
 
         return Inertia::render('Backoffice/Studio/Description', compact('studio'));
     }
@@ -33,7 +36,7 @@ class DescriptionController extends Controller
             'category' => 'required|string|max:255|in:Professional,Home',
             'vat' => 'nullable|required_if:category,Professional|string|size:11',
             'is_record_label' => 'boolean',
-            'is_visible' => 'boolean',
+            'is_published' => 'boolean',
             'description' => 'required|string|min:100'
         ]);
 
@@ -44,6 +47,8 @@ class DescriptionController extends Controller
         if($request->category !== 'Professional'){
             $studio->update(['vat' => null]);
         }
+
+        CheckStudioInfo::update_studio($studio);
 
         return back()->with('success', 'Descrizione salvata');
     }

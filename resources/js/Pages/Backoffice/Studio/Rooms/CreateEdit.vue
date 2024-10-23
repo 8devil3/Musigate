@@ -42,18 +42,18 @@
             </FormElement> -->
             <!-- / -->
 
-            <!-- visibile? -->
+            <!-- pubblicazione -->
             <FormElement>
                 <template #title>
-                    Visibilità
+                    Pubblicazione
                 </template>
 
                 <template #description>
-                    Scegli se rendere la sala visibile.
+                    Scegli se pubblicare la Sala.
                 </template>
 
                 <template #content>
-                    <Toggle v-model="form.is_visible" :label="form.is_visible ? 'Sala visibile' : 'Sala non visibile'" />
+                    <Toggle v-model="form.is_published" :label="form.is_published ? 'Sala pubblicata' : 'Sala non pubblicata'" />
                 </template>
             </FormElement>
             <!-- / -->
@@ -179,7 +179,7 @@ const props = defineProps({
 const form = useForm({
     name: props.room?.name ?? 'Nuova sala',
     color: props.room?.color ?? '#ff6600',
-    is_visible: props.room?.is_visible ?? false,
+    is_published: props.room?.is_published ?? false,
     is_bookable: props.room?.is_bookable ?? false,
     min_booking: props.room?.min_booking ?? 1,
     area: props.room?.area ?? null,

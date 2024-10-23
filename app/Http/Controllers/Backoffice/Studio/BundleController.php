@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backoffice\Studio;
 
 use App\Http\Controllers\Controller;
 use App\Models\Studio\Bundle;
+use App\Services\CheckStudioInfo;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -31,11 +32,15 @@ class BundleController extends Controller
             'name' => 'required|string|max:255',
             // 'color' => 'required|string|starts_with:#|size:7',
             // 'is_bookable' => 'boolean',
-            'is_visible' => 'boolean',
+            'is_published' => 'boolean',
             'description' => 'nullable|string',
         ]);
 
-        $bundle = auth()->user()->studio->bundles()->create($request->toArray());
+        $studio = auth()->user()->studio;
+
+        $bundle = $studio->bundles()->create($request->toArray());
+
+        CheckStudioInfo::update_studio($studio);
 
         return to_route('pacchetti.edit', $bundle->id)->with('success', 'Pacchetto salvato');
     }
@@ -51,11 +56,13 @@ class BundleController extends Controller
             'name' => 'required|string|max:255',
             // 'color' => 'required|string|starts_with:#|size:7',
             // 'is_bookable' => 'boolean',
-            'is_visible' => 'boolean',
+            'is_published' => 'boolean',
             'description' => 'nullable|string',
         ]);
 
         $bundle->update($request->toArray());
+
+        CheckStudioInfo::update_studio($bundle->studio);
 
         return back()->with('success', 'Pacchetto salvato');
     }
@@ -63,6 +70,8 @@ class BundleController extends Controller
     public function destroy(Bundle $bundle): RedirectResponse
     {
         $bundle->delete();
+
+        CheckStudioInfo::update_studio($bundle->studio);
 
         return back()->with('success', 'Pacchetto eliminato');
     }

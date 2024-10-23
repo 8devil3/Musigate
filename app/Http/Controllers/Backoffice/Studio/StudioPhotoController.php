@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backoffice\Studio;
 
 use App\Http\Controllers\Controller;
 use App\Models\Studio\StudioPhoto;
+use App\Services\CheckStudioInfo;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -48,6 +49,8 @@ class StudioPhotoController extends Controller
             }
         }
 
+        CheckStudioInfo::update_studio($studio);
+
         return back()->with('success', 'Foto salvate');
     }
 
@@ -57,14 +60,17 @@ class StudioPhotoController extends Controller
             'selected_photos' => ['required', 'array'],
             'selected_photos.*' => ['integer', 'exists:studio_photos,id'],
         ]);
-
+        
         if($request->selected_photos){
             $studio = auth()->user()->studio;
+
             foreach ($request->selected_photos as $photo_id) {
                 $photo = $studio->photos()->findOrFail($photo_id);
                 Storage::disk('public')->delete($photo->path);
                 $photo->delete();
             }
+
+            CheckStudioInfo::update_studio($studio);
         }
 
         return back()->with('success', 'Foto eliminate');

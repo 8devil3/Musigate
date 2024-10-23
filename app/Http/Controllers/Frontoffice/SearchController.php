@@ -20,7 +20,7 @@ class SearchController extends Controller
 
         $studios = Studio::with(['location', 'photos'])
             ->where('is_complete', true)
-            ->where('is_visible', true)
+            ->where('is_published', true)
             ->when($equip, function($query) use($equip){
                 $query->whereRelation('rooms.equipments', 'name', 'LIKE', '%' . strtolower($equip) . '%');
             })
@@ -70,13 +70,13 @@ class SearchController extends Controller
             $query->with(['equipments', 'photos', 'timeband_prices.timeband:id,weekday,name,start,end'])
                 ->withMin('timeband_prices as min_price', 'price')
                 ->withMin('timeband_prices as min_discounted_price', 'discounted_price')
-                ->where('is_visible', true);
+                ->where('is_published', true);
         }])->load(['bundles' => function($query){
             //mostro solo i bundle pubblicati
             $query->with('timeband_prices.timeband:id,weekday,name,start,end')
                 ->withMin('timeband_prices as min_price', 'price')
                 ->withMin('timeband_prices as min_discounted_price', 'discounted_price')
-                ->where('is_visible', true);
+                ->where('is_published', true);
         }]);
 
         $room_photos = [];

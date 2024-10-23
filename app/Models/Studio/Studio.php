@@ -28,13 +28,13 @@ class Studio extends Model
         'category',
         'description',
         'is_record_label',
-        'is_visible',
+        'is_published',
         'is_complete',
     ];
 
     protected $casts = [
         'is_record_label' => 'boolean',
-        'is_visible' => 'boolean',
+        'is_published' => 'boolean',
         'is_complete' => 'boolean',
     ];
 

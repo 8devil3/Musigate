@@ -34,12 +34,12 @@ class Room extends Model
         'has_discounted_monthly_price',
         'discounted_monthly_price',
         'is_bookable',
-        'is_visible',
+        'is_published',
     ];
 
     protected $casts = [
         'is_bookable' => 'boolean',
-        'is_visible' => 'boolean',
+        'is_published' => 'boolean',
         'has_discounted_hourly_price' => 'boolean',
         'has_discounted_monthly_price' => 'boolean',
     ];

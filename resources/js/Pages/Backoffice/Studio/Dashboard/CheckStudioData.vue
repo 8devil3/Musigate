@@ -1,6 +1,6 @@
 <template>
     <p class="mb-4">
-        Completa questi dati per rendere lo studio visibile e ricercabile.
+        Completa questi dati per rendere lo Studio pubblicabile.
     </p>
     <ul class="pl-0.5 list-none space-y-2">
         <li class="flex items-start gap-2">
@@ -9,12 +9,12 @@
             il nome dello Studio
         </li>
         <li class="flex items-start gap-2">
-            <i v-if="props.studio.rooms.length || props.studio.bundles.length" class="w-4 mt-1 text-green-500 shrink-0 fa-solid fa-check" />
+            <i v-if="props.studio.room_count || props.studio.bundle_count" class="w-4 mt-1 text-green-500 shrink-0 fa-solid fa-check" />
             <i v-else class="w-4 mt-1 text-red-500 shrink-0 fa-solid fa-xmark" />
-            almeno una Sala o un pacchetto
+            almeno una Sala o un pacchetto pubblicato
         </li>
         <li class="flex items-start gap-2">
-            <i v-if="props.studio.is_weekly_open" class="w-4 mt-1 text-green-500 shrink-0 fa-solid fa-check" />
+            <i v-if="props.studio.count_close_days < 7" class="w-4 mt-1 text-green-500 shrink-0 fa-solid fa-check" />
             <i v-else class="w-4 mt-1 text-red-500 shrink-0 fa-solid fa-xmark" />
             aperto almeno un giorno della settimana
         </li>
@@ -24,7 +24,7 @@
             la partita iva
         </li>
         <li class="flex items-start gap-2">
-            <i v-if="props.studio.description?.length > 100" class="w-4 mt-1 text-green-500 shrink-0 fa-solid fa-check" />
+            <i v-if="props.studio.description.length > 100" class="w-4 mt-1 text-green-500 shrink-0 fa-solid fa-check" />
             <i v-else class="w-4 mt-1 text-red-500 shrink-0 fa-solid fa-xmark" />
             la presentazione di almeno 100 caratteri, spazi esclusi
         </li>
@@ -34,12 +34,12 @@
             la location
         </li>
         <li class="flex items-start gap-2">
-            <i v-if="props.studio.payment_methods?.length" class="w-4 mt-1 text-green-500 shrink-0 fa-solid fa-check" />
+            <i v-if="props.studio.payment_method_count" class="w-4 mt-1 text-green-500 shrink-0 fa-solid fa-check" />
             <i v-else class="w-4 mt-1 text-red-500 shrink-0 fa-solid fa-xmark" />
             almeno un metodo di pagamento
         </li>
         <li class="flex items-start gap-2">
-            <i v-if="props.studio.photos?.length" class="w-4 mt-1 text-green-500 shrink-0 fa-solid fa-check" />
+            <i v-if="props.studio.photo_count" class="w-4 mt-1 text-green-500 shrink-0 fa-solid fa-check" />
             <i v-else class="w-4 mt-1 text-red-500 shrink-0 fa-solid fa-xmark" />
             almeno una foto
         </li>
@@ -54,7 +54,6 @@
 <script setup>
 const props = defineProps({
     studio: Object,
-    is_weekly_open: Boolean,
 });
 
 </script>

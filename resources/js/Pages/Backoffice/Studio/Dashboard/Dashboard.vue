@@ -14,8 +14,8 @@
                 <!-- count box -->
                 <div class="grid max-w-xl grid-cols-1 gap-4 mx-auto sm:grid-cols-2">
                     <InfoBlock
-                        v-if="props.studio.is_visible"
-                        title="Lo Studio è visibile"
+                        v-if="props.studio.is_published"
+                        title="Lo Studio è pubblicato"
                         color="success"
                         class="col-span-full"
                     >
@@ -24,19 +24,28 @@
 
                     <InfoBlock
                         v-else
-                        title="Lo Studio non è visibile"
+                        title="Lo Studio non è pubblicato"
                         color="danger"
                         class="col-span-full"
                     >
                         Lo Studio attualmente non è visibile nè ricercabile pubblicamente dagli utenti<br>
                         <template v-if="props.studio.is_complete">
-                            Vai alla <Link :href="route('studio.description.edit')" class="font-medium text-orange-500 underline transition-colors hover:text-orange-400">descrizione</Link> per modifcare la visibilità.
+                            Vai alla <Link :href="route('studio.description.edit')" class="font-medium text-orange-500 underline transition-colors hover:text-orange-400">descrizione</Link> per modifcare questa impostazione.
                         </template>
                     </InfoBlock>
 
+                    <InfoBlock
+                        v-if="props.studio.is_complete"
+                        title="Dati minimi soddisfatti"
+                        color="success"
+                        class="col-span-full"
+                    >
+                        I dati minimi dello Studio sono soddisfatti.
+                    </InfoBlock>
+
                     <CountCard
-                        v-if="!props.studio.is_complete"
-                        title="Completamento dati Studio"
+                        v-else
+                        title="Completamento dati minimi"
                         :icon="props.studio.is_complete ? 'fa-regular fa-circle-check' : 'fa-regular fa-circle-xmark'"
                         :iconColor="props.studio.is_complete ? 'text-green-500' : 'text-red-500'"
                         class="col-span-full"
@@ -47,38 +56,20 @@
                     </CountCard>
 
                     <CountCard
-                        title="Sale visibili"
+                        title="Sale pubblicate"
                         icon="fa-solid fa-microphone-lines"
-                        :count="props.studio.rooms.filter(room => room.is_visible).length ?? 0"
+                        :count="props.studio.room_count ?? 0"
                         routeName="sale.index"
                         routeLabel="Vai alle Sale"
                     />
 
                     <CountCard
-                        title="Sale non visibili"
-                        icon="fa-solid fa-microphone-lines-slash"
-                        :count="props.studio.rooms.filter(room => !room.is_visible).length ?? 0"
-                        routeName="sale.index"
-                        routeLabel="Vai alle Sale"
-                    />
-
-                    <CountCard
-                        title="Pacchetti visibili"
+                        title="Pacchetti pubblicati"
                         icon="fa-solid fa-store"
-                        :count="props.studio.bundles.filter(bundle => bundle.is_visible).length ?? 0"
+                        :count="props.studio.bundle_count ?? 0"
                         routeName="sale.index"
                         routeLabel="Vai ai pacchetti"
                     />
-
-                    <CountCard
-                        title="Pacchetti non visibili"
-                        icon="fa-solid fa-store-slash"
-                        :count="props.studio.bundles.filter(bundle => !bundle.is_visible).length ?? 0"
-                        routeName="sale.index"
-                        routeLabel="Vai ai pacchetti"
-                    />
-
-
                 </div>
                 <!-- / -->    
             </div>

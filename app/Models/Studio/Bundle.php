@@ -14,7 +14,7 @@ class Bundle extends Model
         'name',
         'cover_path',
         'color',
-        'is_visible',
+        'is_published',
         'is_bookable',
         'description',
         'price_type',
@@ -25,7 +25,7 @@ class Bundle extends Model
 
     protected $casts = [
         'is_bookable' => 'boolean',
-        'is_visible' => 'boolean',
+        'is_published' => 'boolean',
         'has_discounted_fixed_price' => 'boolean',
     ];
 

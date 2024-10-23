@@ -32,7 +32,7 @@ class StudioSeeder extends Seeder
                 'logo' => null,
                 'description' => fake()->text(rand(800, 1600)),
                 'is_record_label' => fake()->boolean(),
-                'is_visible' => true,
+                'is_published' => true,
                 'is_complete' => true,
             ]);
 

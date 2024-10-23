@@ -22,6 +22,21 @@
                         {{ usePage().props.auth.studio.name }}
                     </div>
                 </div>
+
+                <div class="text-xs text-center">
+                    <template v-if="usePage().props.auth.studio.is_published">
+                        <span class="flex items-center justify-center gap-1 text-green-500">
+                            <i class="text-sm fa-solid fa-check" />
+                            Studio pubblicato
+                        </span>
+                    </template>
+                    <template v-else>
+                        <span class="flex items-center justify-center gap-1 text-red-500">
+                            <i class="text-sm fa-solid fa-circle-exclamation" />
+                            Studio non pubblicato
+                        </span>
+                    </template>
+                </div>
             </div>
     
             <!-- menu -->
