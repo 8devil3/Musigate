@@ -26,20 +26,20 @@ class CreateStudioService
 
         //creo la dipsonibiità settimanale
         for ($i = 1; $i <= 7; $i++){
+            $open_type = 'close';
             $start = null;
             $end = null;
-            $is_open = false;
-
+            
             if($i < 7){
+                $open_type = 'open';
                 $start = '10:00';
                 $end = '23:00';
-                $is_open = true;
             }
 
             Availability::create([
                 'studio_id' => $studio->id,
                 'weekday' => $i,
-                'is_open' => $is_open,
+                'open_type' => $open_type,
                 'open_start' => $start,
                 'open_end' => $end,
             ]);
