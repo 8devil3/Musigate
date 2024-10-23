@@ -70,6 +70,11 @@
     @apply scroll-pt-12 md:scroll-pt-16;
 }
 
+.gradient {
+    background: radial-gradient(50% 10% at 50% 0%, #33415550 0%, #33415500 100%);
+    background-repeat: no-repeat
+}
+
 .link {
     @apply text-white transition-colors hover:text-orange-500;
 }
