@@ -16,8 +16,8 @@
     
             <!-- social -->
             <div class="space-x-3 text-lg">
-                <a href="https://www.facebook.com/musigate.it" target="blank" title="Facebook" class="link text-facebook"><i class="fa-brands fa-facebook" /></a>
-                <a href="https://www.instagram.com/musigate.it/" target="blank" title="Instagram" class="link text-instagram"><i class="fa-brands fa-instagram" /></a>
+                <a href="https://www.facebook.com/musigate.it" target="blank" title="Facebook" class="link"><i class="fa-brands fa-facebook text-facebook" /></a>
+                <a href="https://www.instagram.com/musigate.it/" target="blank" title="Instagram" class="link"><i class="fa-brands fa-instagram text-instagram" /></a>
             </div>
             <!-- / -->
     

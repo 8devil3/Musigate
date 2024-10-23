@@ -20,9 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('guest')->group(function () {
     //Google OAuth
     Route::get('google/auth/redirect', [GoogleLoginController::class, 'redirect'])->name('google.redirect');
-    Route::get('google/auth/login', [GoogleLoginController::class, 'login'])->name('google.login');
-    Route::get('google/auth/register/studio', [GoogleLoginController::class, 'register_studio'])->name('google.register.studio');
-    Route::get('google/auth/register/artist', [GoogleLoginController::class, 'register_artist'])->name('google.register.artist');
+    Route::get('google/auth/callback', [GoogleLoginController::class, 'callback'])->name('google.callback');
 
     //registrazione studio: scelta piano abbonamento
     Route::get('registrazione/studio/abbonamento', [SubscriptionController::class, 'choose_plan'])->name('register.studio.choose_plan');
@@ -40,8 +38,8 @@ Route::middleware('guest')->group(function () {
     Route::post('registrazione/studio/business', [BusinessController::class, 'store'])->name('register.studio.business.store');
 
     //registrazione artista
-    Route::get('iscriviti', [RegisteredArtistController::class, 'create'])->name('register');
-    Route::post('iscriviti', [RegisteredArtistController::class, 'store'])->name('register.artist.store');
+    Route::get('registrazione/artista', [RegisteredArtistController::class, 'create'])->name('register');
+    Route::post('registrazione/artista', [RegisteredArtistController::class, 'store'])->name('register.artist.store');
 
     Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
     Route::post('login', [AuthenticatedSessionController::class, 'store']);

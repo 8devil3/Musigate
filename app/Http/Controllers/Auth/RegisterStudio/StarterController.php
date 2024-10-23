@@ -20,9 +20,11 @@ class StarterController extends Controller
     public function step_1(): Response
     {
         $step = 1;
-        $data_step1 = session()->get('data_step1');
+        $studio_step1 = session()->get('studio_step1');
 
-        return Inertia::render('Auth/Studio/Starter/Register', compact('step', 'data_step1'));
+        session()->put('registered_as', 'studio');
+
+        return Inertia::render('Auth/Studio/Starter/Register', compact('step', 'studio_step1'));
     }
 
     public function step_2(Request $request): Response
@@ -33,19 +35,19 @@ class StarterController extends Controller
                 'last_name' => 'required|string|max:255',
             ]);
 
-            session()->forget('data_step1');
+            session()->forget('studio_step1');
     
-            session()->put('data_step1', [
+            session()->put('studio_step1', [
                 'first_name' => ucwords($request->first_name),
                 'last_name' => ucwords($request->last_name),
             ]);
         }
 
-        $data_step2 = session()->get('data_step2');
+        $studio_step2 = session()->get('studio_step2');
 
         $step = 2;
 
-        return Inertia::render('Auth/Studio/Starter/Register', compact('step', 'data_step2'));
+        return Inertia::render('Auth/Studio/Starter/Register', compact('step', 'studio_step2'));
     }
     
     public function step_3(Request $request): Response
@@ -58,9 +60,9 @@ class StarterController extends Controller
             'is_manual_address' => 'string|in:true,false'
         ]);
 
-        session()->forget('data_step2');
+        session()->forget('studio_step2');
 
-        session()->put('data_step2', [
+        session()->put('studio_step2', [
             'name' => ucwords(strtolower($request->name)),
             'category' => $request->category,
             'vat' => $request->vat,
@@ -85,11 +87,11 @@ class StarterController extends Controller
             'privacy' => 'accepted',
         ]);
 
-        $data_step1 = session()->get('data_step1');
+        $studio_step1 = session()->get('studio_step1');
 
         $user = User::create([
-            'first_name' => ucfirst(strtolower($data_step1['first_name'])),
-            'last_name' => ucfirst(strtolower($data_step1['last_name'])),
+            'first_name' => ucfirst(strtolower($studio_step1['first_name'])),
+            'last_name' => ucfirst(strtolower($studio_step1['last_name'])),
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'tos' => $request->tos,
@@ -100,7 +102,7 @@ class StarterController extends Controller
 
         event(new Registered($user));
 
-        session()->forget(['data_step1', 'data_step2']);
+        session()->forget(['studio_step1', 'studio_step2', 'registered_as']);
         
         Auth::login($user);
 

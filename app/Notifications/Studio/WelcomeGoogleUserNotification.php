@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Notifications;
+namespace App\Notifications\Studio;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -8,7 +8,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
 //TODO: abilitare ShouldQueue
-class DeleteAccountNotification extends Notification //implements ShouldQueue
+class WelcomeGoogleUserNotification extends Notification //implements ShouldQueue
 {
     use Queueable;
 
@@ -36,14 +36,21 @@ class DeleteAccountNotification extends Notification //implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject("Musigate - Ci dispiace vederti andare via")
+            ->subject("Musigate - Ti diamo il benvenuto a bordo!")
             ->markdown("email.template", [
-                'greeting' => "Ci dispiace vederti andare via 😔",
+                'greeting' => "Ciao " . $notifiable->first_name . ", ti diamo il benvenuto a bordo! 🎉",
                 'intro_lines' => [
-                    "Abbiamo ricevuto la tua richiesta di eliminare l'account su Musigate e ci dispiace davvero vederti andare. Sappiamo che a volte le esigenze cambiano, ma speriamo che tu abbia trovato utile il tempo passato con noi!",
-                    "Ricorda che sei sempre il benvenuto a tornare su Musigate! Se deciderai di ricominciare o semplicemente di dare un'occhiata, le nostre porte sono sempre aperte.",
-                    "Grazie ancora per aver fatto parte della nostra community."
+                    "Siamo super felici di averti con noi e non vediamo l'ora di aiutarti a gestire al meglio il tuo Studio. Con Musigate, potrai mostrare le tue Sale, pacchetti e servizi a chi cerca spazi creativi come il tuo.",
+                    "Ecco cosa puoi fare subito:",
                 ],
+                'ul_list' => [
+                    "Personalizza la tua pagina con foto, descrizione e dettagli importanti",
+                    "Imposta i giorni e gli orari di disponibilità",
+                    "Crea le Sale e i pacchetti impostando descrizione, tariffe, equipaggiamento e foto",
+                ],
+                'outro_lines' => [
+                    "Sei pronto? Iniziamo questo viaggio insieme! 🚀"
+                ]
             ]);
     }
 

@@ -36,7 +36,7 @@ class LocationGeocodeService
             $complete_address = implode(', ', $request_address);
             $geocode = Geocoder::getCoordinatesForAddress($complete_address);
 
-            $address_data['complete_address'] = $complete_address;
+            $address_data['complete_address'] = ucwords(strtolower($complete_address));
             $address_data['address'] = ucwords(strtolower($request->address));
             $address_data['number'] = $request->number ?? null;
             $address_data['city'] = ucwords(strtolower($request->city));

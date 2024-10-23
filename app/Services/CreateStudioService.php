@@ -15,16 +15,16 @@ class CreateStudioService
 {
     public static function store(User $user)
     {
-        $data_step2 = session()->get('data_step2');
+        $studio_step2 = session()->get('studio_step2');
 
         $studio = Studio::create([
             'user_id' => $user->id,
-            'name' => ucwords(strtolower($data_step2['name'])),
-            'category' => $data_step2['category'],
-            'vat' => $data_step2['vat'],
+            'name' => ucwords(strtolower($studio_step2['name'])),
+            'category' => $studio_step2['category'],
+            'vat' => $studio_step2['vat'],
         ]);
 
-        //creo la dipsonibiità settimanale
+        //creo la disponibiità settimanale
         for ($i = 1; $i <= 7; $i++){
             $open_type = 'close';
             $start = null;
@@ -47,15 +47,7 @@ class CreateStudioService
 
         Location::create([
             'studio_id' => $studio->id,
-            'complete_address' => $data_step2['complete_address'],
-            'address' => $data_step2['address'],
-            'number' => $data_step2['number'],
-            'city' => $data_step2['city'],
-            'province' => $data_step2['province'],
-            'cap' => $data_step2['cap'],
-            'lon' => $data_step2['lon'],
-            'lat' => $data_step2['lat']
-        ]);
+        ] + $studio_step2);
 
         // BookingSetting::create(['studio_id' => $studio->id]);
         // CancelPolicySetting::create(['studio_id' => $studio->id]);

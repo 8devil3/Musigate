@@ -136,8 +136,8 @@ import GooglePlacesAutocomplete from '@/Components/GooglePlacesAutocomplete.vue'
 
 const props = defineProps({
     step: Number,
-    data_step1: Object,
-    data_step2: Object,
+    studio_step1: Object,
+    studio_step2: Object,
 });
 
 const privacyLink = import.meta.env.VITE_PRIVACY_LINK ?? '#';
@@ -145,23 +145,23 @@ const tosLink = import.meta.env.VITE_TOS_LINK ?? '#';
 
 const formStep1 = useForm({
     step: 1,
-    first_name: props.data_step1?.first_name ?? null,
-    last_name: props.data_step1?.last_name ?? null,
+    first_name: props.studio_step1?.first_name ?? null,
+    last_name: props.studio_step1?.last_name ?? null,
 });
 
 const formStep2 = useForm({
     step: 2,
-    name: props.data_step2?.name ?? null,
-    category: props.data_step2?.category ?? null,
-    vat: props.data_step2?.vat ?? null,
+    name: props.studio_step2?.name ?? null,
+    category: props.studio_step2?.category ?? null,
+    vat: props.studio_step2?.vat ?? null,
 
-    complete_address: props.data_step2?.complete_address ?? null,
-    address: props.data_step2?.address ?? null,
-    number: props.data_step2?.number ?? null,
-    cap: props.data_step2?.cap ?? null,
-    city: props.data_step2?.city ?? null,
-    province: props.data_step2?.province ?? null,
-    is_manual_address: props.data_step2?.is_manual_address ?? false,
+    complete_address: props.studio_step2?.complete_address ?? null,
+    address: props.studio_step2?.address ?? null,
+    number: props.studio_step2?.number ?? null,
+    cap: props.studio_step2?.cap ?? null,
+    city: props.studio_step2?.city ?? null,
+    province: props.studio_step2?.province ?? null,
+    is_manual_address: props.studio_step2?.is_manual_address ?? false,
 });
 
 const formStep3 = useForm({
