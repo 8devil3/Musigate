@@ -1,7 +1,7 @@
 <template>
     <AuthLayout @submitted="submit()" title="Reimposta password" :isLoading="form.processing" :status="props.status">
         <template #head>
-            <h1 class="text-lg">
+            <h1 class="text-lg uppercase">
                 Reimposta la password.
             </h1>
         </template>

@@ -137,7 +137,7 @@ class GoogleLoginController extends Controller
 
         if(!$user->password){
             Auth::logout();
-            return to_route('password.request');
+            return to_route('password.request', ['email' => $user->email]);
         }
 
         return back()->with('success', 'Account Google scollegato');

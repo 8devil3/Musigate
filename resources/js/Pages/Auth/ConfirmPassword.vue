@@ -1,7 +1,7 @@
 <template>
     <AuthLayout @submitted="submit()" title="Conferma password" :isLoading="form.processing">
         <template #head>
-            <h1 class="text-lg">
+            <h1 class="text-lg uppercase">
                 Conferma la password immessa.
             </h1>
         </template>

@@ -1,7 +1,7 @@
 <template>
     <AuthLayout @submitted="submit()" title="Reset password" :isLoading="form.processing" :status="props.status">
         <template #head>
-            <h1 class="text-lg">Reset password</h1>
+            <h1 class="text-lg uppercase">Reset password</h1>
             <p>
                 Inserisci il tuo indirizzo email per reimpostare la password.
             </p>
@@ -27,10 +27,11 @@ const props = defineProps({
     status: {
         type: String,
     },
+    email: String,
 });
 
 const form = useForm({
-    email: null,
+    email: props.email ?? null,
 });
 
 const submit = () => {
