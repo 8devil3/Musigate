@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Models\Studio\Studio;
+use App\Notifications\EmailVerificationNotification;
+use App\Notifications\ResetPasswordNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -120,5 +122,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return Attribute::make(
             get: fn (string $value): string => substr($value, 0, 1) . '.',
         );
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordNotification($token));
     }
 }

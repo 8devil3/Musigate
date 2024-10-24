@@ -8,7 +8,7 @@
         </template>
 
         <template #content>
-            <Input type="email" label="Email" placeholder="La tua email" v-model.trim="form.email" :error="form.errors.email" required />
+            <Input type="email" label="Email" placeholder="La tua email" autocomplete="on" v-model.trim="form.email" :error="form.errors.email" required />
         </template>
 
         <template #actions>

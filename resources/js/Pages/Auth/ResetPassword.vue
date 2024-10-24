@@ -7,11 +7,11 @@
         </template>
 
         <template #content>
-            <Input type="email" id="reset-email" label="Email" placeholder="La tua email" v-model.trim="form.email" :error="form.errors.email" required autofocus />
+            <Input type="email" label="Email" placeholder="La tua email" autocomplete="on" v-model.trim="form.email" :error="form.errors.email" required autofocus />
                         
-            <Input type="password" id="reset-password" label="Nuova password" placeholder="La nuova password" v-model="form.password" :error="form.errors.password" required />
+            <Input type="password" label="Nuova password" placeholder="La nuova password" v-model="form.password" :error="form.errors.password" required />
 
-            <Input type="password" id="reset-password-confirmation" label="Conferma password" placeholder="Conferma password" v-model="form.password_confirmation" :error="form.errors.password_confirmation" required />
+            <Input type="password" label="Conferma password" placeholder="Conferma password" v-model="form.password_confirmation" :error="form.errors.password_confirmation" required />
         </template>
 
         <template #actions>
