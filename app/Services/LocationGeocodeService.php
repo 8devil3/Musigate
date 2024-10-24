@@ -21,6 +21,7 @@ class LocationGeocodeService
             'lon' => null,
             'lat' => null,
             'is_manual_address' => $is_manual_address,
+            'notes' => $request->notes,
         ];
 
         if($is_manual_address){
