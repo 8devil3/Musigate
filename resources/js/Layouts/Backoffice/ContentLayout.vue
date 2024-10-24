@@ -13,10 +13,6 @@
                         {{ props.title }}
                     </div>
                 </div>
-
-                <button type="button" @click="isOpenDrawer = true" class="shrink-0 lg:hidden">
-                    <i class="py-1 pr-1 text-lg fa-solid fa-bars" />
-                </button>
             </h1>
     
             <div v-if="$slots.content" class="p-4 pb-20 space-y-8 lg:p-6">
@@ -35,16 +31,7 @@
             </div>
             <!-- / -->
         </fieldset>
-
     </component>
-
-
-    <!-- drawer mobile -->
-    <Drawer :isOpen="isOpenDrawer" @close="isOpenDrawer = false">
-        <AsideMenu />
-    </Drawer>
-    <!-- / -->
-
 
     <!-- spinner -->
     <teleport to="#spinner">
