@@ -23,6 +23,7 @@
         </template>
         
         <template v-if="form.isDirty && !form.processing" #actions>
+            <Button @click="form.reset()" text="Annulla" color="slate" icon="fa-solid fa-arrow-rotate-left" />
             <SaveButton />
         </template>
     </ContentLayout>
@@ -32,6 +33,7 @@
 import { useForm } from '@inertiajs/vue3';
 import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
 import Input from '@/Components/Form/Input.vue';
+import Button from '@/Components/Form/Button.vue';
 import SaveButton from '@/Components/Form/SaveButton.vue';
 import FormElement from '@/Components/Backoffice/FormElement.vue';
 

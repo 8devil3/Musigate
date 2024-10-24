@@ -55,6 +55,7 @@
         </template>
 
         <template v-if="form.isDirty && !form.processing" #actions>
+            <Button @click="form.reset()" text="Annulla" color="slate" icon="fa-solid fa-arrow-rotate-left" />
             <SaveButton />
         </template>
     </ContentLayout>

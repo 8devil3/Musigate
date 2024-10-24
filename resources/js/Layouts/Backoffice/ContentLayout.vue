@@ -13,10 +13,6 @@
                         {{ props.title }}
                     </div>
                 </div>
-                
-                <div v-if="$slots.actions" class="hidden gap-2 lg:flex">
-                    <slot name="actions"/>
-                </div>
 
                 <button type="button" @click="isOpenDrawer = true" class="shrink-0 lg:hidden">
                     <i class="py-1 pr-1 text-lg fa-solid fa-bars" />
@@ -32,13 +28,14 @@
 
                 <slot name="content"/>
             </div>
+
+            <!-- actions mobile -->
+            <div v-if="$slots.actions" class="sticky bottom-0 flex *:grow md:*:grow-0 gap-2 px-4 py-2 border-t md:justify-end bg-slate-900/70 backdrop-blur-sm border-t-slate-800">
+                <slot name="actions"/>
+            </div>
+            <!-- / -->
         </fieldset>
 
-        <!-- actions mobile -->
-        <div v-if="$slots.actions" class="fixed inset-x-0 bottom-0 flex justify-end gap-2 px-4 py-2 border-t bg-slate-900/70 backdrop-blur-sm border-t-slate-800 lg:hidden">
-            <slot name="actions"/>
-        </div>
-        <!-- / -->
     </component>
 
 

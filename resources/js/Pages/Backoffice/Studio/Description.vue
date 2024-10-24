@@ -124,6 +124,7 @@
         </template>
         
         <template v-if="form.isDirty && !form.processing" #actions>
+            <Button @click="form.reset()" text="Annulla" color="slate" icon="fa-solid fa-arrow-rotate-left" />
             <SaveButton />
         </template>
     </ContentLayout>
@@ -135,6 +136,7 @@ import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
 import Input from '@/Components/Form/Input.vue';
 import Radio from '@/Components/Form/Radio.vue';
 import Checkbox from '@/Components/Form/Checkbox.vue';
+import Button from '@/Components/Form/Button.vue';
 import SaveButton from '@/Components/Form/SaveButton.vue';
 import Toggle from '@/Components/Form/Toggle.vue';
 import Textarea from '@/Components/Form/Textarea.vue';

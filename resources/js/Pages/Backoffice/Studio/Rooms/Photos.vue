@@ -79,6 +79,7 @@
         </template>
 
         <template v-if="form.selected_photos.length || (form.isDirty && !form.processing)" #actions>
+            <Button @click="form.reset()" text="Annulla" color="slate" icon="fa-solid fa-arrow-rotate-left" />
             <Button v-if="form.selected_photos.length" @click="deleteSelectedPhotos()" text="Elimina" icon="fa-solid fa-trash-can" color="red" />
             <SaveButton />
         </template>

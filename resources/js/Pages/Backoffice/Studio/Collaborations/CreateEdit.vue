@@ -76,6 +76,7 @@
         </template>
 
         <template v-if="form.isDirty && !form.processing" #actions>
+            <Button @click="form.reset()" text="Annulla" color="slate" icon="fa-solid fa-arrow-rotate-left" />
             <SaveButton />
             <SaveButton v-if="!props.collaboration" @click="form.save_and_new = true" text="Salva e nuova" icon="fa-solid fa-plus" />
         </template>

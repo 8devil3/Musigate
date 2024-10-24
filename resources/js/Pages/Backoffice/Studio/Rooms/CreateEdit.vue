@@ -154,6 +154,7 @@
         </template>
 
         <template v-if="form.isDirty && !form.processing" #actions>
+            <Button @click="form.reset()" text="Annulla" color="slate" icon="fa-solid fa-arrow-rotate-left" />
             <SaveButton />
         </template>
     </ContentLayout>
@@ -164,6 +165,7 @@ import { computed } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
 import Toggle from '@/Components/Form/Toggle.vue';
+import Button from '@/Components/Form/Button.vue';
 import SaveButton from '@/Components/Form/SaveButton.vue';
 import Input from '@/Components/Form/Input.vue'
 // import InfoBlock from '@/Components/InfoBlock.vue'
