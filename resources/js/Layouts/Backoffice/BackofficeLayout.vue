@@ -4,11 +4,9 @@
     <div class="flex w-full overflow-clip h-dvh">        
         <AsideMenu class="hidden lg:flex" />
         
-        <main class="w-full mx-auto overflow-y-auto max-w-7xl lg:px-20 grow">
+        <main class="w-full mx-auto overflow-clip max-w-7xl lg:px-20 grow">
             <slot />
         </main>
-
-        <AppBar class="fixed inset-x-0 bottom-0 lg:hidden" />
     </div>
 
     <!-- messaggi flash -->
