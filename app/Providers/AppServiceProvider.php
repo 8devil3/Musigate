@@ -52,12 +52,13 @@ class AppServiceProvider extends ServiceProvider
                         "Crea le Sale e i pacchetti impostando descrizione, tariffe, equipaggiamento e foto",
                     ],
                     'action_lines' => [
-                        "Clicca sul pulsante in basso per confermare la tua email"
+                        "Clicca sul pulsante in basso per confermare la tua email",
+                        "Se l'email non verrà confermata entro 3 giorni, il tua account verrà automaticamente eliminato.",
                     ],
                     'action_label' => "Conferma email",
                     'action_url' => $url,
                     'outro_lines' => [
-                    "Sei pronto? Iniziamo questo viaggio insieme! 🚀"
+                        "Sei pronto? Iniziamo questo viaggio insieme! 🚀"
                     ]
                 ]);
         });
