@@ -15,13 +15,14 @@ class CreateStudioService
 {
     public static function store(User $user)
     {
+        $studio_step1 = session()->get('studio_step1');
         $studio_step2 = session()->get('studio_step2');
 
         $studio = Studio::create([
             'user_id' => $user->id,
-            'name' => ucwords(strtolower($studio_step2['name'])),
-            'category' => $studio_step2['category'],
-            'vat' => $studio_step2['vat'],
+            'name' => ucwords(strtolower($studio_step1['name'])),
+            'category' => $studio_step1['category'],
+            'vat' => $studio_step1['vat'],
         ]);
 
         //creo la disponibiità settimanale

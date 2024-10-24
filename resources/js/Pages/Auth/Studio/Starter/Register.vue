@@ -4,17 +4,29 @@
             <!-- titolare -->
             <div v-if="props.step === 1" class="w-full max-w-xs mx-auto space-y-6">
                 <h2 class="pb-1 m-0 text-base text-center border-b border-orange-500">
-                    1/3 - Rappresentante legale
+                    1/3 - Nome e categoria
                 </h2>
 
+                <ul class="text-red-500">
+                    <li v-for="error in usePage().props.errors">{{ error }}</li>
+                </ul>
+
                 <div class="space-y-4">
-                    <Input v-model="formStep1.first_name" label="Nome" placeholder="Il nome del rappresentante legale" :error="formStep1.errors.first_name" required  />
+                    <Input v-model="formStep1.name" label="Nome Studio" placeholder="Il nome dello Studio" :error="formStep1.errors.name" required />
+    
+                    <fieldset class="flex gap-6 p-3 border border-slate-400 rounded-2xl">
+                        <legend class="px-1 text-xs font-normal text-white">
+                            Categoria dello Studio
+                        </legend>
+                        <Radio v-model="formStep1.category" name="register-studio-category" value="Professional" required>
+                            Professional
+                        </Radio>
+                        <Radio v-model="formStep1.category" name="register-studio-category" value="Home">
+                            Home
+                        </Radio>
+                    </fieldset>
 
-                    <Input v-model="formStep1.last_name" label="Cognome" placeholder="Il cognome del rappresentante legale" :error="formStep1.errors.last_name" required />
-
-                    <!-- <Input type="date" v-model="formStep1.dob" label="Data di nascita" placeholder="La data di nascita" :error="formStep1.errors.dob" required />
-
-                    <Input v-model="formStep1.cod_fiscale" pattern="[a-z][0-9]{16}" label="Codice fiscale" placeholder="Il codice fiscale" :error="formStep1.errors.cod_fiscale" required /> -->
+                    <Input v-if="formStep1.category === 'Professional'" inputmode="numeric" v-model="formStep1.vat" pattern="[0-9]{11}" label="Partita IVA" placeholder="La partita IVA della tua attività" :error="formStep1.errors.vat" required />
                 </div>
 
                 <Button text="Prosegui" type="submit" icon="fa-solid fa-arrow-right" iconRight :disabled="isLoading" class="w-full" />
@@ -24,29 +36,10 @@
             <!-- dati studio -->
             <div v-else-if="props.step === 2" class="w-full max-w-xs mx-auto space-y-6">
                 <h2 class="pb-1 m-0 text-base text-center border-b border-orange-500">
-                    2/3 - Dati Studio
+                    2/3 - Location
                 </h2>
 
                 <div class="space-y-4">
-                    <Input v-model="formStep2.name" label="Nome Studio" placeholder="Il nome dello Studio" :error="formStep2.errors.name" required />
-    
-                    <fieldset class="px-2 py-1 border border-slate-400 rounded-xl">
-                        <legend class="px-1 text-xs font-normal text-slate-300">
-                            Seleziona la categoria dello Studio
-                        </legend>
-
-                        <div class="grid grid-cols-2 gap-4 p-2">
-                            <Radio v-model="formStep2.category" name="register-studio-category" value="Professional" required>
-                                Professional
-                            </Radio>
-                            <Radio v-model="formStep2.category" name="register-studio-category" value="Home">
-                                Home
-                            </Radio>
-                        </div>
-                    </fieldset>
-
-                    <Input v-if="formStep2.category === 'Professional'" inputmode="numeric" v-model="formStep2.vat" pattern="[0-9]{11}" label="Partita IVA" placeholder="La partita IVA della tua attività" :error="formStep2.errors.vat" required />
-
                     <!-- location -->                    
                     <div>
                         <GooglePlacesAutocomplete
@@ -92,19 +85,23 @@
 
                 <div class="space-y-4">
                     <GoogleLogin />
-    
+
+                    <Input v-model="formStep3.first_name" label="Nome" placeholder="Il tuo nome" :error="formStep3.errors.first_name" required  />
+
+                    <Input v-model="formStep3.last_name" label="Cognome" placeholder="Il tuo cognome" :error="formStep3.errors.last_name" required />
+
                     <Input v-model="formStep3.email" type="email" label="Email" placeholder="La tua email" :error="formStep3.errors.email" required />
-    
+
                     <Input v-model="formStep3.password" type="password" label="Password" placeholder="La tua password" :error="formStep3.errors.password" required />
-    
+
                     <Input v-model="formStep3.password_confirmation" type="password" label="Conferma password" placeholder="Conferma la password" :error="formStep3.errors.password_confirmation" required/>
-    
+
                     <!-- tos e privacy -->
                     <div class="px-4 space-y-4">
                         <Checkbox v-model="formStep3.tos" id="register-tos" required>
                             Accetto i <Link :href="tosLink" class="font-medium text-orange-500 transition-colors hover:text-orange-400">Termini e Condizioni</Link>
                         </Checkbox>
-    
+
                         <Checkbox v-model="formStep3.privacy" id="register-privacy" required>
                             Accetto la <Link :href="privacyLink" class="font-medium text-orange-500 transition-colors hover:text-orange-400">Privacy policy</Link>
                         </Checkbox>
@@ -145,16 +142,13 @@ const tosLink = import.meta.env.VITE_TOS_LINK ?? '#';
 
 const formStep1 = useForm({
     step: 1,
-    first_name: props.studio_step1?.first_name ?? null,
-    last_name: props.studio_step1?.last_name ?? null,
+    name: props.studio_step1?.name ?? null,
+    category: props.studio_step1?.category ?? null,
+    vat: props.studio_step1?.vat ?? null,
 });
 
 const formStep2 = useForm({
     step: 2,
-    name: props.studio_step2?.name ?? null,
-    category: props.studio_step2?.category ?? null,
-    vat: props.studio_step2?.vat ?? null,
-
     complete_address: props.studio_step2?.complete_address ?? null,
     address: props.studio_step2?.address ?? null,
     number: props.studio_step2?.number ?? null,
@@ -166,6 +160,8 @@ const formStep2 = useForm({
 
 const formStep3 = useForm({
     step: 3,
+    first_name: null,
+    last_name: null,
     email: null,
     password: null,
     password_confirmation: null,

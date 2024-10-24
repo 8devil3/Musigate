@@ -38,30 +38,28 @@ class AppServiceProvider extends ServiceProvider
         });
 
         VerifyEmail::toMailUsing(function (object $notifiable, string $url) {
-            if($notifiable->role_id === Role::STUDIO){
-                return (new MailMessage)
-                    ->subject("Musigate - Ti diamo il benvenuto a bordo!")
-                    ->markdown("email.template", [
-                        'greeting' => "Ciao " . $notifiable->first_name . ", ti diamo il benvenuto a bordo! 🎉",
-                        'intro_lines' => [
-                            "Siamo super felici di averti con noi e non vediamo l'ora di aiutarti a gestire al meglio il tuo Studio. Con Musigate, potrai mostrare le tue Sale, pacchetti e servizi a chi cerca spazi creativi come il tuo.",
-                            "Ecco cosa puoi fare subito:",
-                        ],
-                        'ul_list' => [
-                            "Personalizza la tua pagina con foto, descrizione e dettagli importanti",
-                            "Imposta i giorni e gli orari di disponibilità",
-                            "Crea le Sale e i pacchetti impostando descrizione, tariffe, equipaggiamento e foto",
-                        ],
-                        'action_lines' => [
-                            "Clicca sul pulsante in basso per confermare la tua email"
-                        ],
-                        'action_label' => "Conferma email",
-                        'action_url' => $url,
-                        'outro_lines' => [
-                        "Sei pronto? Iniziamo questo viaggio insieme! 🚀"
-                        ]
-                    ]);
-            }
+            return (new MailMessage)
+                ->subject("Musigate - Ti diamo il benvenuto a bordo!")
+                ->markdown("email.template", [
+                    'greeting' => "Ciao " . $notifiable->first_name . ", ti diamo il benvenuto a bordo! 🎉",
+                    'intro_lines' => [
+                        "Siamo super felici di averti con noi e non vediamo l'ora di aiutarti a gestire al meglio il tuo Studio. Con Musigate, potrai mostrare le tue Sale, pacchetti e servizi a chi cerca spazi creativi come il tuo.",
+                        "Ecco cosa puoi fare subito:",
+                    ],
+                    'ul_list' => [
+                        "Personalizza la tua pagina con foto, descrizione e dettagli importanti",
+                        "Imposta i giorni e gli orari di disponibilità",
+                        "Crea le Sale e i pacchetti impostando descrizione, tariffe, equipaggiamento e foto",
+                    ],
+                    'action_lines' => [
+                        "Clicca sul pulsante in basso per confermare la tua email"
+                    ],
+                    'action_label' => "Conferma email",
+                    'action_url' => $url,
+                    'outro_lines' => [
+                    "Sei pronto? Iniziamo questo viaggio insieme! 🚀"
+                    ]
+                ]);
         });
     }
 }

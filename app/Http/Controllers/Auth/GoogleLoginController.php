@@ -59,11 +59,15 @@ class GoogleLoginController extends Controller
 
     public function register_studio(GoogleUser $google_user): User
     {
-        $studio_step1 = session()->get('studio_step1');
-        $first_name = ucwords(strtolower($studio_step1['first_name']));
-        $last_name = ucwords(strtolower($studio_step1['last_name']));
+        if(\Str::contains($google_user->getName(), ' ')){
+            $first_name = ucwords(strtolower(\Str::before($google_user->getName(), ' ')));
+            $last_name = ucwords(strtolower(\Str::after($google_user->getName(), ' ')));
+        } else {
+            $first_name = ucwords(strtolower($google_user->getName()));
+            $last_name = '';
+        }
 
-        //utente nuovo
+        //nuovo utente
         $user = User::create([
             'email' => $google_user->getEmail(),
             'email_verified_at' => now()->toDateTimeString(),

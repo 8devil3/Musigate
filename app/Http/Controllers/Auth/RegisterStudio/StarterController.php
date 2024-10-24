@@ -31,15 +31,17 @@ class StarterController extends Controller
     {
         if($request->step == 1){
             $request->validate([
-                'first_name' => 'required|string|max:255',
-                'last_name' => 'required|string|max:255',
+                'name' => 'required|string|max:255',
+                'category' => 'required|string|in:Home,Professional',
+                'vat' => 'nullable|required_if:category,Professional|string|size:11',
             ]);
 
             session()->forget('studio_step1');
     
             session()->put('studio_step1', [
-                'first_name' => ucwords($request->first_name),
-                'last_name' => ucwords($request->last_name),
+                'name' => ucwords(strtolower($request->name)),
+                'category' => $request->category,
+                'vat' => $request->vat,
             ]);
         }
 
@@ -53,20 +55,13 @@ class StarterController extends Controller
     public function step_3(Request $request): Response
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'category' => 'required|string|in:Home,Professional',
-            'vat' => 'nullable|required_if:category,Professional|string|size:11',
             'notes' => 'nullable|string|max:255',
             'is_manual_address' => 'string|in:true,false'
         ]);
 
         session()->forget('studio_step2');
 
-        session()->put('studio_step2', [
-            'name' => ucwords(strtolower($request->name)),
-            'category' => $request->category,
-            'vat' => $request->vat,
-        ] + LocationGeocodeService::address_data($request));
+        session()->put('studio_step2', LocationGeocodeService::address_data($request));
 
         $step = 3;
 
@@ -81,17 +76,17 @@ class StarterController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email:rfc,dns|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'tos' => 'accepted',
             'privacy' => 'accepted',
         ]);
 
-        $studio_step1 = session()->get('studio_step1');
-
         $user = User::create([
-            'first_name' => ucfirst(strtolower($studio_step1['first_name'])),
-            'last_name' => ucfirst(strtolower($studio_step1['last_name'])),
+            'first_name' => ucfirst(strtolower($request->first_name)),
+            'last_name' => ucfirst(strtolower($request->last_name)),
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'tos' => $request->tos,
@@ -103,7 +98,7 @@ class StarterController extends Controller
         event(new Registered($user));
 
         session()->forget(['studio_step1', 'studio_step2', 'registered_as']);
-        
+
         Auth::login($user);
 
         return to_route('dashboard');
