@@ -25,7 +25,7 @@
                             listIcon="fa-solid fa-location-dot"
                         />
     
-                        <fieldset class="flex flex-wrap gap-6 px-3 py-2 border border-slate-400 bg-slate-900/50 rounded-2xl">
+                        <fieldset class="flex flex-wrap gap-6 p-3 border border-slate-400 bg-slate-900/50 rounded-2xl">
                             <legend class="px-1 text-xs font-medium text-white">Categoria</legend>
                             <Radio v-model="form.category" name="search-studio-category" value="Professional">
                                 Professional
