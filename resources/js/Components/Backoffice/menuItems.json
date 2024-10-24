@@ -101,13 +101,6 @@
             "route": "account.edit",
             "active": "account.edit",
             "children": []
-        },
-        {
-            "icon": "fa-solid fa-flag",
-            "label": "Segnalazioni",
-            "route": "suggestions.create",
-            "active": "suggestions.create",
-            "children": []
         }
     ]
 }

@@ -1,6 +1,6 @@
 <template>
-    <component :is="props.as" @submit.prevent="props.as === 'form' ? emit('submitted') : null" class="h-full overflow-clip lg:bg-slate-900/50">
-        <fieldset :disabled="props.isLoading" class="h-full overflow-y-auto">
+    <component :is="props.as" @submit.prevent="props.as === 'form' ? emit('submitted') : null" class="min-h-full lg:bg-slate-900/50">
+        <fieldset :disabled="props.isLoading">
             <h1 v-if="props.title" class="sticky top-0 z-10 flex items-center justify-between w-full gap-2 px-4 m-0 text-base border-b h-14 lg:h-16 lg:px-6 bg-slate-900 lg:bg-slate-900/50 backdrop-blur-sm md:text-xl border-b-slate-800">
                 <div class="flex items-center gap-2 overflow-hidden leading-tight grow md:gap-3">
                     <Link v-if="props.backRoute" :href="route(props.backRoute, props.backRouteParams)" class="shrink-0">
@@ -29,8 +29,8 @@
                 <slot name="content"/>
             </div>
 
-            <!-- actions mobile -->
-            <div v-if="$slots.actions" class="sticky bottom-0 flex *:grow md:*:grow-0 gap-2 px-4 py-2 border-t md:justify-end bg-slate-900/70 backdrop-blur-sm border-t-slate-800">
+            <!-- actions -->
+            <div v-if="$slots.actions" class="sticky bottom-16 lg:bottom-0 flex *:grow md:*:grow-0 gap-2 p-4 border-t md:justify-end bg-slate-900/70 lg:bg-slate-950/50 backdrop-blur-sm border-t-slate-800">
                 <slot name="actions"/>
             </div>
             <!-- / -->
