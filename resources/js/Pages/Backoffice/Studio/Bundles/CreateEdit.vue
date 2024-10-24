@@ -90,7 +90,7 @@
                 </template>
 
                 <template #description>
-                    Inserisci la Descrizione del paccehtto di almeno 100 caratteri, spazi esclusi.
+                    Inserisci la descrizione del pacchetto di almeno 100 caratteri, spazi esclusi.
                 </template>
 
                 <template #content>
