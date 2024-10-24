@@ -4,11 +4,15 @@
             <i :class="item.icon + ' text-lg'" />
             {{ item.label }}
         </Link>
+        <div class="hidden">
+            {{ usePage().props.auth.studio }}
+        </div>
     </nav>
 </template>
 
 <script setup>
-import { Link } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
 import menuItems from './menuItems.json';
 
+//il div "hidden" serve a forzare il refresh dei link visitati, altrimenti cliccando su un link l'utente naviga alla pagina giusta ma il link attivo rimen quello precedente
 </script>
