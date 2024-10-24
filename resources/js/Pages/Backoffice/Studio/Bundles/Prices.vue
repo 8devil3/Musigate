@@ -120,7 +120,6 @@ import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
 import Button from '@/Components/Form/Button.vue';
 import SaveButton from '@/Components/Form/SaveButton.vue';
 import Empty from '@/Components/Backoffice/Empty.vue';
-import Button from '@/Components/Form/Button.vue';
 import Toggle from '@/Components/Form/Toggle.vue';
 import Radio from '@/Components/Form/Radio.vue';
 import FormElement from '@/Components/Backoffice/FormElement.vue';
