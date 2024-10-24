@@ -5,7 +5,7 @@
                 <span class="font-sans text-sm font-medium leading-none uppercase">Accesso come</span>
                 <span class="font-sans text-sm leading-none text-slate-300">{{ usePage().props.auth.user.email }}</span>
             </div>
-            <Avatar :first_name="usePage().props.auth.user.first_name" :last_name="usePage().props.auth.user.last_name" :img="usePage().props.auth.user.avatar"/>
+            <Avatar :first_name="usePage().props.auth.user.first_name" :last_name="usePage().props.auth.user.last_name" :img="usePage().props.auth.studio.logo"/>
             <div class="absolute flex items-center justify-center -bottom-0.5 -right-0.5 bg-orange-500 border border-orange-500 h-4 w-4 rounded-full">
                 <i class="text-[8px] leading-none text-white fa-solid fa-chevron-down"></i>
             </div>
@@ -24,20 +24,6 @@
                     <Link :href="route('dashboard')" class="flex items-center gap-2 px-4 py-2 text-sm">
                         <i class="w-5 fa-solid fa-home"></i>
                         Dashboard
-                    </Link>
-                </MenuItem>
-
-                <MenuItem as="li" class="hover:bg-orange-500 lg:hidden whitespace-nowrap hover:text-white">
-                    <Link :href="route('studio.links')" class="flex items-center gap-2 px-4 py-2 text-sm">
-                        <i class="w-5 fa-solid fa-record-vinyl"></i>
-                        Studio
-                    </Link>
-                </MenuItem>
-
-                <MenuItem as="li" class="hover:bg-orange-500 whitespace-nowrap hover:text-white">
-                    <Link :href="route('rooms.index')" class="flex items-center gap-2 px-4 py-2 text-sm">
-                        <i class="w-5 fa-solid fa-microphone-lines"></i>
-                        Sale Studio
                     </Link>
                 </MenuItem>
 
