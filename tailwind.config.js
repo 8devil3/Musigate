@@ -36,7 +36,7 @@ export default {
                 soundcloud: '#e56431',
                 spotify: '#25D865',
                 itunes: '#8F60FF',
-                linkedIn: '#0A66C2',
+                linkedin: '#0A66C2',
                 "vtd-primary": colors.orange, // Light mode Datepicker color
                 "vtd-secondary": colors.orange, // Dark mode Datepicker color
             },
