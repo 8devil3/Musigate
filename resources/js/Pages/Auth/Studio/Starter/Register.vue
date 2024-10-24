@@ -64,7 +64,7 @@
 
                             <Input v-model="formStep2.city" label="Città" placeholder="Città" :error="formStep2.errors.city" required class="col-span-2" />
 
-                            <Input v-model="formStep2.cap" label="CAP" placeholder="CAP" pattern="[0-9]{5}" :error="formStep2.errors.cap" :required="formStep2.is_manual_address" class="col-span-1" />
+                            <Input v-model="formStep2.cap" label="CAP" placeholder="CAP" pattern="[0-9]{5}" inputmode="numeric" :error="formStep2.errors.cap" :required="formStep2.is_manual_address" class="col-span-1" />
 
                             <Input v-model="formStep2.province" label="Provincia" placeholder="Provincia" :error="formStep2.errors.province" required class="col-span-full" />
                         </div>
