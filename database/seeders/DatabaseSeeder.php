@@ -19,32 +19,36 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             PaymentMethodSeeder::class,
             EquipmentCategorySeeder::class,
-            
-            StudioSeeder::class,
-            LocationSeeder::class,
-            SocialSeeder::class,
-            RuleSeeder::class,
-            CollaborationSeeder::class,
-            StudioPhotoSeeder::class,
-            AvailabilitySeeder::class,
-            ContactSeeder::class,
-
             ServiceSeeder::class,
             ComfortSeeder::class,
-            PaymentMethodStudioSeeder::class,
-            StudioComfortServiceSeeder::class,
-            
-            RoomSeeder::class,
-            EquipmentSeeder::class,
-            VideoSeeder::class,
-            RoomPhotoSeeder::class,
-
-            BundleSeeder::class,
-            BundlePriceSeeder::class,
 
             // BookingSettingSeeder::class,
             // CancelPolicySettingSeeder::class,
             // BookingSeeder::class,
         ]);
+
+        if(config('app.env') !== 'production'){
+            $this->call([
+                StudioSeeder::class,
+                LocationSeeder::class,
+                SocialSeeder::class,
+                RuleSeeder::class,
+                CollaborationSeeder::class,
+                StudioPhotoSeeder::class,
+                AvailabilitySeeder::class,
+                ContactSeeder::class,
+
+                PaymentMethodStudioSeeder::class,
+                StudioComfortServiceSeeder::class,
+
+                RoomSeeder::class,
+                EquipmentSeeder::class,
+                VideoSeeder::class,
+                RoomPhotoSeeder::class,
+
+                BundleSeeder::class,
+                BundlePriceSeeder::class,
+            ]);
+        }
     }
 }
