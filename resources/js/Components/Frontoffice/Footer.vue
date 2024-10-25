@@ -24,10 +24,8 @@
             <!-- legal -->
             <div class="flex flex-col items-center gap-3 text-center md:flex-row md:text-right">
                 <Link :href="route('tos')" class="link">Termini e Condizioni</Link>
-                <div class="space-x-3">
-                    <Link :href="route('privacy')" class="link">Privacy</Link>
-                    <Link :href="route('cookie')" class="link">Cookie</Link>
-                </div>
+                <Link :href="route('privacy')" class="link">Privacy</Link>
+                <a href="https://www.iubenda.com/privacy-policy/62455232/cookie-policy" ref="iubendaCookie" class="iubenda-black iubenda-noiframe iubenda-embed" title="Cookie Policy ">Cookie</a>
             </div>
             <!-- / -->
         </div>
