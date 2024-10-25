@@ -12,7 +12,7 @@
                     Carica le foto della Sala e trascinale per riordinarle.<br><br>
                     Max <strong>{{ maxPhotos }} foto</strong>.<br>
                     Formati accettati: <strong>jpg, jpeg, png, bmp</strong><br>
-                    Dimensione massima di ogni foto: <strong>2 MB</strong>
+                    Dimensione massima di ogni foto: <strong>3 MB</strong>
 
                     <div v-if="Object.keys(usePage().props.errors).length" class="mt-4 font-normal text-red-500">
                         Errori:

@@ -24,7 +24,7 @@ class StudioPhotoController extends Controller
     {
         $request->validate([
             'photos' => 'array',
-            'photos.*.file' => 'image|max:2048',
+            'photos.*.file' => 'image|max:3072',
         ]);
 
         $studio = auth()->user()->studio;

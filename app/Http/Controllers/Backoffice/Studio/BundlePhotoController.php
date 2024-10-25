@@ -23,7 +23,7 @@ class BundlePhotoController extends Controller
     public function update(Request $request, Bundle $bundle): RedirectResponse
     {
         $request->validate([
-            'photo' => 'image|max:2048',
+            'photo' => 'image|max:3072',
         ]);
 
         $studio_id = $bundle->studio->id;
