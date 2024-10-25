@@ -16,7 +16,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             RoleSeeder::class,
-            UserSeeder::class,
             PaymentMethodSeeder::class,
             EquipmentCategorySeeder::class,
             ServiceSeeder::class,
@@ -29,6 +28,7 @@ class DatabaseSeeder extends Seeder
 
         if(config('app.env') !== 'production'){
             $this->call([
+                UserSeeder::class,
                 StudioSeeder::class,
                 LocationSeeder::class,
                 SocialSeeder::class,
