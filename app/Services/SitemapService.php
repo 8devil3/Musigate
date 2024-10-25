@@ -16,6 +16,7 @@ class SitemapService
 
         $studios_slug = Studio::pluck('slug')->toArray();
 
+        $urls = [];
         if($studios_slug){
             foreach ($studios_slug as $slug) {
                 $urls[] = route('studio.show', $slug);
