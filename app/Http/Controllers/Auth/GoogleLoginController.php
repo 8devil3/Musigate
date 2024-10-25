@@ -40,19 +40,19 @@ class GoogleLoginController extends Controller
 
         //se l'utente non esiste lo registro
         if(session()->get('registered_as') === 'studio'){
-            $new_user = $this->register_studio($google_user);
-            $new_user->notify(new StudioWelcomeNotification());
+            $user = $this->register_studio($google_user);
+            $user->notify(new StudioWelcomeNotification());
         } else if(session()->get('registered_as') === 'artist'){
-            // $new_user = $this->register_artist($google_user);
+            // $user = $this->register_artist($google_user);
         }
 
         //salvo l'avatar come png
         $scaled_image = Image::read(file_get_contents($google_user->getAvatar()))->scale(160, 160)->toPng();
-        $path = 'users/user-' . $new_user->id . '/avatar/' . \Str::uuid() . '.png';
+        $path = 'users/user-' . $user->id . '/avatar/' . \Str::uuid() . '.png';
         Storage::disk('public')->put($path, $scaled_image);
-        $new_user->update(['avatar' => $path]);
+        $user->update(['avatar' => $path]);
 
-        Auth::login($new_user);
+        Auth::login($user);
 
         return to_route('dashboard');
     }
