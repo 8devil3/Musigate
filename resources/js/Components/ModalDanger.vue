@@ -2,10 +2,10 @@
     {{ setBodyScroll }}
     <teleport to="#modal">
         <Transition name="fade">
-            <div v-if="props.isOpen" role="dialog" class="fixed z-40 inset-4 overflow-clip">
-                <div @click.stop="emit('close')" class="fixed inset-0 bg-black/70 backdrop-blur-md" />
+            <div v-if="props.isOpen" role="dialog" class="fixed inset-0 z-50 md:inset-4 overflow-clip">
+                <div @click.stop="emit('close')" class="fixed inset-0 bg-black/70 backdrop-blur-md overflow-clip" />
 
-                <form @submit.prevent="emit('submitted')" class="absolute w-full max-w-lg p-4 space-y-4 overflow-hidden text-left -translate-x-1/2 -translate-y-1/2 border border-red-600 shadow-xl top-1/2 left-1/2 md:p-6 md:space-y-6 bg-slate-950 rounded-xl md:rounded-2xl">
+                <form @submit.prevent="emit('submitted')" class="absolute flex flex-col w-full h-full max-w-lg p-4 space-y-4 overflow-hidden -translate-x-1/2 -translate-y-1/2 md:h-auto md:p-6 md:space-y-6 top-1/2 left-1/2 bg-slate-950 md:border md:border-red-600 md:rounded-2xl">
                     <h3 class="flex items-start justify-between pb-3 text-base text-red-500 border-b border-b-red-500 md:text-lg">
                         <div class="flex items-center gap-2">
                             <i class="fa-solid fa-circle-exclamation" />
@@ -21,7 +21,7 @@
                         <slot name="description"/>
                     </p>
     
-                    <div v-if="$slots.actions" class="space-x-2">
+                    <div v-if="$slots.actions" class="flex *:grow md:*:grow-0 gap-2">
                         <slot name="actions"/>
                     </div>
                 </form>
