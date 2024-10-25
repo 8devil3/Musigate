@@ -166,7 +166,7 @@
                             <tr>
                                 <td class="header">
                                     <a href="{{ config('app.url') }}">
-                                        <img src="{{ $message->embed(public_path() . '/img/logo/logo_horizontal.png') }}" alt="Logo" style="height: 24px" />
+                                        <img src="{{ asset('/img/logo/logo_horizontal.png') }}" alt="Logo" style="height: 24px" />
                                     </a>
                                 </td>
                             </tr>
@@ -255,7 +255,7 @@
                                 <td class="footer">
                                     <!--[if mso | IE]>      <table role="presentation" border="0" cellpadding="0" cellspacing="0">        <tr>          <td style="vertical-align:top;width:300px;">      <![endif]-->
                                     <div class="outlook-group-fix">
-                                        <img src="{{ $message->embed(public_path() . '/img/logo/logo_horizontal_complete.png') }}" alt="Musigate logo" style="height: 32px" />
+                                        <img src="{{ asset('/img/logo/logo_horizontal_complete.png') }}" alt="Musigate logo" style="height: 32px" />
                                         <br />
                                         <br />
                                         © {{ \Carbon\Carbon::now()->year }} OrangeWeb<br />
@@ -263,11 +263,11 @@
                                         <br />
                                         <br />
                                         <a href="https://www.facebook.com/musigate.it" title="Facebook" style="text-decoration: none">
-                                            <img src="{{ $message->embed(public_path() . '/img/logo/facebook.png') }}" alt="facebook" style="height: 20px" />
+                                            <img src="{{ asset('/img/logo/facebook.png') }}" alt="facebook" style="height: 20px" />
                                         </a>
 
                                         <a href="https://www.instagram.com/musigate.it/" title="Instagram" style="text-decoration: none">
-                                            <img src="{{ $message->embed(public_path() . '/img/logo/instagram.png') }}" alt="instagram" style="height: 20px" />
+                                            <img src="{{ asset('/img/logo/instagram.png') }}" alt="instagram" style="height: 20px" />
                                         </a>
                                     </div>
                                     <!--[if mso | IE]>      </td></tr></table>      <![endif]-->
