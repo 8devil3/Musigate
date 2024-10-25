@@ -25,6 +25,7 @@ class ComfortSeeder extends Seeder
             'ingresso carrabile',
             'facchinaggio',
             'TV',
+            'infermeria',
             'cucina',
             'toilette',
             'area relax',
