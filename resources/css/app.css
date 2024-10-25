@@ -97,6 +97,10 @@ ol.list-alpha {
     list-style-type: lower-alpha;
 }
 
+li.list-musigate {
+    @apply pl-2;
+}
+
 .list-musigate::marker {
     content: "\f00c";
     font-family: "Font Awesome 6 Free";
@@ -287,4 +291,8 @@ input[type="range"]::-moz-range-progress {
 .carousel__viewport, .carousel__track {
     height: 100%;
     width: 100%;
+}
+
+.carousel__slide {
+    @apply p-0 m-0;
 }

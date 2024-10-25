@@ -13,7 +13,7 @@
             <!-- nome -->
             <div>
                 <div class="text-xs font-medium uppercase text-slate-400">{{ props.studio.category }} studio</div>
-                <h2 class="text-base text-white md:text-lg font-lemon">
+                <h2 class="p-0 m-0 text-base text-white md:text-lg font-lemon">
                     {{ props.studio.name }}
                 </h2>
             </div>

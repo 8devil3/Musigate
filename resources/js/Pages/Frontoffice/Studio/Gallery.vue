@@ -71,9 +71,9 @@
                             <!-- / -->
 
                             <!-- anteprime -->
-                            <Carousel :items-to-show="6" :wrap-around="true" v-model="currentSlide" class="mt-2 h-1/6">
-                                <Slide v-for="slide, index in props.photos" :key="slide.id" class="h-full w-full px-0.5">
-                                    <div @click="slideTo(index)" class="w-full h-full cursor-pointer carousel__item">
+                            <Carousel :items-to-show="6" :wrap-around="true" v-model="currentSlide" class="mt-1 h-1/6">
+                                <Slide v-for="slide, index in props.photos" :key="slide.id" class="w-full h-full">
+                                    <div @click="slideTo(index)" class="w-full h-full cursor-pointer carousel__item px-0.5">
                                         <img :src="'/storage/' + slide.path" :alt="'Foto-' + slide.id" class="object-cover object-center w-full h-full">
                                     </div>
                                 </Slide>

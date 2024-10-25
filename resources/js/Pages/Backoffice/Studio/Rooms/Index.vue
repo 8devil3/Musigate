@@ -23,7 +23,7 @@
                             {{ room.name }}
                         </h2>
     
-                        <p v-if="room.description" class="text-sm line-clamp-3">
+                        <p v-if="room.description" class="p-0 text-sm line-clamp-3">
                             {{ room.description }}
                         </p>
     

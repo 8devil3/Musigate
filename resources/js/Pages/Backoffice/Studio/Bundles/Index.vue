@@ -23,7 +23,7 @@
                             {{ bundle.name }}
                         </h2>
     
-                        <p v-if="bundle.description" class="text-sm line-clamp-3">
+                        <p v-if="bundle.description" class="p-0 text-sm line-clamp-3">
                             {{ bundle.description }}
                         </p>
     

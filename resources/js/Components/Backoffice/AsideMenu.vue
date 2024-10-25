@@ -40,16 +40,16 @@
             </div>
     
             <!-- menu -->
-            <ul class="space-y-2 list-none list-image-none">
+            <div class="space-y-2 list-none list-image-none">
                 <template v-for="item, index in menu" :key="index">
-                    <li v-if="item.route && !item.children.length">
+                    <div v-if="item.route && !item.children.length">
                         <Link :href="route(item.route)" class="flex items-center gap-2 px-4 py-3 text-sm transition-colors md:py-2 hover:text-orange-400" :class="route().current(item.active) ? 'text-white' : 'text-slate-400'">
                             <i class="w-5 text-center" :class="item.icon" />
                             {{ item.label }}
                         </Link>
-                    </li>
+                    </div>
     
-                    <li v-else>
+                    <div v-else>
                         <details open @toggle="toggleDetailState(index)">
                             <summary class="flex items-center justify-between px-4 py-3 text-sm transition-colors cursor-pointer md:py-2 hover:text-orange-400" :class="route().current(item.active) ? 'text-slate-200' : 'text-slate-400'">
                                 <div class="flex items-center gap-2">
@@ -60,18 +60,18 @@
                                 <i class="text-orange-500 transition-transform fa-solid fa-chevron-down" :class="{'rotate-180' : detailState[index]}" />
                             </summary>
                             
-                            <ul class="mt-1 ml-6 space-y-1 list-none border-l list-image-none border-slate-600">
-                                <li v-for="child in item.children">
+                            <div class="mt-1 ml-6 space-y-1 list-none border-l list-image-none border-slate-600">
+                                <div v-for="child in item.children">
                                     <Link :href="route(child.route)" class="flex items-center gap-2 px-4 py-2 md:py-1.5 text-xs transition-colors font-normal hover:text-orange-400" :class="route().current(child.active) ? 'text-white' : 'text-slate-400'">
                                         <i class="w-5 text-center" :class="child.icon" />
                                         {{ child.label }}
                                     </Link>
-                                </li>
-                            </ul>
+                                </div>
+                            </div>
                         </details>
-                    </li>
+                    </div>
                 </template>
-            </ul>
+            </div>
             <!-- / -->
         </div>
     </nav>

@@ -57,8 +57,8 @@
             </div>
 
             <!-- social -->
-            <ul v-if="props.socials && computedSocials.length" class="flex flex-wrap gap-1 p-0 m-0 list-none sm:grid sm:grid-cols-4 sm:ml-auto list-image-none">
-                <li v-for="social in computedSocials">
+            <ul v-if="props.socials && computedSocials.length" class="flex flex-wrap gap-1 p-0 m-0 list-none place-items-center sm:grid sm:grid-cols-4 sm:ml-auto list-image-none">
+                <li v-for="social in computedSocials" class="p-0">
                     <a :href="social.href" :title="social.label" class="flex items-center justify-center w-8 text-center text-white">
                         <i :class="'text-2xl transition-colors hover:text-orange-500 ' + social.icon" />
                     </a>

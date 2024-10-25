@@ -13,8 +13,8 @@
                 </template>
 
                 <template #content>
-                    <ul v-if="props.collaborations.length" class="relative w-full list-none border-l-2 border-orange-500 md:max-w-lg md:mx-auto list-image-none">                  
-                        <li v-for="collab in props.collaborations" class="p-3 mb-8 ml-4 rounded-lg bg-slate-800/50 last:mb-0">
+                    <div v-if="props.collaborations.length" class="relative w-full list-none border-l-2 border-orange-500 md:max-w-lg md:mx-auto list-image-none">                  
+                        <div v-for="collab in props.collaborations" class="p-3 mb-8 ml-4 rounded-lg bg-slate-800/50 last:mb-0">
                             <div class="absolute size-3.5 bg-slate-900 rounded-full mt-2 -left-2 border-2 border-orange-500" />
                             <div class="space-y-2">
                                 <div>
@@ -41,8 +41,8 @@
                                     <ActionButton @click="openModalDelete(collab.id)" icon="fa-solid fa-trash-can" color="red" title="Elimina collaborazione" />
                                 </div>
                             </div>
-                        </li>
-                    </ul>
+                        </div>
+                    </div>
 
                     <Empty v-else icon="fa-solid fa-handshake">
                         <template #title>

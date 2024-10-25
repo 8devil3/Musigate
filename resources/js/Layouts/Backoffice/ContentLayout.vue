@@ -18,7 +18,7 @@
 
         <fieldset :disabled="props.isLoading" class="flex flex-col overflow-hidden grow">
             <div class="flex flex-col overflow-y-auto grow">
-                <div v-if="$slots.content" class="w-full p-4 pb-20 mx-auto space-y-8 grow max-w-7xl lg:p-6">
+                <div v-if="$slots.content" class="w-full max-w-6xl p-4 pb-20 mx-auto space-y-8 grow lg:p-8">
                     <Tabs v-if="props.tabLinks" :tabLinks="tabLinks"/>
     
                     <p v-if="$slots.description" class="pb-6 text-sm border-b text-slate-300 border-slate-800">
@@ -31,7 +31,7 @@
 
             <!-- actions -->
             <div class="border-t shrink-0 bg-slate-900/30 border-t-slate-800">
-                <div v-if="$slots.actions" class="flex max-w-7xl mx-auto w-full *:grow md:*:grow-0 gap-2 p-4 lg:px-6 md:justify-end">
+                <div v-if="$slots.actions" class="flex max-w-6xl mx-auto w-full *:grow md:*:grow-0 gap-2 p-4 lg:px-8 md:justify-end">
                     <slot name="actions"/>
                 </div>
             </div>

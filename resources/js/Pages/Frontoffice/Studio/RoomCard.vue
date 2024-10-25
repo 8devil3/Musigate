@@ -17,20 +17,20 @@
 
         <div class="flex flex-col gap-6 p-4 md:p-6 grow">
             <!-- icon bar -->
-            <div class="flex items-center gap-6 font-normal">
-                <div class="flex items-center whitespace-nowrap" title="Area in metri quadri">
-                    <i class="mr-2 text-orange-500 fa-solid fa-ruler-combined"></i>
-                    <span class="text-xs whitespace-nowrap">{{ props.room.area }} mq</span>
-                </div>
-                <div class="flex items-center" :title="'Massimo ' + (props.room.max_capacity > 1 ? props.room.max_capacity + ' ospiti' : props.room.max_capacity + ' ospite')">
-                    <i class="mr-2 text-orange-500 fa-solid fa-users"></i>
-                    <span class="text-xs whitespace-nowrap">{{ props.room.max_capacity }} max</span>
-                </div>
-                <div class="flex items-center whitespace-nowrap" title="Prenotazione minima">
-                    <i class="mr-2 text-orange-500 fa-solid fa-hourglass-half"></i>
-                    <span class="text-xs whitespace-nowrap">{{ props.room.min_booking === 1 ? ' min. 1 ora': 'min. ' + props.room.min_booking + ' ore' }}</span>
-                </div>
-            </div>
+            <ul class="flex items-center gap-6 p-0 font-normal">
+                <li class="flex items-center p-0 whitespace-nowrap" title="Area in metri quadri">
+                    <i class="mr-2 text-orange-500 fa-solid fa-ruler-combined" />
+                    <span class="text-xs">{{ props.room.area }} mq</span>
+                </li>
+                <li class="flex items-center p-0 whitespace-nowrap" :title="'Massimo ' + (props.room.max_capacity > 1 ? props.room.max_capacity + ' ospiti' : props.room.max_capacity + ' ospite')">
+                    <i class="mr-2 text-orange-500 fa-solid fa-users" />
+                    <span class="text-xs">{{ props.room.max_capacity }} max</span>
+                </li>
+                <li class="flex items-center p-0 whitespace-nowrap" title="Prenotazione minima">
+                    <i class="mr-2 text-orange-500 fa-solid fa-hourglass-half" />
+                    <span class="text-xs">{{ props.room.min_booking === 1 ? ' min. 1 ora': 'min. ' + props.room.min_booking + ' ore' }}</span>
+                </li>
+            </ul>
             <!-- / -->
             
             <div class="space-y-2">
@@ -39,7 +39,7 @@
                 <!-- / -->
     
                 <!-- descrizione -->
-                <p v-if="props.room.description" class="line-clamp-3">
+                <p v-if="props.room.description" class="p-0 line-clamp-3">
                     {{ props.room.description }}
                 </p>                
                 <!-- / -->

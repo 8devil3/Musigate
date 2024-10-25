@@ -19,16 +19,16 @@
             leave-from-class="transform scale-100 opacity-100"
             leave-to-class="transform scale-95 opacity-0"
         >
-            <MenuItems as="ul" class="absolute right-0 z-50 py-1 mt-2 overflow-hidden origin-top-right border rounded-lg shadow-lg bg-slate-800 border-slate-600 ring-0 focus:outline-none">
-                <MenuItem as="li" class="hover:bg-orange-500 whitespace-nowrap hover:text-white">
-                    <Link :href="route('dashboard')" class="flex items-center gap-2 px-4 py-2 text-sm">
+            <MenuItems as="div" class="absolute right-0 z-50 p-0 py-1 m-0 mt-2 overflow-hidden origin-top-right border rounded-lg shadow-lg bg-slate-800 border-slate-600 ring-0 focus:outline-none">
+                <MenuItem as="div" class="p-0 m-0 transition-colors hover:bg-orange-500 whitespace-nowrap hover:text-white">
+                    <Link :href="route('dashboard')" class="flex items-center gap-2 px-4 py-2 font-sans text-sm font-light">
                         <i class="w-5 fa-solid fa-home" />
                         Dashboard
                     </Link>
                 </MenuItem>
 
-                <MenuItem as="li" class="hover:bg-orange-500 whitespace-nowrap hover:text-white">
-                    <Link :href="route('account.edit')" class="flex items-center gap-2 px-4 py-2 text-sm">
+                <MenuItem as="div" class="p-0 m-0 transition-colors hover:bg-orange-500 whitespace-nowrap hover:text-white">
+                    <Link :href="route('account.edit')" class="flex items-center gap-2 px-4 py-2 font-sans text-sm font-light">
                         <i class="w-5 fa-solid fa-user-gear" />
                         Account
                     </Link>
@@ -36,9 +36,9 @@
 
                 <hr class="h-0 mx-3 my-1 border-t border-slate-400" />
                 
-                <MenuItem as="li" class="hover:bg-orange-500 whitespace-nowrap hover:text-white">
+                <MenuItem as="div" class="p-0 m-0 transition-colors hover:bg-orange-500 whitespace-nowrap hover:text-white">
                     <form @submit.prevent="router.post(route('logout'))">
-                        <button type="submit" class="flex items-center gap-2 px-4 py-2 text-sm">
+                        <button type="submit" class="flex items-center gap-2 px-4 py-2 font-sans text-sm font-light">
                             <i class="w-5 fa-solid fa-right-from-bracket" />
                             Esci
                         </button>
