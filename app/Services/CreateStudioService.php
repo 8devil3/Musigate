@@ -55,5 +55,7 @@ class CreateStudioService
         Rule::create(['studio_id' => $studio->id]);
         Social::create(['studio_id' => $studio->id]);
         Contact::create(['studio_id' => $studio->id]);
+
+        SitemapService::build();
     }
 }
