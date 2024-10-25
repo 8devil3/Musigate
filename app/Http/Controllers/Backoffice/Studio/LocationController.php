@@ -8,15 +8,14 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
-use Spatie\Geocoder\Facades\Geocoder;
 
 class LocationController extends Controller
 {
     public function edit(): Response
     {
-        $location = auth()->user()->studio->location;
+        $studio = auth()->user()->studio->load('location');
 
-        return Inertia::render('Backoffice/Studio/Location', compact('location'));
+        return Inertia::render('Backoffice/Studio/Location', compact('studio'));
     }
 
     public function update(Request $request): RedirectResponse

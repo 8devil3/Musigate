@@ -41,6 +41,10 @@
                     <div class="px-4 mt-4">
                         <Checkbox v-model="form.is_manual_address">Inserimento manuale indirizzo</Checkbox>
                     </div>
+
+                    <div class="mt-4">
+                        <GoogleMaps :studios="[props.studio]" :lat="props.studio.location.lat" :lon="props.studio.location.lon" :zoom="18" class="h-64 border border-slate-400 overflow-clip rounded-xl" />
+                    </div>
                 </template>
             </FormElement>
 
@@ -77,26 +81,29 @@ import Checkbox from '@/Components/Form/Checkbox.vue';
 import FormElement from '@/Components/Backoffice/FormElement.vue';
 import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
 import GooglePlacesAutocomplete from '@/Components/GooglePlacesAutocomplete.vue';
+import GoogleMaps from '@/Components/GoogleMaps.vue';
 
 const props = defineProps({
-    location: Object,
+    studio: Object,
 });
 
 const form = useForm({
-    complete_address: props.location.complete_address,
-    address: props.location.address,
-    number: props.location.number,
-    cap: props.location.cap,
-    city: props.location.city,
-    province: props.location.province,
-    notes: props.location.notes,
-    is_manual_address: props.location.is_manual_address,
+    complete_address: props.studio.location.complete_address,
+    address: props.studio.location.address,
+    number: props.studio.location.number,
+    cap: props.studio.location.cap,
+    city: props.studio.location.city,
+    province: props.studio.location.province,
+    notes: props.studio.location.notes,
+    is_manual_address: props.studio.location.is_manual_address,
 });
 
 const submit = () => {
     if(form.processing) return;
     if(form.is_manual_address) form.complete_address = null;
-    form.put(route('studio.location.update'));
+    form.put(route('studio.location.update'), {
+        preserveState: false,
+    });
 };
 
 </script>
