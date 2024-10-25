@@ -2,9 +2,9 @@
     <Head :title="props.title"/>
     
     <div class="flex w-full overflow-clip h-dvh">        
-        <AsideMenu class="hidden lg:flex" />
+        <AsideMenu class="hidden lg:flex h-dvh" />
         
-        <main class="w-full mx-auto overflow-clip max-w-7xl lg:px-20 grow">
+        <main class="w-full overflow-clip h-dvh">
             <slot />
         </main>
     </div>

@@ -1,22 +1,24 @@
 <template>
-    <div class="flex flex-col text-left rounded-lg">
+    <div class="flex flex-col text-left">
         <Label v-if="props.label" :label="props.label" :id="props.id ?? id" :required="props.required" />
 
-        <textarea
-            v-model.trim="vModel"
-            :id="props.id ?? id"
-            :placeholder="props.placeholder"
-            :required="props.required"
-            :autofocus="props.autofocus"
-            :rows="props.rows"
-            :minlength="props.minlength"
-            :maxlength="props.maxlength"
-            :aria-label="props.label"
-            :aria-placeholder="props.placeholder"
-            :class="[classes, props.error ? 'border-red-500 bg-red-600/10 focus:ring-red-600/50 focus:border-red-600 focus:shadow-md focus:shadow-red-600' : 'focus:ring-orange-500/50 focus:border-orange-500 focus:shadow-md focus:shadow-orange-500 bg-slate-900 border-slate-400']"
-        >
-            {{ vModel }}
-        </textarea>
+        <div class="overflow-hidden rounded-xl">
+            <textarea
+                v-model.trim="vModel"
+                :id="props.id ?? id"
+                :placeholder="props.placeholder"
+                :required="props.required"
+                :autofocus="props.autofocus"
+                :rows="props.rows"
+                :minlength="props.minlength"
+                :maxlength="props.maxlength"
+                :aria-label="props.label"
+                :aria-placeholder="props.placeholder"
+                :class="[classes, props.error ? 'border-red-500 bg-red-600/10 focus:ring-red-600/50 focus:border-red-600 focus:shadow-md focus:shadow-red-600' : 'focus:ring-orange-500/50 focus:border-orange-500 focus:shadow-md focus:shadow-orange-500 bg-slate-900 border-slate-400']"
+            >
+                {{ vModel }}
+            </textarea>
+        </div>
         
         <div class="flex justify-end gap-6">
             <FieldError :error="props.error" class="grow"/>

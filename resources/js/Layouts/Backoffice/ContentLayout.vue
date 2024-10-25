@@ -1,30 +1,32 @@
 <template>
-    <component :is="props.as" @submit.prevent="props.as === 'form' ? emit('submitted') : null" class="h-full">
-        <fieldset :disabled="props.isLoading" class="flex flex-col h-full">
-            <h1 v-if="props.title" class="flex items-center justify-between w-full gap-2 px-4 m-0 text-base border-b h-14 lg:h-16 lg:px-6 bg-slate-900 md:text-xl border-b-slate-800 shrink-0">
-                <div class="flex items-center gap-2 overflow-hidden leading-tight grow md:gap-3">
-                    <Link v-if="props.backRoute" :href="route(props.backRoute, props.backRouteParams)" class="shrink-0">
-                        <i class="mr-1 text-base text-orange-500 lg:text-lg fa-solid fa-chevron-left" />
-                    </Link>
+    <component :is="props.as" @submit.prevent="props.as === 'form' ? emit('submitted') : null" class="flex flex-col h-full overflow-hidden">
+        <h1 v-if="props.title" class="flex items-center justify-between w-full h-16 gap-2 px-4 m-0 text-base border-b lg:px-6 bg-slate-900 md:text-xl border-b-slate-800 shrink-0">
+            <div class="flex items-center gap-2 overflow-hidden leading-tight grow md:gap-3">
+                <Link v-if="props.backRoute" :href="route(props.backRoute, props.backRouteParams)" class="shrink-0">
+                    <i class="mr-1 text-base text-orange-500 lg:text-lg fa-solid fa-chevron-left" />
+                </Link>
 
-                    <i v-if="props.icon" :class="props.icon" class="shrink-0" />
+                <i v-if="props.icon" :class="props.icon" class="shrink-0" />
 
-                    <div class="truncate">
-                        {{ props.title }}
-                    </div>
+                <div class="truncate">
+                    {{ props.title }}
                 </div>
+            </div>
 
-                <UserMenu />
-            </h1>
+            <UserMenu />
+        </h1>
+
+        <fieldset :disabled="props.isLoading" class="flex flex-col overflow-hidden grow">
+            <div class="flex flex-col overflow-y-auto grow">
+                <div v-if="$slots.content" class="w-full p-4 pb-20 mx-auto space-y-8 grow max-w-7xl lg:p-6">
+                    <Tabs v-if="props.tabLinks" :tabLinks="tabLinks"/>
     
-            <div v-if="$slots.content" class="p-4 pb-20 space-y-8 overflow-y-auto lg:p-6 grow">
-                <Tabs v-if="props.tabLinks" :tabLinks="tabLinks"/>
-
-                <p v-if="$slots.description" class="pb-6 text-sm border-b text-slate-300 border-slate-800">
-                    <slot name="description"/>
-                </p>
-
-                <slot name="content"/>
+                    <p v-if="$slots.description" class="pb-6 text-sm border-b text-slate-300 border-slate-800">
+                        <slot name="description"/>
+                    </p>
+    
+                    <slot name="content"/>
+                </div>
             </div>
 
             <!-- actions -->
@@ -32,8 +34,9 @@
                 <slot name="actions"/>
             </div>
             <!-- / -->
-            <AppBar class="lg:hidden" />
         </fieldset>
+
+        <AppBar class="lg:hidden" />
     </component>
 
     <!-- spinner -->
