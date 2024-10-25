@@ -49,7 +49,7 @@ getGoogleMapsLoader().load().then(async () => {
         svgImg.src = '/img/geomarker/geo_default.svg';
         const svgPinElement = new PinElement({glyph: svgImg,});
 
-        const contentString = '<div><div class="text-xs font-medium uppercase text-slate-500">' + studio.category + ' Studio</div><div class="text-base font-bold text-slate-950">' + studio.name + '</div><a href="' + route('studio.show', studio.id) + '" class="block font-medium text-orange-500 transition-colors hover:text-orange-400">Vai allo Studio</a></div>';
+        const contentString = '<div><div class="text-xs font-medium uppercase text-slate-500">' + studio.category + ' Studio</div><div class="text-base font-bold text-slate-950">' + studio.name + '</div><a href="' + route('studio.show', studio.slug) + '" class="block font-medium text-orange-500 transition-colors hover:text-orange-400">Vai allo Studio</a></div>';
 
         const marker = new AdvancedMarkerElement({
             map: map,
