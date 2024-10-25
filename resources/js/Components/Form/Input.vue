@@ -16,7 +16,7 @@
                 @change="emit('change')"
                 @input="emit('input')"
                 @focus="emit('focus', $event.target)"
-                @keypress="emit('keypress')"
+                @keypress.enter.prevent="emit('keypressEnter')"
                 :type="props.type"
                 :id="props.id ?? id"
                 :placeholder="props.placeholder"
@@ -51,7 +51,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, defineExpose } from 'vue';
 import Label from '@/Components/Form/Label.vue';
 import FieldError from '@/Components/Form/FieldError.vue';
 
@@ -127,9 +127,11 @@ const props = defineProps({
     }
 });
 
-const emit = defineEmits(['change', 'input', 'focus', 'keypress', 'clear']);
+const emit = defineEmits(['change', 'input', 'focus', 'keypressEnter', 'clear']);
 const inputElement = ref(null);
 const vModel = defineModel({ default: null });
+
+defineExpose({inputElement});
 
 const id = computed(()=>{
     return 'input-' + Math.random() * 1000000000000;

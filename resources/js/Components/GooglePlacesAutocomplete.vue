@@ -1,21 +1,21 @@
 <template>
-    <div>
-        <Label for="google-autocomplete" :label="props.label" />
-
-        <div class="relative">
-            <i class="absolute text-xs leading-none text-orange-500 -translate-y-1/2 fa-solid fa-location-dot top-1/2 left-3" />
-
-            <input type="search" v-model="vModel" @keypress.enter="emit('enterKeyPress', $event.preventDefault())" @change="validateAddressInput()" id="google-autocomplete" ref="inputGooglePlaces" :placeholder="props.placeholder" :required="props.required" class="w-full h-8 py-0 pr-3 text-sm font-light text-left text-white truncate border rounded-full pl-7 bg-slate-900 border-slate-400 disabled:bg-slate-800 form-input placeholder:text-slate-500 placeholder:truncate disabled:border-slate-500 disabled:text-slate-500 focus:ring-orange-500/50 focus:border-orange-500 focus:shadow-md focus:shadow-orange-500" />
-        </div>
-
-        <FieldError :error="error" />
-    </div>
+    <Input
+        v-model="vModel"
+        :label="props.label"
+        :placeholder="props.placeholder"
+        ref="inputGooglePlaces"
+        @keypressEnter="emit('enterKeyPress')"
+        @change="validateAddressInput()"
+        icon="fa-solid fa-location-dot"
+        :error="error"
+    />
 </template>
 
 <script setup>
 import { ref } from 'vue';
 import FieldError from '@/Components/Form/FieldError.vue';
 import Label from '@/Components/Form/Label.vue';
+import Input from '@/Components/Form/Input.vue';
 import { getGoogleMapsLoader } from '@/Components/GoogleMapsLoader.js';
 
 const props = defineProps({
@@ -65,7 +65,7 @@ getGoogleMapsLoader().importLibrary('places').then(({ Autocomplete }) => {
     };
 
     if(inputGooglePlaces.value){
-        const autocomplete = new Autocomplete(inputGooglePlaces.value, options);
+        const autocomplete = new Autocomplete(inputGooglePlaces.value.inputElement, options);
 
         autocomplete.addListener('place_changed', ()=>{
             const place = autocomplete.getPlace();

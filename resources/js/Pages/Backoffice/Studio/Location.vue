@@ -13,10 +13,6 @@
                 <template #description>
                     Inizia a digitare per abilitare l'autocompletamento di Google.<br>
                     Se l'autocompletamento non fosse accurato puoi inserire l'indirizzo manualmente spuntando la casella di inserimento manuale.
-
-                    <ul v-if="form.errors" class="text-sm font-normal text-red-500">
-                        <li v-for="error in form.errors">{{ error }}</li>
-                    </ul>
                 </template>
 
                 <template #content>
@@ -98,6 +94,8 @@ const form = useForm({
 });
 
 const submit = () => {
+    if(form.processing) return;
+    if(form.is_manual_address) form.complete_address = null;
     form.put(route('studio.location.update'));
 };
 
