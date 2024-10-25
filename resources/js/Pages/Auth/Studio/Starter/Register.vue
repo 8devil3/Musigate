@@ -99,11 +99,11 @@
                     <!-- tos e privacy -->
                     <div class="px-4 space-y-4">
                         <Checkbox v-model="formStep3.tos" id="register-tos" required>
-                            Accetto i <Link :href="tosLink" class="font-medium text-orange-500 transition-colors hover:text-orange-400">Termini e Condizioni</Link>
+                            Accetto i <Link :href="route('tos')" class="font-medium text-orange-500 transition-colors hover:text-orange-400">Termini e Condizioni</Link>
                         </Checkbox>
 
                         <Checkbox v-model="formStep3.privacy" id="register-privacy" required>
-                            Accetto la <Link :href="privacyLink" class="font-medium text-orange-500 transition-colors hover:text-orange-400">Privacy policy</Link>
+                            Accetto la <Link :href="route('privacy')" class="font-medium text-orange-500 transition-colors hover:text-orange-400">Privacy policy</Link>
                         </Checkbox>
                     </div>
                     <!-- / -->
