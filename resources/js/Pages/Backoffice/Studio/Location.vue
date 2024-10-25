@@ -43,7 +43,14 @@
                     </div>
 
                     <div class="mt-4">
-                        <GoogleMaps :studios="[props.studio]" :lat="props.studio.location.lat" :lon="props.studio.location.lon" :zoom="18" class="h-64 border border-slate-400 overflow-clip rounded-xl" />
+                        <GoogleMaps
+                            :studios="[props.studio]"
+                            :lat="props.studio.location.lat"
+                            :lon="props.studio.location.lon"
+                            :zoom="18"
+                            :enableMarkerLink="false"
+                            class="h-64 border border-slate-400 overflow-clip rounded-xl"
+                        />
                     </div>
                 </template>
             </FormElement>

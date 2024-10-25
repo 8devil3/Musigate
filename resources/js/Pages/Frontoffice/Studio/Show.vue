@@ -267,8 +267,15 @@
                                     <p>{{ props.studio.location.notes }}</p>
                                 </div>
                             </div>
-                    
-                            <GoogleMaps :studios="[props.studio]" :lat="props.studio.location.lat" :lon="props.studio.location.lon" :zoom="14" class="h-64 border border-slate-400 md:h-96 overflow-clip rounded-xl" />
+
+                            <GoogleMaps
+                                :studios="[props.studio]"
+                                :lat="props.studio.location.lat"
+                                :lon="props.studio.location.lon"
+                                :zoom="14"
+                                :enableMarkerLink="false"
+                                class="h-64 border border-slate-400 md:h-96 overflow-clip rounded-xl"
+                            />
                         </div>
                     </Section>
                 </div>
