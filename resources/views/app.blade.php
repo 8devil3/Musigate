@@ -14,11 +14,26 @@
         <link rel="apple-touch-icon" href="/img/pwa/apple-touch-icon.png" sizes="180x180">
         <meta name="theme-color" content="#020617">
 
+        <title inertia>{{ config('app.name', 'Musigate') }}</title>
+
         <!-- PWA  -->
         <link rel="manifest" href="/build/manifest.webmanifest" type="application/manifest+json">
         <script src="/build/registerSW.js"></script>
 
-        <title inertia>{{ config('app.name', 'Musigate') }}</title>
+        @if (config('app.env') === 'production')
+            <!-- Google tag (gtag.js) -->
+            <script async src="https://www.googletagmanager.com/gtag/js?id=G-95DL9K2B2N"></script>
+            <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+
+                gtag('config', 'G-95DL9K2B2N');
+            </script>
+
+            <!-- Plausible -->
+            <script defer data-domain="musigate.it" src="https://plausible.io/js/script.js"></script>
+        @endif
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
