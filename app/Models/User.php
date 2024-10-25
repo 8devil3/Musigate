@@ -117,12 +117,12 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     //mostro il cognome come iniziale puntata (es: Aldo C.)
-    protected function lastName(): Attribute
-    {
-        return Attribute::make(
-            get: fn (string $value): string => substr($value, 0, 1) . '.',
-        );
-    }
+    // protected function lastName(): Attribute
+    // {
+    //     return Attribute::make(
+    //         get: fn (string $value): string => substr($value, 0, 1) . '.',
+    //     );
+    // }
 
     public function sendPasswordResetNotification($token)
     {

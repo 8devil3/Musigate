@@ -3,10 +3,10 @@
         <MenuButton class="relative flex items-center gap-4 focus:outline-none focus:ring-0">
             <div class="flex-col hidden gap-1 text-right md:flex">
                 <span class="font-sans text-sm font-medium leading-none uppercase">Accesso come</span>
-                <span class="font-sans text-sm leading-none text-slate-300">{{ usePage().props.auth.user.email }}</span>
+                <span class="font-sans text-xs leading-none text-slate-300">{{ usePage().props.auth.user.email }}</span>
             </div>
             <Avatar :first_name="usePage().props.auth.user.first_name" :last_name="usePage().props.auth.user.last_name" :img="usePage().props.auth.studio.logo"/>
-            <div class="absolute flex items-center justify-center -bottom-0.5 -right-0.5 bg-orange-500 border border-orange-500 h-4 w-4 rounded-full">
+            <div class="absolute flex items-center justify-center -bottom-0.5 -right-0.5 bg-orange-500 border border-orange-500 size-3.5 lg:size-4 rounded-full">
                 <i class="text-[8px] leading-none text-white fa-solid fa-chevron-down" />
             </div>
         </MenuButton>

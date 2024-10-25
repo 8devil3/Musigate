@@ -127,8 +127,7 @@
                 </template>
 
                 <template #description>
-                    Il nome e cognome del rappresentante legale dello Studio.<br>
-                    Al salvataggio il cognome verrà reso puntato (es: "Mario Rossi" diventa "Mario R.").
+                    Il tuo nome e cognome.
                 </template>
 
                 <template #content>
