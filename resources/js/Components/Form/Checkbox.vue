@@ -8,7 +8,7 @@
             :required="props.required"
             class="size-[18px] shadow-sm rounded-[4px] border-2 border-orange-500 bg-slate-900 text-orange-500 cursor-pointer"
         >
-        <label :for="id ?? props.id" class="text-sm leading-none text-slate-300 cursor-pointer mt-[2px]">
+        <label :for="id ?? props.id" class="text-sm leading-tight text-slate-300 cursor-pointer mt-[1px]">
             <slot />
         </label>
     </div>
