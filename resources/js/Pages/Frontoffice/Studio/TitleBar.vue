@@ -16,12 +16,14 @@
             <!-- / -->
             
             <!-- categoria & nome -->
-            <div class="space-y-1">
+            <div class="space-y-2">
                 <div v-if="props.studio.category" class="text-sm font-normal leading-none uppercase text-slate-400">
                     {{ props.studio.category }} studio
                 </div>
 
                 <h1 class="m-0 text-2xl lg:text-4xl">{{ props.studio.name }}</h1>
+
+                <p v-if="props.studio.category === 'Professional'" class="text-xs font-normal uppercase text-slate-400">p.iva {{ props.studio.vat }}</p>
             </div>
             <!-- / -->
         </div>
