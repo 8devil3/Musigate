@@ -39,9 +39,9 @@
             almeno un metodo di pagamento
         </li>
         <li class="flex items-start gap-2">
-            <i v-if="props.studio.photo_count >= 3" class="w-4 mt-1 text-green-500 shrink-0 fa-solid fa-check" />
+            <i v-if="props.studio.photo_count >= 4" class="w-4 mt-1 text-green-500 shrink-0 fa-solid fa-check" />
             <i v-else class="w-4 mt-1 text-red-500 shrink-0 fa-solid fa-xmark" />
-            almeno tre foto
+            almeno quattro foto
         </li>
         <li class="flex items-start gap-2">
             <i v-if="props.studio.contacts.email || props.studio.contacts.phone || props.studio.contacts.telegram || props.studio.contacts.messenger || props.studio.contacts.whatsapp" class="w-4 mt-1 text-green-500 shrink-0 fa-solid fa-check" />

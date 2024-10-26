@@ -14,7 +14,7 @@ class CheckStudioInfo
         && $studio->availability()->where('open_type', 'close')->count() < 7
         && $studio->location->complete_address
         && $studio->payment_methods()->count() > 0
-        && $studio->photos()->count() >= 3
+        && $studio->photos()->count() >= 4
         && strlen($studio->description) > 100
         && ($studio->contacts->email || $studio->contacts->phone || $studio->contacts->telegram || $studio->contacts->messenger || $studio->contacts->whatsapp);
     }
