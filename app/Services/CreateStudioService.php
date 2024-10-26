@@ -9,7 +9,7 @@ use App\Models\Studio\Contact;
 use App\Models\Studio\Location;
 use App\Models\Studio\Availability;
 // use App\Models\Studio\BookingSetting;
-// use App\Models\Studio\CancelPolicySetting;
+use App\Models\Studio\CancelPolicySetting;
 
 class CreateStudioService
 {
@@ -50,11 +50,11 @@ class CreateStudioService
             'studio_id' => $studio->id,
         ] + $studio_step2);
 
-        // BookingSetting::create(['studio_id' => $studio->id]);
-        // CancelPolicySetting::create(['studio_id' => $studio->id]);
         Rule::create(['studio_id' => $studio->id]);
         Social::create(['studio_id' => $studio->id]);
         Contact::create(['studio_id' => $studio->id]);
+        CancelPolicySetting::create(['studio_id' => $studio->id]);
+        // BookingSetting::create(['studio_id' => $studio->id]);
 
         SitemapService::build();
     }

@@ -78,6 +78,12 @@
                     "label": "Contatti",
                     "route": "studio.contacts.edit",
                     "active": "studio.contacts.edit"
+                },
+                {
+                    "icon": "fa-solid fa-clock-rotate-left",
+                    "label": "Annullamenti",
+                    "route": "studio.cancelling.settings.edit",
+                    "active": "studio.cancelling.settings.edit"
                 }
             ]
         },

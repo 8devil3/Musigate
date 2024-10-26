@@ -5,16 +5,10 @@
         icon="fa-solid fa-calendar-xmark"
     >
         <template #content>
-            <!-- buffer -->
+            <!-- toggle -->
             <FormElement>
-                <template #title>
-                    Abilita/disabilita policy
-                </template>
-
                 <template #description>
-                    Abilita/disabilita la gestione degli annullamenti delle prenotazioni.<br>
-                    Se <strong>abilitata</strong>, potrai impostare le modalità di rimborso automatico in caso di annullamento.<br>
-                    Se <strong>disabilitata</strong>, l'artista non verrà mai rimborsato in caso di annullamento.
+                    Abilita/disabilita la gestione degli annullamenti delle prenotazioni.
                 </template>
 
                 <template #content>
@@ -45,7 +39,7 @@
                             :max="48"
                         />
                         <div>
-                            Nessun rimborso fino a <span class="font-semibold text-orange-500">{{ form.no_refund_hours }}ore </span> prima della data di prenotazione.
+                            Nessun rimborso fino a <span class="font-semibold text-orange-500">{{ form.no_refund_hours }} ore </span> prima della data/ora di prenotazione.
                         </div>
                     </div>
                 </template>
@@ -83,8 +77,13 @@
                         />
 
                         <div>
-                            Da <span class="font-semibold text-orange-500">{{ form.no_refund_hours }} ore</span> e fino a <span class="font-semibold text-orange-500">{{ form.partial_refund_hours }} ore</span> prima della data di prenotazione, l'artista riceverà un rimborso del <span class="font-semibold text-orange-500">{{ form.partial_refund_percentage }}%</span>.<br>
-                            Oltre <span class="font-semibold text-orange-500">{{ form.partial_refund_hours }} ore</span> riceverà il rimborso totale (100%).
+                            <p>
+                                Da <span class="font-semibold text-orange-500">{{ form.no_refund_hours }} ore</span> e fino a <span class="font-semibold text-orange-500">{{ form.partial_refund_hours }} ore</span> prima della data/ora di prenotazione, l'artista riceverà un rimborso del <span class="font-semibold text-orange-500">{{ form.partial_refund_percentage }}%</span>.
+                            </p>
+    
+                            <p>
+                                Oltre <span class="font-semibold text-orange-500">{{ form.partial_refund_hours }} ore</span> riceverà il rimborso totale (100%).
+                            </p>
                         </div>
                     </div>
                 </template>
@@ -93,6 +92,7 @@
         </template>
 
         <template v-if="form.isDirty && !form.processing" #actions>
+            <Button @click="form.reset()" text="Annulla" color="slate" icon="fa-solid fa-arrow-rotate-left" />
             <SaveButton />
         </template>
     </ContentLayout>
@@ -100,6 +100,7 @@
 
 <script setup>
 import { useForm } from '@inertiajs/vue3';
+import Button from '@/Components/Form/Button.vue';
 import SaveButton from '@/Components/Form/SaveButton.vue';
 import FormElement from '@/Components/Backoffice/FormElement.vue';
 import ContentLayout from '@/Layouts/Backoffice/ContentLayout.vue';
@@ -125,7 +126,7 @@ const setPartialRefund = ()=>{
 
 const submit = () => {
     if(form.processing) return;
-    form.put(route('cancelling.settings.update'));
+    form.put(route('studio.cancelling.settings.update'));
 };
 
 </script>
