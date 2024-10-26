@@ -19,11 +19,7 @@ class DatabaseSeeder extends Seeder
             PaymentMethodSeeder::class,
             EquipmentCategorySeeder::class,
             ServiceSeeder::class,
-            ComfortSeeder::class,
-
-            // BookingSettingSeeder::class,
-            // CancelPolicySettingSeeder::class,
-            // BookingSeeder::class,
+            ComfortSeeder::class
         ]);
 
         if(config('app.env') !== 'production'){
@@ -48,6 +44,10 @@ class DatabaseSeeder extends Seeder
 
                 BundleSeeder::class,
                 BundlePriceSeeder::class,
+
+                CancelPolicySettingSeeder::class,
+                // BookingSettingSeeder::class,
+                // BookingSeeder::class,
             ]);
         }
     }

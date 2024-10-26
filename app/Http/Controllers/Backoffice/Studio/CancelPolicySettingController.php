@@ -28,6 +28,6 @@ class CancelPolicySettingController extends Controller
 
         auth()->user()->studio->cancel_settings->update($request->toArray());
 
-        return back()->with('success', 'Impostazioni annullamenti salvate');
+        return back()->with('success', 'Policy annullamenti aggiornata');
     }
 }

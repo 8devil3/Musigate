@@ -74,6 +74,7 @@ class SearchController extends Controller
             'rule',
             'payment_methods',
             'availability',
+            'cancel_settings',
         ])->load(['rooms' => function($query){
             //mostro solo le sale pubblicate
             $query->with(['equipments', 'photos', 'timeband_prices.timeband:id,weekday,name,start,end'])

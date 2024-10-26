@@ -7,8 +7,8 @@ use App\Http\Controllers\Frontoffice\SearchController;
 use App\Http\Controllers\Backoffice\SuggestionController;
 use App\Http\Controllers\Backoffice\AccountController;
 // use App\Http\Controllers\Backoffice\Studio\BookingSettingController;
-// use App\Http\Controllers\Backoffice\Studio\CancelPolicySettingController;
 // use App\Http\Controllers\Backoffice\Studio\BookingController;
+use App\Http\Controllers\Backoffice\Studio\CancelPolicySettingController;
 use App\Http\Controllers\Backoffice\Studio\BundleController;
 use App\Http\Controllers\Backoffice\Studio\BundlePhotoController;
 use App\Http\Controllers\Backoffice\Studio\BundlePriceController;
@@ -156,8 +156,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
             // Route::put('/impostazioni-prenotazioni', [BookingSettingController::class, 'update'])->name('bookings.settings.update');
     
             // //impostazioni annullamenti
-            // Route::get('/impostazioni-annullamenti', [CancelPolicySettingController::class, 'edit'])->name('cancelling.settings.edit');
-            // Route::put('/impostazioni-annullamenti', [CancelPolicySettingController::class, 'update'])->name('cancelling.settings.update');
+            Route::get('/impostazioni-annullamenti', [CancelPolicySettingController::class, 'edit'])->name('cancelling.settings.edit');
+            Route::put('/impostazioni-annullamenti', [CancelPolicySettingController::class, 'update'])->name('cancelling.settings.update');
     
             // //prenotazioni
             // Route::get('/prenotazioni', [BookingController::class, 'index'])->name('bookings.index');

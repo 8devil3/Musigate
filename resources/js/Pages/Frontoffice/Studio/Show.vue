@@ -139,6 +139,12 @@
                             <BundleCard v-for="bundle in props.studio.bundles" :bundle="bundle" :weekdays="weekdays" />
                         </div>
                     </Section>
+
+                    <Section v-if="props.studio.videos.length" title="Video" id="video">
+                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+                            <iframe v-for="video in props.studio.videos" :src="'https://www.youtube.com/embed/' + video.yt_id" frameborder="0" title="YouTube video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; web-share" allowfullscreen class="w-full border border-slate-700 rounded-xl aspect-video"></iframe>
+                        </div>                    
+                    </Section>
                 
                     <Section v-if="props.studio.rule.before || props.studio.rule.during || props.studio.rule.after" title="Regolamento" id="regolamento">
                         <div v-if="props.studio.rule.before" class="mb-6">
@@ -184,10 +190,18 @@
                         </Modal>
                     </Section>
     
-                    <Section v-if="props.studio.videos.length" title="Video" id="video">
-                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
-                            <iframe v-for="video in props.studio.videos" :src="'https://www.youtube.com/embed/' + video.yt_id" frameborder="0" title="YouTube video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; web-share" allowfullscreen class="w-full border border-slate-700 rounded-xl aspect-video"></iframe>
-                        </div>                    
+                    <Section v-if="props.studio.cancel_settings.has_cancel_policy" title="Annullamenti" id="annullamenti">
+                        <div>
+                            <p>
+                                Nessun rimborso fino a <span class="font-semibold text-orange-500">{{ props.studio.cancel_settings.no_refund_hours }} ore </span> prima della data/ora di prenotazione.
+                            </p>
+                            <p>
+                                Da <span class="font-semibold text-orange-500">{{ props.studio.cancel_settings.no_refund_hours }} ore</span> e fino a <span class="font-semibold text-orange-500">{{ props.studio.cancel_settings.partial_refund_hours }} ore</span> prima della data/ora di prenotazione, l'artista riceverà un rimborso del <span class="font-semibold text-orange-500">{{ props.studio.cancel_settings.partial_refund_percentage }}%</span>.
+                            </p>
+                            <p>
+                                Oltre <span class="font-semibold text-orange-500">{{ props.studio.cancel_settings.partial_refund_hours }} ore</span> riceverà il rimborso totale (100%).
+                            </p>
+                        </div>
                     </Section>
     
                     <Section title="Contatti" id="contatti">
@@ -204,7 +218,7 @@
                             </li>
                         </ul>
                     </Section>
-    
+
                     <Section title="Orari" id="orari">
                         <ul class="grid grid-cols-2 p-0 list-none list-image-none gap-x-4 gap-y-8 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7">
                             <li v-for="av in props.studio.availability" class="p-0 space-y-2">
@@ -407,14 +421,19 @@ const links = [
         enabled: props.studio.bundles.length ? true : false
     },
     {
+        text: 'video',
+        id: '#video',
+        enabled: props.studio.videos.length ? true : false
+    },
+    {
         text: 'regolamento',
         id: '#regolamento',
         enabled: props.studio.rule.before || props.studio.rule.during || props.studio.rule.after ? true : false
     },
     {
-        text: 'video',
-        id: '#video',
-        enabled: props.studio.videos.length ? true : false
+        text: 'annullamenti',
+        id: '#annullamenti',
+        enabled: props.studio.cancel_settings.has_cancel_policy
     },
     {
         text: 'orari',

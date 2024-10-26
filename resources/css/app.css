@@ -37,7 +37,7 @@
     }
 
     p, li, ul, ol {
-        @apply pb-2 font-sans text-sm leading-normal tracking-wide;
+        @apply pb-2 font-sans text-sm leading-normal tracking-wide last-of-type:pb-0;
     }
 
     ul li::marker, ol li::marker {
