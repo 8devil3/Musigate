@@ -5,7 +5,7 @@
 
             <p>Il presente documento riporta i termini e le condizioni generali di utilizzo del sito web e dell'applicazione <Link :href="route('home')" class="text-orange-500 underline transition-colors hover:text-orange-400">https://musigate.it</Link> che offre un servizio di ricerca e contatto di Studi di registrazione e Sale prova italiane.</p>
 
-            <ol>
+            <ol class="mt-4">
                 <li>
                     <h2 class="text-base">Definizioni</h2>
 
@@ -62,7 +62,7 @@
                     <h2 class="text-base">Cancellazione account e chiusura</h2>
 
                     <p>L'Utente registrato può interrompere l'utilizzo dell'Applicazione in ogni momento e disattivare il proprio account o richiederne la cancellazione attraverso l'interfaccia dell'Applicazione, se possibile, o inviando una comunicazione scritta all'indirizzo e-mail
-                    <a href="mailto:supporto@musigate.it" class="text-orange-500 underline transition-colors hover:text-orange-400">supporto@musigate.it</a>.</p>
+                    <a href="mailto:assistenza@musigate.it" class="text-orange-500 underline transition-colors hover:text-orange-400">assistenza@musigate.it</a>.</p>
                     <p>In caso di violazione da parte dell'Utente delle Condizioni o delle disposizioni di legge applicabili, il Titolare si riserva il diritto di sospendere o chiudere l'account dell'Utente in ogni momento e senza preavviso.</p>
                 </li>
 

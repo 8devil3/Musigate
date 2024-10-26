@@ -10,7 +10,7 @@
                 <em>Aldo Cocurllo</em>,
                 Codice Fiscale <em>CCRLDA83M08M172M</em>,
                 Partita IVA <em>04442720985</em>,
-                indirizzo e-mail <a href="mailto:supporto@musigate.it" class="text-orange-500 underline transition-colors hover:text-orange-400">supporto@musigate.it</a>,
+                indirizzo e-mail <a href="mailto:assistenza@musigate.it" class="text-orange-500 underline transition-colors hover:text-orange-400">assistenza@musigate.it</a>,
                 indirizzo PEC <a href="mailto:alc.dev@pec.it" class="text-orange-500 underline transition-colors hover:text-orange-400">alc.dev@pec.it</a>,
                 (di seguito "<strong>Titolare</strong>"), e <Link :href="route('home')" class="text-orange-500 underline transition-colors hover:text-orange-400">https://musigate.it</Link> (di seguito "<strong>Applicazione</strong>").
             </p>
@@ -56,7 +56,7 @@
                     <h2 class="text-base">Cookie e tecnologie simili</h2>
 
                     <p>
-                        L'Applicazione usa cookie, web beacon, identificatori univoci e altre analoghe tecnologie per raccogliere Dati Personali dell'Interessato sulle pagine, sui collegamenti visitati e sulle altre azioni che si eseguono quando l'Interessato utilizza l'Applicazione. Essi vengono memorizzati per essere poi trasmessi alla successiva visita dell'Interessato. Si può prendere visione della Cookie Policy completa al seguente indirizzo: <Link :href="route('cookie')" class="text-orange-500 underline transition-colors hover:text-orange-400">https://musigate.it/cookie</Link>
+                        L'Applicazione usa cookie, web beacon, identificatori univoci e altre analoghe tecnologie per raccogliere Dati Personali dell'Interessato sulle pagine, sui collegamenti visitati e sulle altre azioni che si eseguono quando l'Interessato utilizza l'Applicazione. Essi vengono memorizzati per essere poi trasmessi alla successiva visita dell'Interessato. Si può prendere visione della Cookie Policy completa al seguente link: <a href="https://www.iubenda.com/privacy-policy/62455232/cookie-policy" ref="iubendaCookie" class="iubenda-black iubenda-noiframe iubenda-embed" title="Cookie Policy ">Cookie</a>.
                     </p>
                 </li>
 
@@ -208,23 +208,23 @@
                     </p>
 
                     <ul class="list-musigate">
-                        <li class="pt-0 list-disc">essere informato sul trattamento dei propri Dati Personali</li>
-                        <li class="pt-0 list-disc">revocare il consenso in ogni momento</li>
-                        <li class="pt-0 list-disc">limitare il trattamento dei propri Dati Personali</li>
-                        <li class="pt-0 list-disc">opporsi al trattamento dei propri Dati Personali</li>
-                        <li class="pt-0 list-disc">accedere ai propri Dati Personali</li>
-                        <li class="pt-0 list-disc">verificare e chiedere la rettifica dei propri Dati Personali</li>
-                        <li class="pt-0 list-disc">ottenere la limitazione del trattamento dei propri Dati Personali</li>
-                        <li class="pt-0 list-disc">ottenere la cancellazione dei propri Dati Personali</li>
-                        <li class="pt-0 list-disc">trasferire i propri Dati Personali ad altro titolare</li>
-                        <li class="pt-0 list-disc">proporre reclamo all'autorità di controllo della protezione dei propri Dati Personali e/o agire in sede giudiziale.</li>
+                        <li>essere informato sul trattamento dei propri Dati Personali</li>
+                        <li>revocare il consenso in ogni momento</li>
+                        <li>limitare il trattamento dei propri Dati Personali</li>
+                        <li>opporsi al trattamento dei propri Dati Personali</li>
+                        <li>accedere ai propri Dati Personali</li>
+                        <li>verificare e chiedere la rettifica dei propri Dati Personali</li>
+                        <li>ottenere la limitazione del trattamento dei propri Dati Personali</li>
+                        <li>ottenere la cancellazione dei propri Dati Personali</li>
+                        <li>trasferire i propri Dati Personali ad altro titolare</li>
+                        <li>proporre reclamo all'autorità di controllo della protezione dei propri Dati Personali e/o agire in sede giudiziale.</li>
                     </ul>
-
-                    <p>
-                        Per esercitare i propri diritti, gli Interessati possono indirizzare una richiesta al seguente indirizzo e-mail <a href="mailto:supporto@musigate.it" class="text-orange-500 underline transition-colors hover:text-orange-400">supporto@musigate.it</a>. Le richieste saranno prese in carico dal Titolare immediatamente ed evase nel più breve tempo possibile, in ogni caso entro 30 giorni.
-                    </p>
                 </li>
             </ol>
+        
+            <p class="mt-4">
+                Per esercitare i propri diritti, gli Interessati possono indirizzare una richiesta al seguente indirizzo e-mail <a href="mailto:assistenza@musigate.it" class="text-orange-500 underline transition-colors hover:text-orange-400">assistenza@musigate.it</a>. Le richieste saranno prese in carico dal Titolare immediatamente ed evase nel più breve tempo possibile, in ogni caso entro 30 giorni.
+            </p>
 
             <p class="mt-2">Ultimo aggiornamento: 25/10/2024</p>
         </div>
