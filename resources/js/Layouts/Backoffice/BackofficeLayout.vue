@@ -4,7 +4,7 @@
     <div class="flex w-full overflow-clip h-dvh">        
         <AsideMenu class="hidden lg:flex h-dvh" />
         
-        <main class="w-full overflow-clip h-dvh">
+        <main class="w-full overflow-clip h-dvh bg-slate-950">
             <slot />
         </main>
     </div>
