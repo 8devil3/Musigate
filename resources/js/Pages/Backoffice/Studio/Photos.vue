@@ -7,7 +7,7 @@
         <template #content>
             <FormElement>
                 <template #description>
-                    Carica le foto di presentazione dello Studio, le foto delle Sale potrai caricarle quando inserirai le Sale. Puoi trascinale per riordinarle.
+                    Carica le foto di presentazione dello Studio, le foto delle Sale potrai caricarle quando inserirai le Sale. Trascinale per riordinarle.
                     <br><br>
                     Max <strong>{{ maxPhotos }} foto</strong>.<br>
                     Formati accettati: <strong>jpg, jpeg, png, bmp</strong><br>
