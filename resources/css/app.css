@@ -73,7 +73,7 @@
     --fc-button-active-border-color: #f60;
     --fc-page-bg-color: #0f172a;
     scroll-behavior: smooth;
-    @apply scroll-pt-12 md:scroll-pt-16;
+    @apply scroll-pt-16 md:scroll-pt-20;
 }
 
 #app {
