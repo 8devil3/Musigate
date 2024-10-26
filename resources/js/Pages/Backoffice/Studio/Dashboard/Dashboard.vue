@@ -20,6 +20,10 @@
                         class="col-span-full"
                     >
                         Lo Studio attualmente è visibile e ricercabile pubblicamente dagli utenti
+                        <Link :href="route('studio.show', props.studio.slug)" class="block mt-2 text-xs text-orange-500 transition-colors hover:text-orange-400">
+                            Vai alla pagina dello Studio
+                            <i class="ml-1 text-sm fa-solid fa-arrow-right" />
+                        </Link>
                     </InfoBlock>
 
                     <InfoBlock
