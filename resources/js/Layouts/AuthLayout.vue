@@ -1,8 +1,8 @@
 <template>
     <Head :title="props.title" />
 
-    <form @submit.prevent="emit('submitted')" class="flex p-4 md:p-6 grow bg-slate-950/30 md:bg-transparent">
-        <fieldset :disabled="props.isLoading" class="flex flex-col w-full max-w-sm gap-8 m-auto md:backdrop-blur-md md:bg-slate-950/50">
+    <form @submit.prevent="emit('submitted')" class="flex p-6 md:p-8 grow">
+        <fieldset :disabled="props.isLoading" class="flex flex-col w-full max-w-sm gap-8 m-auto">
             <Link :href="route('home')" class="block mx-auto">
                 <img src="/img/logo/logo_vertical_complete.svg" alt="Musigate logo" class="h-24 md:h-32">
             </Link>
