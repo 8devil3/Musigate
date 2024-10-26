@@ -2,7 +2,7 @@
     <div class="space-y-6">
         <!-- link per tonare alla ricerca -->
         <div class="pb-4">
-            <BackLink label="Torna alla ricerca" :href="route('studio.index', props.request)" />
+            <!-- <BackLink label="Torna alla ricerca" :href="route('studio.index', props.request)" /> -->
         </div>
         <!-- / -->
 
@@ -26,6 +26,12 @@
                 <p v-if="props.studio.category === 'Professional'" class="text-xs font-normal uppercase text-slate-400">p.iva {{ props.studio.vat }}</p>
             </div>
             <!-- / -->
+
+
+            <button type="button" @click="shareStudioPage()" class="items-center hidden gap-2 py-1 text-sm font-normal leading-none text-orange-500 transition-colors sm:flex sm:text-base sm:ml-auto whitespace-nowrap shrink-0 hover:text-orange-400">
+                Condividi
+                <i class="text-base sm:text-xl fa-solid fa-share-from-square" />
+            </button>
         </div>
         <!-- / -->
 
@@ -43,8 +49,8 @@
                 <!-- / -->
 
                 <!-- etichetta discografica -->
-                <div v-if="props.studio.is_record_label" class="flex items-start gap-1 text-sm md:text-base">
-                    <svg class="-ml-1 size-6" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <div v-if="props.studio.is_record_label" class="flex items-start gap-1 -ml-1 text-sm md:text-base">
+                    <svg class="size-6" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="12" cy="12" r="9.5" fill="#000000" stroke="#FF6600"/>
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16ZM12 12.8C12.4418 12.8 12.8 12.4418 12.8 12C12.8 11.5582 12.4418 11.2 12 11.2C11.5582 11.2 11.2 11.5582 11.2 12C11.2 12.4418 11.5582 12.8 12 12.8Z" fill="#FF6600"/>
                     </svg>
@@ -55,6 +61,11 @@
                 </div>
                 <!-- / -->
             </div>
+            
+            <button type="button" @click="shareStudioPage()" class="flex items-center gap-2 py-1 text-sm font-normal leading-none text-orange-500 transition-colors sm:hidden sm:text-base sm:ml-auto whitespace-nowrap shrink-0 hover:text-orange-400">
+                <i class="text-base text-center sm:text-xl fa-solid fa-share-from-square" />
+                Condividi
+            </button>
 
             <!-- social -->
             <ul v-if="props.socials && computedSocials.length" class="flex flex-wrap gap-1 p-0 m-0 list-none place-items-center sm:grid sm:grid-cols-4 sm:ml-auto list-image-none">
@@ -79,6 +90,16 @@ const props = defineProps({
     socials: Object,
     request: Object
 });
+
+const shareStudioPage = ()=>{
+    let sharedDate = {
+        title: props.studio.name,
+        text: props.studio.name,
+        url: route('studio.show', props.studio.slug),
+    };
+
+    navigator.share(sharedDate);
+};
 
 const computedSocials = computed(()=>{
     let arrSocials = Object.entries(props.socials);

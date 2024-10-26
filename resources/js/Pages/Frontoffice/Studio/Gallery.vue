@@ -1,5 +1,5 @@
 <template>
-    <div class="hidden lg:block lg:h-[640px] max-w-7xl mx-auto">
+    <div class="hidden lg:block lg:h-[720px] md:h-[640px] max-w-[1920px] mx-auto">
         <img v-if="!props.photos.length" src="/img/logo/logo_placeholder.svg" class="object-contain w-full h-full p-48 bg-slate-900">
 
         <div v-else class="flex w-full h-full gap-1">

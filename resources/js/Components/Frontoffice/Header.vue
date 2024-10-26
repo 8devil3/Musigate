@@ -1,5 +1,5 @@
 <template>
-    <header class="p-4 lg:px-6" :class="{'bg-slate-950/80 border-b border-slate-700': !route().current('home')}">
+    <header class="p-4 lg:px-6">
         <!-- desktop -->
         <nav class="hidden text-sm tracking-wide lg:gap-6 lg:items-center lg:justify-between lg:flex font-lemon">
             <!-- logo -->
@@ -8,7 +8,7 @@
             </Link>
             <!-- / -->
 
-            <div class="flex gap-6 lg:gap-8">
+            <!-- <div class="flex gap-6 lg:gap-8">
                 <Link :href="route('studio.index', {category: 'Professional'})" class="uppercase link">
                     Professional studio
                 </Link>
@@ -16,7 +16,7 @@
                 <Link :href="route('studio.index', {category: 'Home'})" class="uppercase link">
                     Home studio
                 </Link>
-            </div>
+            </div> -->
 
             <div v-if="!usePage().props.auth.user" class="flex items-center gap-4 shrink-0">
                 <Link :href="route('register.studio.starter.step_1')" class="uppercase link">Registra il tuo Studio</Link>
@@ -24,7 +24,7 @@
                     <Avatar />
                 </Link>
             </div>
-            
+
             <UserMenu v-else />
         </nav>
         <!-- / -->
@@ -47,8 +47,11 @@
 
         <Drawer :isOpen="isOpenDrawer" @close="isOpenDrawer = false">
             <nav class="flex flex-col w-64 gap-2 py-6">
-                <img src="/img/logo/logo_horizontal_complete.svg" alt="Musigate logo" class="mb-8 h-9">
-                <Link :href="route('studio.index', {category: 'Professional'})" class="block px-4 py-2 text-white transition-colors hover:bg-orange-500">
+                <Link :href="route('home')" class="block mx-auto mb-8 h-9">
+                    <img src="/img/logo/logo_horizontal_complete.svg" alt="Musigate logo" class="h-full">
+                </Link>
+
+                <!-- <Link :href="route('studio.index', {category: 'Professional'})" class="block px-4 py-2 text-white transition-colors hover:bg-orange-500">
                     <i class="w-5 mr-2 text-center fa-solid fa-microphone-lines" />
                     Professional studio
                 </Link>
@@ -57,7 +60,7 @@
                     Home studio
                 </Link>
 
-                <hr class="h-0 mx-4 my-2 border-t border-t-slate-700">
+                <hr class="h-0 mx-4 my-2 border-t border-t-slate-700"> -->
 
                 <Link :href="route('register.studio.starter.step_1')" class="block px-4 py-2 text-white transition-colors hover:bg-orange-500">
                     <i class="w-5 mr-2 text-center fa-solid fa-record-vinyl" />

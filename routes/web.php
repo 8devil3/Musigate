@@ -31,8 +31,12 @@ use App\Http\Controllers\Backoffice\Studio\Rooms\RoomPhotoController;
 use Illuminate\Notifications\Messages\MailMessage;
 use Inertia\Inertia;
 
+// Route::get('/', function () {
+//     return Inertia::render('Frontoffice/Home');
+// })->name('home');
+
 Route::get('/', function () {
-    return Inertia::render('Frontoffice/Home');
+    return Inertia::render('Frontoffice/Landing');
 })->name('home');
 
 Route::get('/offline', function () {

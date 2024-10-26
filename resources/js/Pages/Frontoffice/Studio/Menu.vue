@@ -1,5 +1,5 @@
 <template>
-    <nav class="sticky top-0 z-40 border-slate-700 border-y bg-slate-950/40 backdrop-blur-sm">
+    <nav class="sticky top-0 z-40 border-b bg-slate-950/50 backdrop-blur-sm border-b-slate-800">
         <ul class="flex items-center w-full max-w-6xl gap-6 px-4 py-0 mx-auto overflow-x-auto md:px-6">
             <template v-for="link in props.links">
                 <li v-if="link.enabled" class="p-0">
