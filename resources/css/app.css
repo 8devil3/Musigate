@@ -37,7 +37,7 @@
     }
 
     p, li, ul, ol {
-        @apply pb-2 font-sans text-sm leading-normal tracking-wide;
+        @apply pb-2 font-sans text-sm leading-normal tracking-wide last-of-type:pb-0;
     }
 
     ul li::marker, ol li::marker {
@@ -76,8 +76,8 @@
     @apply scroll-pt-12 md:scroll-pt-16;
 }
 
-.gradient {
-    background: radial-gradient(50% 10% at 50% 0%, #33415550 0%, #33415500 100%);
+#app {
+    background: radial-gradient(70% 400px at 50% 0%, #6B92FF50 0%, #030712 100%);
     background-repeat: no-repeat
 }
 
@@ -97,11 +97,11 @@ ol.list-alpha {
     list-style-type: lower-alpha;
 }
 
-li.list-musigate {
+ul.list-musigate li {
     @apply pl-2;
 }
 
-.list-musigate::marker {
+ul.list-musigate li::marker {
     content: "\f00c";
     font-family: "Font Awesome 6 Free";
     font-weight: 900;

@@ -4,7 +4,7 @@
     <div class="flex flex-col min-h-dvh">
         <Header />
     
-        <main class="grow">
+        <main class="grow radial-gradient">
             <slot />
         </main>
     
