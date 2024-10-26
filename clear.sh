@@ -24,6 +24,3 @@ npm cache clean --force
 
 #Rebuild config cache
 php artisan config:cache
-
-
-'ciao'
