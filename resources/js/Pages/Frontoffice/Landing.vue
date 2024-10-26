@@ -18,7 +18,7 @@
                             Entra a far parte di Musigate: crea la pagina del tuo Studio e rendila pubblica fin da subito. Fai conoscere il tuo spazio a musicisti e creativi in tutta Italia!
                         </p>
 
-                        <p>Al lancio del motore di ricerca, il tuo Studio sarà già visibile agli utenti, permettendoti di raggiungere ancora più persone.</p>
+                        <p>Al lancio ufficiale il tuo Studio sarà già visibile agli utenti, permettendoti di raggiungere ancora più persone.</p>
 
                         <p>Metti in luce il tuo Studio su Musigate e raggiungi musicisti in tutta Italia. Semplice da gestire e ricco di funzionalità avanzate, Musigate aiuta a connetterti con artisti e band alla ricerca del tuo spazio creativo.</p>
 
