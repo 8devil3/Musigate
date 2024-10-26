@@ -1,5 +1,5 @@
 <template>
-    <Head title="Musigate | SuonoErgoSono" />
+    <Head title="SuonoErgoSono" />
 
     <div>
         <Header />
