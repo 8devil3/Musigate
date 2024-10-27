@@ -18,7 +18,7 @@
                             Entra a far parte di Musigate: crea la pagina del tuo Studio e rendila pubblica fin da subito. Fai conoscere il tuo spazio a musicisti e creativi in tutta Italia!
                         </p>
 
-                        <p>Al lancio ufficiale il tuo Studio sarà già visibile agli utenti, permettendoti di raggiungere ancora più persone.</p>
+                        <p>Al lancio ufficiale di Musigate, il tuo Studio sarà già visibile agli utenti, permettendoti di raggiungere ancora più persone.</p>
 
                         <p>Metti in luce il tuo Studio su Musigate e raggiungi musicisti in tutta Italia. Semplice da gestire e ricco di funzionalità avanzate, Musigate aiuta a connetterti con artisti e band alla ricerca del tuo spazio creativo.</p>
 
@@ -33,7 +33,7 @@
                 <img src="/img/logo/logo_vertical_complete.svg" alt="Musigate logo" class="hidden mt-12 h-80 drop-shadow-lg md:block">
             </section>
 
-            <section id="cosè-musigate" class="py-8 space-y-6 md:py-20">
+            <section id="cosè-musigate" class="py-8 space-y-6 md:py-12">
                 <h2 class="pb-2 border-b-2 border-b-orange-500 font-lemon">
                     Cos'è Musigate
                 </h2>
@@ -43,13 +43,13 @@
                 </p>
             </section>
 
-            <section id="perché-scegliere-musigate" class="py-8 space-y-6 md:py-20">
+            <section id="cosa-offre-musigate" class="py-8 space-y-6 md:py-12">
                 <h2 class="pb-2 border-b-2 border-b-orange-500 font-lemon">
-                    Perché scegliere Musigate
+                    Cosa offre Musigate
                 </h2>
 
                 <ul class="grid grid-cols-1 gap-6 p-0 m-0 list-none list-image-none sm:grid-cols-2 lg:grid-cols-3">
-                    <li v-for="card in cards" class="!p-6 m-0 bg-slate-900/50 rounded-2xl">
+                    <li v-for="card in cards" class="!p-6 m-0 bg-slate-900 rounded-2xl">
                         <div class="text-center">
                             <i class="text-5xl text-slate-500" :class="card.icon" />
                         </div>
@@ -61,7 +61,7 @@
                 </ul>
             </section>
 
-            <section id="informazioni-minime" class="py-8 space-y-6 md:py-20">
+            <section id="informazioni-minime" class="py-8 space-y-6 md:py-12">
                 <h2 class="pb-2 border-b-2 border-b-orange-500 font-lemon">
                     Informazioni minime
                 </h2>
@@ -83,21 +83,21 @@
                 </div>
             </section>
 
-            <section id="unisciti-a-musigate" class="py-8 space-y-6 md:py-20">
+            <section id="unisciti-a-musigate" class="py-8 space-y-6 md:py-12">
                 <h2 class="pb-2 border-b-2 border-b-orange-500 font-lemon">
                     Unisciti a Musigate
                 </h2>
 
                 <div class="flex flex-wrap justify-between gap-x-8 gap-y-4">
                     <div>
-                        <p>Musigate è attualmente gratuito per tutti gli Studi.</p>
+                        <p>Musigate è in fase di pre-lancio ed è gratuito per tutti gli Studi.</p>
                         <p>Registrati ora e crea la tua pagina, entra a far parte di una community in crescita e fai conoscere il tuo Studio.</p>
                     </div>
                     <Button type="router" :href="route('register.studio.starter.step_1')" text="Iscriviti ora!" icon="fa-solid fa-right-to-bracket" class="shrink-0" />
                 </div>
             </section>
 
-            <section id="unisciti-a-musigate" class="py-8 space-y-6 md:py-20">
+            <section id="unisciti-a-musigate" class="py-8 space-y-6 md:py-12">
                 <h2 class="pb-2 border-b-2 border-b-orange-500 font-lemon">
                     Dubbi, domande o perplessità
                 </h2>
@@ -123,19 +123,19 @@ const cards = [
         description: "Configura e personalizza le fasce orarie del tuo Studio per ciascun giorno della settimana. Imposta con precisione i periodi di apertura, suddividi le fasce orarie e duplica facilmente le impostazioni da un giorno all'altro per risparmiare tempo.",
     },
     {
+        icon: 'fa-solid fa-euro',
+        title: 'Modelli tariffari',
+        description: "Gestisci con flessibilità i modelli tariffari delle tue Sale e Pacchetti. Imposta opzioni senza tariffa, scegli una tariffa oraria, mensile o basata su fasce orarie. Ogni modello è personalizzabile per garantire che le tue offerte rispecchino al meglio le esigenze del tuo Studio e della tua clientela.",
+    },
+    {
         icon: 'fa-solid fa-clock-rotate-left',
         title: 'Policy di annullamento',
-        description: "Definisci policy chiare e flessibili: imposta fino a due livelli di rimborso, stabilendo le ore entro le quali è possibile ottenere il rimborso parziale o totale. Informazioni chiare e sempre aggiornate per garantire trasparenza e professionalità.",
+        description: "Definisci policy chiare e flessibili: imposta fino a due livelli di rimborso, stabilendo le ore entro le quali è possibile ottenere il rimborso parziale o totale e la percentuale. Informazioni chiare e sempre aggiornate per garantire trasparenza e professionalità.",
     },
     {
         icon: 'fa-solid fa-sliders',
-        title: 'Gestione equipaggiamento',
-        description: "Aggiungi la tua strumentazione, con l'opzione di inserimento singolo o in massa, per un setup rapido e senza errori. Ogni dettaglio è sotto controllo, con possibilità di aggiornare facilmente la lista.",
-    },
-    {
-        icon: 'fa-solid fa-list-check',
-        title: 'Informazioni minime',
-        description: "Musigate richiede dei dati minimi per pubblicare lo Studio. Dalla descrizione dettagliata alle foto, passando per la location e i contatti: questi requisiti minimi sono verificati ad ogni aggiornamento, garantendo una piattaforma sempre completa e affidabile.",
+        title: 'Equipaggiamento',
+        description: "Aggiungi la strumentazione, con l'opzione di inserimento singolo o in massa, per un setup rapido e senza errori. Ogni dettaglio è sotto controllo, con possibilità di aggiornare facilmente la lista.",
     },
     {
         icon: 'fa-solid fa-image',
@@ -143,9 +143,9 @@ const cards = [
         description: "Carica e riordina facilmente le foto del tuo Studio e delle sale, assicurando che i tuoi spazi siano presentati nel miglior modo possibile. Aggiungi i link social, le collaborazioni e i video di YouTube per offrire una panoramica artistica del tuo Studio.",
     },
     {
-        icon: 'fa-solid fa-right-to-bracket',
-        title: 'Accesso sicuro',
-        description: "Registrati in pochi clic con email e password o con Google Login: avrai la possibilità di aggiornare, scollegare o eliminare il tuo account in qualsiasi momento.",
+        icon: 'fa-solid fa-list-check',
+        title: 'Informazioni minime',
+        description: "Musigate richiede dei dati minimi per pubblicare lo Studio. Dalla descrizione dettagliata alle foto, passando per la location e i contatti: questi requisiti minimi sono verificati ad ogni aggiornamento, garantendo una piattaforma sempre completa e affidabile.",
     },
 ];
 

@@ -1,6 +1,6 @@
 <template>
     <FrontofficeLayout title="Informativa privacy">
-        <div class="max-w-4xl py-8 mx-auto text-slate-200">
+        <div class="max-w-4xl px-4 py-8 mx-auto md:px-6 text-slate-200">
             <h1 class="pb-2 mb-8 border-b border-b-orange-500">Informativa privacy</h1>
 
             <p>

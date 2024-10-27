@@ -1,6 +1,6 @@
 <template>
     <FrontofficeLayout title="Termini e condizioni">
-        <div class="max-w-4xl py-8 mx-auto text-slate-200">
+        <div class="max-w-4xl px-4 py-8 mx-auto md:px-6 text-slate-200">
             <h1 class="pb-2 mb-8 border-b border-b-orange-500">Termini e condizioni</h1>
 
             <p>Il presente documento riporta i termini e le condizioni generali di utilizzo del sito web e dell'applicazione <Link :href="route('home')" class="text-orange-500 underline transition-colors hover:text-orange-400">https://musigate.it</Link> che offre un servizio di ricerca e contatto di Studi di registrazione e Sale prova italiane.</p>

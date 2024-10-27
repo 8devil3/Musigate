@@ -8,7 +8,7 @@
             </Link>
 
             <div>
-                <h1 class="text-lg text-center uppercase md:text-xl font-lemon">Registrazione Studio</h1>
+                <h1 class="text-lg text-center uppercase md:text-xl font-lemon">Iscrizione Studio</h1>
                 <h2 v-if="props.plan" class="m-0 text-sm text-center uppercase md:text-base font-lemonLight">{{ props.plan }}</h2>
             </div>
 
