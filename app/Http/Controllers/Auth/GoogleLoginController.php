@@ -20,6 +20,8 @@ class GoogleLoginController extends Controller
 {
     public function redirect(): RedirectResponse
     {
+        session()->put('user_from_route', url()->previous());
+
         return Socialite::driver('google')
             //leggere i calendari, CRUD degli eventi
             // ->scopes(['https://www.googleapis.com/auth/calendar'])
@@ -37,6 +39,9 @@ class GoogleLoginController extends Controller
 
         //se l'utente esite accede direttamente
         if($user->exists()) return $this->login($user->firstOrFail(), $google_user);
+
+        //se l'utente non esiste ma tenta l'accesso da login
+        if(!$user->exists() && session()->get('user_from_route') === route('login')) return to_route('login')->with('login_fail', 'Account non presente');
 
         //se l'utente non esiste lo registro
         if(session()->get('registered_as') === 'studio'){

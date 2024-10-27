@@ -15,6 +15,7 @@
                 <div v-if="props.status" class="p-2 text-sm font-medium text-center text-white rounded-lg bg-emerald-600">
                     {{ props.status }}
                 </div>
+
                 <slot name="content" />
             </div>
 
@@ -24,7 +25,7 @@
 
     <Teleport to="#flash-message">
         <div v-if="usePage().props.flash.login_fail" class="fixed z-50 -translate-x-1/2 top-9 lg:top-4 left-1/2">
-            <div class="flex items-start max-w-sm gap-2 px-3 py-1.5 text-sm font-normal text-white border-2 border-red-600 shadow-lg leading-tight rounded-xl bg-red-900">
+            <div class="flex items-start max-w-sm gap-2 px-3 py-1.5 text-sm font-normal text-white border-2 border-red-600 shadow-lg leading-tight rounded-full bg-red-900">
                 <i class="fa-solid fa-circle-exclamation mt-0.5" />
                 {{ usePage().props.flash.login_fail }}
             </div>
