@@ -3,10 +3,19 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="Musigate è il motore di ricerca degli Studi di registrazione e delle Sale prova d'Italia">
-        <meta name="keywords" content="studi di registrazione, sale prova, studio di registrazione, sala prove">
-        <meta name="author" content="Musigate">
-    
+        <meta name="description" content="La piattaforma dedicata agli Studi di registrazione e alle Sale prova d'Italia. Cerca, scegli e contatta lo spazio creativo più adatto alle tue esigenze.">
+        <meta name="keywords" content="studi di registrazione, sale prova, studio di registrazione, sala prove, registrazione, musica, prove, mixing, recording, mastering, rehearsal room, recording room, suonare, cantare, prove musicali">
+        <meta name="robots" content="index, follow">
+        <meta name="author" content="OrangeWeb">
+
+        <meta property="og:site_name" content="Musigate">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="Musigate - SuonoErgoSono">
+        <meta property="og:description" content="La piattaforma dedicata agli Studi di registrazione e alle Sale prova d'Italia. Cerca, scegli e contatta lo spazio creativo più adatto alle tue esigenze.">
+        <meta property="og:image" content="/og-image.jpg">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="690">
+
         <link rel="icon" href="/favicon.png">
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
         <link rel="shortcut icon" href="/favicon.png" type="image/x-icon">
@@ -16,11 +25,11 @@
 
         <title inertia>{{ config('app.name', 'Musigate') }}</title>
 
-        <!-- PWA  -->
-        <link rel="manifest" href="/build/manifest.webmanifest" type="application/manifest+json">
-        <script src="/build/registerSW.js"></script>
-
         @if (config('app.env') === 'production')
+            <!-- PWA  -->
+            <link rel="manifest" href="/build/manifest.webmanifest" type="application/manifest+json">
+            <script src="/build/registerSW.js"></script>
+
             <!-- Google tag (gtag.js) -->
             <script async src="https://www.googletagmanager.com/gtag/js?id=G-95DL9K2B2N"></script>
             <script>
