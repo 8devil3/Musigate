@@ -9,7 +9,7 @@
                 <img src="/img/logo/logo_vertical_complete.svg" alt="Musigate logo" class="h-32 mx-auto drop-shadow-lg md:hidden place-self-center">
 
                 <div class="space-y-8 md:max-w-xl">
-                    <h1 class="pb-2 uppercase border-b-2 border-b-orange-500">La musica prende forma</h1>
+                    <h1 class="pb-1 text-3xl uppercase border-b-2 md:pb-2 md:text-4xl border-b-orange-500">La musica prende forma</h1>
 
                     <h2>Promuovi il tuo Studio di registrazione e le tue Sale prova in tutta Italia.</h2>
 
