@@ -153,7 +153,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
             //contatti
             Route::get('/contatti', [ContactController::class, 'edit'])->name('contacts.edit');
-            Route::put('/contatti', [ContactController::class, 'update'])->name('contacts.update')->middleware('check_studio_info');
+            Route::put('/contatti', [ContactController::class, 'update'])->name('contacts.update');
 
             // //impostazioni prenotazioni
             // Route::get('/impostazioni-prenotazioni', [BookingSettingController::class, 'edit'])->name('bookings.settings.edit')->middleware('google_refresh_token');

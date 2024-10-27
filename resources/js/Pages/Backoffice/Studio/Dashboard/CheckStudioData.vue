@@ -34,12 +34,12 @@
             la location
         </li>
         <li class="flex items-start gap-2">
-            <i v-if="props.studio.payment_method_count" class="w-4 mt-1 text-green-500 shrink-0 fa-solid fa-check" />
+            <i v-if="props.studio.payment_methods_count" class="w-4 mt-1 text-green-500 shrink-0 fa-solid fa-check" />
             <i v-else class="w-4 mt-1 text-red-500 shrink-0 fa-solid fa-xmark" />
             almeno un metodo di pagamento
         </li>
         <li class="flex items-start gap-2">
-            <i v-if="props.studio.photo_count >= 4" class="w-4 mt-1 text-green-500 shrink-0 fa-solid fa-check" />
+            <i v-if="props.studio.photos_count >= 4" class="w-4 mt-1 text-green-500 shrink-0 fa-solid fa-check" />
             <i v-else class="w-4 mt-1 text-red-500 shrink-0 fa-solid fa-xmark" />
             almeno quattro foto
         </li>
