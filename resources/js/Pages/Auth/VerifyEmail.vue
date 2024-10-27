@@ -5,7 +5,8 @@
             <h2 class="text-base font-normal text-center text-green-500">Grandioso!</h2>
             <p>
                 Grazie di esserti registrato!<br>
-                Per procedere verifica il tuo indirizzo email.
+                Per procedere verifica il tuo indirizzo cliccando sul link che ti abbiamo inviato tramite email.<br>
+                Eventualmente, controlla anche la cartella dello spam. 
             </p>
         </template>
 

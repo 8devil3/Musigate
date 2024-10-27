@@ -2,7 +2,7 @@
     <p class="mb-4">
         Completa questi dati per rendere lo Studio pubblicabile.
     </p>
-    <ul class="pl-0.5 list-none space-y-2">
+    <ul class="pl-0.5 list-none list-image-none">
         <li class="flex items-start gap-2">
             <i v-if="props.studio.name" class="w-4 mt-1 text-green-500 shrink-0 fa-solid fa-check" />
             <i v-else class="w-4 mt-1 text-red-500 shrink-0 fa-solid fa-xmark" />
