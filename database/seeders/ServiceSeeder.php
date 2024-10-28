@@ -22,7 +22,8 @@ class ServiceSeeder extends Seeder
             // 'editing',
             // 'pre-produzione',
             // 'post-produzione',
-            // 'arrangiamenti',
+            'arrangiamenti',
+            'podcasting',
             'consulenza artistica',
             'promozione artistica',
             'produzione musicale',
@@ -34,7 +35,7 @@ class ServiceSeeder extends Seeder
             'composizione musiche, testi',
             'produzione, grafica, stampa CD',
             'campionature',
-            'corsi',
+            'corsi/lezioni',
             'sound design',
             'voice over',
             'doppiaggio'
