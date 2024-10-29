@@ -145,11 +145,11 @@
 
                     <div v-if="props.room.price_type === 'timebands_price'" class="grid grid-cols-1 gap-6 pt-4 sm:grid-cols-2">
                         <template v-for="wd, wdKey in props.weekdays">
-                            <article v-if="props.room.prices.filter(price => price.timeband.weekday == wdKey).length" class="pb-4 space-y-4 border-b border-slate-700 last-of-type:border-0 sm:[&:nth-last-of-type(-n+2)]:border-0">
+                            <article v-if="props.room.timeband_prices.filter(price => price.timeband.weekday == wdKey).length" class="pb-4 space-y-4 border-b border-slate-700 last-of-type:border-0 sm:[&:nth-last-of-type(-n+2)]:border-0">
                                 <h5 class="text-base text-white">
                                     {{ wd }}
                                 </h5>
-                                <div v-for="price in props.room.prices.filter(price => price.timeband.weekday == wdKey)" class="space-y-1 font-normal">
+                                <div v-for="price in props.room.timeband_prices.filter(price => price.timeband.weekday == wdKey)" class="space-y-1 font-normal">
                                     <div>
                                         <div class="text-sm text-slate-100">
                                             Fascia oraria
@@ -209,7 +209,7 @@
                 <div v-if="props.room.equipments.length" class="space-y-4">
                     <h4 class="pb-1 m-0 border-b border-orange-500">Equipaggiamento</h4>
 
-                    <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+                    <div class="space-y-6 md:columns-2">
                         <template v-for="category, id in props.equipment_categories">
                             <div v-if="props.room.equipments.filter(equip => equip.equipment_category_id == id).length">
                                 <h5>{{ category }}</h5>
