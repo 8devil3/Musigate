@@ -37,7 +37,7 @@
 
             <Empty v-else icon="fa-solid fa-music">
                 <template #title>
-                    Non sono presenti Sale prova
+                    Non sono presenti Sale
                 </template>
 
                 <template #description>
