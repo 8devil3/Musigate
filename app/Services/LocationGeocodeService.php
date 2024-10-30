@@ -41,7 +41,7 @@ class LocationGeocodeService
             $address_data['address'] = ucwords(strtolower($request->address));
             $address_data['number'] = $request->number ?? null;
             $address_data['city'] = ucwords(strtolower($request->city));
-            $address_data['province'] = 'Provincia di ' . ucwords(strtolower($request->province));
+            $address_data['province'] = 'Provincia di ' . ucwords(strtolower(str_replace('Provincia di ', '', $request->province)));
             $address_data['cap'] = $request->cap;
             $address_data['lon'] = $geocode['lng'];
             $address_data['lat'] = $geocode['lat'];
