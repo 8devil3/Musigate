@@ -38,7 +38,8 @@ class ServiceSeeder extends Seeder
             'corsi/lezioni',
             'sound design',
             'voice over',
-            'doppiaggio'
+            'doppiaggio',
+            'service audio/luci',
         ];
 
         foreach ($services as $service) {
