@@ -29,7 +29,6 @@ class CheckStudioInfo
         if(self::check($studio)){
             $studio->update([
                 'is_complete' => true,
-                'is_published' => true,
             ]);
         }
     }
