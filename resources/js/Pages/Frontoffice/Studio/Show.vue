@@ -108,7 +108,7 @@
                 </Section>
 
                 <Section v-if="props.studio.comforts.length" title="Comfort" id="comfort">
-                    <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 list-musigate gap-x-20">
+                    <ul class="sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 list-musigate">
                         <template v-for="comfort, index in props.studio.comforts">
                             <li class="list-musigate">
                                 {{ comfort.name }}
@@ -118,7 +118,7 @@
                 </Section>
 
                 <Section v-if="props.studio.services.length" title="Servizi" id="servizi">
-                    <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 list-musigate gap-x-20">
+                    <ul class="sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 list-musigate">
                         <template v-for="service, index in props.studio.services">
                             <li class="list-musigate">
                                 {{ service.name }}
