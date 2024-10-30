@@ -5,6 +5,29 @@
         icon="fa-solid fa-file-lines"
     >
         <template #content>
+            <!-- pubblicazione -->
+            <FormElement>
+                <template #title>
+                    Pubblicazione
+                </template>
+
+                <template #description>
+                    Scegli se pubblicare lo Studio.
+                </template>
+
+                <template #content>
+                    <Toggle
+                        v-model="form.is_published"
+                        :label="form.is_published ? 'Studio pubblicato' : 'Studio non publicato'"
+                        :disabled="!props.studio.is_complete"
+                        class="mb-4"
+                    />
+
+                    <CheckStudioData v-if="!props.studio.is_complete" :studio="props.studio" />
+                </template>
+            </FormElement>
+            <!-- / -->
+
             <!-- nome studio -->
             <FormElement>
                 <template #title>
@@ -61,29 +84,6 @@
                     </div>
 
                     <Input v-if="form.category === 'Professional'" v-model="form.vat" inputmode="numeric" :error="form.errors.vat" placeholder="Partita IVA" pattern="[0-9]{11}" class="w-full lg:max-w-xs" required />
-                </template>
-            </FormElement>
-            <!-- / -->
-
-            <!-- visibile? -->
-            <FormElement>
-                <template #title>
-                    Pubblicazione
-                </template>
-
-                <template #description>
-                    Scegli se pubblicare lo Studio.
-                </template>
-
-                <template #content>
-                    <Toggle
-                        v-model="form.is_published"
-                        :label="form.is_published ? 'Studio pubblicato' : 'Studio non publicato'"
-                        :disabled="!props.studio.is_complete"
-                        class="mb-4"
-                    />
-
-                    <CheckStudioData v-if="!props.studio.is_complete" :studio="props.studio" />
                 </template>
             </FormElement>
             <!-- / -->

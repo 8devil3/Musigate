@@ -23,18 +23,32 @@
                     </div>
                 </div>
 
-                <div class="text-xs text-center">
+                <div class="space-y-2 text-xs text-left">
                     <template v-if="usePage().props.auth.studio.is_published">
-                        <span class="flex items-center justify-center gap-1 text-green-500">
+                        <div class="flex items-center gap-1 ml-8 text-green-500">
                             <i class="text-sm fa-solid fa-check" />
                             Studio pubblicato
-                        </span>
+                        </div>
                     </template>
-                    <template v-else>
-                        <span class="flex items-center justify-center gap-1 text-red-500">
+                    <template v-else-if="!usePage().props.auth.studio.is_complete">
+                        <div class="flex items-center gap-1 ml-8 text-amber-500">
                             <i class="text-sm fa-solid fa-circle-exclamation" />
                             Studio non pubblicato
-                        </span>
+                        </div>
+                        <div class="flex items-center gap-1 ml-8 text-red-500">
+                            <i class="text-sm fa-solid fa-circle-exclamation" />
+                            Dati minimi non completati
+                        </div>
+                    </template>
+                    <template v-else-if="!usePage().props.auth.studio.is_published && usePage().props.auth.studio.is_complete">
+                        <Link :href="route('studio.description.edit')" class="flex items-center gap-1 ml-8 transition-colors hover:text-orange-500 text-amber-500">
+                            <i class="text-sm fa-solid fa-circle-exclamation" />
+                            Studio non pubblicato
+                        </Link>
+                        <div class="flex items-center gap-1 ml-8 text-green-500">
+                            <i class="text-sm fa-solid fa-check" />
+                            Dati minimi completati
+                        </div>
                     </template>
                 </div>
             </div>

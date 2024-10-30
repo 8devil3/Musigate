@@ -29,7 +29,7 @@
                     <InfoBlock
                         v-else
                         title="Lo Studio non è pubblicato"
-                        color="danger"
+                        color="warning"
                         class="col-span-full"
                     >
                         Lo Studio attualmente non è visibile nè ricercabile pubblicamente dagli utenti<br>

@@ -21,14 +21,14 @@ class CheckStudioInfo
 
     public static function update_studio(Studio $studio): void
     {
-        $studio->update([
-            'is_complete' => false,
-            'is_published' => false,
-        ]);
-
         if(self::check($studio)){
             $studio->update([
                 'is_complete' => true,
+            ]);
+        } else {
+            $studio->update([
+                'is_complete' => false,
+                'is_published' => false,
             ]);
         }
     }
