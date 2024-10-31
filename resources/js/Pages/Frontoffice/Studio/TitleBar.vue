@@ -7,39 +7,33 @@
         <!-- / -->
 
         <!-- logo e categoria -->
-        <div class="flex items-center gap-4">
-            <!-- logo -->
-            <div class="flex items-center justify-center text-center border-2 border-orange-500 rounded-full size-16 bg-slate-900 lg:w-24 lg:h-24 shrink-0">
-                <img v-if="props.studio.logo" :src="'/storage/' + props.studio.logo" :alt="props.studio.name" class="object-contain w-full h-full rounded-full">
-                <img v-else src="/img/logo/logo_placeholder.svg" :alt="props.studio.name" class="object-contain w-1/2 aspect-square">
-            </div>
-            <!-- / -->
-            
-            <!-- categoria & nome -->
-            <div class="space-y-2">
-                <div v-if="props.studio.category" class="text-sm font-normal leading-none uppercase text-slate-400">
-                    {{ props.studio.category }} studio
+        <div class="grid grid-cols-8 gap-x-4 gap-y-8">
+            <div class="flex items-start col-span-7 gap-4">
+                <!-- logo -->
+                <div class="flex items-center justify-center text-center border-2 border-orange-500 rounded-full size-16 bg-slate-900 lg:w-24 lg:h-24 shrink-0">
+                    <img v-if="props.studio.logo" :src="'/storage/' + props.studio.logo" :alt="props.studio.name" class="object-contain w-full h-full rounded-full">
+                    <img v-else src="/img/logo/logo_placeholder.svg" :alt="props.studio.name" class="object-contain w-1/2 aspect-square">
                 </div>
+                <!-- / -->
+                
+                <!-- categoria & nome -->
+                <div class="space-y-2">
+                    <div v-if="props.studio.category" class="text-sm font-normal leading-none uppercase text-slate-400">
+                        {{ props.studio.category }} studio
+                    </div>
+    
+                    <h1 class="m-0 text-2xl lg:text-4xl">{{ props.studio.name }}</h1>
+    
+                    <p v-if="props.studio.category === 'Professional'" class="text-xs font-normal uppercase text-slate-400">p.iva {{ props.studio.vat }}</p>
 
-                <h1 class="m-0 text-2xl lg:text-4xl">{{ props.studio.name }}</h1>
-
-                <p v-if="props.studio.category === 'Professional'" class="text-xs font-normal uppercase text-slate-400">p.iva {{ props.studio.vat }}</p>
+                </div>
+                <!-- / -->
             </div>
-            <!-- / -->
 
-
-            <button type="button" @click="shareStudioPage()" class="items-center hidden gap-2 py-1 text-sm font-normal leading-none text-orange-500 transition-colors sm:flex sm:text-base sm:ml-auto whitespace-nowrap shrink-0 hover:text-orange-400">
-                Condividi
-                <i class="text-base sm:text-xl fa-solid fa-share-from-square" />
-            </button>
-        </div>
-        <!-- / -->
-
-        <address class="flex flex-wrap gap-y-8 gap-x-4">
-            <div class="flex flex-wrap items-start gap-8 sm:flex-nowrap">
+            <div class="flex flex-wrap items-start w-full gap-8 sm:w-auto sm:flex-nowrap col-span-full sm:col-span-6">
                 <!-- indirizzo -->
                 <div class="flex items-start gap-2">
-                    <i class="text-base text-orange-500 fa-solid fa-location-dot"></i>
+                    <i class="text-base text-orange-500 fa-solid fa-location-dot mt-0.5" />
                     <div class="text-sm capitalize md:text-base">
                         {{ props.studio.location.address }}, {{ props.studio.location.number }}
                         <div>{{ props.studio.location.cap }} {{ props.studio.location.city }}</div>
@@ -47,7 +41,7 @@
                     </div>
                 </div>
                 <!-- / -->
-
+    
                 <!-- etichetta discografica -->
                 <div v-if="props.studio.is_record_label" class="flex items-start gap-1 -ml-1 text-sm md:text-base">
                     <svg class="size-6" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -61,22 +55,24 @@
                 </div>
                 <!-- / -->
             </div>
-            
-            <button type="button" @click="shareStudioPage()" class="flex items-center gap-2 py-1 text-sm font-normal leading-none text-orange-500 transition-colors sm:hidden sm:text-base sm:ml-auto whitespace-nowrap shrink-0 hover:text-orange-400">
-                <i class="text-base text-center sm:text-xl fa-solid fa-share-from-square" />
-                Condividi
-            </button>
-
+    
             <!-- social -->
-            <ul v-if="props.socials && computedSocials.length" class="flex flex-wrap gap-1 p-0 m-0 list-none place-items-center sm:grid sm:grid-cols-4 sm:ml-auto list-image-none">
+            <ul v-if="props.socials && computedSocials.length" class="flex flex-wrap items-start w-full gap-3 p-0 m-0 list-none sm:justify-end max-w-44 md:ml-auto list-image-none col-span-full sm:col-span-2">
                 <li v-for="social in computedSocials" class="p-0">
-                    <a :href="social.href" :title="social.label" class="flex items-center justify-center w-8 text-center text-white">
+                    <a :href="social.href" :title="social.label" class="flex items-center justify-center text-center text-white">
                         <i :class="'text-2xl transition-colors hover:text-orange-500 ' + social.icon" />
                     </a>
                 </li>
+                <li class="p-0">
+                    <button type="button" @click="shareStudioPage()" class="text-sm font-normal leading-none text-orange-500 transition-colors sm:text-base whitespace-nowrap hover:text-orange-400">
+                        <i class="text-base sm:text-xl fa-solid fa-share-nodes" />
+                    </button>
+                </li>
             </ul>
             <!-- / -->
-        </address>
+        </div>
+        <!-- / -->
+
     </div>
 </template>
 
