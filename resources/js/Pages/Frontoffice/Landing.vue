@@ -92,12 +92,13 @@
                     <div>
                         <p>Musigate è in fase di pre-lancio ed è gratuito per tutti gli Studi.</p>
                         <p>Registrati ora e crea la tua pagina, entra a far parte di una community in crescita e fai conoscere il tuo Studio.</p>
+                        <p>La pagina di ricerca, che comprende filtri per provincia, equipaggimento, nome e categoria, verrà attivata all'iscrizione di almeno 20 studi.</p>
                     </div>
                     <Button type="router" :href="route('register.studio.starter.step_1')" text="Iscriviti ora!" icon="fa-solid fa-right-to-bracket" class="shrink-0" />
                 </div>
             </section>
 
-            <section id="unisciti-a-musigate" class="py-8 space-y-6 md:py-12">
+            <section id="dubbi-domande" class="py-8 space-y-6 md:py-12">
                 <h2 class="pb-2 border-b-2 border-b-orange-500 font-lemon">
                     Dubbi, domande o perplessità
                 </h2>
