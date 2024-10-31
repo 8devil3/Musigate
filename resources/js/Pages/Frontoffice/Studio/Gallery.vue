@@ -2,22 +2,19 @@
     <div class="hidden lg:block lg:h-[720px] md:h-[640px] max-w-[1920px] mx-auto">
         <img v-if="!props.photos.length" src="/img/logo/logo_placeholder.svg" class="object-contain w-full h-full p-48 bg-slate-900">
 
-        <div v-else class="flex w-full h-full gap-1">
-            <div class="relative grid grid-cols-5 grid-rows-3 gap-1">
-                <img :src="'/storage/' + props.photos[0].path" :alt="props.photos[0].filename" class="object-cover w-full h-full row-span-full" :class="props.photos.length === 1 ? 'col-span-full' : 'col-span-4'">
+        <div v-else class="relative grid w-full h-full grid-cols-5 grid-rows-3 gap-1">
+            <img :src="'/storage/' + props.photos[0].path" :alt="props.photos[0].filename" class="object-cover w-full h-full row-span-full" :class="props.photos.length === 1 ? 'col-span-full' : 'col-span-4'">
 
-                <template v-if="props.photos.length >= 2">
-                    <img v-for="photo in otherPhotos" :src="'/storage/' + photo.path" :alt="photo.filename" class="object-cover w-full h-full col-span-1">
-                    <img v-for="i in 3 - otherPhotos.length" src="/img/logo/logo_placeholder.svg" class="object-contain w-full h-full col-span-1 p-12 bg-slate-900">
-                </template>
+            <template v-if="props.photos.length >= 2">
+                <img v-for="photo in otherPhotos" :src="'/storage/' + photo.path" :alt="photo.filename" class="object-cover w-full h-full col-span-1">
+                <img v-for="i in 3 - otherPhotos.length" src="/img/logo/logo_placeholder.svg" class="object-contain w-full h-full col-span-1 p-12 bg-slate-900">
+            </template>
 
-                <button v-if="props.photos.length > 1" type="button" @click="openModalGallery = true" title="Galleria foto" class="absolute px-4 py-1 border border-orange-500 rounded-full shadow-md bottom-4 left-4 bg-black/80">
-                    <i class="mr-2 text-lg fa-solid fa-images"></i>
-                    Galleria
-                    ({{ props.photos.length }})
-                </button>
-            </div>
-
+            <button v-if="props.photos.length > 1" type="button" @click="openModalGallery = true" title="Galleria foto" class="absolute px-4 py-1 border border-orange-500 rounded-full shadow-md bottom-4 left-4 bg-black/80">
+                <i class="mr-2 text-lg fa-solid fa-images"></i>
+                Galleria
+                ({{ props.photos.length }})
+            </button>
         </div>
     </div>
 
