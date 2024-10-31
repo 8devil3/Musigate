@@ -42,7 +42,7 @@
                     <i class="text-base text-orange-500 fa-solid fa-location-dot"></i>
                     <div class="text-sm capitalize md:text-base">
                         {{ props.studio.location.address }}, {{ props.studio.location.number }}
-                        <div>{{ props.studio.location.city }}</div>
+                        <div>{{ props.studio.location.cap }} {{ props.studio.location.city }}</div>
                         <div class="normal-case">{{ props.studio.location.province }}</div>
                     </div>
                 </div>
