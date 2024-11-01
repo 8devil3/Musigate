@@ -55,7 +55,5 @@ class CreateStudioService
         Contact::create(['studio_id' => $studio->id]);
         CancelPolicySetting::create(['studio_id' => $studio->id]);
         // BookingSetting::create(['studio_id' => $studio->id]);
-
-        SitemapService::build();
     }
 }

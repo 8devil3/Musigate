@@ -15,7 +15,7 @@ class SitemapService
     
             $path = public_path('sitemap.xml');
     
-            $studios_slug = Studio::pluck('slug')->toArray();
+            $studios_slug = Studio::where('is_complete', true)->where('is_published', true)->pluck('slug')->toArray();
     
             $urls = [];
             if($studios_slug){
@@ -30,7 +30,7 @@ class SitemapService
                 ->add(route('register.studio.starter.step_1'))
                 ->add(route('privacy'))
                 ->add(route('tos'))
-                ->add(route('studio.index'))
+                // ->add(route('studio.index'))
                 ->add($urls)
                 ->writeToFile($path);
             
