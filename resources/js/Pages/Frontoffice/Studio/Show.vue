@@ -11,7 +11,7 @@
         <!-- contenuto -->
         <div class="w-full max-w-6xl px-4 py-6 mx-auto md:px-6 md:py-8">
             <!-- sezioni -->
-            <div class="space-y-16 md:grow">
+            <div class="space-y-16">
                 <TitleBar :studio="props.studio" :socials=props.socials :request="props.request" />
 
                 <Section v-if="props.studio.description" title="Presentazione" id="presentazione">
@@ -109,21 +109,17 @@
 
                 <Section v-if="props.studio.comforts.length" title="Comfort" id="comfort">
                     <ul class="sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 list-musigate">
-                        <template v-for="comfort, index in props.studio.comforts">
-                            <li class="list-musigate">
-                                {{ comfort.name }}
-                            </li>
-                        </template>
+                        <li v-for="comfort, index in props.studio.comforts" :title="comfort.name">
+                            <div>{{ comfort.name }}</div>
+                        </li>
                     </ul>
                 </Section>
 
                 <Section v-if="props.studio.services.length" title="Servizi" id="servizi">
                     <ul class="sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 list-musigate">
-                        <template v-for="service, index in props.studio.services">
-                            <li class="list-musigate">
-                                {{ service.name }}
-                            </li>
-                        </template>
+                        <li v-for="service, index in props.studio.services" :title="service.name">
+                            <div>{{ service.name }}</div>
+                        </li>
                     </ul>
                 </Section>
 
@@ -144,7 +140,7 @@
                         <iframe v-for="video in props.studio.videos" :src="'https://www.youtube.com/embed/' + video.yt_id" frameborder="0" title="YouTube video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; web-share" allowfullscreen class="w-full border border-slate-700 rounded-xl aspect-video"></iframe>
                     </div>                    
                 </Section>
-            
+
                 <Section v-if="props.studio.rule.before || props.studio.rule.during || props.studio.rule.after" title="Regolamento" id="regolamento">
                     <div v-if="props.studio.rule.before" class="mb-6">
                         <h3 class="mb-1 text-sm">Prima della sessione</h3>

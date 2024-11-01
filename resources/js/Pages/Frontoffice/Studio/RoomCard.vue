@@ -214,8 +214,8 @@
                             <div v-if="props.room.equipments.filter(equip => equip.equipment_category_id == id).length">
                                 <h5>{{ category }}</h5>
                                 <ul class="grid grid-cols-1 m-0 gap-x-16 list-musigate">
-                                    <li v-for="eq in props.room.equipments.filter(equip => equip.equipment_category_id == id)" class="w-full list-musigate">
-                                        <div class="truncate">{{ eq.name }}</div>
+                                    <li v-for="eq in props.room.equipments.filter(equip => equip.equipment_category_id == id)" :title="eq.name">
+                                        <div>{{ eq.name }}</div>
                                     </li>
                                 </ul>
                             </div>
