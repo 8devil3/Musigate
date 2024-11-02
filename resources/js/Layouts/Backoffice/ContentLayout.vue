@@ -16,7 +16,7 @@
             <UserMenu />
         </h1>
 
-        <fieldset :disabled="props.isLoading" class="flex flex-col overflow-hidden grow">
+        <fieldset :disabled="isLoading" class="flex flex-col overflow-hidden grow">
             <div class="flex flex-col overflow-y-auto grow">
                 <div v-if="$slots.content" class="w-full max-w-6xl p-4 pb-20 mx-auto space-y-8 grow lg:p-8">
                     <Tabs v-if="props.tabLinks" :tabLinks="tabLinks"/>

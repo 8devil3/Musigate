@@ -1,6 +1,6 @@
 <template>
     <nav class="flex flex-col h-full font-sans font-medium max-w-64 bg-slate-900 shrink-0 noscrollbar">
-        <div class="sticky top-0 flex flex-col h-16 shrink-0">
+        <div class="sticky top-0 flex flex-col h-16 shrink-0 bg-slate-900">
             <Link :href="route('dashboard')" class="flex items-center justify-center w-64 grow">
                 <img src="/img/logo/logo_horizontal_complete.svg" alt="Musigate logo" class="h-8">
             </Link>
