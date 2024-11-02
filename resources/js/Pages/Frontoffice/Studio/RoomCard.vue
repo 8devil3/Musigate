@@ -47,7 +47,7 @@
 
             <!-- tariffe -->
             <div v-if="props.room.price_type !== 'no_price'" class="space-y-1">
-                <div>
+                <div class="text-sm">
                     A partire da
                 </div>
                 <div class="flex items-end gap-3">
