@@ -87,7 +87,7 @@
                     La fine dell'ultima fascia deve corrispondere all'orario di chiusura dello Studio.
 
                     <div class="mt-2 font-light text-red-500">
-                        <strong>ATTENZIONE:</strong> eliminando le fasce orarie verranno eliminate le tariffe delle Sale associate, se presenti.
+                        <strong>ATTENZIONE:</strong> eliminando le fasce orarie verranno eliminate le tariffe delle Sale e dei pacchetti associati, se presenti.
                     </div>
                 </template>
                 <template #content>
@@ -188,7 +188,7 @@
                     Se hai già impostato almeno un giorno della settimana da ripetere puoi copiarlo senza dover inserire nuovamente gli stessi dati, comprese le fasce orarie. Per procedere, seleziona il giorno da cui copiare i dati e clicca "Copia".
 
                     <div class="mt-2 font-light text-red-500">
-                        <strong>ATTENZIONE:</strong> copiando la disponibiltà verranno eliminate le tariffe delle Sale associate, se presenti.
+                        <strong>ATTENZIONE:</strong> copiando la disponibiltà verranno eliminate le tariffe delle Sale e dei pacchetti associati, se presenti.
                     </div>
                 </template>
                 <template #content>
