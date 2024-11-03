@@ -16,23 +16,12 @@ class UserSeeder extends Seeder
         $users = [
             [
                 'role_id' => 1,
-                'first_name' => 'Aldo',
-                'last_name' => 'Cocurullo',
-                'email' => 'admin@admin.com',
-                'email_verified_at' => now()->subDay(),
-                'password' => bcrypt('qwertyuiop'),
-                'avatar' => Storage::disk('public')->putFile('users/user-1/avatar', FakerImage::image(null, 240, 240)),
-                'tos' => true,
-                'privacy' => true,
-            ],
-            [
-                'role_id' => 2,
-                'first_name' => '8',
-                'last_name' => 'Devil',
+                'first_name' => 'Super',
+                'last_name' => 'Admin',
                 'email' => '8dev.il3@gmail.com',
                 'email_verified_at' => now()->subDay(),
                 'password' => bcrypt('qwertyuiop'),
-                'avatar' => Storage::disk('public')->putFile('users/user-2/avatar/', FakerImage::image(null, 240, 240)),
+                'avatar' => null,
                 'tos' => true,
                 'privacy' => true
             ],
@@ -43,7 +32,7 @@ class UserSeeder extends Seeder
                 'email' => 'gigirossi@gmail.com',
                 'email_verified_at' => now()->subDay(),
                 'password' => bcrypt('qwertyuiop'),
-                'avatar' => Storage::disk('public')->putFile('users/user-2/avatar/', FakerImage::image(null, 240, 240)),
+                'avatar' => null,
                 'tos' => true,
                 'privacy' => true
             ]
@@ -66,10 +55,6 @@ class UserSeeder extends Seeder
                 'password' => bcrypt('qwertyuiop'),
                 'tos' => true,
                 'privacy' => true
-            ]);
-
-            $user->update([
-                'avatar' => Storage::disk('public')->putFile('users/user-' . $user->id . '/avatar/', FakerImage::image(null, 128, 128)),
             ]);
         }
     }
