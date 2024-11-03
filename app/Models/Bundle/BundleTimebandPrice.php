@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Models\Studio;
+namespace App\Models\Bundle;
 
+use App\Models\Studio\Timeband;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

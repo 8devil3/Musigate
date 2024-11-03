@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Backoffice\Studio;
+namespace App\Http\Controllers\Backoffice\Studio\Bundles;
 
 use App\Http\Controllers\Controller;
-use App\Models\Studio\Bundle;
+use App\Models\Bundle\Bundle;
 use App\Services\CheckStudioInfo;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Services;
+use App\Http\Controllers\Picklists;
 use App\Models\User;
 use App\Models\Studio\Rule;
 use App\Models\Studio\Social;
@@ -26,20 +27,20 @@ class CreateStudioService
         ]);
 
         //creo la disponibiità settimanale
-        for ($i = 1; $i <= 7; $i++){
+        foreach (Picklists::WEEKDAYS as $wd => $wd_name) {
             $open_type = 'close';
             $start = null;
             $end = null;
-            
-            if($i < 7){
+    
+            if($wd < 7){
                 $open_type = 'open';
                 $start = '10:00';
                 $end = '23:00';
             }
-
+    
             Availability::create([
                 'studio_id' => $studio->id,
-                'weekday' => $i,
+                'weekday' => $wd,
                 'open_type' => $open_type,
                 'open_start' => $start,
                 'open_end' => $end,

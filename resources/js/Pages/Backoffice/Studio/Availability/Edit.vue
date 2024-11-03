@@ -1,7 +1,7 @@
 <template>
     <ContentLayout
         @submitted="submit()"
-        :title="'Disponibilità di ' + props.weekdays[props.availability.weekday]"
+        :title="'Disponibilità: ' + props.weekdays[props.availability.weekday]"
         icon="fa-solid fa-clock"
         backRoute="studio.availability.index"
     >
@@ -12,11 +12,19 @@
                     Tipo di apertura
                 </template>
                 <template #description>
-                    Scegli se di {{ props.weekdays[props.availability.weekday] }} lo Studio è aperto con orari tradizionali, con orari overnight (es: dalle 18:00 alle 02:00 del giorno successivo), tutto il giorno (24h) o chiuso.
+                    Scegli se {{ props.availability.weekday === 8 ? 'nei ' + props.weekdays[props.availability.weekday] : 'di ' + props.weekdays[props.availability.weekday] }} lo Studio è aperto con orari tradizionali, con orari overnight (es: dalle 18:00 alle 02:00 del giorno successivo), tutto il giorno (24h), su richiesta con preavviso, o chiuso.
+
+                    <div v-if="props.availability.weekday === 8" class="mt-4 space-y-2">
+                        <p>Sono considerati giorni festivi quelli stabiliti per legge, ad eccezione della domenica che è possibile impostare separatamente. Giorni festivi:</p>
+
+                        <ul class="list-disc">
+                            <li v-for="holyday in props.holydays" class="pb-0.5">{{ holyday }}</li>
+                        </ul>
+                    </div>
 
                     <div v-if="Object.keys(usePage().props.errors).length" class="mt-4 font-normal text-red-500">
                         Errori
-                        <ul class="pl-4 list-disc">
+                        <ul class="list-disc">
                             <li v-for="error in usePage().props.errors">{{ error }}</li>
                         </ul>
                     </div>
@@ -157,6 +165,20 @@
             </FormElement>
             <!-- / -->
 
+            <!-- apertura su richiesta -->
+            <FormElement v-if="form.open_type === 'open_forewarning'">
+                <template #title>
+                    Preavviso
+                </template>
+                <template #description>
+                    Imposta il preavviso espresso in giorni.
+                </template>
+                <template #content>
+                    <NumberInput v-model="form.min_forewarning" unit="giorni" :min="1" :max="250" required />
+                </template>
+            </FormElement>
+            <!-- / -->
+
             <!-- copia disponibilità -->
             <FormElement>
                 <template #title>
@@ -199,6 +221,7 @@ import InfoBlock from '@/Components/InfoBlock.vue';
 import Button from '@/Components/Form/Button.vue';
 import ActionButton from '@/Components/Form/ActionButton.vue';
 import Input from '@/Components/Form/Input.vue';
+import NumberInput from '@/Components/Form/NumberInput.vue';
 import Radio from '@/Components/Form/Radio.vue';
 
 const props = defineProps({
@@ -206,6 +229,7 @@ const props = defineProps({
     current_weekday: Number,
     hours: Object,
     weekdays: Object,
+    holydays: Object,
     open_types: Object,
     copy_from_weekdays: Object,
 });
@@ -217,6 +241,7 @@ const form = useForm({
     open_type: props.availability.open_type,
     open_start: props.availability.open_start,
     open_end: props.availability.open_end,
+    min_forewarning: props.availability.min_forewarning,
     timebands: props.availability.timebands ?? [],
 });
 

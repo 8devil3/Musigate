@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('payment_method_studio', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('studio_id');
-            $table->foreignId('payment_method_id');
+            $table->foreignId('studio_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('payment_method_id')->constrained()->cascadeOnDelete();
         });
     }
 

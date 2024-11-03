@@ -215,10 +215,10 @@
                 </Section>
 
                 <Section title="Orari" id="orari">
-                    <ul class="grid grid-cols-2 p-0 list-none list-image-none gap-x-4 gap-y-8 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7">
+                    <ul class="grid grid-cols-2 p-0 list-none list-image-none gap-x-2 gap-y-8 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8">
                         <li v-for="av in props.studio.availability" class="p-0 space-y-2">
                             <div>
-                                <div class="font-normal" :class="av.open_type !== 'close' ? 'text-white' : 'text-slate-400'">
+                                <div class="font-normal capitalize" :class="av.open_type !== 'close' ? 'text-white' : 'text-slate-400'">
                                     {{ props.weekdays[av.weekday] }}
                                 </div>
                                 <div v-if="av.open_type === 'open'" class="text-xs font-normal text-green-500">
@@ -230,13 +230,21 @@
                                 <div v-else-if="av.open_type === 'open_overnight'" class="text-xs font-normal text-blue-500">
                                     aperto overnight
                                 </div>
+                                <div v-else-if="av.open_type === 'open_forewarning'" class="text-xs font-normal text-amber-500">
+                                    aperto su richiesta con preavviso di {{ av.min_forewarning === 1 ? av.min_forewarning + ' giorno' : av.min_forewarning + ' giorni' }}
+
+                                    <button type="button" @click="openHolydaysListModal = true" class="block mt-2 text-left text-orange-500 transition-colors hover:text-orange-400">
+                                        <i class="fa-solid fa-list" />
+                                        Elenco giorni festivi
+                                    </button>
+                                </div>
                                 <div v-else-if="av.open_type === 'close'" class="text-xs font-normal text-red-500">
                                     chiuso
                                 </div>
                             </div>
 
-                            <div>
-                                <template v-if="av.open_type !== 'close'">
+                            <div class="text-xs">
+                                <template v-if="av.open_type !== 'close' && av.open_type !== 'open_forewarning'">
                                     <time :datetime="av.open_start">
                                         {{ av.open_start }}
                                     </time>
@@ -245,12 +253,27 @@
                                         {{ av.open_end }}
                                     </time>
                                 </template>
-                                <template v-else>
+                                <template v-else-if="av.open_type === 'close'">
                                     -
                                 </template>
                             </div>
                         </li>
                     </ul>
+
+                    <Modal :isOpen="openHolydaysListModal" @close="openHolydaysListModal = false">
+                        <template #title>
+                            Definizione di giorni festivi
+                        </template>
+                        <template #description>
+                            <div class="space-y-2">
+                                <p>Musigate considera giorni festivi quelli stabiliti per legge ad esclusione delle domeniche che sono gestite separatamente:</p>
+
+                                <ul class="list-disc">
+                                    <li v-for="holyday in props.holydays" class="pb-0.5">{{ holyday }}</li>
+                                </ul>
+                            </div>
+                        </template>
+                    </Modal>
                 </Section>
 
                 <Section title="Location" id="location">
@@ -315,6 +338,7 @@ const props = defineProps({
     contacts: Object,
     socials: Object,
     weekdays: Object,
+    holydays: Object,
     months: Object,
     request: Object,
 });
@@ -324,6 +348,7 @@ const openCollabModal = ref(false);
 const openRulesModal = ref(false);
 const openServicesModal = ref(false);
 const openComfortsModal = ref(false);
+const openHolydaysListModal = ref(false);
 
 router.on('start', ()=> isLoading.value = true);
 router.on('finish', ()=> isLoading.value = false);

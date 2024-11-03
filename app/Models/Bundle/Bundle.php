@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Models\Studio;
+namespace App\Models\Bundle;
 
+use App\Models\Studio\Studio;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -53,5 +54,10 @@ class Bundle extends Model
     public function timeband_prices(): HasMany
     {
         return $this->hasMany(BundleTimebandPrice::class);
+    }
+
+    public function weekday_prices(): HasMany
+    {
+        return $this->hasMany(BundleWeekdayPrice::class);
     }
 }

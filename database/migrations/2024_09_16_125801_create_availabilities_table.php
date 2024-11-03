@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('open_type')->default('open');
             $table->time('open_start')->nullable();
             $table->time('open_end')->nullable();
+            $table->unsignedTinyInteger('min_forewarning')->nullable();
 
             $table->timestamps();
         });

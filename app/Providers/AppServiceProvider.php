@@ -2,10 +2,9 @@
 
 namespace App\Providers;
 
-use App\Models\Role;
 use App\Models\User;
 use App\Models\Room\Room;
-use App\Models\Studio\Bundle;
+use App\Models\Bundle\Bundle;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;

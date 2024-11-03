@@ -7,6 +7,7 @@ use App\Http\Controllers\Picklists;
 use App\Models\Studio\Availability;
 use App\Services\CheckStudioInfo;
 use App\Services\GeneratePeriodsService;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -17,9 +18,11 @@ class AvailabilityController extends Controller
     public function index(): Response
     {
         $weekdays = Picklists::WEEKDAYS;
+        $holydays = Picklists::holydays();
+
         $availability = auth()->user()->studio->availability()->with('timebands')->get();
 
-        return Inertia::render('Backoffice/Studio/Availability/Index', compact('availability', 'weekdays'));
+        return Inertia::render('Backoffice/Studio/Availability/Index', compact('availability', 'weekdays', 'holydays'));
     }
 
     public function edit(Availability $availability): Response
@@ -29,6 +32,7 @@ class AvailabilityController extends Controller
         $hours = GeneratePeriodsService::generate();
         $weekdays = Picklists::WEEKDAYS;
         $open_types = Picklists::OPEN_TYPES;
+        $holydays = Picklists::holydays();
 
         $studio = auth()->user()->studio;
         $availability->load('timebands');
@@ -37,7 +41,7 @@ class AvailabilityController extends Controller
             return $wd !== $availability->weekday;
         }, ARRAY_FILTER_USE_KEY);
 
-        return Inertia::render('Backoffice/Studio/Availability/Edit', compact('availability', 'hours', 'weekdays', 'open_types', 'copy_from_weekdays'));
+        return Inertia::render('Backoffice/Studio/Availability/Edit', compact('availability', 'hours', 'weekdays', 'holydays', 'open_types', 'copy_from_weekdays'));
     }
 
     public function update(Request $request, Availability $availability): RedirectResponse
@@ -56,51 +60,79 @@ class AvailabilityController extends Controller
         $hours = implode(',',GeneratePeriodsService::generate());
 
         //gestisco gli orari dello studio
-        if($request->open_type === 'open'){
-            $request->validate([
-                'open_start' => ['required', 'string', 'size:5', 'date_format:H:i,H:i:s', 'in:' . $hours],
-                'open_end' => ['required', 'string', 'size:5', 'after:open_start', 'date_format:H:i,H:i:s', 'in:' . $hours],
-                'timebands.*.start' => ['required', 'string', 'size:5', 'date_format:H:i,H:i:s'],
-                'timebands.*.end' => ['required', 'string', 'size:5', 'after:timebands.*.start', 'date_format:H:i,H:i:s'],
-            ]);
+        switch ($request->open_type) {
+            case 'open':
+                $request->validate([
+                    'open_start' => ['required', 'string', 'size:5', 'date_format:H:i,H:i:s', 'in:' . $hours],
+                    'open_end' => ['required', 'string', 'size:5', 'after:open_start', 'date_format:H:i,H:i:s', 'in:' . $hours],
+                    'timebands.*.start' => ['required', 'string', 'size:5', 'date_format:H:i,H:i:s'],
+                    'timebands.*.end' => ['required', 'string', 'size:5', 'after:timebands.*.start', 'date_format:H:i,H:i:s'],
+                ]);
 
-            $availability->update([
-                'open_type' => $request->open_type,
-                'open_start' => $request->open_start,
-                'open_end' => $request->open_end,
-            ]);
-        } else if($request->open_type === 'open_overnight'){
-            $request->validate([
-                'open_start' => ['required', 'string', 'size:5', 'date_format:H:i,H:i:s', 'in:' . $hours],
-                'open_end' => ['required', 'string', 'size:5', 'date_format:H:i,H:i:s', 'in:' . $hours],
-                'timebands.*.start' => ['required', 'string', 'size:5', 'date_format:H:i,H:i:s'],
-                'timebands.*.end' => ['required', 'string', 'size:5', 'date_format:H:i,H:i:s'],
-            ]);
+                $availability->update([
+                    'open_type' => $request->open_type,
+                    'open_start' => $request->open_start,
+                    'open_end' => $request->open_end,
+                    'min_forewarning' => null,
+                ]);
+            break;
 
-            $availability->update([
-                'open_type' => $request->open_type,
-                'open_start' => $request->open_start,
-                'open_end' => $request->open_end,
-            ]);
-        } else if($request->open_type === 'open_h24'){
-            $request->validate([
-                'open_start' => ['required', 'string', 'size:5', 'date_format:H:i,H:i:s', 'in:' . $hours],
-                'open_end' => ['required', 'string', 'size:5', 'after:open_start', 'date_format:H:i,H:i:s', 'in:' . $hours],
-                'timebands.*.start' => ['required', 'string', 'size:5', 'date_format:H:i,H:i:s'],
-                'timebands.*.end' => ['required', 'string', 'size:5', 'after:timebands.*.start', 'date_format:H:i,H:i:s'],
-            ]);
+            case 'open_overnight':
+                $request->validate([
+                    'open_start' => ['required', 'string', 'size:5', 'date_format:H:i,H:i:s', 'in:' . $hours],
+                    'open_end' => ['required', 'string', 'size:5', 'date_format:H:i,H:i:s', 'in:' . $hours],
+                    'timebands.*.start' => ['required', 'string', 'size:5', 'date_format:H:i,H:i:s'],
+                    'timebands.*.end' => ['required', 'string', 'size:5', 'date_format:H:i,H:i:s'],
+                ]);
 
-            $availability->update([
-                'open_type' => $request->open_type,
-                'open_start' => '00:00',
-                'open_end' => '24:00',
-            ]);
-        } else if($request->open_type === 'close'){
-            $availability->update([
-                'open_type' => $request->open_type,
-                'open_start' => null,
-                'open_end' => null,
-            ]);
+                $availability->update([
+                    'open_type' => $request->open_type,
+                    'open_start' => $request->open_start,
+                    'open_end' => $request->open_end,
+                    'min_forewarning' => null,
+                ]);
+            break;
+
+            case 'open_h24':
+                $request->validate([
+                    'open_start' => ['required', 'string', 'size:5', 'date_format:H:i,H:i:s', 'in:' . $hours],
+                    'open_end' => ['required', 'string', 'size:5', 'after:open_start', 'date_format:H:i,H:i:s', 'in:' . $hours],
+                    'timebands.*.start' => ['required', 'string', 'size:5', 'date_format:H:i,H:i:s'],
+                    'timebands.*.end' => ['required', 'string', 'size:5', 'after:timebands.*.start', 'date_format:H:i,H:i:s'],
+                ]);
+
+                $availability->update([
+                    'open_type' => $request->open_type,
+                    'open_start' => '00:00',
+                    'open_end' => '24:00',
+                    'min_forewarning' => null,
+                ]);
+            break;
+
+            case 'open_forewarning':
+                $request->validate([
+                    'min_forewarning' => ['required', 'integer', 'min:1', 'max:250'],
+                ]);
+    
+                $availability->update([
+                    'open_type' => $request->open_type,
+                    'open_start' => null,
+                    'open_end' => null,
+                    'min_forewarning' => $request->min_forewarning,
+                ]);
+            break;
+
+            case 'close':
+                $availability->update([
+                    'open_type' => $request->open_type,
+                    'open_start' => null,
+                    'open_end' => null,
+                    'min_forewarning' => null,
+                ]);
+    
+                $availability->room_weekday_prices()->delete();
+                $availability->bundle_weekday_prices()->delete();
+            break;
         }
 
         $studio = auth()->user()->studio;
@@ -129,7 +161,7 @@ class AvailabilityController extends Controller
 
             //aggiorno le tariffe su "nessuna tariffa" ed elimino le eventuali tariffe con fasce orarie
             $rooms = $studio->rooms;
-            if(!empty($rooms)){
+            if(!$rooms->isEmpty()){
                 foreach($rooms as $room){
                     $room->update([
                         'price_type' => 'no_price',
@@ -168,6 +200,7 @@ class AvailabilityController extends Controller
             'open_type' => $source_model->open_type,
             'open_start' => $source_model->open_start,
             'open_end' => $source_model->open_end,
+            'min_forewarning' => $source_model->min_forewarning,
         ]);
 
         //duplico le fasce orarie
@@ -184,7 +217,7 @@ class AvailabilityController extends Controller
 
         //aggiorno le tariffe su "nessuna tariffa" ed elimino le eventuali tariffe con fasce orarie
         $rooms = $studio->rooms;
-        if(!empty($rooms)){
+        if(!$rooms->isEmpty()){
             foreach($rooms as $room){
                 $room->update([
                     'price_type' => 'no_price',

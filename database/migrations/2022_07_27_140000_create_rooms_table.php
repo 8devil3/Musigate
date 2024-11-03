@@ -26,10 +26,10 @@ return new class extends Migration
             $table->unsignedSmallInteger('area')->default(20);
             $table->text('description')->nullable();
             $table->string('price_type')->default('no_price');
-            $table->unsignedInteger('hourly_price')->nullable();
+            // $table->unsignedInteger('hourly_price')->nullable();
+            // $table->boolean('has_discounted_hourly_price')->default(false);
+            // $table->unsignedInteger('discounted_hourly_price')->nullable();
             $table->unsignedInteger('monthly_price')->nullable();
-            $table->boolean('has_discounted_hourly_price')->default(false);
-            $table->unsignedInteger('discounted_hourly_price')->nullable();
             $table->boolean('has_discounted_monthly_price')->default(false);
             $table->unsignedInteger('discounted_monthly_price')->nullable();
 

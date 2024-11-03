@@ -3,8 +3,10 @@
 namespace App\Models\Studio;
 
 use App\Models\Studio\Studio;
-use Illuminate\Database\Eloquent\Casts\Attribute;
+use App\Models\Room\RoomWeekdayPrice;
+use App\Models\Bundle\BundleWeekdayPrice;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -16,6 +18,7 @@ class Availability extends Model
         'open_type',
         'open_start',
         'open_end',
+        'min_forewarning',
     ];
 
     public function openStart(): Attribute
@@ -40,5 +43,15 @@ class Availability extends Model
     public function timebands(): HasMany
     {
         return $this->hasMany(Timeband::class);
+    }
+
+    public function room_weekday_prices(): HasMany
+    {
+        return $this->hasMany(RoomWeekdayPrice::class);
+    }
+
+    public function bundle_weekday_prices(): HasMany
+    {
+        return $this->hasMany(BundleWeekdayPrice::class);
     }
 }

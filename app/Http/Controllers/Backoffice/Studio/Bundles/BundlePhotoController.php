@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Backoffice\Studio;
+namespace App\Http\Controllers\Backoffice\Studio\Bundles;
 
 use App\Http\Controllers\Controller;
 
-use App\Models\Studio\Bundle;
+use App\Models\Bundle\Bundle;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
