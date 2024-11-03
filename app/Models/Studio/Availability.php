@@ -3,7 +3,9 @@
 namespace App\Models\Studio;
 
 use App\Models\Studio\Studio;
-use App\Models\Room\RoomWeekdayPrice;
+use App\Models\Room\RoomTimebandPrice;
+use App\Models\Room\RoomHourlyPrice;
+use App\Models\Bundle\BundleTimebandPrice;
 use App\Models\Bundle\BundleWeekdayPrice;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -45,9 +47,9 @@ class Availability extends Model
         return $this->hasMany(Timeband::class);
     }
 
-    public function room_weekday_prices(): HasMany
+    public function room_hourly_prices(): HasMany
     {
-        return $this->hasMany(RoomWeekdayPrice::class);
+        return $this->hasMany(RoomHourlyPrice::class);
     }
 
     public function bundle_weekday_prices(): HasMany

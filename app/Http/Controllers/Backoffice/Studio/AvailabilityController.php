@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Backoffice\Studio;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Picklists;
 use App\Models\Studio\Availability;
+use App\Models\Studio\Studio;
 use App\Services\CheckStudioInfo;
 use App\Services\GeneratePeriodsService;
-use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -58,6 +58,7 @@ class AvailabilityController extends Controller
         ]);
 
         $hours = implode(',',GeneratePeriodsService::generate());
+        $studio = auth()->user()->studio;
 
         //gestisco gli orari dello studio
         switch ($request->open_type) {
@@ -75,6 +76,12 @@ class AvailabilityController extends Controller
                     'open_end' => $request->open_end,
                     'min_forewarning' => null,
                 ]);
+
+                if(!empty($request->timebands)){
+                    $this->update_or_create_timebands($request->timebands, $availability, $studio);
+                } else {
+                    $this->destroy_timebands($availability);
+                }
             break;
 
             case 'open_overnight':
@@ -91,6 +98,12 @@ class AvailabilityController extends Controller
                     'open_end' => $request->open_end,
                     'min_forewarning' => null,
                 ]);
+
+                if(!empty($request->timebands)){
+                    $this->update_or_create_timebands($request->timebands, $availability, $studio);
+                } else {
+                    $this->destroy_timebands($availability);
+                }
             break;
 
             case 'open_h24':
@@ -107,19 +120,27 @@ class AvailabilityController extends Controller
                     'open_end' => '24:00',
                     'min_forewarning' => null,
                 ]);
+
+                if(!empty($request->timebands)){
+                    $this->update_or_create_timebands($request->timebands, $availability, $studio);
+                } else {
+                    $this->destroy_timebands($availability);
+                }
             break;
 
             case 'open_forewarning':
                 $request->validate([
                     'min_forewarning' => ['required', 'integer', 'min:1', 'max:250'],
                 ]);
-    
+
                 $availability->update([
                     'open_type' => $request->open_type,
                     'open_start' => null,
                     'open_end' => null,
                     'min_forewarning' => $request->min_forewarning,
                 ]);
+
+                $this->destroy_timebands($availability);
             break;
 
             case 'close':
@@ -130,52 +151,11 @@ class AvailabilityController extends Controller
                     'min_forewarning' => null,
                 ]);
     
-                $availability->room_weekday_prices()->delete();
+                $availability->room_hourly_prices()->delete();
                 $availability->bundle_weekday_prices()->delete();
+
+                $this->destroy_timebands($availability);
             break;
-        }
-
-        $studio = auth()->user()->studio;
-
-        //gestisco le fasce orarie
-        if($request->open_type !== 'close' && !empty($request->timebands)){
-            //elimino le fasce non presenti nella request (quelle che l'utente ha eliminato)
-            $req_timebands_ids = collect($request->timebands)->pluck('id')->toArray();
-            $studio->timebands()->where('weekday', $availability->weekday)->whereNotIn('id', $req_timebands_ids)->delete();
-
-            //aggiorno o creo le fasce orarie
-            foreach ($request->timebands as $timeband) {
-                $availability->timebands()->updateOrCreate([
-                    'id' => $timeband['id'],
-                ], [
-                    'studio_id' => $studio->id,
-                    'weekday' => $availability->weekday,
-                    'name' => $timeband['name'],
-                    'start' => $timeband['start'],
-                    'end' => $timeband['end'],
-                ]);
-            }
-        } else {
-            //elimino tutte le fasce del availability_id se l'utente le ha rimosse tutte
-            $availability->timebands()->delete();
-
-            //aggiorno le tariffe su "nessuna tariffa" ed elimino le eventuali tariffe con fasce orarie
-            $rooms = $studio->rooms;
-            if(!$rooms->isEmpty()){
-                foreach($rooms as $room){
-                    $room->update([
-                        'price_type' => 'no_price',
-                        'hourly_price' => null,
-                        'has_dicounted_hourly_price' => false,
-                        'dicounted_hourly_price' => null,
-                        'monthly_price' => null,
-                        'has_dicounted_monthly_price' => false,
-                        'dicounted_monthly_price' => null,
-                    ]);
-
-                    $room->timeband_prices()->delete();
-                }
-            }
         }
 
         CheckStudioInfo::update_studio($studio);
@@ -207,12 +187,14 @@ class AvailabilityController extends Controller
         $source_timebands = $studio->timebands()->where('weekday', $request->clone_from_weekday)->get();
         $availability->timebands()->delete();
 
-        foreach ($source_timebands as $stb) {
-            $cloned_timeband = $stb->replicate();
-            $cloned_timeband->availability_id = $availability->id;
-            $cloned_timeband->weekday = $current_availability->weekday;
-            $cloned_timeband->created_at = now();
-            $cloned_timeband->save();
+        if(!$source_timebands->isEmpty()){
+            foreach ($source_timebands as $stb) {
+                $cloned_timeband = $stb->replicate();
+                $cloned_timeband->availability_id = $availability->id;
+                $cloned_timeband->weekday = $current_availability->weekday;
+                $cloned_timeband->created_at = now();
+                $cloned_timeband->save();
+            }
         }
 
         //aggiorno le tariffe su "nessuna tariffa" ed elimino le eventuali tariffe con fasce orarie
@@ -227,11 +209,78 @@ class AvailabilityController extends Controller
                 ]);
 
                 $room->timeband_prices()->delete();
+                $room->hourly_prices()->delete();
+            }
+        }
+
+        $bundles = $studio->bundles;
+        if(!$bundles->isEmpty()){
+            foreach($bundles as $bundle){
+                $bundle->update([
+                    'price_type' => 'no_price',
+                    'fixed_price' => null,
+                    'has_dicounted_fixed_price' => false,
+                    'dicounted_fixed_price' => null,
+                ]);
+
+                $bundle->timeband_prices()->delete();
+                $bundle->weekday_prices()->delete();
             }
         }
 
         CheckStudioInfo::update_studio($studio);
 
         return back()->with('success', 'Disponibilità copiata');
+    }
+
+    public function update_or_create_timebands(array $timebands, Availability $availability, Studio $studio)
+    {
+        //elimino le fasce non presenti nella request (quelle che l'utente ha eliminato)
+        $req_timebands_ids = collect($timebands)->pluck('id')->toArray();
+        $studio->timebands()->where('weekday', $availability->weekday)->whereNotIn('id', $req_timebands_ids)->delete();
+
+        //aggiorno o creo le fasce orarie
+        foreach ($timebands as $timeband) {
+            $availability->timebands()->updateOrCreate([
+                'id' => $timeband['id'],
+            ], [
+                'studio_id' => $studio->id,
+                'weekday' => $availability->weekday,
+                'name' => $timeband['name'],
+                'start' => $timeband['start'],
+                'end' => $timeband['end'],
+            ]);
+        }
+    }
+
+    public function destroy_timebands(Availability $availability)
+    {
+        //aggiorno le tariffe su "nessuna tariffa" ed elimino le eventuali fasce orarie
+        $timebands = $availability->timebands;
+
+        if(!$timebands->isEmpty()){
+            foreach ($timebands as $timeband) {
+                foreach ($timeband->room_prices as $room_price) {
+                    $room_price->room->update([
+                        'price_type' => 'no_price',
+                        'monthly_price' => null,
+                        'has_dicounted_monthly_price' => false,
+                        'dicounted_monthly_price' => null,
+                    ]);
+                }
+
+                foreach ($timeband->bundle_prices as $bundle_price) {
+                    $bundle_price->bundle->update([
+                        'price_type' => 'no_price',
+                        'monthly_price' => null,
+                        'has_dicounted_monthly_price' => false,
+                        'dicounted_monthly_price' => null,
+                    ]);
+                }
+            }
+
+            //elimino tutte le fasce del availability_id se l'utente le ha rimosse tutte
+            $availability->timebands()->delete();
+        }
     }
 }
