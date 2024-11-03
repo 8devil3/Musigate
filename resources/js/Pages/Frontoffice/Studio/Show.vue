@@ -42,7 +42,7 @@
                                             {{ collab.year }}
                                         </div>
     
-                                        <h3 class="w-full p-0 m-0 text-sm leading-normal truncate">{{ collab.title }}</h3>
+                                        <h3 class="w-full p-0 m-0 text-sm leading-normal line-clamp-2">{{ collab.title }}</h3>
     
                                         <div class="absolute border-2 border-orange-500 rounded-full -bottom-2 size-4 bg-slate-800 -left-2" />
                                     </li>
@@ -56,7 +56,7 @@
                                             {{ collab.year }}
                                         </div>
     
-                                        <h3 class="w-full p-0 m-0 text-sm leading-normal truncate">{{ collab.title }}</h3>
+                                        <h3 class="w-full p-0 m-0 text-sm leading-normal line-clamp-2">{{ collab.title }}</h3>
     
                                         <div class="absolute border-2 border-orange-500 rounded-full -top-2 size-4 bg-slate-800 -left-2" />
                                     </li>
