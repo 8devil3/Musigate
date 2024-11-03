@@ -41,9 +41,21 @@
                                             {{ props.months[collab.month] }}
                                             {{ collab.year }}
                                         </div>
-    
+
                                         <h3 class="w-full p-0 m-0 text-sm leading-normal line-clamp-2">{{ collab.title }}</h3>
-    
+
+                                        <ul v-if="collab.spotify || collab.soundcloud || collab.itunes" class="flex gap-2 p-0">
+                                            <li v-if="collab.spotify"><a :href="collab.spotify" class="p-0 transition-colors hover:text-orange-500 text-spotify">
+                                                <i class="text-lg fa-brands fa-spotify" />
+                                            </a></li>
+                                            <li v-if="collab.soundcloud"><a :href="collab.soundcloud" class="p-0 transition-colors hover:text-orange-500 text-soundcloud">
+                                                <i class="text-lg fa-brands fa-soundcloud" />
+                                            </a></li>
+                                            <li v-if="collab.itunes"><a :href="collab.itunes" class="p-0 transition-colors hover:text-orange-500 text-itunes">
+                                                <i class="text-lg fa-brands fa-itunes" />
+                                            </a></li>
+                                        </ul>
+
                                         <div class="absolute border-2 border-orange-500 rounded-full -bottom-2 size-4 bg-slate-800 -left-2" />
                                     </li>
                                     <div />
@@ -55,9 +67,21 @@
                                             {{ props.months[collab.month] }}
                                             {{ collab.year }}
                                         </div>
-    
+
                                         <h3 class="w-full p-0 m-0 text-sm leading-normal line-clamp-2">{{ collab.title }}</h3>
-    
+
+                                        <ul v-if="collab.spotify || collab.soundcloud || collab.itunes" class="flex gap-2 p-0">
+                                            <li v-if="collab.spotify"><a :href="collab.spotify" class="p-0 transition-colors hover:text-orange-500 text-spotify">
+                                                <i class="text-lg fa-brands fa-spotify" />
+                                            </a></li>
+                                            <li v-if="collab.soundcloud"><a :href="collab.soundcloud" class="p-0 transition-colors hover:text-orange-500 text-soundcloud">
+                                                <i class="text-lg fa-brands fa-soundcloud" />
+                                            </a></li>
+                                            <li v-if="collab.itunes"><a :href="collab.itunes" class="p-0 transition-colors hover:text-orange-500 text-itunes">
+                                                <i class="text-lg fa-brands fa-itunes" />
+                                            </a></li>
+                                        </ul>
+
                                         <div class="absolute border-2 border-orange-500 rounded-full -top-2 size-4 bg-slate-800 -left-2" />
                                     </li>
                                 </template>
