@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Http\Controllers\Picklists;
 use App\Models\Studio\Availability;
 use App\Models\Studio\Studio;
 use Illuminate\Database\Seeder;
@@ -16,13 +17,13 @@ class AvailabilitySeeder extends Seeder
         $studios = Studio::get();
 
         foreach ($studios as $studio) {
-            for ($i = 1; $i <= 7; $i++){
+            foreach (Picklists::WEEKDAYS as $wd => $label) {
                 Availability::create([
                     'studio_id' => $studio->id,
-                    'weekday' => $i,
-                    'open_type' => $i === 7 ? 'close' : 'open',
-                    'open_start' => $i === 7 ? null : '10:00',
-                    'open_end' => $i === 7 ? null : '23:00',
+                    'weekday' => $wd,
+                    'open_type' => $wd < 7 ? 'open' : 'close',
+                    'open_start' => $wd < 7 ? '10:00' : null,
+                    'open_end' => $wd < 7 ? '23:00' : null,
                 ]);
             }
         }
