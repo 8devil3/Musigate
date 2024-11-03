@@ -25,7 +25,7 @@
                 <div class="text-sm">
                     A partire da
                 </div>
-                <div class="flex items-end gap-3">
+                <div class="flex items-end gap-2">
                     <template v-if="props.bundle.price_type === 'timebands_price'">
                         <template v-if="props.bundle.min_discounted_timeband_price">
                             <span class="mb-1 text-xs line-through text-slate-400 font-lemon">
@@ -98,9 +98,9 @@
                 </div>
                 <!-- / -->
 
-                <!-- prezzi -->
+                <!-- tariffe -->
                 <div v-if="props.bundle.price_type !== 'no_price'" class="space-y-4">
-                    <h4 class="pb-1 m-0 border-b border-orange-500">Prezzi</h4>
+                    <h4 class="pb-1 m-0 border-b border-orange-500">Tariffe</h4>
 
                     <div v-if="props.bundle.price_type === 'timebands_price'" class="grid grid-cols-1 gap-6 pt-4 sm:grid-cols-2">
                         <template v-for="wd, wdKey in props.weekdays">
@@ -110,11 +110,11 @@
                                 </h4>
                                 <div v-for="price in props.bundle.timeband_prices.filter(price => price.timeband.weekday == wdKey)" class="space-y-1 font-normal">
                                     <div>
-                                        <div class="text-sm text-slate-100">
+                                        <div class="text-sm text-slate-200">
                                             Fascia oraria
                                             {{ price?.timeband.name }}
                                         </div>
-                                        <div class="text-xs text-slate-300">
+                                        <div class="text-xs text-slate-400">
                                             {{ price.timeband.start }}
                                             -
                                             {{ price.timeband.end }}
@@ -140,7 +140,7 @@
                                 </h4>
 
                                 <div v-for="price in props.bundle.weekday_prices.filter(price => price.weekday == wdKey)" class="space-y-1 font-normal">
-                                    <div class="font-extralight">Prezzo</div>
+                                    <div class="font-extralight">Tariffa</div>
                                     <div v-if="price.has_discounted_price" class="text-white">
                                         <span class="text-xs line-through text-slate-400">{{ price.price }} €</span>
                                         {{ price.discounted_price }} €
@@ -162,7 +162,6 @@
                                 {{ props.bundle.discounted_fixed_price }} €
                             </span>
                         </template>
-    
                         <span v-else class="text-base font-medium font-lemon">
                             {{ props.bundle.fixed_price }} €
                         </span>

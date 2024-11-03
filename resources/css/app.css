@@ -86,7 +86,7 @@
 }
 
 ul, ol {
-    @apply pl-5;
+    @apply pl-[18px];
 }
 
 ol {

@@ -50,7 +50,7 @@
                 <div class="text-sm">
                     A partire da
                 </div>
-                <div class="flex items-end gap-3">
+                <div class="flex items-end gap-2 leading-none">
                     <template v-if="props.room.price_type === 'timebands_price'">
                         <template v-if="props.room.min_discounted_timeband_price">
                             <span class="mb-1 text-xs line-through text-slate-400 font-lemon">
@@ -68,14 +68,14 @@
                     <template v-else-if="props.room.price_type === 'hourly_price'">
                         <template v-if="props.room.min_discounted_hourly_price">
                             <span class="mb-1 text-xs line-through text-slate-400 font-lemon">
-                                {{ props.room.min_hourly_price }} €/h
+                                {{ props.room.min_hourly_price /100 }} €/h
                             </span>
                             <span class="text-base font-medium font-lemon">
-                                {{ props.room.min_discounted_hourly_price }} €/h
+                                {{ props.room.min_discounted_hourly_price /100 }} €/h
                             </span>
                         </template>
                         <span v-else="props.room.min_hourly_price" class="text-base font-medium font-lemon">
-                            {{ props.room.min_hourly_price }} €/h
+                            {{ props.room.min_hourly_price /100 }} €/h
                         </span>
                     </template>
 
@@ -145,17 +145,17 @@
 
                     <div v-if="props.room.price_type === 'timebands_price'" class="grid grid-cols-1 gap-6 pt-4 sm:grid-cols-2">
                         <template v-for="wd, wdKey in props.weekdays">
-                            <article v-if="props.room.timeband_prices.filter(price => price.timeband.weekday == wdKey).length" class="pb-4 space-y-4 border-b border-slate-700 last-of-type:border-0 sm:[&:nth-last-of-type(-n+2)]:border-0">
-                                <h5 class="text-base text-white">
+                            <div v-if="props.room.timeband_prices.filter(price => price.timeband.weekday == wdKey).length" class="pb-4 space-y-4 border-b border-slate-700 last-of-type:border-0 sm:[&:nth-last-of-type(-n+2)]:border-0">
+                                <h5 class="text-white capitalize">
                                     {{ wd }}
                                 </h5>
                                 <div v-for="price in props.room.timeband_prices.filter(price => price.timeband.weekday == wdKey)" class="space-y-1 font-normal">
                                     <div>
-                                        <div class="text-sm text-slate-100">
+                                        <div class="text-sm text-slate-200">
                                             Fascia oraria
                                             {{ price?.timeband.name }}
                                         </div>
-                                        <div class="text-xs text-slate-300">
+                                        <div class="text-xs text-slate-400">
                                             {{ price.timeband.start }}
                                             -
                                             {{ price.timeband.end }}
@@ -169,14 +169,14 @@
                                         {{ price.price }} €/h
                                     </div>
                                 </div>
-                            </article>
+                            </div>
                         </template>
                     </div>
 
                     <div v-if="props.room.price_type === 'hourly_price'" class="grid grid-cols-1 gap-6 pt-4 sm:grid-cols-2">
                         <template v-for="wd, wdKey in props.weekdays">
-                            <article v-if="props.room.hourly_prices.filter(price => price.weekday == wdKey).length" class="pb-4 space-y-4 border-b border-slate-700 last-of-type:border-0 sm:[&:nth-last-of-type(-n+2)]:border-0">
-                                <h5 class="text-base text-white">
+                            <div v-if="props.room.hourly_prices.filter(price => price.weekday == wdKey).length" class="pb-4 space-y-2 border-b border-slate-700 last-of-type:border-0 sm:[&:nth-last-of-type(-n+2)]:border-0">
+                                <h5 class="text-white capitalize">
                                     {{ wd }}
                                 </h5>
                                 <div v-for="price in props.room.hourly_prices.filter(price => price.weekday == wdKey)" class="space-y-1 font-normal">
@@ -188,7 +188,7 @@
                                         {{ price.price }} €/h
                                     </div>
                                 </div>
-                            </article>
+                            </div>
                         </template>
                     </div>
 
@@ -201,7 +201,6 @@
                                 {{ props.room.discounted_monthly_price }} €/mese
                             </span>
                         </template>
-    
                         <span v-else class="text-base font-medium font-lemon">
                             {{ props.room.discounted_monthly_price }} €/mese
                         </span>
@@ -213,11 +212,11 @@
                 <div v-if="props.room.equipments.length" class="space-y-4">
                     <h4 class="pb-1 m-0 border-b border-orange-500">Equipaggiamento</h4>
 
-                    <div class="space-y-6 md:columns-2">
+                    <div class="space-y-4">
                         <template v-for="category, id in props.equipment_categories">
                             <div v-if="props.room.equipments.filter(equip => equip.equipment_category_id == id).length">
-                                <h5>{{ category }}</h5>
-                                <ul class="grid grid-cols-1 m-0 gap-x-16 list-musigate">
+                                <h5 class="mb-2">{{ category }}</h5>
+                                <ul class="list-musigate">
                                     <li v-for="eq in props.room.equipments.filter(equip => equip.equipment_category_id == id)" :title="eq.name">
                                         <div>{{ eq.name }}</div>
                                     </li>
