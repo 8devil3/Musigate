@@ -8,9 +8,9 @@
             <div v-if="props.rooms.length" class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 lg:gap-6">
                 <article v-for="room in props.rooms" class="flex flex-col transition-colors border hover:shadow-xl border-slate-700 hover:border-orange-500 bg-slate-900 hover:bg-slate-800/50 rounded-2xl overflow-clip">
                     <Link :href="route('sale.edit', room.id)" class="relative block h-64">
-                        <div class="absolute flex items-center justify-center text-xl leading-none text-white rounded-full shadow-md size-10 top-4 right-4" :class="!room.is_published ? 'bg-red-500' : 'bg-green-500'">
-                            <i v-if="!room.is_published" title="Sala non visibile" class="fa-solid fa-eye-low-vision" />
-                            <i v-else title="Sala visibile" class="fa-solid fa-eye" />
+                        <div class="absolute flex items-center justify-center text-base leading-none text-white rounded-full shadow-md size-8 top-4 right-4" :class="!room.is_published ? 'bg-red-500' : 'bg-green-500'">
+                            <i v-if="!room.is_published" title="Sala non pubblicata" class="fa-solid fa-eye-low-vision" />
+                            <i v-else title="Sala pubblicata" class="fa-solid fa-eye" />
                         </div>
 
                         <img v-if="room.photos[0]" :src="'/storage/' + room.photos[0].path" class="object-cover w-full h-full" />
