@@ -35,7 +35,7 @@
                 </article>
             </div>
 
-            <Empty v-else icon="fa-solid fa-music">
+            <Empty v-else icon="fa-solid fa-microphone-lines">
                 <template #title>
                     Non sono presenti Sale
                 </template>
