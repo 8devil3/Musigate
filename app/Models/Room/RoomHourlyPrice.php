@@ -19,6 +19,10 @@ class RoomHourlyPrice extends Model
         'discounted_price',
     ];
 
+    protected $casts = [
+        'has_discounted_price' => 'boolean',
+    ];
+
     public function price(): Attribute
     {
         return Attribute::make(
