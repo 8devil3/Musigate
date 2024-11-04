@@ -39,6 +39,12 @@ class ServiceSeeder extends Seeder
             'voice over',
             'doppiaggio',
             'service audio/luci',
+            'trascrizioni',
+            'duplicazioni',
+            'restauro audio/video',
+            'riversamenti',
+            'authoring',
+            'videoclip',
         ];
 
         foreach ($services as $service) {
