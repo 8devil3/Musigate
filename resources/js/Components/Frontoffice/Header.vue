@@ -19,7 +19,7 @@
             </div> -->
 
             <div v-if="!usePage().props.auth.user" class="flex items-center gap-4 shrink-0">
-                <Link :href="route('register.studio.starter.step_1')" class="uppercase link">Registra il tuo Studio</Link>
+                <Link :href="route('register.studio.starter.step_1')" class="uppercase link">Iscrivi il tuo Studio</Link>
                 <Link :href="route('login')" title="Accesso">
                     <Avatar />
                 </Link>

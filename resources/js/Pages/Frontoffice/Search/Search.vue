@@ -3,7 +3,7 @@
         <!-- search bar desktop-->
         <div class="sticky top-0 z-50 border-b bg-slate-950/60 border-slate-800 backdrop-blur-md">
             <form @submit.prevent="submit()" class="items-end justify-center hidden max-w-5xl px-6 py-4 mx-auto md:flex gap-x-2 gap-y-4">
-                <ComboBox
+                <!-- <ComboBox
                     v-model="form.location"
                     @selected="submit()"
                     @clear="submit()"
@@ -13,7 +13,7 @@
                     listIcon="fa-solid fa-location-dot"
                     :disabled="form.processing"
                     class="grow"
-                />
+                /> -->
                 <!-- <Input type="dateTime-local" v-model="form.start" @input="submit()" :min="dayjs().add(1, 'day').hour(0).minute(0).second(0).format('YYYY-MM-DD HH:mm')" :step="1800" placeholder="Inizio" label="Data e ora d'inizio" class="grow max-w-48" />
                 <NumberInput v-model="form.duration" @input="submit()" @change="submit()" :min="1" :max="24" label="Durata" unit="ore" />
                 <NumberInput v-model="form.guests" @input="submit()" @change="submit()" :min="1" :max="99" label="Persone" /> -->
@@ -54,7 +54,7 @@
         <!-- / -->
 
         <div class="px-4 mt-4 text-sm md:px-6">
-            Studio trovati: <span class="font-normal text-orange-500">{{ props.studios.total }}</span>
+            Studi trovati: <span class="font-normal text-orange-500">{{ props.studios.total }}</span>
         </div>
 
         <!-- risultati ricerca -->
@@ -93,13 +93,13 @@
 
             <template #description>
                 <form @submit.prevent="submit()" class="flex flex-col gap-4">
-                    <ComboBox
+                    <!-- <ComboBox
                         v-model="form.location"
                         :options="province"
                         placeholder="Digita una provincia"
                         inputIcon="fa-solid fa-location-dot"
                         listIcon="fa-solid fa-location-dot"
-                    />
+                    /> -->
                     <!-- <Input type="dateTime-local" v-model="form.start" placeholder="Inizio" label="Data e ora d'inizio"  :min="dayjs().add(1, 'day').hour(0).minute(0).second(0).format('YYYY-MM-DD HH:mm')" :step="1800" class="grow" />
                     <div class="flex w-full gap-4">
                         <NumberInput v-model="form.duration" :min="1" :max="24" label="Durata" unit="ore" class="grow" />

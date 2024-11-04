@@ -25,6 +25,7 @@ class SearchController extends Controller
         }
 
         $studios = Studio::with(['location', 'photos'])
+            ->whereNot('id', 6) //escludo lo stduio demo che ho creato col mio account
             ->where('is_complete', true)
             ->where('is_published', true)
             ->when($equip, function($query) use($equip){

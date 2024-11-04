@@ -30,7 +30,7 @@ class SitemapService
                 ->add(route('register.studio.starter.step_1'))
                 ->add(route('privacy'))
                 ->add(route('tos'))
-                // ->add(route('studio.index'))
+                ->add(route('studio.index'))
                 ->add($urls)
                 ->writeToFile($path);
             

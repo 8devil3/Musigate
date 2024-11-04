@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 // use App\Http\Controllers\Frontoffice\ReservationController;
+use App\Http\Controllers\Frontoffice\HomeController;
 use App\Http\Controllers\Frontoffice\LegalTextController;
 use App\Http\Controllers\Frontoffice\SearchController;
 use App\Http\Controllers\Backoffice\SuggestionController;
@@ -31,13 +32,7 @@ use App\Http\Controllers\Backoffice\Studio\Bundles\BundlePriceController;
 use Illuminate\Notifications\Messages\MailMessage;
 use Inertia\Inertia;
 
-// Route::get('/', function () {
-//     return Inertia::render('Frontoffice/Home');
-// })->name('home');
-
-Route::get('/', function () {
-    return Inertia::render('Frontoffice/Landing');
-})->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/offline', function () {
     return view('offline');
