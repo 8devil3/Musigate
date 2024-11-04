@@ -77,7 +77,7 @@
                     </h2>
         
                     <ul class="grid grid-cols-1 gap-6 p-0 m-0 list-none list-image-none sm:grid-cols-2 lg:grid-cols-3">
-                        <li v-for="card in cards" class="!p-6 m-0 bg-slate-900/70 border border-slate-400 rounded-2xl">
+                        <li v-for="card in cards" class="!p-6 m-0 bg-slate-900/70 backdrop-blur-md border border-slate-400 rounded-2xl">
                             <div class="pt-4 text-center">
                                 <i class="text-5xl text-slate-500" :class="card.icon" />
                             </div>
