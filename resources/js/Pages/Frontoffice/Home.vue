@@ -51,7 +51,7 @@
 
         <section id="ultimi-studi" class="space-y-6">
             <h2 class="pb-2 border-b-2 border-b-orange-500 font-lemon">
-                Ultimi Studi iscritti
+                Ultimi Studi pubblicati
             </h2>
 
             <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 md:gap-6">
