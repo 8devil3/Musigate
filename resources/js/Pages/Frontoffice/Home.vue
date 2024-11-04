@@ -6,7 +6,7 @@
             <Header />
         
             <div class="max-w-5xl px-4 mx-auto space-y-8 md:space-y-16 md:px-6">
-                <section class="flex flex-col justify-center pb-16 drop-shadow-md h-[512px]">
+                <section class="flex flex-col justify-center pb-8 sm:pb-0 drop-shadow-md h-[calc(100dvh-64px)] sm:h-[480px]">
                     <h1 class="mb-8 text-2xl uppercase md:text-3xl font-lemonLight">
                         Cerchi una <span class="text-2xl uppercase font-lemon md:text-3xl">sala prove</span> oppure<br class="hidden sm:inline">
                         uno <span class="text-2xl uppercase font-lemon md:text-3xl">studio di registrazione</span>?
