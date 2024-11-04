@@ -20,6 +20,10 @@ const props = defineProps({
         type: Number,
         default: 5
     },
+    enableMarkerLink: {
+        type: Boolean,
+        default: true
+    },
 });
 
 //Google Places API
@@ -35,10 +39,6 @@ const options = {
     mapTypeControl: false,
     streetViewControl: false,
     mapId: 'MUSIGATE-MAP-' + Math.ceil(Math.random()* 1000),
-    enableMarkerLink: {
-        type: Boolean,
-        default: true
-    },
 };
 
 getGoogleMapsLoader().load().then(async () => {
@@ -46,7 +46,6 @@ getGoogleMapsLoader().load().then(async () => {
     const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker"); // Carica la libreria "marker"
     
     const map = new google.maps.Map(htmlMap.value, options);
-    const infoWindow = new InfoWindow();
     
     props.studios.forEach(studio => {
         const svgImg = document.createElement("img");
@@ -63,11 +62,14 @@ getGoogleMapsLoader().load().then(async () => {
                 lng: studio.location.lon
             },
         });
+        
+        const contentString = '<div><div class="text-xs font-medium uppercase text-slate-500">' + studio.category + ' Studio</div><div class="text-base font-bold text-slate-950">' + studio.name + '</div><a href="' + route('studio.show', studio.slug) + '" class="block font-medium text-orange-500 transition-colors hover:text-orange-400">Vai allo Studio</a></div>';
 
         if(props.enableMarkerLink){
-            const contentString = '<div><div class="text-xs font-medium uppercase text-slate-500">' + studio.category + ' Studio</div><div class="text-base font-bold text-slate-950">' + studio.name + '</div><a href="' + route('studio.show', studio.slug) + '" class="block font-medium text-orange-500 transition-colors hover:text-orange-400">Vai allo Studio</a></div>';
-
-            marker.addListener('click', () => {
+            const infoWindow = new InfoWindow();
+    
+            marker.addListener('click', ({ domEvent }) => {
+                const { target } = domEvent;
                 map.setZoom(12);
                 map.setCenter(marker.position);
                 infoWindow.close();
