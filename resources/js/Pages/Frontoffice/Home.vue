@@ -1,138 +1,140 @@
 <template>
     <Head title="SuonoErgoSono" />
 
-    <Header />
-
-    <div class="max-w-5xl px-4 mx-auto space-y-8 md:space-y-16 md:px-6">
-        <section class="flex flex-col justify-center pb-16 drop-shadow-md h-[calc(100dvh-64px)]">
-            <h1 class="mb-8 text-2xl uppercase md:text-3xl font-lemonLight">
-                Cerchi una <span class="text-2xl uppercase font-lemon md:text-3xl">sala prove</span> oppure<br class="hidden sm:inline">
-                uno <span class="text-2xl uppercase font-lemon md:text-3xl">studio di registrazione</span>?
-            </h1>
-
-            <form @submit.prevent="submit()" class="space-y-4 max-w-80">
-                <h2 class="pb-2 m-0 uppercase border-b-2 border-b-orange-500">inizia da qui</h2>
-
-                <!-- <ComboBox
-                    v-model="form.location"
-                    @selected="submit()"
-                    :options="province"
-                    label="Dove"
-                    placeholder="Digita una provincia"
-                    inputIcon="fa-solid fa-location-dot"
-                    listIcon="fa-solid fa-location-dot"
-                /> -->
-
-                <fieldset class="flex flex-wrap gap-6 p-3 border border-slate-400 bg-slate-900/50 rounded-2xl">
-                    <legend class="px-1 text-xs font-medium text-white">Categoria</legend>
-                    <Radio v-model="form.category" name="search-studio-category" value="Professional">
-                        Professional
-                    </Radio>
-                    <Radio v-model="form.category" name="search-studio-category" value="Home">
-                        Home
-                    </Radio>
-                    <Radio v-model="form.category" name="search-studio-category" :value="null">
-                        Entrambi
-                    </Radio>
-                </fieldset>
-
-                <!-- <div class="space-y-4">                        
-                    <Input type="dateTime-local" v-model="form.start" label="Quando" :min="dayjs().add(1, 'day').hour(0).minute(0).second(0).format('YYYY-MM-DD HH:mm')" :step="1800" class="w-full" />
-
-                    <div class="flex gap-2">
-                        <NumberInput v-model="form.duration" :min="1" :max="24" label="Durata" unit="ore" class="grow" />
-                        <NumberInput v-model="form.guests" :min="1" :max="99" label="Persone" class="grow" />
-                    </div>
-                </div> -->
-
-                <Button type="submit" icon="fa-solid fa-magnifying-glass" text="cerca" class="w-full" />
-            </form>
-        </section>
-
-        <section id="ultimi-studi" class="space-y-6">
-            <h2 class="pb-2 border-b-2 border-b-orange-500 font-lemon">
-                Ultimi Studi pubblicati
-            </h2>
-
-            <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 md:gap-6">
-                <StudioCard v-for="studio in props.latest_studios" :studio="studio" />
-            </div>
-        </section>
-
-        <section id="cosè-musigate" class="space-y-6">
-            <h2 class="pb-2 border-b-2 border-b-orange-500 font-lemon">
-                Cos'è Musigate
-            </h2>
-
-            <p>
-                Musigate è una piattaforma dedicata a Studi di registrazione, Sale prova e musicisti, progettata per semplificare la ricerca, la promozione e la gestione degli Studi. Che tu gestisca uno Studio Professional o un Home Studio, Musigate è pensato per supportarti con una suite di strumenti avanzati, dalle fasce orarie personalizzabili fino alle policy di annullamento.
-            </p>
-        </section>
-
-        <section id="cosa-offre-musigate" class="space-y-6">
-            <h2 class="pb-2 border-b-2 border-b-orange-500 font-lemon">
-                Musigate per gli Studi
-            </h2>
-
-            <ul class="grid grid-cols-1 gap-6 p-0 m-0 list-none list-image-none sm:grid-cols-2 lg:grid-cols-3">
-                <li v-for="card in cards" class="!p-6 m-0 bg-slate-900 rounded-2xl">
-                    <div class="text-center">
-                        <i class="text-5xl text-slate-500" :class="card.icon" />
-                    </div>
-                    <div class="mt-12 space-y-2">
-                        <h3>{{ card.title }}</h3>
-                        <p class="text-slate-300">{{ card.description }}</p>
-                    </div>
-                </li>
-            </ul>
-        </section>
-
-        <section id="informazioni-minime" class="space-y-6">
-            <h2 class="pb-2 border-b-2 border-b-orange-500 font-lemon">
-                Informazioni minime
-            </h2>
-
-            <div class="space-y-4">
-                <p>Informazioni minime rischieste per la pubblicazione dello Studio:</p>
-
-                <ul class="gap-6 list-musigate sm:columns-2 md:columns-3">
-                    <li>il nome dello Studio</li>
-                    <li>almeno una Sala o un pacchetto pubblicato</li>
-                    <li>aperto almeno un giorno della settimana</li>
-                    <li>la partita iva (solo se di categoria Professional)</li>
-                    <li>una presentazione di almeno 100 caratteri, spazi esclusi</li>
-                    <li>la location</li>
-                    <li>almeno un metodo di pagamento</li>
-                    <li>almeno quattro foto</li>
-                    <li>almeno un canale di contatto (canali disponibili: email, telefono, Whatsapp, Messenger, Telegram)</li>
-                </ul>
-            </div>
-        </section>
-
-        <section id="unisciti-a-musigate" class="space-y-6">
-            <h2 class="pb-2 border-b-2 border-b-orange-500 font-lemon">
-                Unisciti a Musigate
-            </h2>
-
-            <div class="flex flex-wrap justify-between gap-x-8 gap-y-4">
-                <div>
-                    <p>Registrati ora e crea la tua pagina, entra a far parte di una community in crescita e fai conoscere il tuo Studio.</p>
-                    <p>Musigate è gratuito per tutti gli Studi.</p>
+    <div class="overflow-y-auto h-dvh bg-cover bg-[url('/img/bgHome.jpg')] bg-center">
+        <Header />
+    
+        <div class="max-w-5xl px-4 mx-auto space-y-8 md:space-y-16 md:px-6">
+            <section class="flex flex-col justify-center pb-16 drop-shadow-md h-[calc(100dvh-64px)]">
+                <h1 class="mb-8 text-2xl uppercase md:text-3xl font-lemonLight">
+                    Cerchi una <span class="text-2xl uppercase font-lemon md:text-3xl">sala prove</span> oppure<br class="hidden sm:inline">
+                    uno <span class="text-2xl uppercase font-lemon md:text-3xl">studio di registrazione</span>?
+                </h1>
+    
+                <form @submit.prevent="submit()" class="space-y-4 max-w-80">
+                    <h2 class="pb-2 m-0 uppercase border-b-2 border-b-orange-500">inizia da qui</h2>
+    
+                    <!-- <ComboBox
+                        v-model="form.location"
+                        @selected="submit()"
+                        :options="province"
+                        label="Dove"
+                        placeholder="Digita una provincia"
+                        inputIcon="fa-solid fa-location-dot"
+                        listIcon="fa-solid fa-location-dot"
+                    /> -->
+    
+                    <fieldset class="flex flex-wrap gap-6 p-3 border border-slate-400 bg-slate-900/50 rounded-2xl">
+                        <legend class="px-1 text-xs font-medium text-white">Categoria</legend>
+                        <Radio v-model="form.category" name="search-studio-category" value="Professional">
+                            Professional
+                        </Radio>
+                        <Radio v-model="form.category" name="search-studio-category" value="Home">
+                            Home
+                        </Radio>
+                        <Radio v-model="form.category" name="search-studio-category" :value="null">
+                            Entrambi
+                        </Radio>
+                    </fieldset>
+    
+                    <!-- <div class="space-y-4">                        
+                        <Input type="dateTime-local" v-model="form.start" label="Quando" :min="dayjs().add(1, 'day').hour(0).minute(0).second(0).format('YYYY-MM-DD HH:mm')" :step="1800" class="w-full" />
+    
+                        <div class="flex gap-2">
+                            <NumberInput v-model="form.duration" :min="1" :max="24" label="Durata" unit="ore" class="grow" />
+                            <NumberInput v-model="form.guests" :min="1" :max="99" label="Persone" class="grow" />
+                        </div>
+                    </div> -->
+    
+                    <Button type="submit" icon="fa-solid fa-magnifying-glass" text="cerca" class="w-full" />
+                </form>
+            </section>
+    
+            <section id="ultimi-studi" class="space-y-6">
+                <h2 class="pb-2 border-b-2 border-b-orange-500 font-lemon">
+                    Ultimi Studi pubblicati
+                </h2>
+    
+                <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 md:gap-6">
+                    <StudioCard v-for="studio in props.latest_studios" :studio="studio" />
                 </div>
-                <Button type="router" :href="route('register.studio.starter.step_1')" text="Iscriviti ora!" icon="fa-solid fa-right-to-bracket" class="shrink-0" />
-            </div>
-        </section>
-
-        <section id="dubbi-domande" class="pb-12 space-y-6">
-            <h2 class="pb-2 border-b-2 border-b-orange-500 font-lemon">
-                Dubbi, domande o perplessità
-            </h2>
-
-            <p>Per qualunque domanda o richiesta: <a href="mailto:assistenza@musigate.it" class="text-orange-500 underline transition-colors hover:text-orange-400">assistenza@musigate.it</a></p>
-        </section>
+            </section>
+    
+            <section id="cosè-musigate" class="space-y-6">
+                <h2 class="pb-2 border-b-2 border-b-orange-500 font-lemon">
+                    Cos'è Musigate
+                </h2>
+    
+                <p>
+                    Musigate è una piattaforma dedicata a Studi di registrazione, Sale prova e musicisti, progettata per semplificare la ricerca, la promozione e la gestione degli Studi. Che tu gestisca uno Studio Professional o un Home Studio, Musigate è pensato per supportarti con una suite di strumenti avanzati, dalle fasce orarie personalizzabili fino alle policy di annullamento.
+                </p>
+            </section>
+    
+            <section id="cosa-offre-musigate" class="space-y-6">
+                <h2 class="pb-2 border-b-2 border-b-orange-500 font-lemon">
+                    Musigate per gli Studi
+                </h2>
+    
+                <ul class="grid grid-cols-1 gap-6 p-0 m-0 list-none list-image-none sm:grid-cols-2 lg:grid-cols-3">
+                    <li v-for="card in cards" class="!p-6 m-0 bg-slate-900/70 border border-slate-400 rounded-2xl">
+                        <div class="pt-4 text-center">
+                            <i class="text-5xl text-slate-500" :class="card.icon" />
+                        </div>
+                        <div class="mt-12 space-y-2">
+                            <h3>{{ card.title }}</h3>
+                            <p class="text-slate-300">{{ card.description }}</p>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+    
+            <section id="informazioni-minime" class="space-y-6">
+                <h2 class="pb-2 border-b-2 border-b-orange-500 font-lemon">
+                    Informazioni minime
+                </h2>
+    
+                <div class="space-y-4">
+                    <p>Informazioni minime rischieste per la pubblicazione dello Studio:</p>
+    
+                    <ul class="gap-6 list-musigate sm:columns-2 md:columns-3">
+                        <li>il nome dello Studio</li>
+                        <li>almeno una Sala o un pacchetto pubblicato</li>
+                        <li>aperto almeno un giorno della settimana</li>
+                        <li>la partita iva (solo se di categoria Professional)</li>
+                        <li>una presentazione di almeno 100 caratteri, spazi esclusi</li>
+                        <li>la location</li>
+                        <li>almeno un metodo di pagamento</li>
+                        <li>almeno quattro foto</li>
+                        <li>almeno un canale di contatto (canali disponibili: email, telefono, Whatsapp, Messenger, Telegram)</li>
+                    </ul>
+                </div>
+            </section>
+    
+            <section id="unisciti-a-musigate" class="space-y-6">
+                <h2 class="pb-2 border-b-2 border-b-orange-500 font-lemon">
+                    Unisciti a Musigate
+                </h2>
+    
+                <div class="flex flex-wrap justify-between gap-x-8 gap-y-4">
+                    <div>
+                        <p>Registrati ora e crea la tua pagina, entra a far parte di una community in crescita e fai conoscere il tuo Studio.</p>
+                        <p>Musigate è gratuito per tutti gli Studi.</p>
+                    </div>
+                    <Button type="router" :href="route('register.studio.starter.step_1')" text="Iscriviti ora!" icon="fa-solid fa-right-to-bracket" class="shrink-0" />
+                </div>
+            </section>
+    
+            <section id="dubbi-domande" class="pb-12 space-y-6">
+                <h2 class="pb-2 border-b-2 border-b-orange-500 font-lemon">
+                    Dubbi, domande o perplessità
+                </h2>
+    
+                <p>Per qualunque domanda o richiesta: <a href="mailto:assistenza@musigate.it" class="text-orange-500 underline transition-colors hover:text-orange-400">assistenza@musigate.it</a></p>
+            </section>
+        </div>
+    
+        <Footer />
     </div>
-
-    <Footer />
 </template>
 
 <script setup>
