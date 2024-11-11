@@ -67,8 +67,8 @@ class DescriptionController extends Controller
         }
 
         $image_manager = ImageManager::gd();
-        $new_image = $image_manager->create(160, 160)->fill('fff');
-        $scaled_logo = $image_manager->read($request->file)->scale(150, 150);
+        $new_image = $image_manager->create(160, 160)->fill('030712');
+        $scaled_logo = $image_manager->read($request->file)->scale(160, 160);
         $new_image->place($scaled_logo, 'center');
 
         $path = 'studios/studio-' . $studio->id . '/logo/' . \Str::uuid() . '.png';
