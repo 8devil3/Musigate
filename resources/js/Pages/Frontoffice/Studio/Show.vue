@@ -256,11 +256,6 @@
                                 </div>
                                 <div v-else-if="av.open_type === 'open_forewarning'" class="text-xs font-normal text-amber-500">
                                     aperto su richiesta con preavviso di {{ av.min_forewarning === 1 ? av.min_forewarning + ' giorno' : av.min_forewarning + ' giorni' }}
-
-                                    <button type="button" @click="openHolydaysListModal = true" class="block mt-2 text-left text-orange-500 transition-colors hover:text-orange-400">
-                                        <i class="fa-solid fa-list" />
-                                        Elenco giorni festivi
-                                    </button>
                                 </div>
                                 <div v-else-if="av.open_type === 'close'" class="text-xs font-normal text-red-500">
                                     chiuso
@@ -280,6 +275,13 @@
                                 <template v-else-if="av.open_type === 'close'">
                                     -
                                 </template>
+                            </div>
+
+                            <div v-if="av.weekday === 8">
+                                <button type="button" @click="openHolydaysListModal = true" class="text-xs font-normal text-left text-orange-500 transition-colors hover:text-orange-400">
+                                    <i class="fa-solid fa-list" />
+                                    Giorni festivi
+                                </button>
                             </div>
                         </li>
                     </ul>
