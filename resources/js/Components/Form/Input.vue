@@ -22,8 +22,9 @@
                 :placeholder="props.placeholder"
                 :autocomplete="props.autocomplete"
                 :min="props.min"
-                :inputmode="props.inputmode"
                 :max="props.max"
+                :maxlength="props.type !== 'number' ? props.maxlength : null"
+                :inputmode="props.inputmode"
                 :step="props.step"
                 :pattern="props.pattern"
                 :disabled="props.disabled"
@@ -88,6 +89,10 @@ const props = defineProps({
     max: {
         type: [Number, String],
         default: null
+    },
+    maxlength: {
+        type: Number,
+        default: 255
     },
     step: {
         type: Number,
