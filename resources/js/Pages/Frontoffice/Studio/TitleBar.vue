@@ -59,7 +59,7 @@
             <!-- social -->
             <ul v-if="props.socials && computedSocials.length" class="flex flex-wrap items-start w-full gap-3 p-0 m-0 list-none sm:justify-end max-w-44 md:ml-auto list-image-none col-span-full sm:col-span-2">
                 <li v-for="social in computedSocials" class="p-0">
-                    <a :href="social.href" :title="social.label" class="flex items-center justify-center text-center text-white">
+                    <a :href="social.href" :title="social.label" target="_blank" class="flex items-center justify-center text-center text-white">
                         <i :class="'text-2xl transition-colors hover:text-orange-500 ' + social.icon" />
                     </a>
                 </li>

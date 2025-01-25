@@ -45,6 +45,7 @@ class SearchController extends Controller
                     $query->whereLike('province', '%' . $location);
                 });
             })
+            ->latest()
             ->paginate(20)
             ->withQueryString();
 
