@@ -35,7 +35,7 @@
                             item-key="sort_index"
                             class="contents"
                             handle=".photo"
-+                        >
+                        >
                             <template #item="{ element, index }">
                                 <div class="relative cursor-move">
                                     <img :src="element.id ? '/storage/' + element.path : element.path " alt="photo" class="object-cover w-full border rounded-lg md:rounded-xl aspect-video border-slate-800 photo" />
